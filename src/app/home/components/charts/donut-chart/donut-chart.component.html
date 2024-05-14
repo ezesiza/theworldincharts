@@ -1,0 +1,24 @@
+<div class="chart-wrapper">
+    <svg width="1" height="1"></svg>
+      <div class="legend">
+        <ul>
+          <li *ngFor="let key of keys" (click)="toggleLegendItem(key)">
+            <div class="bullet {{legendItem[key] && legendItem[key].className}}"
+              [style.background-color]="legendItem[key] && legendItem[key].color">
+            </div>
+            <label [ngClass]="{'disabled': legendItem[key] && !legendItem[key].visible}">{{key}}</label>
+          </li>
+        </ul>
+        <div class="time-series-icon-container">
+          <div class="time-series-table-control view-events-button" (click)="toggleAllLegendItems()">
+            <span class="material-icons">sync</span>
+            <span class="time-series-icon-label">Reset</span>
+          </div>
+          <div class="time-series-table-control view-events-button" (click)="legendFilter()">
+            <span class="material-icons">analytics</span>
+            <span class="time-series-icon-label">Details</span>
+          </div>
+        </div>
+      </div>
+  </div>
+  

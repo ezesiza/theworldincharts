@@ -1,0 +1,105 @@
+// =====================================================================
+// IMPORTS
+// =====================================================================
+
+@import 'constants.less';
+@import 'mixins.less';
+
+@date-picker-color: #0072B2;
+@date-picker-hover-background-color: #d9eaf4;
+
+// =====================================================================
+// VARIABLES
+// =====================================================================
+
+
+// =====================================================================
+// GLOBAL STYLES
+// =====================================================================
+
+
+.panel-title {
+  width:60%;
+  font-weight: 400;
+  font-size: 2.1rem;
+
+  daterange-dropdown {
+    top: 0;
+    color:initial;
+    position: absolute;
+    right: -13px;
+    margin-top: -1rem;
+    max-width: 60%;
+    font-size: initial;
+    font-weight: initial;
+    /deep/ span.dropdown-display-name {
+      all:unset;
+    }
+  }
+
+  span{
+    font-size: 16px;
+  }
+
+}
+
+.panel-body {
+  .date-label {
+    text-align: center;
+    font-weight: 400;
+    padding: 0;
+    margin:0;
+  }
+}
+
+.panel-body-container {
+    min-width: 5rem;
+}
+
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+.gutter {
+  width: 2rem;
+}
+
+
+// =====================================================================
+// SMALL FORM FACTOR STYLES
+// =====================================================================
+
+
+@media (max-width: 57.3rem) {
+    .panel-body-container {
+        padding-top: 4rem;
+        max-height: 26rem;
+
+    }
+}
+
+
+@media (min-width: @media-min-large-width) {
+  .panel-body-container {
+      height: 26rem;
+      overflow-y: auto;
+  }
+
+}
+
+@media (min-width: 1168px) {
+
+}
+

@@ -1,0 +1,520 @@
+// =====================================================================
+// STYLE GUIDE COLORS
+// =====================================================================
+
+@red: #EE3224;
+//idk what color this is: #D55E00;
+@orange: #E69F00;
+@yellow: #F0E442;
+@tan: #FAE6BE;
+@darkest-gray: #333333;
+@dark-gray: #4D4D4D;
+@gray: #BBBBC5;
+@true-gray: #808080;
+@lightest-gray: #E0E0E6;
+@pink: #CC79A7;
+@light-blue: #D9EAF4;
+@babyblue: #56B4E9;
+@blue: #0072B2;
+@dark-blue: #005297;
+@purple: #8214A0;
+@green: #009E73;
+@darker-green: #646473;
+@teal: #006E82;
+@black: #000000;
+@white: #ffffff;
+
+
+// =====================================================================
+// ALERT CATEGORIES
+// =====================================================================
+
+@suspicious_account_activity: #56B4E9;
+@suspicious_network_activity: #009E73;
+@suspicious_reputation: #0072B2;
+@malicious_activity: #8214A0;
+@network_scanning: #EE3224;
+@network_service_abuse: #333333;
+@security_system_health: #CC79A7;
+@to_be_determined: #EAF195;
+
+// =====================================================================
+// SEVERITY
+// =====================================================================
+
+@informational-color: #4DD2FF;
+@minor-threat-color: #5ECE5E;
+@medium-threat-color: #FFF423;
+@major-threat-color: #E69F00;
+@critical-threat-color: #ee3224;
+
+// =====================================================================
+// Threat Life Cycle Category
+// =====================================================================
+
+@reconnaissance: #152E76;
+@attack-preparation: #68B6FF;
+@attack: #037433;
+@exploit: #FFF423;
+@control-and-maintain: #FF773D;
+@compromise: #990049;
+@legend-block-color: black;
+
+
+@reconnaissance: #440154;
+@resource-development: #481c6e;
+@initial-access: #453581;
+@execution: #3d4d8a;
+@persistence: #34618d;
+@privilege-escalation: #2b748e;
+@defense-evasion: #24878e;
+@credential-access: #1f998a;
+@discovery: #25ac82;
+@lateral-movement: #40bd72;
+@collection: #67cc5c;
+@command-and-control: #98d83e;
+@exfiltration: #cde11d;
+@impact: #e2e418;
+
+// =====================================================================
+// Common
+// =====================================================================
+
+@icon-color: @blue;
+@icon-background-color: white;
+
+
+
+// =====================================================================
+// GLOBAL STYLES
+// =====================================================================
+
+@media (min-width: 100rem) {
+  .chart-wrapper svg {
+    g text {
+      font-size: 1.2rem;
+    }  
+    & > text {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+
+.time-series-table-control {
+  cursor: pointer;
+}
+
+.time-series-icon-container {
+    display: inline-block;
+    right: 0;
+    top: 0;
+    font-size: 1rem;
+}
+
+.view-events-button {
+  display: flex;
+  align-items: center;
+}
+
+.time-series-icon-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0072B2;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.checkmark {
+    vertical-align: middle;
+    cursor: pointer;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    -ms-transform: rotate(45deg);
+    /* IE 9 */
+    -webkit-transform: rotate(45deg);
+    /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.checkmark_stem {
+    position: absolute;
+    width: 3px;
+    height: 13px;
+    background-color: #0072B2;
+    left: 6px;
+    top: 2px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width: 6px;
+    height: 3px;
+    background-color: #0072B2;
+    left: 2px;
+    top: 12px;
+}
+
+time-series-bar-chart {
+  .chart-wrapper {
+    overflow: hidden;
+  }
+
+  .checkmark-icon {
+    margin-right: 10px;
+  }
+
+  .legend {
+    font-weight: bold;
+    font-size: 1.2rem;
+    user-select : none;
+
+    .title {
+      cursor: pointer;
+    }
+
+    ul {
+      font-weight: normal;
+      list-style-type: none;
+      overflow-y: auto;
+      padding: 0;
+    }
+
+    li {
+      cursor: pointer;
+      min-width: 12rem;
+      margin: 0.8rem 0;
+      white-space: nowrap;
+    }
+
+    label {
+      display: inline-block;
+      pointer-events: none;
+      line-height: 1.2rem;
+      vertical-align: middle;
+      padding-left: 0.8rem;
+      white-space: normal;
+    }
+
+    .apply-filter {
+      cursor: pointer;
+      text-decoration: underline;
+      color:  #0072B2;
+      font-size: 1.4rem;
+      font-weight: normal;
+    }
+  }
+
+  .bullet {
+    display: inline-block;
+    background-color: @legend-block-color;
+    height: 1.6rem;
+    width: 1.6rem;
+    vertical-align: middle;
+    border-radius: 50%;
+  }
+
+  .disabled {
+    opacity: 0.5;
+  }
+
+  .tick line {
+    stroke-opacity: .2;
+  }
+
+  .informational rect {
+    fill: @informational-color;
+  }
+
+  .bullet.informational {
+    background-color: @informational-color;
+  }
+
+  .minor rect {
+    fill: @minor-threat-color;
+  }
+
+  .bullet.minor {
+    background-color: @minor-threat-color;
+  }
+
+  .medium rect {
+    fill: @medium-threat-color;
+  }
+
+  .bullet.medium {
+    background-color: @medium-threat-color;
+  }
+
+  .major rect {
+    fill: @major-threat-color;
+  }
+
+  .bullet.major {
+    background-color: @major-threat-color;
+  }
+
+  .bullet.critical {
+    background-color: @critical-threat-color;
+  }
+
+  .critical rect {
+    fill: @critical-threat-color;
+  }
+
+  .bullet.non-critical {
+    background-color: @minor-threat-color;
+  }
+
+  .non-critical rect {
+    fill: @minor-threat-color;
+  }
+
+  .bullet.non-actionable {
+    background-color: @informational-color;
+  }
+
+  .non-actionable rect {
+    fill: @informational-color
+  }
+
+  .malicious-activity rect {
+    fill: @malicious_activity;
+  }
+
+  .bullet.malicious-activity {
+    background-color: @malicious_activity;
+  }
+
+  .network-scanning rect {
+    fill: @network_scanning;
+  }
+
+  .bullet.network-scanning {
+    background-color: @network_scanning;
+  }
+
+  .network-service-abuse rect {
+    fill: @network_service_abuse;
+  }
+
+  .bullet.network-service-abuse {
+    background-color: @network_service_abuse;
+  }
+
+  .security-system-health rect {
+    fill: @security_system_health;
+  }
+
+  .bullet.security-system-health {
+    background-color: @security_system_health;
+  }
+
+  .suspicious-account-activity rect {
+    fill: @suspicious_account_activity;
+  }
+
+  .bullet.suspicious-account-activity {
+    background-color: @suspicious_account_activity;
+  }
+
+  .suspicious-network-activity rect {
+    fill: @suspicious_network_activity;
+  }
+
+  .bullet.suspicious-network-activity {
+    background-color: @suspicious_network_activity;
+  }
+
+  .suspicious-reputation rect {
+    fill: @suspicious_reputation;
+  }
+
+  .bullet.suspicious-reputation {
+    background-color: @suspicious_reputation;
+  }
+
+  .attack-preparation rect {
+    fill: @attack-preparation;
+  }
+
+  .bullet.attack-preparation {
+    background-color: @attack-preparation;
+  }
+
+  .attack rect {
+    fill: @attack;
+  }
+
+  .bullet.attack {
+    background-color: @attack;
+  }
+
+  .exploit rect {
+    fill: @exploit;
+  }
+
+  .bullet.exploit {
+    background-color: @exploit;
+  }
+
+  .control-and-maintain rect {
+    fill: @control-and-maintain;
+  }
+
+  .bullet.control-and-maintain {
+    background-color: @control-and-maintain;
+  }
+
+  .compromise rect {
+    fill: @compromise;
+  }
+
+  .bullet.compromise {
+    background-color: @compromise;
+  }
+
+
+
+
+
+
+  .reconnaissance rect {
+    fill: @reconnaissance;
+  }
+
+  .bullet.reconnaissance {
+    background-color: @reconnaissance;
+  }
+
+  .resource-development rect {
+    fill: @resource-development;
+  }
+
+  .bullet.resource-development {
+    background-color: @resource-development;
+  }
+
+  .initial-access rect {
+    fill: @initial-access;
+  }
+
+  .bullet.initial-access {
+    background-color: @initial-access;
+  }
+
+  .execution rect {
+    fill: @execution;
+  }
+
+  .bullet.execution {
+    background-color: @execution;
+  }
+
+  .persistence rect {
+    fill: @persistence;
+  }
+
+  .bullet.persistence {
+    background-color: @persistence;
+  }
+
+  .privilege-escalation rect {
+    fill: @privilege-escalation;
+  }
+
+  .bullet.privilege-escalation {
+    background-color: @privilege-escalation;
+  }
+
+  .defense-evasion rect {
+    fill: @defense-evasion;
+  }
+
+  .bullet.defense-evasion {
+    background-color: @defense-evasion;
+  }
+
+  .credential-access rect {
+    fill: @credential-access;
+  }
+
+  .bullet.credential-access {
+    background-color: @credential-access;
+  }
+
+  .discovery rect {
+    fill: @discovery;
+  }
+
+  .bullet.discovery {
+    background-color: @discovery;
+  }
+
+  .lateral-movement rect {
+    fill: @lateral-movement;
+  }
+
+  .bullet.lateral-movement {
+    background-color: @lateral-movement;
+  }
+
+  .collection rect {
+    fill: @collection;
+  }
+
+  .bullet.collection {
+    background-color: @collection;
+  }
+
+  .command-and-control rect {
+    fill: @command-and-control;
+  }
+
+  .bullet.command-and-control {
+    background-color: @command-and-control;
+  }
+
+  .exfiltration rect {
+    fill: @exfiltration;
+  }
+
+  .bullet.exfiltration {
+    background-color: @exfiltration;
+  }
+
+  .impact rect {
+    fill: @impact;
+  }
+
+  .bullet.impact {
+    background-color: @impact;
+  }
+
+} 
+
+// =====================================================================
+// LARGE FORM FACTOR STYLES
+// =====================================================================
+
+@media (min-width: 10rem) {
+    time-series-bar-chart {
+        .legend {
+            float: right;
+            margin: 1rem 0;
+            ul {
+                max-height: 31rem;
+                width: 15.2rem;
+                margin: 1rem 0;
+            }
+            li {
+                width: 11.8rem;
+            }
+            label {
+                max-width: 9.8rem;
+            }
+        }
+    }
+}

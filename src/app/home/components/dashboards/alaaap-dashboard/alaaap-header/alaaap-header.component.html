@@ -1,0 +1,67 @@
+<h1 class="title">Advanced Log Analytics</h1>
+<actionable-panel [action]="'minimize'" [loading]="(
+  isLoadingLogCount ||
+  isLoadingReportingAsset ||
+  isLoadingThreatwatchAlert||
+  isLoadingLocalizedAlert||
+  isLoadingInvestigation||
+  isLoadingNotification)">
+  <div class="panel-title">
+        <h2 class="title">Summary</h2>
+             <span>
+                <daterange-dropdown
+                  [isDrilldownActive]="isDrilldownActive"
+                  [dateRangeOptions]="dateRangeOptions"
+                  [selectedDateRangeOption]="dateRangeOption"
+                  (onDateRangeSelected)="setDateRange($event)"
+                  (onCustomDateRangeSelected)="setDateRange($event)">
+                </daterange-dropdown>
+             </span>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+            <div class="column">
+               <div class="card">
+                  <header id="header">
+                     <h1>Logs</h1>
+                  </header>
+                  <div>
+                     <span class="current" [total]="logsCount?.current" (update)="logsCount ? logsCount.countUpValue = $event : ''"><strong>{{logsCount?.countUpValue | number}}</strong></span>
+                     </div>
+                   <div>
+                     <span *ngIf="logsCount?.change != 0" class="change">{{logsCount?.percent|number}}%</span>
+                      <span class="material-icons" [ngClass]="{'log-decrease':logsCount?.change < 0, 'log-increase':logsCount?.change > 0}">play_arrow</span>
+                   </div>
+               </div>
+            </div>
+          <div class="column">
+             <div class="card">
+                <header id="header">
+                   <h1>Reporting Assets</h1>
+                </header>
+                <div>
+                   <span class="count" [total]="reportingAssetCount?.current" (update)="reportingAssetCount ? reportingAssetCount.countUpValue = $event : ''"><strong>{{reportingAssetCount?.countUpValue |number}}</strong></span>
+                  </div>
+                  <div>
+                    <span *ngIf="reportingAssetCount?.change != 0" class="change">{{reportingAssetCount?.change |number}}</span>
+                    <span class="material-icons" [ngClass]="{'log-decrease':reportingAssetCount?.change < 0, 'log-increase':reportingAssetCount?.change > 0}">play_arrow</span>
+                  </div>
+             </div>
+          </div>
+          <div class="column">
+             <div class="card">
+                <header id="header">
+                   <h1>Custom Alerts</h1>
+                </header>
+                <div>
+                   <span class="count" [total]="localizedAlertsCount?.current" (update)="localizedAlertsCount ? localizedAlertsCount.countUpValue = $event : ''"><strong>{{localizedAlertsCount?.countUpValue | number}} </strong></span>
+                  </div>
+                  <div>
+                    <span *ngIf="localizedAlertsCount?.change != 0" class="change">{{localizedAlertsCount?.change | number}}</span>
+                    <span class="material-icons" [ngClass]="{'decrease':localizedAlertsCount?.change < 0, 'increase':localizedAlertsCount?.change > 0}">play_arrow</span>
+                  </div>
+             </div>
+          </div>
+       </div>
+      </div>
+      </actionable-panel>

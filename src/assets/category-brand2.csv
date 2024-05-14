@@ -1,0 +1,714 @@
+date,name,category,value
+2014-01-01,Stagg,School : CPS,30
+2014-01-01,Tarkington,School : CPS,60.75
+2014-01-01,Greene,School : CPS,15
+2014-01-01,Chalmers,School : CPS,13.25
+2014-01-01,Howe,School : CPS,0
+2014-01-01,NWEA,Corporation : not-for-profit,0
+2014-01-01,Sawyer,School : CPS,0
+2014-01-01,Lincoln,School : CPS,0
+2014-01-01,NWEA TFA,Corporation : not-for-profit,0
+2014-01-01,NTA,School : CPS,0
+2014-01-01,Gower,School : not-for-profit,0
+2014-01-01,Miscellaneous,Miscellaneous,0
+2014-01-01,FCP,School : not-for-profit,0
+2014-01-01,Jacobs Boiler,Corporation,0
+2014-01-01,Kaleidoscope,Corporation,0
+2014-01-01,Poe,School : CPS,0
+2014-01-01,Marquette,School : CPS,0
+2014-01-01,Bennett,School : private,0
+2014-01-01,Robert Crown,School : not-for-profit,0
+2014-01-01,Mayer,School : CPS,0
+2014-01-01,inQUEST,Corporation,0
+2014-01-01,Bitter Pops,Corporation,0
+2014-01-01,Rush Day School,School : not-for-profit,0
+2014-01-01,Montessori,School - not-for-profit,0
+2014-01-01,CCSD,School - not-for-profit,0
+2014-01-01,Kids and Company,Corporation : daycare,0
+2014-01-01,Friends of Bennett,School : private,0
+2014-01-01,McDade,School : CPS,0
+2014-01-01,Great Lakes,School : not-for-profit,0
+2014-01-01,Winsight,Corporation,0
+2014-01-01,TvS,Corporation,0
+2014-04-01,Stagg,School : CPS,83.75
+2014-04-01,Tarkington,School : CPS,117.5
+2014-04-01,Greene,School : CPS,45.5
+2014-04-01,Chalmers,School : CPS,58
+2014-04-01,Howe,School : CPS,65.25
+2014-04-01,NWEA,Corporation : not-for-profit,358
+2014-04-01,Sawyer,School : CPS,192
+2014-04-01,Lincoln,School : CPS,54.5
+2014-04-01,NWEA TFA,Corporation : not-for-profit,109
+2014-04-01,NTA,School : CPS,16
+2014-04-01,Gower,School : not-for-profit,24.5
+2014-04-01,Miscellaneous,Miscellaneous,14.75
+2014-04-01,FCP,School : not-for-profit,0
+2014-04-01,Jacobs Boiler,Corporation,0
+2014-04-01,Kaleidoscope,Corporation,0
+2014-04-01,Poe,School : CPS,0
+2014-04-01,Marquette,School : CPS,0
+2014-04-01,Bennett,School : private,0
+2014-04-01,Robert Crown,School : not-for-profit,0
+2014-04-01,Mayer,School : CPS,0
+2014-04-01,inQUEST,Corporation,0
+2014-04-01,Bitter Pops,Corporation,0
+2014-04-01,Rush Day School,School : not-for-profit,0
+2014-04-01,Montessori,School - not-for-profit,0
+2014-04-01,CCSD,School - not-for-profit,0
+2014-04-01,Kids and Company,Corporation : daycare,0
+2014-04-01,Friends of Bennett,School : private,0
+2014-04-01,McDade,School : CPS,0
+2014-04-01,Great Lakes,School : not-for-profit,0
+2014-04-01,Winsight,Corporation,0
+2014-04-01,TvS,Corporation,0
+2014-07-01,Stagg,School : CPS,88
+2014-07-01,Tarkington,School : CPS,0
+2014-07-01,Greene,School : CPS,0
+2014-07-01,Chalmers,School : CPS,67
+2014-07-01,Howe,School : CPS,67.5
+2014-07-01,NWEA,Corporation : not-for-profit,860
+2014-07-01,Sawyer,School : CPS,183.5
+2014-07-01,Lincoln,School : CPS,0
+2014-07-01,NWEA TFA,Corporation : not-for-profit,0
+2014-07-01,NTA,School : CPS,0
+2014-07-01,Gower,School : not-for-profit,399.5
+2014-07-01,Miscellaneous,Miscellaneous,31
+2014-07-01,FCP,School : not-for-profit,4
+2014-07-01,Jacobs Boiler,Corporation,2
+2014-07-01,Kaleidoscope,Corporation,0
+2014-07-01,Poe,School : CPS,0
+2014-07-01,Marquette,School : CPS,0
+2014-07-01,Bennett,School : private,0
+2014-07-01,Robert Crown,School : not-for-profit,0
+2014-07-01,Mayer,School : CPS,0
+2014-07-01,inQUEST,Corporation,0
+2014-07-01,Bitter Pops,Corporation,0
+2014-07-01,Rush Day School,School : not-for-profit,0
+2014-07-01,Montessori,School - not-for-profit,0
+2014-07-01,CCSD,School - not-for-profit,0
+2014-07-01,Kids and Company,Corporation : daycare,0
+2014-07-01,Friends of Bennett,School : private,0
+2014-07-01,McDade,School : CPS,0
+2014-07-01,Great Lakes,School : not-for-profit,0
+2014-07-01,Winsight,Corporation,0
+2014-07-01,TvS,Corporation,0
+2014-10-01,Stagg,School : CPS,76
+2014-10-01,Tarkington,School : CPS,0
+2014-10-01,Greene,School : CPS,0
+2014-10-01,Chalmers,School : CPS,76.5
+2014-10-01,Howe,School : CPS,84.5
+2014-10-01,NWEA,Corporation : not-for-profit,835.5
+2014-10-01,Sawyer,School : CPS,199.5
+2014-10-01,Lincoln,School : CPS,0
+2014-10-01,NWEA TFA,Corporation : not-for-profit,0
+2014-10-01,NTA,School : CPS,0
+2014-10-01,Gower,School : not-for-profit,272
+2014-10-01,Miscellaneous,Miscellaneous,171.5
+2014-10-01,FCP,School : not-for-profit,0
+2014-10-01,Jacobs Boiler,Corporation,0
+2014-10-01,Kaleidoscope,Corporation,0
+2014-10-01,Poe,School : CPS,0
+2014-10-01,Marquette,School : CPS,0
+2014-10-01,Bennett,School : private,0
+2014-10-01,Robert Crown,School : not-for-profit,0
+2014-10-01,Mayer,School : CPS,0
+2014-10-01,inQUEST,Corporation,0
+2014-10-01,Bitter Pops,Corporation,0
+2014-10-01,Rush Day School,School : not-for-profit,0
+2014-10-01,Montessori,School - not-for-profit,0
+2014-10-01,CCSD,School - not-for-profit,0
+2014-10-01,Kids and Company,Corporation : daycare,0
+2014-10-01,Friends of Bennett,School : private,0
+2014-10-01,McDade,School : CPS,0
+2014-10-01,Great Lakes,School : not-for-profit,0
+2014-10-01,Winsight,Corporation,0
+2014-10-01,TvS,Corporation,0
+2015-01-01,Stagg,School : CPS,100.5
+2015-01-01,Tarkington,School : CPS,0
+2015-01-01,Greene,School : CPS,0
+2015-01-01,Chalmers,School : CPS,80
+2015-01-01,Howe,School : CPS,79.5
+2015-01-01,NWEA,Corporation : not-for-profit,511
+2015-01-01,Sawyer,School : CPS,194
+2015-01-01,Lincoln,School : CPS,0
+2015-01-01,NWEA TFA,Corporation : not-for-profit,0
+2015-01-01,NTA,School : CPS,0
+2015-01-01,Gower,School : not-for-profit,230
+2015-01-01,Miscellaneous,Miscellaneous,120
+2015-01-01,FCP,School : not-for-profit,11.25
+2015-01-01,Jacobs Boiler,Corporation,0
+2015-01-01,Kaleidoscope,Corporation,30.5
+2015-01-01,Poe,School : CPS,38
+2015-01-01,Marquette,School : CPS,0
+2015-01-01,Bennett,School : private,0
+2015-01-01,Robert Crown,School : not-for-profit,0
+2015-01-01,Mayer,School : CPS,0
+2015-01-01,inQUEST,Corporation,0
+2015-01-01,Bitter Pops,Corporation,0
+2015-01-01,Rush Day School,School : not-for-profit,0
+2015-01-01,Montessori,School - not-for-profit,0
+2015-01-01,CCSD,School - not-for-profit,0
+2015-01-01,Kids and Company,Corporation : daycare,0
+2015-01-01,Friends of Bennett,School : private,0
+2015-01-01,McDade,School : CPS,0
+2015-01-01,Great Lakes,School : not-for-profit,0
+2015-01-01,Winsight,Corporation,0
+2015-01-01,TvS,Corporation,0
+2015-04-01,Stagg,School : CPS,83.5
+2015-04-01,Tarkington,School : CPS,0
+2015-04-01,Greene,School : CPS,0
+2015-04-01,Chalmers,School : CPS,84.5
+2015-04-01,Howe,School : CPS,86.5
+2015-04-01,NWEA,Corporation : not-for-profit,470.25
+2015-04-01,Sawyer,School : CPS,152.5
+2015-04-01,Lincoln,School : CPS,0
+2015-04-01,NWEA TFA,Corporation : not-for-profit,0
+2015-04-01,NTA,School : CPS,0
+2015-04-01,Gower,School : not-for-profit,167.75
+2015-04-01,Miscellaneous,Miscellaneous,47.5
+2015-04-01,FCP,School : not-for-profit,0
+2015-04-01,Jacobs Boiler,Corporation,0
+2015-04-01,Kaleidoscope,Corporation,0
+2015-04-01,Poe,School : CPS,158.5
+2015-04-01,Marquette,School : CPS,85.5
+2015-04-01,Bennett,School : private,0
+2015-04-01,Robert Crown,School : not-for-profit,0
+2015-04-01,Mayer,School : CPS,0
+2015-04-01,inQUEST,Corporation,0
+2015-04-01,Bitter Pops,Corporation,0
+2015-04-01,Rush Day School,School : not-for-profit,0
+2015-04-01,Montessori,School - not-for-profit,0
+2015-04-01,CCSD,School - not-for-profit,0
+2015-04-01,Kids and Company,Corporation : daycare,0
+2015-04-01,Friends of Bennett,School : private,0
+2015-04-01,McDade,School : CPS,0
+2015-04-01,Great Lakes,School : not-for-profit,0
+2015-04-01,Winsight,Corporation,0
+2015-04-01,TvS,Corporation,0
+2015-07-01,Stagg,School : CPS,40
+2015-07-01,Tarkington,School : CPS,34.5
+2015-07-01,Greene,School : CPS,0
+2015-07-01,Chalmers,School : CPS,60.5
+2015-07-01,Howe,School : CPS,44
+2015-07-01,NWEA,Corporation : not-for-profit,563.25
+2015-07-01,Sawyer,School : CPS,32
+2015-07-01,Lincoln,School : CPS,0
+2015-07-01,NWEA TFA,Corporation : not-for-profit,0
+2015-07-01,NTA,School : CPS,0
+2015-07-01,Gower,School : not-for-profit,725.5
+2015-07-01,Miscellaneous,Miscellaneous,16
+2015-07-01,FCP,School : not-for-profit,103.25
+2015-07-01,Jacobs Boiler,Corporation,1.5
+2015-07-01,Kaleidoscope,Corporation,17.5
+2015-07-01,Poe,School : CPS,34.5
+2015-07-01,Marquette,School : CPS,32
+2015-07-01,Bennett,School : private,93
+2015-07-01,Robert Crown,School : not-for-profit,95.25
+2015-07-01,Mayer,School : CPS,71
+2015-07-01,inQUEST,Corporation,0
+2015-07-01,Bitter Pops,Corporation,0
+2015-07-01,Rush Day School,School : not-for-profit,0
+2015-07-01,Montessori,School - not-for-profit,0
+2015-07-01,CCSD,School - not-for-profit,0
+2015-07-01,Kids and Company,Corporation : daycare,0
+2015-07-01,Friends of Bennett,School : private,0
+2015-07-01,McDade,School : CPS,0
+2015-07-01,Great Lakes,School : not-for-profit,0
+2015-07-01,Winsight,Corporation,0
+2015-07-01,TvS,Corporation,0
+2015-10-01,Stagg,School : CPS,81
+2015-10-01,Tarkington,School : CPS,95.5
+2015-10-01,Greene,School : CPS,0
+2015-10-01,Chalmers,School : CPS,99.5
+2015-10-01,Howe,School : CPS,89.5
+2015-10-01,NWEA,Corporation : not-for-profit,625.75
+2015-10-01,Sawyer,School : CPS,56
+2015-10-01,Lincoln,School : CPS,0
+2015-10-01,NWEA TFA,Corporation : not-for-profit,0
+2015-10-01,NTA,School : CPS,0
+2015-10-01,Gower,School : not-for-profit,384
+2015-10-01,Miscellaneous,Miscellaneous,0
+2015-10-01,FCP,School : not-for-profit,76
+2015-10-01,Jacobs Boiler,Corporation,0
+2015-10-01,Kaleidoscope,Corporation,22
+2015-10-01,Poe,School : CPS,70
+2015-10-01,Marquette,School : CPS,88
+2015-10-01,Bennett,School : private,141.5
+2015-10-01,Robert Crown,School : not-for-profit,92.5
+2015-10-01,Mayer,School : CPS,118
+2015-10-01,inQUEST,Corporation,57.75
+2015-10-01,Bitter Pops,Corporation,0
+2015-10-01,Rush Day School,School : not-for-profit,0
+2015-10-01,Montessori,School - not-for-profit,0
+2015-10-01,CCSD,School - not-for-profit,0
+2015-10-01,Kids and Company,Corporation : daycare,0
+2015-10-01,Friends of Bennett,School : private,0
+2015-10-01,McDade,School : CPS,0
+2015-10-01,Great Lakes,School : not-for-profit,0
+2015-10-01,Winsight,Corporation,0
+2015-10-01,TvS,Corporation,0
+2016-01-01,Stagg,School : CPS,104
+2016-01-01,Tarkington,School : CPS,131
+2016-01-01,Greene,School : CPS,0
+2016-01-01,Chalmers,School : CPS,99.5
+2016-01-01,Howe,School : CPS,101
+2016-01-01,NWEA,Corporation : not-for-profit,627.5
+2016-01-01,Sawyer,School : CPS,80
+2016-01-01,Lincoln,School : CPS,0
+2016-01-01,NWEA TFA,Corporation : not-for-profit,0
+2016-01-01,NTA,School : CPS,0
+2016-01-01,Gower,School : not-for-profit,401.5
+2016-01-01,Miscellaneous,Miscellaneous,68.5
+2016-01-01,FCP,School : not-for-profit,51.5
+2016-01-01,Jacobs Boiler,Corporation,10.25
+2016-01-01,Kaleidoscope,Corporation,43.75
+2016-01-01,Poe,School : CPS,89.5
+2016-01-01,Marquette,School : CPS,90.25
+2016-01-01,Bennett,School : private,86.5
+2016-01-01,Robert Crown,School : not-for-profit,131.5
+2016-01-01,Mayer,School : CPS,110.5
+2016-01-01,inQUEST,Corporation,18.25
+2016-01-01,Bitter Pops,Corporation,10
+2016-01-01,Rush Day School,School : not-for-profit,4.5
+2016-01-01,Montessori,School - not-for-profit,0
+2016-01-01,CCSD,School - not-for-profit,0
+2016-01-01,Kids and Company,Corporation : daycare,0
+2016-01-01,Friends of Bennett,School : private,0
+2016-01-01,McDade,School : CPS,0
+2016-01-01,Great Lakes,School : not-for-profit,0
+2016-01-01,Winsight,Corporation,0
+2016-01-01,TvS,Corporation,0
+2016-04-01,Stagg,School : CPS,113.5
+2016-04-01,Tarkington,School : CPS,116.5
+2016-04-01,Greene,School : CPS,0
+2016-04-01,Chalmers,School : CPS,90
+2016-04-01,Howe,School : CPS,83.75
+2016-04-01,NWEA,Corporation : not-for-profit,589.5
+2016-04-01,Sawyer,School : CPS,64
+2016-04-01,Lincoln,School : CPS,0
+2016-04-01,NWEA TFA,Corporation : not-for-profit,0
+2016-04-01,NTA,School : CPS,0
+2016-04-01,Gower,School : not-for-profit,370.75
+2016-04-01,Miscellaneous,Miscellaneous,22.5
+2016-04-01,FCP,School : not-for-profit,2
+2016-04-01,Jacobs Boiler,Corporation,13.75
+2016-04-01,Kaleidoscope,Corporation,65
+2016-04-01,Poe,School : CPS,70.5
+2016-04-01,Marquette,School : CPS,98.5
+2016-04-01,Bennett,School : private,94.5
+2016-04-01,Robert Crown,School : not-for-profit,101
+2016-04-01,Mayer,School : CPS,99.25
+2016-04-01,inQUEST,Corporation,6
+2016-04-01,Bitter Pops,Corporation,0
+2016-04-01,Rush Day School,School : not-for-profit,20
+2016-04-01,Montessori,School - not-for-profit,3
+2016-04-01,CCSD,School - not-for-profit,28.25
+2016-04-01,Kids and Company,Corporation : daycare,0
+2016-04-01,Friends of Bennett,School : private,0
+2016-04-01,McDade,School : CPS,0
+2016-04-01,Great Lakes,School : not-for-profit,0
+2016-04-01,Winsight,Corporation,0
+2016-04-01,TvS,Corporation,0
+2016-07-01,Stagg,School : CPS,8
+2016-07-01,Tarkington,School : CPS,80.75
+2016-07-01,Greene,School : CPS,0
+2016-07-01,Chalmers,School : CPS,39.5
+2016-07-01,Howe,School : CPS,38
+2016-07-01,NWEA,Corporation : not-for-profit,595.5
+2016-07-01,Sawyer,School : CPS,0
+2016-07-01,Lincoln,School : CPS,0
+2016-07-01,NWEA TFA,Corporation : not-for-profit,0
+2016-07-01,NTA,School : CPS,16
+2016-07-01,Gower,School : not-for-profit,598
+2016-07-01,Miscellaneous,Miscellaneous,45
+2016-07-01,FCP,School : not-for-profit,15.5
+2016-07-01,Jacobs Boiler,Corporation,0
+2016-07-01,Kaleidoscope,Corporation,49.25
+2016-07-01,Poe,School : CPS,22.5
+2016-07-01,Marquette,School : CPS,16
+2016-07-01,Bennett,School : private,439.25
+2016-07-01,Robert Crown,School : not-for-profit,148.25
+2016-07-01,Mayer,School : CPS,40.5
+2016-07-01,inQUEST,Corporation,7.5
+2016-07-01,Bitter Pops,Corporation,0
+2016-07-01,Rush Day School,School : not-for-profit,8
+2016-07-01,Montessori,School - not-for-profit,52.25
+2016-07-01,CCSD,School - not-for-profit,274.5
+2016-07-01,Kids and Company,Corporation : daycare,0
+2016-07-01,Friends of Bennett,School : private,0
+2016-07-01,McDade,School : CPS,0
+2016-07-01,Great Lakes,School : not-for-profit,0
+2016-07-01,Winsight,Corporation,0
+2016-07-01,TvS,Corporation,0
+2016-10-01,Stagg,School : CPS,0
+2016-10-01,Tarkington,School : CPS,110
+2016-10-01,Greene,School : CPS,0
+2016-10-01,Chalmers,School : CPS,84.5
+2016-10-01,Howe,School : CPS,86.25
+2016-10-01,NWEA,Corporation : not-for-profit,598.5
+2016-10-01,Sawyer,School : CPS,0
+2016-10-01,Lincoln,School : CPS,0
+2016-10-01,NWEA TFA,Corporation : not-for-profit,0
+2016-10-01,NTA,School : CPS,16
+2016-10-01,Gower,School : not-for-profit,355.75
+2016-10-01,Miscellaneous,Miscellaneous,62.5
+2016-10-01,FCP,School : not-for-profit,4
+2016-10-01,Jacobs Boiler,Corporation,6.5
+2016-10-01,Kaleidoscope,Corporation,76
+2016-10-01,Poe,School : CPS,61
+2016-10-01,Marquette,School : CPS,39
+2016-10-01,Bennett,School : private,173.5
+2016-10-01,Robert Crown,School : not-for-profit,114.5
+2016-10-01,Mayer,School : CPS,97.5
+2016-10-01,inQUEST,Corporation,2.25
+2016-10-01,Bitter Pops,Corporation,0
+2016-10-01,Rush Day School,School : not-for-profit,6
+2016-10-01,Montessori,School - not-for-profit,79.5
+2016-10-01,CCSD,School - not-for-profit,78.5
+2016-10-01,Kids and Company,Corporation : daycare,0
+2016-10-01,Friends of Bennett,School : private,0
+2016-10-01,McDade,School : CPS,0
+2016-10-01,Great Lakes,School : not-for-profit,0
+2016-10-01,Winsight,Corporation,0
+2016-10-01,TvS,Corporation,0
+2017-01-01,Stagg,School : CPS,10.5
+2017-01-01,Tarkington,School : CPS,117.5
+2017-01-01,Greene,School : CPS,0
+2017-01-01,Chalmers,School : CPS,124.25
+2017-01-01,Howe,School : CPS,77.5
+2017-01-01,NWEA,Corporation : not-for-profit,568
+2017-01-01,Sawyer,School : CPS,0
+2017-01-01,Lincoln,School : CPS,0
+2017-01-01,NWEA TFA,Corporation : not-for-profit,0
+2017-01-01,NTA,School : CPS,38.5
+2017-01-01,Gower,School : not-for-profit,412.75
+2017-01-01,Miscellaneous,Miscellaneous,71.5
+2017-01-01,FCP,School : not-for-profit,11
+2017-01-01,Jacobs Boiler,Corporation,7.5
+2017-01-01,Kaleidoscope,Corporation,140.5
+2017-01-01,Poe,School : CPS,94.5
+2017-01-01,Marquette,School : CPS,0
+2017-01-01,Bennett,School : private,121.5
+2017-01-01,Robert Crown,School : not-for-profit,120.25
+2017-01-01,Mayer,School : CPS,87.5
+2017-01-01,inQUEST,Corporation,10
+2017-01-01,Bitter Pops,Corporation,0
+2017-01-01,Rush Day School,School : not-for-profit,0
+2017-01-01,Montessori,School - not-for-profit,29.5
+2017-01-01,CCSD,School - not-for-profit,119.5
+2017-01-01,Kids and Company,Corporation : daycare,0
+2017-01-01,Friends of Bennett,School : private,0
+2017-01-01,McDade,School : CPS,0
+2017-01-01,Great Lakes,School : not-for-profit,0
+2017-01-01,Winsight,Corporation,0
+2017-01-01,TvS,Corporation,0
+2017-04-01,Stagg,School : CPS,0
+2017-04-01,Tarkington,School : CPS,119
+2017-04-01,Greene,School : CPS,0
+2017-04-01,Chalmers,School : CPS,104.5
+2017-04-01,Howe,School : CPS,71.5
+2017-04-01,NWEA,Corporation : not-for-profit,571.75
+2017-04-01,Sawyer,School : CPS,0
+2017-04-01,Lincoln,School : CPS,0
+2017-04-01,NWEA TFA,Corporation : not-for-profit,0
+2017-04-01,NTA,School : CPS,32
+2017-04-01,Gower,School : not-for-profit,398
+2017-04-01,Miscellaneous,Miscellaneous,86.25
+2017-04-01,FCP,School : not-for-profit,15
+2017-04-01,Jacobs Boiler,Corporation,1
+2017-04-01,Kaleidoscope,Corporation,152.25
+2017-04-01,Poe,School : CPS,76
+2017-04-01,Marquette,School : CPS,75
+2017-04-01,Bennett,School : private,57.25
+2017-04-01,Robert Crown,School : not-for-profit,119
+2017-04-01,Mayer,School : CPS,68.75
+2017-04-01,inQUEST,Corporation,2.75
+2017-04-01,Bitter Pops,Corporation,0
+2017-04-01,Rush Day School,School : not-for-profit,0
+2017-04-01,Montessori,School - not-for-profit,5.5
+2017-04-01,CCSD,School - not-for-profit,88
+2017-04-01,Kids and Company,Corporation : daycare,0
+2017-04-01,Friends of Bennett,School : private,0
+2017-04-01,McDade,School : CPS,0
+2017-04-01,Great Lakes,School : not-for-profit,0
+2017-04-01,Winsight,Corporation,0
+2017-04-01,TvS,Corporation,0
+2017-07-01,Stagg,School : CPS,0
+2017-07-01,Tarkington,School : CPS,67
+2017-07-01,Greene,School : CPS,0
+2017-07-01,Chalmers,School : CPS,66
+2017-07-01,Howe,School : CPS,39
+2017-07-01,NWEA,Corporation : not-for-profit,569
+2017-07-01,Sawyer,School : CPS,0
+2017-07-01,Lincoln,School : CPS,0
+2017-07-01,NWEA TFA,Corporation : not-for-profit,0
+2017-07-01,NTA,School : CPS,8
+2017-07-01,Gower,School : not-for-profit,755.25
+2017-07-01,Miscellaneous,Miscellaneous,81
+2017-07-01,FCP,School : not-for-profit,5
+2017-07-01,Jacobs Boiler,Corporation,0.5
+2017-07-01,Kaleidoscope,Corporation,43.5
+2017-07-01,Poe,School : CPS,8
+2017-07-01,Marquette,School : CPS,0
+2017-07-01,Bennett,School : private,266.75
+2017-07-01,Robert Crown,School : not-for-profit,159
+2017-07-01,Mayer,School : CPS,66
+2017-07-01,inQUEST,Corporation,0
+2017-07-01,Bitter Pops,Corporation,0
+2017-07-01,Rush Day School,School : not-for-profit,0
+2017-07-01,Montessori,School - not-for-profit,13
+2017-07-01,CCSD,School - not-for-profit,149.25
+2017-07-01,Kids and Company,Corporation : daycare,0
+2017-07-01,Friends of Bennett,School : private,0
+2017-07-01,McDade,School : CPS,0
+2017-07-01,Great Lakes,School : not-for-profit,0
+2017-07-01,Winsight,Corporation,0
+2017-07-01,TvS,Corporation,0
+2017-10-01,Stagg,School : CPS,64
+2017-10-01,Tarkington,School : CPS,117
+2017-10-01,Greene,School : CPS,0
+2017-10-01,Chalmers,School : CPS,122.5
+2017-10-01,Howe,School : CPS,93
+2017-10-01,NWEA,Corporation : not-for-profit,576.75
+2017-10-01,Sawyer,School : CPS,0
+2017-10-01,Lincoln,School : CPS,0
+2017-10-01,NWEA TFA,Corporation : not-for-profit,0
+2017-10-01,NTA,School : CPS,31
+2017-10-01,Gower,School : not-for-profit,398
+2017-10-01,Miscellaneous,Miscellaneous,129.5
+2017-10-01,FCP,School : not-for-profit,4
+2017-10-01,Jacobs Boiler,Corporation,7
+2017-10-01,Kaleidoscope,Corporation,60.25
+2017-10-01,Poe,School : CPS,76.5
+2017-10-01,Marquette,School : CPS,0
+2017-10-01,Bennett,School : private,240.25
+2017-10-01,Robert Crown,School : not-for-profit,152
+2017-10-01,Mayer,School : CPS,162.25
+2017-10-01,inQUEST,Corporation,0
+2017-10-01,Bitter Pops,Corporation,0
+2017-10-01,Rush Day School,School : not-for-profit,0
+2017-10-01,Montessori,School - not-for-profit,64
+2017-10-01,CCSD,School - not-for-profit,102.25
+2017-10-01,Kids and Company,Corporation : daycare,0
+2017-10-01,Friends of Bennett,School : private,0
+2017-10-01,McDade,School : CPS,0
+2017-10-01,Great Lakes,School : not-for-profit,0
+2017-10-01,Winsight,Corporation,0
+2017-10-01,TvS,Corporation,0
+2018-01-01,Stagg,School : CPS,81
+2018-01-01,Tarkington,School : CPS,115.75
+2018-01-01,Greene,School : CPS,0
+2018-01-01,Chalmers,School : CPS,125.5
+2018-01-01,Howe,School : CPS,69.5
+2018-01-01,NWEA,Corporation : not-for-profit,575.5
+2018-01-01,Sawyer,School : CPS,0
+2018-01-01,Lincoln,School : CPS,0
+2018-01-01,NWEA TFA,Corporation : not-for-profit,0
+2018-01-01,NTA,School : CPS,6
+2018-01-01,Gower,School : not-for-profit,322
+2018-01-01,Miscellaneous,Miscellaneous,135
+2018-01-01,FCP,School : not-for-profit,4
+2018-01-01,Jacobs Boiler,Corporation,4.5
+2018-01-01,Kaleidoscope,Corporation,39.75
+2018-01-01,Poe,School : CPS,76
+2018-01-01,Marquette,School : CPS,0
+2018-01-01,Bennett,School : private,220
+2018-01-01,Robert Crown,School : not-for-profit,158
+2018-01-01,Mayer,School : CPS,102.75
+2018-01-01,inQUEST,Corporation,0
+2018-01-01,Bitter Pops,Corporation,0
+2018-01-01,Rush Day School,School : not-for-profit,0
+2018-01-01,Montessori,School - not-for-profit,80
+2018-01-01,CCSD,School - not-for-profit,79
+2018-01-01,Kids and Company,Corporation : daycare,0
+2018-01-01,Friends of Bennett,School : private,0
+2018-01-01,McDade,School : CPS,0
+2018-01-01,Great Lakes,School : not-for-profit,0
+2018-01-01,Winsight,Corporation,0
+2018-01-01,TvS,Corporation,0
+2018-04-01,Stagg,School : CPS,132.5
+2018-04-01,Tarkington,School : CPS,120
+2018-04-01,Greene,School : CPS,0
+2018-04-01,Chalmers,School : CPS,141
+2018-04-01,Howe,School : CPS,81
+2018-04-01,NWEA,Corporation : not-for-profit,560
+2018-04-01,Sawyer,School : CPS,0
+2018-04-01,Lincoln,School : CPS,0
+2018-04-01,NWEA TFA,Corporation : not-for-profit,0
+2018-04-01,NTA,School : CPS,48.75
+2018-04-01,Gower,School : not-for-profit,436.75
+2018-04-01,Miscellaneous,Miscellaneous,114.5
+2018-04-01,FCP,School : not-for-profit,8.5
+2018-04-01,Jacobs Boiler,Corporation,0
+2018-04-01,Kaleidoscope,Corporation,109.75
+2018-04-01,Poe,School : CPS,83.5
+2018-04-01,Marquette,School : CPS,0
+2018-04-01,Bennett,School : private,243.25
+2018-04-01,Robert Crown,School : not-for-profit,151
+2018-04-01,Mayer,School : CPS,151
+2018-04-01,inQUEST,Corporation,0
+2018-04-01,Bitter Pops,Corporation,0
+2018-04-01,Rush Day School,School : not-for-profit,0
+2018-04-01,Montessori,School - not-for-profit,95.25
+2018-04-01,CCSD,School - not-for-profit,127.25
+2018-04-01,Kids and Company,Corporation : daycare,0
+2018-04-01,Friends of Bennett,School : private,0
+2018-04-01,McDade,School : CPS,0
+2018-04-01,Great Lakes,School : not-for-profit,0
+2018-04-01,Winsight,Corporation,0
+2018-04-01,TvS,Corporation,0
+2018-07-01,Stagg,School : CPS,53.25
+2018-07-01,Tarkington,School : CPS,71
+2018-07-01,Greene,School : CPS,0
+2018-07-01,Chalmers,School : CPS,87.5
+2018-07-01,Howe,School : CPS,40
+2018-07-01,NWEA,Corporation : not-for-profit,389.25
+2018-07-01,Sawyer,School : CPS,0
+2018-07-01,Lincoln,School : CPS,0
+2018-07-01,NWEA TFA,Corporation : not-for-profit,0
+2018-07-01,NTA,School : CPS,26.75
+2018-07-01,Gower,School : not-for-profit,838
+2018-07-01,Miscellaneous,Miscellaneous,196.5
+2018-07-01,FCP,School : not-for-profit,61.5
+2018-07-01,Jacobs Boiler,Corporation,0
+2018-07-01,Kaleidoscope,Corporation,75.5
+2018-07-01,Poe,School : CPS,31.5
+2018-07-01,Marquette,School : CPS,0
+2018-07-01,Bennett,School : private,442.75
+2018-07-01,Robert Crown,School : not-for-profit,169
+2018-07-01,Mayer,School : CPS,67.5
+2018-07-01,inQUEST,Corporation,0
+2018-07-01,Bitter Pops,Corporation,0
+2018-07-01,Rush Day School,School : not-for-profit,0
+2018-07-01,Montessori,School - not-for-profit,66.25
+2018-07-01,CCSD,School - not-for-profit,194.5
+2018-07-01,Kids and Company,Corporation : daycare,3
+2018-07-01,Friends of Bennett,School : private,0
+2018-07-01,McDade,School : CPS,0
+2018-07-01,Great Lakes,School : not-for-profit,0
+2018-07-01,Winsight,Corporation,0
+2018-07-01,TvS,Corporation,0
+2018-10-01,Stagg,School : CPS,97.25
+2018-10-01,Tarkington,School : CPS,105.5
+2018-10-01,Greene,School : CPS,0
+2018-10-01,Chalmers,School : CPS,141.5
+2018-10-01,Howe,School : CPS,77
+2018-10-01,NWEA,Corporation : not-for-profit,0
+2018-10-01,Sawyer,School : CPS,0
+2018-10-01,Lincoln,School : CPS,0
+2018-10-01,NWEA TFA,Corporation : not-for-profit,0
+2018-10-01,NTA,School : CPS,31.75
+2018-10-01,Gower,School : not-for-profit,339.25
+2018-10-01,Miscellaneous,Miscellaneous,210.5
+2018-10-01,FCP,School : not-for-profit,79.75
+2018-10-01,Jacobs Boiler,Corporation,8
+2018-10-01,Kaleidoscope,Corporation,63.75
+2018-10-01,Poe,School : CPS,75
+2018-10-01,Marquette,School : CPS,0
+2018-10-01,Bennett,School : private,219.5
+2018-10-01,Robert Crown,School : not-for-profit,132.5
+2018-10-01,Mayer,School : CPS,148.5
+2018-10-01,inQUEST,Corporation,0
+2018-10-01,Bitter Pops,Corporation,0
+2018-10-01,Rush Day School,School : not-for-profit,0
+2018-10-01,Montessori,School - not-for-profit,74
+2018-10-01,CCSD,School - not-for-profit,104.75
+2018-10-01,Kids and Company,Corporation : daycare,0
+2018-10-01,Friends of Bennett,School : private,1
+2018-10-01,McDade,School : CPS,0
+2018-10-01,Great Lakes,School : not-for-profit,0
+2018-10-01,Winsight,Corporation,0
+2018-10-01,TvS,Corporation,0
+2019-01-01,Stagg,School : CPS,89.5
+2019-01-01,Tarkington,School : CPS,107
+2019-01-01,Greene,School : CPS,0
+2019-01-01,Chalmers,School : CPS,203.5
+2019-01-01,Howe,School : CPS,75.5
+2019-01-01,NWEA,Corporation : not-for-profit,44.25
+2019-01-01,Sawyer,School : CPS,0
+2019-01-01,Lincoln,School : CPS,0
+2019-01-01,NWEA TFA,Corporation : not-for-profit,0
+2019-01-01,NTA,School : CPS,7.25
+2019-01-01,Gower,School : not-for-profit,463.75
+2019-01-01,Miscellaneous,Miscellaneous,210.5
+2019-01-01,FCP,School : not-for-profit,54.25
+2019-01-01,Jacobs Boiler,Corporation,0
+2019-01-01,Kaleidoscope,Corporation,70.25
+2019-01-01,Poe,School : CPS,83
+2019-01-01,Marquette,School : CPS,0
+2019-01-01,Bennett,School : private,229.25
+2019-01-01,Robert Crown,School : not-for-profit,128.25
+2019-01-01,Mayer,School : CPS,154.75
+2019-01-01,inQUEST,Corporation,0
+2019-01-01,Bitter Pops,Corporation,0
+2019-01-01,Rush Day School,School : not-for-profit,0
+2019-01-01,Montessori,School - not-for-profit,93
+2019-01-01,CCSD,School - not-for-profit,137.5
+2019-01-01,Kids and Company,Corporation : daycare,0
+2019-01-01,Friends of Bennett,School : private,0
+2019-01-01,McDade,School : CPS,74
+2019-01-01,Great Lakes,School : not-for-profit,22
+2019-01-01,Winsight,Corporation,0
+2019-01-01,TvS,Corporation,0
+2019-04-01,Stagg,School : CPS,89.5
+2019-04-01,Tarkington,School : CPS,101
+2019-04-01,Greene,School : CPS,0
+2019-04-01,Chalmers,School : CPS,169.5
+2019-04-01,Howe,School : CPS,106.5
+2019-04-01,NWEA,Corporation : not-for-profit,0
+2019-04-01,Sawyer,School : CPS,0
+2019-04-01,Lincoln,School : CPS,0
+2019-04-01,NWEA TFA,Corporation : not-for-profit,0
+2019-04-01,NTA,School : CPS,34
+2019-04-01,Gower,School : not-for-profit,597
+2019-04-01,Miscellaneous,Miscellaneous,233.25
+2019-04-01,FCP,School : not-for-profit,47.5
+2019-04-01,Jacobs Boiler,Corporation,34.25
+2019-04-01,Kaleidoscope,Corporation,38.25
+2019-04-01,Poe,School : CPS,83
+2019-04-01,Marquette,School : CPS,0
+2019-04-01,Bennett,School : private,196
+2019-04-01,Robert Crown,School : not-for-profit,102.5
+2019-04-01,Mayer,School : CPS,167
+2019-04-01,inQUEST,Corporation,0
+2019-04-01,Bitter Pops,Corporation,0
+2019-04-01,Rush Day School,School : not-for-profit,0
+2019-04-01,Montessori,School - not-for-profit,79
+2019-04-01,CCSD,School - not-for-profit,163.75
+2019-04-01,Kids and Company,Corporation : daycare,0
+2019-04-01,Friends of Bennett,School : private,0
+2019-04-01,McDade,School : CPS,73
+2019-04-01,Great Lakes,School : not-for-profit,25.5
+2019-04-01,Winsight,Corporation,1
+2019-04-01,TvS,Corporation,0
+2019-07-01,Stagg,School : CPS,51.5
+2019-07-01,Tarkington,School : CPS,44
+2019-07-01,Greene,School : CPS,0
+2019-07-01,Chalmers,School : CPS,113.5
+2019-07-01,Howe,School : CPS,54.5
+2019-07-01,NWEA,Corporation : not-for-profit,59.5
+2019-07-01,Sawyer,School : CPS,0
+2019-07-01,Lincoln,School : CPS,0
+2019-07-01,NWEA TFA,Corporation : not-for-profit,0
+2019-07-01,NTA,School : CPS,4
+2019-07-01,Gower,School : not-for-profit,800.75
+2019-07-01,Miscellaneous,Miscellaneous,566
+2019-07-01,FCP,School : not-for-profit,37
+2019-07-01,Jacobs Boiler,Corporation,2.25
+2019-07-01,Kaleidoscope,Corporation,95.75
+2019-07-01,Poe,School : CPS,27.5
+2019-07-01,Marquette,School : CPS,0
+2019-07-01,Bennett,School : private,419.25
+2019-07-01,Robert Crown,School : not-for-profit,115
+2019-07-01,Mayer,School : CPS,80.25
+2019-07-01,inQUEST,Corporation,0
+2019-07-01,Bitter Pops,Corporation,0
+2019-07-01,Rush Day School,School : not-for-profit,0
+2019-07-01,Montessori,School - not-for-profit,173.5
+2019-07-01,CCSD,School - not-for-profit,196.25
+2019-07-01,Kids and Company,Corporation : daycare,0
+2019-07-01,Friends of Bennett,School : private,0
+2019-07-01,McDade,School : CPS,0
+2019-07-01,Great Lakes,School : not-for-profit,0
+2019-07-01,Winsight,Corporation,18.5
+2019-07-01,TvS,Corporation,0

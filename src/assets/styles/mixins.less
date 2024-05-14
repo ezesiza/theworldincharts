@@ -1,0 +1,46 @@
+﻿// =====================================================================
+// MIXINS
+// =====================================================================
+
+.gradient (@startColor: #eee, @endColor: white) {
+	background-color: @startColor;
+	background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+	background: -webkit-linear-gradient(top, @startColor, @endColor);
+	background: -moz-linear-gradient(top, @startColor, @endColor);
+	background: -ms-linear-gradient(top, @startColor, @endColor);
+	background: -o-linear-gradient(top, @startColor, @endColor);
+}
+
+.appearance (@value: none) {
+	appearance: @value;
+	-webkit-appearance: @value;
+	-moz-appearance: @value;
+}
+
+.transform (@value: none) {
+	transfrom: @value;
+	-webkit-transform: @value;
+	-moz-transform: @value;
+	-ms-transform: @value;
+	-o-transform: @value;
+}
+
+.user-select (@value: none) {
+	user-select: @value;
+	-moz-user-select: @value;
+	-ms-user-select: @value;
+}
+
+.placeholder-color(@value: black) {
+	&::-webkit-input-placeholder {
+		color: @value;
+	}
+
+	&::-moz-placeholder {
+		color: @value;
+	}
+
+	&:-ms-input-placeholder {
+		color: @value;
+	}
+}
