@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import * as d3 from "d3";
+import seedrandom from 'seedrandom';
 import { voronoiTreemap } from './voronoiTreemap';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -10,56 +12,40 @@ import { voronoiTreemap } from './voronoiTreemap';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VoronoiComponent implements OnInit {
+  height = 680;
+  width = 680;
 
-  //begin: constants
-  _2PI = 2 * Math.PI;
-  freedom: any;
-  parentElement: any;
-  svg: any
-  drawingArea: any
-  treemapContainer: any;
+  private margins = { top: 20, right: 20, bottom: 50, left: 50 };
+  animate: boolean = true;
+  freedom: any = null;
+  selectedYear: number = 2008;
+  voronoiTreeMaps = voronoiTreemap();
 
- 
-  svgWidth = 960;
-  svgHeight = 500;
-  margin = { top: 10, right: 10, bottom: 10, left: 10 };
-  height = this.svgHeight - this.margin.top - this.margin.bottom;
-  width = this.svgWidth - this.margin.left - this.margin.right;
-  halfWidth = this.width / 2;
-  halfHeight = this.height / 2;
-  quarterWidth = this.width / 4;
-  quarterHeight = this.height / 4;
-  titleY = 20;
-  legendsMinY = this.height - 20;
-  treemapRadius = 220;
-  treemapCenter = [this.halfWidth, this.halfHeight + 5];
-  voronoiTreemap = voronoiTreemap() as any;
-  hierarchy: any
-  circlingPolygon: any;
-  //end: layout conf.
+  todoUrl = 'https://gorest.co.in/public/v2/todos ';
 
-  constructor(private element: ElementRef) {
-    this.parentElement = this.element.nativeElement;
-  }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    d3.csv('assets/freedom_clean.csv').then((data: any) => {
-      this.renderVoronoi(data)
-    })
+    d3.csv('assets/freedom_clean.csv', d3.autoType)
+      .then((data: any) => {
+        this.renderVoronoi(data);
+      })
+      .catch(error => console.log(error))
   }
+
 
   regionColor = (region: any) => {
     const colors: any = {
       "Middle East and Africa": "#596F7E",
       "Americas": "#168B98",
       "Asia": "#ED5B67",
-      "Oceania": "#fd8f24",
-      "Europe": "#919c4c"
+      "Oceania": "#FD8F24",
+      "Europe": "#919C4C"
     };
     return colors[region];
   }
 
-  colorHierarchy (hierarchy: any) {
+  colorHierarchy(hierarchy: any) {
     if (hierarchy.depth === 0) {
       hierarchy.color = 'black';
     } else if (hierarchy.depth === 1) {
@@ -68,134 +54,133 @@ export class VoronoiComponent implements OnInit {
       hierarchy.color = hierarchy.parent.color;
     }
     if (hierarchy.children) {
-      hierarchy.children.forEach((child: any) => this.colorHierarchy(child))
+      hierarchy.children.forEach((child: any) => {
+        return this.colorHierarchy(child)
+      })
     }
   }
 
-  fontScale: any = d3.scaleLinear();
-
-  renderVoronoi(rootData: any) {
-    this.initData();
-    this.initLayout();
-
-
-    const freedomYear = rootData.filter((obj: any) => Number(obj.year) === 2008)
-    const freedomNest = d3.group(freedomYear, (d: any) => d.region_simple)
-
-    const ellipse = d3.range(50).map((i:any) => [(680 * (1 + 0.99 * Math.cos((i / 50) * Math.PI))) / 2, (680 * (1 + 0.99 * Math.sin((i / 50) * Math.PI))) / 2]);
-    const dataNested = { key: "freedom_nest", values: freedomNest };
-    this.hierarchy = d3.hierarchy(dataNested, (d: any) => {
-      return (typeof d.values === ('function' || undefined)) ? d : d.values
-    }).sum((d: any) => typeof d.population === 'string' && d.population);
-
-    this.voronoiTreemap.clip(ellipse)(this.hierarchy);
-    this.colorHierarchy(this.hierarchy)
-    this.drawTreemap(this.hierarchy);
-  }
-
-  drawTreemap(hierarchy: any) {
-    let leaves = hierarchy.leaves();
-  
-    this.treemapContainer
-      .append("g")
-      .classed("cells", true)
-      .selectAll(".cell")
-      .data(leaves)
-      .enter()
-      .append("path")
-      .classed("cell", true)
-      .attr("d", (d: any) => {
-        return "M" + d.polygon.join(",") + "z";
-      })
-      .style("fill", (d: any) => {
-        console.log(d);
-        return d.parent ? d.parent.color : d.color;
-      });
-
-    let labels = this.treemapContainer
-      .append("g")
-      .classed("labels", true)
-      .attr("transform", "translate(" + [-this.treemapRadius, -this.treemapRadius] + ")")
-      .selectAll(".label")
-      .data(leaves)
-      .enter()
-      .append("g")
-      .classed("label", true)
-      .attr("transform", function (d: any) {
-        return "translate(" + [d.polygon.site.x, d.polygon.site.y] + ")";
-      })
-      .style("font-size", (d: any) => {
-        return this.fontScale(d.data.population);
-      });
-
-    labels
-      .append("text")
-      .classed("name", true)
-      .html(function (d: any) {
-        return d.data.population < 1 ? d.data.code : d.data.name;
-      });
-    labels
-      .append("text")
-      .classed("value", true)
-      .text(function (d: any) {
-        return d.data.population;
-      });
-
-    const hoverers = this.treemapContainer
-      .append("g")
-      .classed("hoverers", true)
-      .attr("transform", "translate(" + [-this.treemapRadius, -this.treemapRadius] + ")")
-      .selectAll(".hoverer")
-      .data(leaves)
-      .enter()
-      .append("path")
-      .classed("hoverer", true)
-      .attr("d", function (d: { polygon: any[]; }) {
-        return "M" + d.polygon.join(",") + "z";
-      });
-
-    hoverers.append("title").text(function (d: { data: { name: string; }; value: string; }) {
-      return d.data.name + "\n" + d.value;
-    });
-  }
-
-  computeCirclingPolygon(radius: number) {
-    let points = 60,
-      increment = 2 * Math.PI / points,
-      circlingPolygon = [];
-
-    for (let a = 0, i = 0; i < points; i++, a += increment) {
-      circlingPolygon.push([
-        radius + radius * Math.cos(a),
-        radius + radius * Math.sin(a)
-      ]);
-    }
+  renderVoronoi(freedom: any) {
+    const freedomYear = freedom.filter((obj: any) => (Number(obj.year) === this.selectedYear));
+    const freedomNest = d3.group(freedomYear, (d: any) => d.region_simple);
     
-    return circlingPolygon;
+    const populationHierarchy = d3.hierarchy(freedomNest, (d: any) => {
+      if (typeof d.values === 'function') {
+        if (d.length === 2) {
+          return d[1]
+        }
+      } else {
+        return d.values
+      }
+    }).sum((d: any) => (d.population));
+   
+
+    let svg = d3.select("svg")
+      .attr("width", this.width + this.margins.left + this.margins.right)
+      .attr("height", this.height + this.margins.left + this.margins.right)
+      .style("fill", "#F5F5F2");
+
+    const voronoi = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
+    const labels = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
+    const popLabels = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
+
+    let seed = seedrandom('00');
+   
+    const ellipse = d3.range(100).map((i: any) => [(this.width * (1 + 0.99 * Math.cos((i / 50) * Math.PI))) / 2, (this.height * (1 + 0.99 * Math.sin((i / 50) * Math.PI))) / 2]);
+    let voronoiTreeMap = voronoiTreemap().prng(seed) as any;
+    let voronoiTreeMaps = voronoiTreeMap.clip(ellipse);
+
+    this.colorHierarchy(populationHierarchy);
+    voronoiTreeMaps(populationHierarchy);
+
+    let allNodes = populationHierarchy.descendants()
+      .sort((a, b) => b.depth - a.depth).map((d, i) => {
+        return Object.assign({}, d, { id: i })
+      });
+
+    let hoveredShape: any = null;
+    voronoi.selectAll('path')
+      .data(allNodes)
+      .enter()
+      .append('path')
+      .attr('d', (d: any) => "M" + d.polygon.join("L") + "Z")
+      .style('fill', (d: any) => d.parent ? d.parent.color : d.color)
+      .attr("stroke", "white")
+      .attr("stroke-width", 2.5)
+      .style('fill-opacity', (d: any) => d.depth === 2 ? 1 : 0)
+      .attr('pointer-events', (d: any) => d.depth === 2 ? 'all' : 'none')
+      .on('mouseenter', (d: any) => {
+        let {id} = d.target.__data__;
+        let label = labels.select(`.label-${id}`);
+        label.attr('opacity', 1)
+        let popLabel = popLabels.select(`.label-${id}`);
+        popLabel.attr('opacity', 1)
+      })
+      .on('mouseleave', (d: any) => {
+        let {id, data} = d.target.__data__;
+        let label = labels.select(`.label-${id}`);
+        label.attr('opacity', (d: any) => Number(data.population) > 130000000 ? 1 : 0)
+        let popLabel = popLabels.select(`.label-${id}`);
+        popLabel.attr('opacity', (d: any) => Number(data.population) > 130000000 ? 1 : 0)
+      })
+      .attr("stroke-width", (d: any) => 7 - d.depth * 2.8)
+      .style('fill', (d: any) =>  d.color)
+      .transition()
+      .duration(1000);
+      
+      d3.select('g')
+      .call(d3.zoom()
+      .extent([[-10, -10], [this.width * 1.5, this.height * 1.5]])
+      .scaleExtent([1, 8])
+      .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
+
+
+    labels.selectAll('text')
+      .data(allNodes.filter((d: any) => d.depth === 2))
+      .enter()
+      .append('text')
+      .attr('class', (d: any) => `label-${d.id}`)
+      .attr('text-anchor', 'middle')
+      .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 6] + ")")
+      .text((d: any) => d.data.key || d.data.countries)
+      .attr('opacity', (d: any) => {
+        if (d.data.key === hoveredShape) {
+          return (1);
+        } else if (d.data.population > 130000000) {
+          return (1);
+        } else { return (0); }
+      })
+
+      .attr('cursor', 'default')
+      .attr('pointer-events', 'none')
+      .attr('fill', 'black')
+      .style('font-family', 'Montserrat');
+
+    popLabels.selectAll('text')
+      .data(allNodes.filter((d: any) => d.depth === 2))
+      .enter()
+      .append('text')
+      .attr('class', (d: any) => `label-${d.id}`)
+      .attr('text-anchor', 'middle')
+      .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 25] + ")")
+      .text((d: any) => this.bigFormat(d.data.population))
+      .attr('opacity', (d: any) => {
+        if (d.data.key === hoveredShape) {
+          return (1);
+        } else if (d.data.population > 130000000) {
+          return (1);
+        } else { return (0); }
+      })
+      .attr('cursor', 'default')
+      .attr('pointer-events', 'none')
+      .attr('fill', 'black')
+      .style('font-size', '12px')
+      .style('font-family', 'Montserrat');
   }
 
-  initData() {
-    this.circlingPolygon = this.computeCirclingPolygon(this.treemapRadius);
-    this.fontScale.domain([3, 20]).range([8, 20]).clamp(true);
-  }
+  bigFormat = d3.format(",.0f");
 
-  initLayout() {
-    this.svg = d3.select("svg").attr("width", this.svgWidth).attr("height", this.svgHeight);
-
-    this.drawingArea = this.svg
-      .append("g")
-      .classed("drawingArea", true)
-      .attr("transform", "translate(" + [this.margin.left, this.margin.top] + ")");
-
-    this.treemapContainer = this.drawingArea
-      .append("g")
-      .classed("treemap-container", true)
-      .attr("transform", "translate(" + this.treemapCenter + ")");
-
-    this.treemapContainer
-      .append("path")
-      .classed("world", true)
-      .attr("transform", "translate(" + [-this.treemapRadius, -this.treemapRadius] + ")")
-      .attr("d", "M" + this.circlingPolygon.join(",") + "Z");
+  zoomed({transform}: any, svg:any) {
+    svg.attr("transform", transform);
   }
 }
