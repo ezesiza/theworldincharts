@@ -1,0 +1,527 @@
+// =====================================================================
+// IMPORTS
+// =====================================================================
+@import "palette.less";
+
+// =====================================================================
+// VARIABLES
+// =====================================================================
+
+@chevron-color: #333333;
+@circular-link-url: "../assets/img/circular-link.svg";
+@search-image-url: "../assets/img/search_filter.svg";
+
+// =====================================================================
+// CSS SHAPES
+// =====================================================================
+
+.picture-icon {
+    color: #000;
+    position: absolute;
+    margin-left: 2px;
+    margin-top: 2px;
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    border: solid 0.2rem @icon-color;
+}
+
+.picture-icon:before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    border: solid 0.2rem @icon-color;
+}
+
+.picture-icon:after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 9px;
+    width: 12px;
+    height: 8px;
+    border-top: solid 0.2rem @icon-color;
+    border-right: solid 0.2rem @icon-color;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.chevron-icon {
+	pointer-events: none;
+
+	&:after {
+		font: 1.6rem Consolas, monospace;
+		content: '>';
+		display: block;
+		color: @chevron-color;
+		transform: rotate(90deg);
+	}
+}
+
+.arrow-icon {
+    display: inline-block;
+    position: relative;
+    height: 2rem;
+    width: 2rem;
+    background-color: @icon-color;
+    border-radius: 100%;
+
+    &:before {
+        content: ">";
+        font-weight: 800;
+        font-family: monospace;
+        color: white;
+        position: absolute;
+        top: 0.3rem;
+        font-size: 1.4rem;
+        left: 0.9rem;
+    }
+
+    &:after {
+        content: "";
+        height: 0.2rem;
+        width: 0.9rem;
+        background-color: white;
+        display: inline-block;
+        position: absolute;
+        top: 0.9rem;
+        left: 0.4rem;
+    }
+}
+
+.circular-background {
+    border-radius: 100%;
+    text-align: center;
+    border-radius: 100%;
+    height: 2rem;
+    width: 2rem;
+    background-color: @icon-color;
+    color: white !important;
+    line-height: 2rem !important;
+    font-size: 1.4rem !important;
+}
+
+.eye-icon {
+	display: inline-block;
+	position: relative;
+	width: 1.8rem;
+	height: 1.8rem;
+	border-radius: 75% 15%;
+	background-color: @icon-color;
+	transform: rotate(45deg);
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		width: 0.6rem;
+		height: 0.6rem;
+		border: solid .2rem @icon-background-color;
+		border-radius: 50%;
+		left: 0.4rem;
+		top: 0.4rem;
+	}
+}
+
+.triangle-down-icon {
+	height: 0;
+	width: 0;
+	border-left: 1.8rem solid transparent;
+	border-right: 1.8rem solid transparent;
+	border-top: 1.8rem solid @icon-color;
+}
+
+.plus-icon,
+.minus-icon {
+	display: block;
+
+	&:after {
+		content: '+';
+		font-family: sans-serif;
+		font-weight: 900;
+		font-size: 3.2rem;
+		display: block;
+	}
+}
+
+.minus-icon:after {
+    content: '-';
+}
+
+.circular-arrow-icon {
+	border: 0.3rem solid transparent;
+	border-top-color: @icon-color;
+	border-left-color: @icon-color;
+	border-bottom-color: @icon-color;
+	height: 1.1rem;
+	width: 1.1rem;
+	border-radius: 50%;
+	position: relative;
+	transform: rotate(45deg);
+	margin: 0.5rem auto;
+
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0.4rem;
+		left: 80%;
+		height: 0;
+		width: 0;
+		border-left: 0.5rem solid @icon-color;
+		border-top: 0.5rem solid transparent;
+		border-bottom: 0.5rem solid transparent;
+		transform: rotate(-45deg);
+	}
+}
+
+.clock-icon {
+	border: 0.3rem solid @icon-color;
+	border-radius: 50%;
+	height: 1.1rem;
+	width: 1.1rem;
+	position: relative;
+
+	&:before {
+		content: "";
+		height: .6rem;
+		width: .2rem;
+		position: absolute;
+		background-color: @icon-color;
+		top: 0.1rem;
+		left: .45rem;
+	}
+
+	&:after {
+		content: "";
+		height: .2rem;
+		width: .6rem;
+		position: absolute;
+		background-color: @icon-color;
+		top: 0.5rem;
+		left: .45rem;
+	}
+}
+
+.pencil-icon {
+	background-color: @icon-color;
+	height: 1.3rem;
+	width: 0.5rem;
+	position: relative;
+	transform: rotate(45deg);
+
+	&:before {
+		content: "";
+		height: 0.2rem;
+		width: 0.5rem;
+		background-color: @icon-color;
+		position: absolute;
+		top: -0.3rem;
+		left: 0;
+	}
+
+	&:after {
+		content: "";
+		height: 0;
+		width: 0;
+		border-left: 0.3rem solid @icon-color;
+		border-top: 0.2rem solid transparent;
+		border-bottom: 0.2rem solid transparent;
+		position: absolute;
+		left: 0.05rem;
+		bottom: -0.5rem;
+		transform: rotate(90deg);
+	}
+}
+
+.checkmark-icon {
+    display: inline-block;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: @icon-color;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+
+    &:before {
+        content: "";
+        position: absolute;
+        width: 12.5%;
+        height: 50%;
+        background-color: @icon-background-color;
+        left: 50%;
+        top: 17.5%;
+    }
+
+    &:after {
+        content: "";
+        position: absolute;
+        width: 35%;
+        height: 12.5%;
+        background-color: @icon-background-color;
+        left: 27.5%;
+        top: 60%;
+    }
+}
+
+.download-icon {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-width: 0.3rem;
+    border-style: solid;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    margin: 0.1rem 0.1rem 0.6rem 0.6rem;
+    transform: rotate(135deg);
+    color: @icon-color;
+
+    &:before {
+        content: '';
+        top: 0;
+        left: -0.45rem;
+        position: absolute;
+        height: .3rem;
+        box-shadow: inset 0 0 0 1rem;
+        transform: rotate(-45deg);
+        width: 0.6rem;
+        color: @icon-color;
+    }
+
+    &:after {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        width: 1.6rem;
+        border: .2rem solid;
+        border-top: 0;
+        height: 0.6rem;
+        transform: rotate(-135deg);
+        bottom: 0.2rem;
+        left: -0.3rem;
+        color: @icon-color;
+    }
+}
+
+.page-icon {
+	position: relative;
+	height: 1.7rem;
+	width: 1.5rem;
+
+	&:before {
+		content: '';
+		position: absolute;
+		width: 1rem;
+		height: 1.4rem;
+		border: solid 0.2rem @icon-color;
+	}
+
+	span {
+		position: absolute;
+		width: 0;
+		height: 0;
+		top: 0;
+		left: 0.8rem;
+		border-style: solid;
+		border-width: 0.7rem 0 0 0.7rem;
+		border-color: white transparent transparent @icon-color;
+	}
+}
+
+.table-icon {
+    position: relative;
+    border: .2rem solid @icon-color;
+    width: 1.4rem;
+    height: 1.4rem;
+
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        border: .1rem solid @icon-color;
+        width: 1rem;
+        top: .2rem;
+        left: .1rem;
+    }
+}
+
+.close-icon {
+    position: relative;
+    display: block;
+    height: 1.4rem;
+    width: 1.4rem;
+    border: .1rem solid #0072B2;
+    background-color: transparent;
+    border-radius: 100%;
+
+    &:before, &:after {
+        content: '';
+        position: absolute;
+        height: .2rem;
+        width: 1.1rem;
+        top: 0.6rem;
+        left: .15rem;
+        background: #0072B2;
+    }
+
+    &:before {
+        transform: rotate(45deg);
+    }
+
+    &:after {
+        transform: rotate(-45deg);
+    }
+}
+
+.person-icon {
+    height: 1.8rem;
+    width: 1.6rem;
+    position: relative;
+
+    &:before {
+        content: '';
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        left: 0.2rem;
+        height: 0.9rem;
+        width: 0.9rem;
+        border-radius: 50%;
+        border: 0.2rem solid @icon-color;
+    }
+
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        box-sizing: border-box;
+        top: 0.7rem;
+        height: 0.8rem;
+        width: 1.4rem;
+        border: 0px solid @icon-color;
+        border-radius: 5rem 5rem 0 0;
+        border-width: .2rem .2rem 0 .2rem;
+    }
+}
+
+.laptop-icon {
+    position: relative;
+}
+
+.laptop-icon-screen {
+    width: 1.4rem;
+    height: 0.9rem;
+    background: @icon-color;
+    border-bottom: none;
+    border-radius: 0.3rem 0.3rem 0 0;
+    margin-left: 0.3rem;
+
+    &:before {
+        position: absolute;
+        display: block;
+        content: '';
+        width: 1rem;
+        height: 0.6rem;
+        top: 0.2rem;
+        left: 0.5rem;
+        background: @icon-background-color;
+    }
+}
+
+.laptop-icon-base {
+    position: relative;
+    width: 2rem;
+    height: 0.2rem;
+    background: @icon-color;
+
+    &:before {
+        position: absolute;
+        display: block;
+        content: '';
+        width: 0.6rem;
+        height: 0.1rem;
+        background: @icon-background-color;
+        left: 0.7rem;
+        top: 0;
+        border-radius: 0 0 0.3rem 0.3rem;
+    }
+}
+
+.phone-icon {
+  display: inline-block;
+  position: relative;
+  width: 0.7rem;
+  height: 0.9rem;
+  background: @icon-color;
+
+  &:before {
+    content: '';
+    background: @icon-background-color;
+    position: absolute;
+    left: .1rem;
+    top: .1rem;
+    height: 0.6rem;
+    width: 0.5rem;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    background: @icon-background-color;
+    height: 0.1rem;
+    width: 0.1rem;
+    left: 0.3rem;
+    bottom: .1rem;
+  }
+}
+
+.arrow-right-icon {
+  width: 0;
+  height: 0;
+  border-top: 0.6rem solid transparent;
+  border-bottom: 0.6rem solid transparent;
+  border-left: 0.6rem solid @icon-color;
+  ;
+  display: block
+}
+
+.arrow-left-icon {
+  width: 0;
+  height: 0;
+  border-top: 0.6rem solid transparent;
+  border-bottom: 0.6rem solid transparent;
+  border-right: 0.6rem solid @icon-color;
+  ;
+  display: block
+}
+
+.circular-link-icon {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("@{circular-link-url}");
+}
+
+#search
+{
+    background: url("@{search-image-url}") no-repeat;
+    background-position: right ;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 225%;
+    margin:auto;
+    z-index: 1;
+}
+
+#search:background{
+  transform: rotate(90deg);
+}
