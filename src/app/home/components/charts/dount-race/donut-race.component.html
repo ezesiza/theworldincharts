@@ -1,8 +1,8 @@
-<div class="button-group">
+<!-- <div class="button-group">
     <a routerLink="" class="previous">&laquo; Home</a>
     <a routerLink="/analytics" class="next">Next &raquo;</a>
-</div>
-<alaaap-header></alaaap-header>
+</div> -->
+<!-- <alaaap-header></alaaap-header> -->
 <!-- <overlay>
     <div class="panel-title">
         <h1>Rise & Fall of Popular Web Browsers (1994-2003)</h1>
@@ -14,10 +14,28 @@
         </ng-container>
     </div>
 </overlay> -->
+<div class="button-group" id="voronoi">
 
+    <header>
+        <div class="header">
+            <h1>World Population and GDP by Country</h1>
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button3" title="Click to download png image" id="map2Jpg"
+                    (click)="setDownload()">Download Image JPG</button>
+                <button class="button button2" routerLink="/voronoi">Next &raquo;</button>
+
+            </div>
+        </div>
+    </header>
+</div>
 <single-card>
-    <div class="panel-body">
-        <h1>Rise & Fall of Popular Web Browsers (1994-2003)</h1>
-        <svg id="donut-race"></svg>
+    <div class="panel-body" id="svg_container">
+        <div id="svg_container">
+            <img id="img" width=1 height=1 />
+            <button *ngIf="showDownload"><a id="anchor" download={{currentYear+imageSource}}>
+                    {{"Download Browser Share Image: "+currentYear}}</a></button>
+            <div id="chart"></div>
+        </div>
     </div>
 </single-card>

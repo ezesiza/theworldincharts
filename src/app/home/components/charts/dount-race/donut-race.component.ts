@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit, ElementRef } from "@angular/core";
 import { LoadDataService } from "app/home/services/load.data.service";
+import { PresentationService } from "app/home/services/presentation.service";
 import * as d3 from "d3";
 
 
@@ -8,7 +9,7 @@ import * as d3 from "d3";
     providers: [LoadDataService],
     templateUrl: "donut-race.component.html",
     styleUrls: ["donut-race.component.less"],
-    encapsulation: ViewEncapsulation.None,
+    // encapsulation: ViewEncapsulation.None,
 })
 export class DonutRaceComponent implements OnInit {
     private width = 600;
@@ -24,10 +25,13 @@ export class DonutRaceComponent implements OnInit {
     private hide_angle = 0.07;
     private font_size = 15;
     private font_size_year = 64 * this.height / 700;
+    currentYear = '1994';
 
     private background_color = "#FDFDFD";
     private borderColor = "#C0C0C0";
     private parentElement: any | undefined;
+    imageSource: string = 'BrowserShare.jpg';
+    showDownload: boolean = false;
 
     private fontSizeTitle = 28 * this.height / 700;
     // private titleTop = "Rise and fall of popular web browsers (1994-2003)";
@@ -35,7 +39,10 @@ export class DonutRaceComponent implements OnInit {
 
     private title = "Market share (%)";
 
-    constructor(private element: ElementRef, private service: LoadDataService) {
+    constructor(
+        private element: ElementRef,
+        private presentation: PresentationService,
+        private service: LoadDataService) {
         this.parentElement = this.element.nativeElement;
     }
 
@@ -43,6 +50,10 @@ export class DonutRaceComponent implements OnInit {
         this.service.getKeyFrames().subscribe(response => {
             this.renderChart(response)
         })
+    }
+
+    setDownload() {
+        this.showDownload = !this.showDownload;
     }
 
     private arc = d3.arc()
@@ -54,7 +65,7 @@ export class DonutRaceComponent implements OnInit {
 
     async renderChart(keyframes: any) {
         let svg = d3.select(this.parentElement)
-            .select("svg")
+            .select("#chart").append("svg")
             .attr("width", this.width * 1.5)
             .attr("height", this.height)
             .attr("viewBox", [-450, -this.height / 2, this.width / 1.3, this.height])
@@ -111,7 +122,11 @@ export class DonutRaceComponent implements OnInit {
                     .attr("font-weight", "bold")
                     .attr("x", 0)
                     .attr("y", "10px")
-                    .text(d => this.formatDate(keyframe[0])))
+                    .text(d => {
+                        console.log(this.formatDate(keyframe[0]));
+                        this.currentYear = this.formatDate(keyframe[0]);
+                        return this.formatDate(keyframe[0])
+                    }))
                 .call(text => text.append("tspan")
                     .attr("font-weight", "lighter")
                     .attr("x", 0)
@@ -140,7 +155,11 @@ export class DonutRaceComponent implements OnInit {
                 .attr("fill", (d: any) => color(d.data.name) as any)
                 .attr("d", this.arc as any)
                 .append("title")
-                .text((d: any) => `${d.data.name}: ${d.data.value.toLocaleString()}`);
+                .text((d: any) => {
+                    // console.log(d.data);
+                    // this.currentYear = 
+                    return `${d.data.name}: ${d.data.value.toLocaleString()}`
+                });
 
             svg.append("g")
                 .selectAll()
@@ -185,6 +204,7 @@ export class DonutRaceComponent implements OnInit {
             // .call(this.wrap, 8);
 
             // setTimeout(() => svg.interrupt());
+            this.presentation.saveSvgToImage();
             await transition.end();
         }
     }
@@ -211,6 +231,7 @@ export class DonutRaceComponent implements OnInit {
                 }
             }
         });
+
         return 0;
     }
 }

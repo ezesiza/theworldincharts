@@ -1,18 +1,30 @@
 <div class="button-group" id="voronoi">
-    <a routerLink="" class="previous">&laquo; Home</a>
-    <a routerLink="/analytics" class="next">Next &raquo;</a>
-    <h1>Year in focus {{displayYear}}</h1>
+    <!-- <a routerLink="" class="previous">&laquo; Home</a>
+    <a routerLink="/analytics" class="next">Next &raquo;</a> -->
+    <!-- <h1>Year in focus {{displayYear}}</h1> -->
+    <header>
+        <div class="header">
+            <h1>World Population and GDP by Country</h1>
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button3" title="Click to download png image" id="map2Jpg"
+                    (click)="setDownload()">Download Image JPG</button>
+                <button class="button button2" routerLink="/earth">Next &raquo;</button>
+                <!-- <custom-select (selectionChange)="getSelectionChange($event)">Select
+          </custom-select> -->
+            </div>
+        </div>
+    </header>
 </div>
-<alaaap-header></alaaap-header>
 <single-card>
     <div class="panel-body">
         <div id="svg_container">
-            <a class="download-button" title="Click to download png image" id="map2Jpg" (click)="setDownload()">
+            <!-- <a class="download-button" title="Click to download png image" id="map2Jpg" (click)="setDownload()">
                 Download Image JPG
-            </a>
+            </a> -->
             <img id="img" width=1 height=1 />
             <a *ngIf="showDownload" id="anchor" download={{currentYear.toString()+imageSource}}>
-                {{"Company data for : " + currentYear}}</a>
+                {{"World Gdp data for : " + currentYear}}</a>
 
             <div id="chart"></div>
         </div>

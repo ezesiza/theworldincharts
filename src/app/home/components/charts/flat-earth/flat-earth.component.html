@@ -1,21 +1,28 @@
-<h1 class="title">World Aid Summary</h1>
+<!-- <h1 class="title">World Aid Summary</h1>
 <div class="button-group">
     <a routerLink="" class="previous">&laquo; Home</a>
-    <a routerLink="/analytics" class="next">Next &raquo;</a>
+    <a routerLink="/sankey" class="next">Next &raquo;</a>
+</div> -->
+<!-- <alaaap-header></alaaap-header> -->
+<div class="button-group" id="voronoi">
+    <header>
+        <div class="header">
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button3" title="Click to download jpg image" id="map2Jpg"
+                    (click)="setDownload()">Download Image JPG</button>
+                <button class="button button2" routerLink="/sankey">Next &raquo;</button>
+            </div>
+        </div>
+    </header>
 </div>
-<alaaap-header>
-</alaaap-header>
 
 <single-card>
     <div class="panel-body">
         <div id="svg_container">
             <h1>Year in focus: {{currentYear}}</h1>
-            <a type="button" class="download-button" title="Click to download png image" id="map2Jpg"
-                (click)="setDownload()">
-                Download Image JPG
-            </a>
             <img id="img" width=1 height=1 />
-            <a *ngIf="showDownload" id="anchor" download={{currentYear.toString()+imageSource}}>
+            <a *ngIf="showDownload" id="anchor" download={{currentYear.toString()+imageSource}} (click)="setDownload()">
                 {{"Foreign Aid Data in : " + currentYear}}</a>
             <div id="chart">
                 <!-- <svg></svg> -->

@@ -29,7 +29,7 @@ export class VoronoiOriginalComponent implements OnInit {
     companyHierarchy: any = null;
     countryList: any = [];
 
-    imageSource: string = ' CompanyValuation.png';
+    imageSource: string = ' World_Gdp_Data.png';
     showDownload: boolean = false;
     currentYear: number = 2016;
 
