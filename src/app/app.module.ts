@@ -19,7 +19,7 @@ import { RaceBarComponent } from './home/components/charts/race-bar/race-bar.com
 import { DonutRaceComponent } from './home/components/charts/dount-race/donut-race.component';
 import { GlobeComponent } from './home/components/charts/globe/globe.component';
 
-import { AlaaapDashboardComponent } from './home/components/dashboards/alaaap-dashboard/alaaap-dashboard.component';
+import { AnalyticsDashboardComponent } from './home/components/dashboards/alaaap-dashboard/alaaap-dashboard.component';
 import { TimeSeriesBarChartComponent } from './home/components/charts/time-series-bar-chart/time-series-bar-chart.component';
 import { LandingComponent } from './home/components/landing-component/landing.component';
 import { VoronoiComponent } from './home/components/charts/voronoi/voronoi.component';
@@ -49,7 +49,7 @@ import { MetricsDashboardComponent } from './home/components/dashboards/metrics-
     TimeSeriesBarChartComponent,
     VoronoiComponent,
     LandingComponent,
-    AlaaapDashboardComponent,
+    AnalyticsDashboardComponent,
     RaceBarComponent,
     MetricsDashboardComponent,
     SingleCardComponent,

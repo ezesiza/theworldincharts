@@ -14,7 +14,7 @@ import { LoadDataService } from 'app/home/services/load.data.service';
   templateUrl: "./alaaap-dashboard.component.html",
   styleUrls: ["./alaaap-dashboard.component.less"],
 })
-export class AlaaapDashboardComponent implements OnInit {
+export class AnalyticsDashboardComponent implements OnInit {
 
   isDrilldownActive: boolean;
   loadingState: boolean = false;

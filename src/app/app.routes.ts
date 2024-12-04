@@ -1,5 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AlaaapDashboardComponent } from './home/components/dashboards/alaaap-dashboard/alaaap-dashboard.component';
+import { AnalyticsDashboardComponent } from './home/components/dashboards/alaaap-dashboard/alaaap-dashboard.component';
 import { NgModule } from '@angular/core';
 import { LandingComponent } from './home/components/landing-component/landing.component';
 import { VoronoiComponent } from './home/components/charts/voronoi/voronoi.component';
@@ -26,7 +26,7 @@ export const routes: Routes = [
     { path: 'browser', component: DonutRaceComponent },
     { path: 'sankey', component: SankeyComponent },
     { path: 'intent', component: RadialDonutChartComponent },
-    { path: 'analytics', component: AlaaapDashboardComponent },
+    { path: 'analytics', component: AnalyticsDashboardComponent },
     { path: 'sample', component: SampleComponent }
 ];
 
