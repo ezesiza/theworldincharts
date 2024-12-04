@@ -2,8 +2,8 @@
 // IMPORTS
 // =====================================================================
 
-@import 'constants.less';
-@import 'mixins.less';
+// @import 'constants.less';
+// @import 'mixins.less';
 
 @date-picker-color: #0072B2;
 @date-picker-hover-background-color: #d9eaf4;
@@ -19,25 +19,26 @@
 
 
 .panel-title {
-  width:60%;
+  width: 60%;
   font-weight: 400;
   font-size: 2.1rem;
 
   daterange-dropdown {
     top: 0;
-    color:initial;
+    color: initial;
     position: absolute;
     right: -13px;
     margin-top: -1rem;
     max-width: 60%;
     font-size: initial;
     font-weight: initial;
+
     /deep/ span.dropdown-display-name {
-      all:unset;
+      all: unset;
     }
   }
 
-  span{
+  span {
     font-size: 16px;
   }
 
@@ -48,12 +49,12 @@
     text-align: center;
     font-weight: 400;
     padding: 0;
-    margin:0;
+    margin: 0;
   }
 }
 
 .panel-body-container {
-    min-width: 5rem;
+  min-width: 5rem;
 }
 
 
@@ -83,23 +84,20 @@
 
 
 @media (max-width: 57.3rem) {
-    .panel-body-container {
-        padding-top: 4rem;
-        max-height: 26rem;
+  .panel-body-container {
+    padding-top: 4rem;
+    max-height: 26rem;
 
-    }
+  }
 }
 
 
-@media (min-width: @media-min-large-width) {
+@media (min-width: 100rem) {
   .panel-body-container {
-      height: 26rem;
-      overflow-y: auto;
+    height: 26rem;
+    overflow-y: auto;
   }
 
 }
 
-@media (min-width: 1168px) {
-
-}
-
+@media (min-width: 1168px) {}
