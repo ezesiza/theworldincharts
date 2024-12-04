@@ -3,27 +3,27 @@ import { LoadDataService } from 'app/home/services/load.data.service';
 import { RaceBarService } from 'app/home/services/racebar.service';
 
 @Component({
-    selector: 'app-landing',
-    templateUrl: 'landing.component.html',
-    styleUrl: './landing.component.less',
+  selector: 'app-landing',
+  templateUrl: 'landing.component.html',
+  styleUrl: './landing.component.less',
 })
-export class LandingComponent implements OnInit{
+export class LandingComponent implements OnInit {
   title = 'theworldincharts';
-  browsers : any;
+  browsers: any;
   products: any;
 
-  constructor(private service: LoadDataService, private racebarService: RaceBarService){
+  constructor(private service: LoadDataService, private racebarService: RaceBarService) {
 
   }
 
   async ngOnInit() {
-   
-   this.service.getKeyFrames().subscribe(response=>{
-    this.browsers= response;
-   })
-   this.racebarService.getKeyFrames().subscribe((products:any)=>{
-    this.products = products;
-   })
+
+    this.service.getKeyFrames().subscribe(response => {
+      this.browsers = response;
+    })
+    this.racebarService.getKeyFrames().subscribe((products: any) => {
+      this.products = products;
+    })
   }
 
 

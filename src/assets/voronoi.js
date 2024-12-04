@@ -1,7 +1,8 @@
 // import * as d3 from "d3";
 // import "d3-weighted-voronoi";
 // import "d3-voronoi-map";
-// import data from "./data.json";
+// data = require("./data.json");
+// import data from "./data.json"
 // import { voronoiTreemap } from "d3-voronoi-treemap";
 // var voronoiTreemap  = require("d3-voronoi-treemap");
 // import "./styles.css";
@@ -39,7 +40,7 @@ var fontScale = d3.scaleLinear();
 var svg, drawingArea, treemapContainer;
 //end: reusable d3Selection
 
-var init = function(rootData) {
+var init = function (rootData) {
   console.log(rootData);
   initData();
   initLayout(rootData);
@@ -74,7 +75,7 @@ var computeCirclingPolygon = function (radius) {
 }
 
 var initLayout = function (rootData) {
-  svg = d3.select("svg").attr("width", svgWidth).attr("height", svgHeight);
+  svg = d3.create("svg").attr("width", svgWidth).attr("height", svgHeight);
 
   drawingArea = svg
     .append("g")
@@ -97,7 +98,7 @@ var initLayout = function (rootData) {
   drawLegends(rootData);
 }
 
- var drawTitle = function() {
+var drawTitle = function () {
   drawingArea
     .append("text")
     .attr("id", "title")
@@ -169,8 +170,8 @@ var drawLegends = function (rootData) {
     .attr(
       "transform",
       "translate(" +
-        [0, -continents.length * (legendHeight + interLegend) - 5] +
-        ")"
+      [0, -continents.length * (legendHeight + interLegend) - 5] +
+      ")"
     )
     .text("Continents");
 }

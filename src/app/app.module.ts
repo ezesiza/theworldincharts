@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
 
 import { CommonModule, NgClass } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,18 +23,34 @@ import { AlaaapDashboardComponent } from './home/components/dashboards/alaaap-da
 import { TimeSeriesBarChartComponent } from './home/components/charts/time-series-bar-chart/time-series-bar-chart.component';
 import { LandingComponent } from './home/components/landing-component/landing.component';
 import { VoronoiComponent } from './home/components/charts/voronoi/voronoi.component';
+import { SankeyComponent } from './home/components/charts/sankey/sankey.component';
+import { FlatEarthComponent } from './home/components/charts/flat-earth/flat-earth.component';
+import { OverlayComponent } from './home/components/overlay/overlay.component';
+import { AlaaapHeaderComponent } from './home/components/dashboards/alaaap-dashboard/alaaap-header/alaaap-header.component';
+import { SampleComponent } from './home/components/charts/sample/sample.component';
+import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voronoi.original';
+import { CustomSelectComponent } from './home/components/custom-select/custom-select.component';
+import { reducers } from './ngrx/reducers';
+import { CompanyFilterEffects } from './ngrx/effects/company.filter.effects';
 
 
 @NgModule({
-  declarations: [AppComponent, RadialChartComponent, 
+  declarations: [AppComponent, RadialChartComponent,
+    SankeyComponent,
     GlobeComponent,
-    DonutRaceComponent, 
+    FlatEarthComponent,
+    OverlayComponent,
+    VoronoiOriginalComponent,
+    CustomSelectComponent,
+    SampleComponent,
+    AlaaapHeaderComponent,
+    DonutRaceComponent,
     TimeSeriesBarChartComponent,
-    VoronoiComponent, 
+    VoronoiComponent,
     LandingComponent,
     AlaaapDashboardComponent,
-    RaceBarComponent, 
-    SingleCardComponent, 
+    RaceBarComponent,
+    SingleCardComponent,
     DonutChartComponent],
   imports: [
     NgClass,
@@ -41,9 +60,11 @@ import { VoronoiComponent } from './home/components/charts/voronoi/voronoi.compo
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    
+    EffectsModule.forRoot([CompanyFilterEffects]),
+    StoreModule.forRoot(reducers)
+
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

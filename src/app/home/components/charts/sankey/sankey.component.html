@@ -1,0 +1,18 @@
+<single-card>
+    <div class="panel-body">
+        <a routerLink="" class="previous">&laquo; Home</a>
+        <a routerLink="/earth" class="next">Next &raquo;</a>
+        <a (click)="reDrawChart()">Refresh</a>
+        <div id="svg_container">
+            <h1>Energy Conversion & Transmission </h1>
+            <a class="download-button" title="Click to download png image" id="map2Jpg" (click)="setDownload()">
+                Download Image JPG
+            </a>
+            <img id="img" width=1 height=1 />
+            <a *ngIf="showDownload" id="anchor" download={{imageSource}}>
+                {{"Company data for : "}}</a>
+
+            <div id="chart"></div>
+        </div>
+    </div>
+</single-card>

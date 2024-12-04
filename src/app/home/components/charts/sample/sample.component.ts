@@ -3,12 +3,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-sample',
-  standalone: true,
-  imports: [
-    CommonModule,
-  ],
   template: `<p>sample works!</p>`,
-  styleUrl: './sample.component.css',
+  templateUrl: './sample.component.html',
+  styleUrl: './sample.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SampleComponent { }

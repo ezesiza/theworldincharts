@@ -1,4 +1,23 @@
-<div>
-    <svg id="donut-race" width="960px" height="200px"></svg>
-
+<div class="button-group">
+    <a routerLink="" class="previous">&laquo; Home</a>
+    <a routerLink="/analytics" class="next">Next &raquo;</a>
 </div>
+<alaaap-header></alaaap-header>
+<!-- <overlay>
+    <div class="panel-title">
+        <h1>Rise & Fall of Popular Web Browsers (1994-2003)</h1>
+        <ng-container>
+            <span>
+                <ng-container *ngIf="overrideChartSubtitleWithCount; else genericChartSubtitle">{{totalCount | number}} {{unit | singular: totalCount}}</ng-container>
+                <ng-template #genericChartSubtitle>{{chartSubTitle}}</ng-template>
+            </span> 
+        </ng-container>
+    </div>
+</overlay> -->
+
+<single-card>
+    <div class="panel-body">
+        <h1>Rise & Fall of Popular Web Browsers (1994-2003)</h1>
+        <svg id="donut-race"></svg>
+    </div>
+</single-card>

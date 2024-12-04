@@ -2,8 +2,6 @@
 // IMPORTS
 // =====================================================================
 
-@date-picker-color: #0072B2;
-@date-picker-hover-background-color: #d9eaf4;
 
 // =====================================================================
 // VARIABLES
@@ -13,28 +11,85 @@
 // =====================================================================
 // GLOBAL STYLES
 // =====================================================================
+input {
+  border-radius: 24px;
+  border: 1px solid #dfe1e5;
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  z-index: 3;
+  width: 90%;
+  height: 4px;
+  margin: 20px;
+}
 
+input:hover {
+  box-shadow: 0 0 8px 1px #e1e1e1;
+}
+
+.button {
+  background-color: rgb(42, 42, 92);
+  /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s;
+  /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button1 {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button2:hover {
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.grid-container {
+  display: grid;
+  height: 400px;
+  align-content: center;
+  grid-template-columns: auto auto auto;
+  gap: 10px;
+  // background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-container>div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
 
 .panel-title {
-  width:60%;
+  width: 60%;
   font-weight: 400;
   font-size: 2.1rem;
 
   daterange-dropdown {
     top: 0;
-    color:initial;
+    color: initial;
     position: absolute;
     right: -13px;
     margin-top: -1rem;
     max-width: 60%;
     font-size: initial;
     font-weight: initial;
+
     /deep/ span.dropdown-display-name {
-      all:unset;
+      all: unset;
     }
   }
 
-  span{
+  span {
     font-size: 16px;
   }
 
@@ -45,12 +100,12 @@
     text-align: center;
     font-weight: 400;
     padding: 0;
-    margin:0;
+    margin: 0;
   }
 }
 
 .panel-body-container {
-    min-width: 5rem;
+  min-width: 5rem;
 }
 
 
@@ -80,18 +135,18 @@
 
 
 @media (max-width: 57.3rem) {
-    .panel-body-container {
-        padding-top: 4rem;
-        max-height: 26rem;
+  .panel-body-container {
+    padding-top: 4rem;
+    max-height: 26rem;
 
-    }
+  }
 }
 
 
 @media (min-width: 57.3rem) {
   .panel-body-container {
-      height: 26rem;
-      overflow-y: auto;
+    height: 26rem;
+    overflow-y: auto;
   }
 
   position: relative;
@@ -103,17 +158,15 @@
   dropdown,
   complex-dropdown,
   daterange-dropdown ::ng-deep dropdown {
-      margin-left: 0 !important;
-      margin-bottom: 1rem;
+    margin-left: 0 !important;
+    margin-bottom: 1rem;
   }
 
 
   /deep/ .dropdown-container {
-      width: 100%;
+    width: 100%;
   }
 
 }
 
-@media (min-width: 1168px) {
-
-}
+@media (min-width: 1168px) {}

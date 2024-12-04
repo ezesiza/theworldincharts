@@ -6,8 +6,9 @@ import * as d3 from 'd3';
 import { takeUntil } from 'rxjs/operators';
 import { DateTimeService } from 'app/services/datetime.service';
 import { UnsubscribeOnDestroy } from '../../unsubscribe-on-destroy.component';
-import { PresentationService } from 'app/services/presentation.service';
+
 import { BarChartOptions, DateRange } from 'app/models/datetime.model';
+import { PresentationService } from 'app/home/services/presentation.service';
 
 
 @Component({
@@ -22,27 +23,25 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
   @Input() data: any[];
   @Input() legendData: any;
   @Output() xAxisLabelChange: EventEmitter<any> = new EventEmitter();
-  
+
   private margins = { top: 10, right: 15, bottom: 80, left: 75 };
   private colorScale: d3.ScaleSequential<string>;
   private subscription: Subscription;
   private renderedWidth: number = 0;
   private height: number = 360;
-  legend : any = {};
-  keys : any = [];
+  legend: any = {};
+  keys: any = [];
   private disableItems: boolean = false;
   private applyLegendFilters: boolean = false;
   private parentElement;
   private svg: any;
-  
+
   constructor(
     private element: ElementRef,
     private dateTimeService: DateTimeService,
     private presentationService: PresentationService
   ) {
     super();
-    
-    console.log('timeseries');
     this.parentElement = element.nativeElement;
   }
 
@@ -63,9 +62,9 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
         }
       });
 
-      this.initializeOptions();
-      this.renderChart();
-   
+    this.initializeOptions();
+    this.renderChart();
+
     // this.applyLegendFilters = (this.chartOptions && this.chartOptions.legendClickFunction);
   }
 
@@ -108,7 +107,7 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
     }
 
     let colorScale = d3.interpolateViridis;
-   
+
 
     this.colorScale = d3.scaleSequential(colorScale)
       .domain([0, this.keys.length]);
@@ -128,9 +127,9 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
       let temp: any = {};
       Object.keys(this.legendData)
         .slice(0, 6)
-        .forEach((key) => { 
-          if (this.legendData[key].length > 0) 
-            temp[key] = this.legendData[key]; 
+        .forEach((key) => {
+          if (this.legendData[key].length > 0)
+            temp[key] = this.legendData[key];
         });
 
       for (let d of this.data) {
@@ -222,7 +221,7 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
   private renderFilteredChart() {
     // create a copy of the data and remove disabled items
     let data = JSON.parse(JSON.stringify(this.data));
-    let disabledItems : any = [];
+    let disabledItems: any = [];
 
     for (let key of this.keys) {
       if (this.legend[key] && !this.legend[key].visible)
@@ -231,8 +230,8 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
 
     // remove disabled items from data and then re-render chart
     if (disabledItems.length) {
-      data = data.map((d:any) => {
-        disabledItems.forEach((disabled:any) => {
+      data = data.map((d: any) => {
+        disabledItems.forEach((disabled: any) => {
           delete d[disabled];
         });
         return d;
@@ -314,7 +313,7 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
     let barWidth = x.bandwidth();
     let isTranslatedTickLabel = true;
     const translatedTickSpacing = 15; // space between x-axis tick labels and date label
-    
+
     if (barWidth >= 37) {
       isTranslatedTickLabel = false;
       tickStyle = 'translate(-18, 0)';
@@ -350,8 +349,8 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
       .attr("y", height + (margin.bottom) + (isTranslatedTickLabel ? translatedTickSpacing : 0))
       .attr("dx", "1rem")
       .style("text-anchor", "middle")
-      .text(this.dateRange.isCustom 
-        ? this.dateRange.customLabel 
+      .text(this.dateRange.isCustom
+        ? this.dateRange.customLabel
         : (this.dateRange.fullLabel
           ? this.dateRange.fullLabel()
           : ''));
@@ -397,9 +396,9 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
     }
 
     rects.attr("x", (d: any, i) => x(timeFormat(d.data.Period) + `_${i}`) + barOffset)
-      .attr("y", (d:any) => { return y(d[1]); })
-      .attr("height", (d:any, i) => { return (y(d[0]) - y(d[1])); })
-      .attr("visibility", (d:any) => {
+      .attr("y", (d: any) => { return y(d[1]); })
+      .attr("height", (d: any, i) => { return (y(d[0]) - y(d[1])); })
+      .attr("visibility", (d: any) => {
         let count = d[1] - d[0];
         if (count <= 0) {
           return "hidden";
@@ -408,7 +407,7 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
       })
       .attr("width", barWidth)
       .append("title")
-      .text(function (d:any, i) {
+      .text(function (d: any, i) {
         let key = (<any>d3.select(this).node()).parentNode.parentNode.getAttribute("data-key");
         let count = d[1] - d[0];
         return key + ": " + count.toLocaleString() || "";
@@ -458,7 +457,7 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
     let formattedData: any[] = JSON.parse(JSON.stringify(data));
 
     if (this.dateRange.timePeriod == 'day') {
-      let groupedData : any= [];
+      let groupedData: any = [];
       formattedData.forEach(d => {
         let date = this.dateTimeService.getOffsetDate(d.Period);
         date.setUTCHours(0);

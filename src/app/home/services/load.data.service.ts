@@ -1,8 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, filter, firstValueFrom, map, subscribeOn } from 'rxjs';
-import { getKeyFrames, pieImages } from '../components/models';
+import { BehaviorSubject, Observable, catchError, filter, map } from 'rxjs';
+import { pieImages } from '../components/models';
+import * as topojson from "topojson-client";
 import * as d3 from 'd3';
+
+import * as world from 'assets/datasets/countries-110m.json';
+import * as industry from 'assets/datasets/industryrelation.json';
 
 export class Browser {
     date: string;
@@ -16,17 +20,22 @@ export class Browser {
     }
 }
 
+export class Energy {
+    source: string;
+    target: string;
+    value: number;
+
+    constructor(source: string, target: string, value: number) {
+        this.source = source;
+        this.target = target;
+        this.value = value;
+    }
+}
+
 
 @Injectable({ providedIn: "root" })
 export class LoadDataService {
 
-    observationPeriod : any = [];
-    // = interval([1994, 2023], {
-    //     step: 1,
-    //     value: [1994, 2023],
-    //     format: ([start, end]) => `January ${start} … December ${end}`,
-    //     label: 'Period of interest'
-    //   });
 
     startDate = new Date("1994-01-01").getTime();
     // endDate = Date.now();
@@ -37,13 +46,80 @@ export class LoadDataService {
     constructor(private http: HttpClient) { }
 
     public browserArray: Browser[] = [];
+    public energyArray: Energy[] = [];
+    public aiDataArray: any[] = [];
 
-    getWatch():Observable<any>{
-        return this.http.get('assets/trit.json')
+    getWatch(): Observable<any> {
+        return this.http.get('assets/datasets/trit.json')
     }
 
+    getIndustryData() {
+        return this.http.get('assets/datasets/industryrelation.json')
+    }
+
+    getAiData() {
+        return this.http.get('assets/datasets/aiddata.csv', { responseType: 'text' }).pipe(
+            map((d: any) => {
+
+                let csvToRowArray = d.split("\n");
+                for (let index = 1; index < csvToRowArray.length - 1; index++) {
+                    let row = csvToRowArray[index].split(",");
+
+                    this.aiDataArray.push({
+                        country: row[1],
+                        year: parseInt(row[2]),
+                        donations: parseInt(row[3].trim()),
+                        receipts: parseInt(row[4]),
+                        net_donations: parseInt(row[5])
+                    });
+                }
+                // group entities by name and year
+                const entities = d3.group(this.aiDataArray, (d: any) => d.country, d => d.year);
+
+                // attach data to each country in properties
+                const countries = topojson.feature(world as any, world.objects.countries as any) as any;
+
+                countries.features.forEach((country: any) => {
+
+                    if ((entities.get((`"${country.properties.name}"`)) === undefined)) {
+                        return
+                    } else {
+                        country.properties.data = entities.get((`"${country.properties.name}"`));
+                    }
+                })
+
+                return { aiDataArray: this.aiDataArray, countries };
+            })
+        )
+    }
+
+    getEnergyData(): Observable<Energy[]> {
+        return this.http.get('assets/datasets/energy.csv', { responseType: 'text' }).pipe(
+            map(data => {
+                let csvToRowArray = data.split("\n");
+                for (let index = 1; index < csvToRowArray.length - 1; index++) {
+                    let row = csvToRowArray[index].split(",");
+                    this.energyArray.push({ source: row[0], target: row[1], value: parseInt(row[2].trim()) });
+                }
+                return this.energyArray;
+            })
+        );
+    }
+
+    getEnergyNodes() {
+        return this.getEnergyData().pipe(
+            map(item => {
+                return {
+                    nodes: Array.from(new Set(item.flatMap((l: { source: any; target: any; }) => [l.source, l.target])), name => ({ name, category: String(name).replace(/ .*/, "") })),
+                    links: item
+                }
+            })
+        )
+    }
+
+
     getBrowsersList(): Observable<any> {
-        return this.http.get('assets/web_browsers_1994-2023.csv', { responseType: 'text' }).pipe(
+        return this.http.get('assets/datasets/web_browsers_1994-2023.csv', { responseType: 'text' }).pipe(
             map(data => {
                 let csvToRowArray = data.split("\n");
                 for (let index = 1; index < csvToRowArray.length - 1; index++) {

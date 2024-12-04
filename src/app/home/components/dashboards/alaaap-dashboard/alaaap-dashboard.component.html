@@ -1,40 +1,40 @@
-<!-- <alaaap-header></alaaap-header> -->
-
+<div>
+  <a routerLink="" class="previous">&laquo; Home</a>
+  <a routerLink="/earth" class="next">Next &raquo;</a>
+</div>
+<alaaap-header></alaaap-header>
 <div class="row">
-      <div class="column">
-        <single-card>
-          <div class="panel-body">
-            <ng-content select=".under-chart-title"></ng-content>
-            <time-series-bar-chart
-                  [dateRange]="dateRange"
-                  [data]="chartData">
-                  <ng-content select=".under-legend-item" ngProjectAs=".under-legend-item"></ng-content>
-            </time-series-bar-chart>
-          </div>
-        </single-card>
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <ng-content select=".under-chart-title"></ng-content>
+        <time-series-bar-chart [dateRange]="dateRange" [data]="chartData">
+          <ng-content select=".under-legend-item" ngProjectAs=".under-legend-item"></ng-content>
+        </time-series-bar-chart>
       </div>
+    </single-card>
   </div>
-  <div class="row">
-      <div class="column">
-        <single-card>
-          <div class="panel-body">
-            <radial-chart [data]="data3"></radial-chart>
-          </div>
-        </single-card>
+</div>
+<div class="row">
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <radial-chart [data]="data3"></radial-chart>
       </div>
-      <div class="column">
-        <single-card>
-          <div class="panel-body">
-            <donut [logData]="data3"></donut>
-          </div>
-        </single-card>
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <donut [logData]="data3"></donut>
       </div>
-      <div class="column">
-          <single-card>
-            <div class="panel-body">
-              <donut [logData]="data2"></donut>
-            </div>
-          </single-card>
-        </div>
-    </div>
-
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <donut [logData]="data2"></donut>
+      </div>
+    </single-card>
+  </div>
+</div>

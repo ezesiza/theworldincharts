@@ -1,0 +1,34 @@
+/* :host {
+  display: block;
+} */
+
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+
+
+@media (min-width: 100rem) {
+  .panel-body-container {
+    height: 26rem;
+    overflow-y: auto;
+  }
+
+  position: relative;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+
+}

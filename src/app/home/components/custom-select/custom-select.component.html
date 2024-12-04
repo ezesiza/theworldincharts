@@ -1,0 +1,37 @@
+<!-- <div class="custom-select">
+    <select>
+        <option value="0">Select car:</option>
+        <option value="1">Audi</option>
+        <option value="2">BMW</option>
+        <option value="3">Citroen</option>
+        <option value="4">Ford</option>
+        <option value="5">Honda</option>
+        <option value="6">Jaguar</option>
+        <option value="7">Land Rover</option>
+        <option value="8">Mercedes</option>
+        <option value="9">Mini</option>
+        <option value="10">Nissan</option>
+        <option value="11">Toyota</option>
+        <option value="12">Volvo</option>
+    </select>
+</div> -->
+
+<div class="custom-select">
+    <select #selectElement [style.display]="'none'">
+        <option value="">Group By</option>
+        <option *ngFor="let option of options" [value]="option.value">
+            {{ option.label }}
+        </option>
+    </select>
+
+    <div class="select-selected" [class.select-arrow-active]="isOpen" (click)="toggleDropdown($event)">
+        {{ selectedOption?.label }}
+    </div>
+
+    <div class="select-items" [class.select-hide]="!isOpen">
+        <div *ngFor="let option of options" [class.same-as-selected]="option === selectedOption"
+            (click)="selectOption(option)">
+            {{ option.label }}
+        </div>
+    </div>
+</div>

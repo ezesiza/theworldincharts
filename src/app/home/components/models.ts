@@ -28,7 +28,7 @@ export async function getBrowserList() {
 
 export async function filterBrowserList() {
     const browserList = await getBrowserList();
-    // console.log(browserList);
+
     browserList.map((browser: any) => new Date(browser.date).getTime() >= startDate && new Date(browser.date).getTime() <= endDate);
 
     return browserList;
@@ -74,7 +74,7 @@ export async function getKeyFrames() {
     for ([[ka, a], [kb, b]] of d3.pairs(values)) {
         for (let i = 0; i < k; ++i) {
             const t = i / k;
-            
+
             keyframes.push([
                 new Date(ka * (1 - t) + kb * t),
                 await rank((name: any) => (a.get(name) || 0) * (1 - t) + (b.get(name) || 0) * t)
@@ -89,13 +89,13 @@ export async function getKeyFrames() {
 async function rank(value: any) {
     return getBrowserNames().then(namesList => {
         const data = Array.from(namesList, (name: any) => {
-            // console.log(name);
+
             return ({ name: name, image: getImageLinks().get(name), rank: 0, value: value(name) || 0 })
         });
         for (let i = 0; i < data.length; ++i) {
             data[i].rank = i;
         }
-        // console.log(data);
+
         return data;
     })
 }

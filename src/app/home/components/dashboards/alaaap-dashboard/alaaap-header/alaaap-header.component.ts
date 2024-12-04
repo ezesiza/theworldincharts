@@ -1,9 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { takeUntil, finalize } from 'rxjs/operators';
-import { LoggerService } from '../../../_services';
-import { DateRange, DateRangeOption} from '../../_models';
-import { DateTimeService } from '../../_services/datetime.service';
+// import { LoggerService } from '../../../_services';
+// import { DateRange, DateRangeOption} from '../../_models';
+// import { DateTimeService } from '../../_services/datetime.service';
 import { Subject } from 'rxjs/internal/Subject';
 
 class MetricsData {
@@ -21,7 +21,12 @@ class MetricsData {
   styleUrls: ["./alaaap-header.component.less"],
 })
 export class AlaaapHeaderComponent implements OnDestroy {
-  isLoadingLogCount: boolean = false;
+  private ngUnsubscribe = new Subject<void>();
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+  /* isLoadingLogCount: boolean = false;
   isLoadingReportingAsset: boolean = false;
   isLoadingThreatwatchAlert: boolean = false;
   isLoadingLocalizedAlert: boolean = false;
@@ -160,7 +165,7 @@ export class AlaaapHeaderComponent implements OnDestroy {
     this.dateRange = this.dateTimeService.getUTCDateRange(dateIndex);
 
     this.getAllQueries();
-  }
+  } */
 }
 
 

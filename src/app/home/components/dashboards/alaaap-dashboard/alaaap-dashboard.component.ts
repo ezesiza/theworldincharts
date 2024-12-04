@@ -1,8 +1,8 @@
 
 import { HttpClient } from '@angular/common/http';
-import { Component,  OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { finalize,takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { DateTimeService } from 'app/services/datetime.service';
 import { LoggerService } from 'app/services/logger.service';
 import { DateRange, DateRangeOption } from 'app/models/datetime.model';
@@ -14,14 +14,14 @@ import { LoadDataService } from 'app/home/services/load.data.service';
   templateUrl: "./alaaap-dashboard.component.html",
   styleUrls: ["./alaaap-dashboard.component.less"],
 })
-export class AlaaapDashboardComponent  implements OnInit {
+export class AlaaapDashboardComponent implements OnInit {
 
   isDrilldownActive: boolean;
   loadingState: boolean = false;
   data: any = {};
   data2 = [
     { category: "January", count: 305, percent: 71 },
-    { category: "February", count:1208 , percent: 18 },
+    { category: "February", count: 1208, percent: 18 },
     { category: "March", count: 110, percent: 6 },
     { category: "April", count: 89, percent: 5 },
     { category: "May", count: 1, percent: 0.06 }
@@ -31,7 +31,7 @@ export class AlaaapDashboardComponent  implements OnInit {
     { category: "February", count: 1505, percent: 18 },
     { category: "March", count: 410, percent: 6 },
     { category: "April", count: 189, percent: 5 },
-    { category: "May", count:9011, percent: 0.06 }
+    { category: "May", count: 9011, percent: 0.06 }
   ]
 
   deviceTypeDateRange: DateRange = null;
@@ -61,7 +61,7 @@ export class AlaaapDashboardComponent  implements OnInit {
   alertsSeverityDateRangeOption = DateRangeOption.LastTwentyFourHours;
   isDrillLocalSeverity: boolean = false;
 
-  chartData:any = [];
+  chartData: any = [];
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -103,19 +103,13 @@ export class AlaaapDashboardComponent  implements OnInit {
     private http: HttpClient,
     private logger: LoggerService,
     private dateTimeService: DateTimeService
-  ) {
-    // super();
-    this.setLogsByReportDeviceDateRange(this.dateRangeOption);
-    this.setAlertsBySeverityDateRange(this.dateRangeOption);
-    this.setDeviceTypeDateRange(this.dateRangeOption);
-  }
+  ) { }
 
-  ngOnInit() { 
-    this.loadservice.getWatch().subscribe((res:any)=>{
-      console.log('Watch-Data', res);
+  ngOnInit() {
+    this.loadservice.getWatch().subscribe((res: any) => {
       this.chartData = res.data
     })
-   }
+  }
 
 
 
@@ -123,19 +117,20 @@ export class AlaaapDashboardComponent  implements OnInit {
     setTimeout(() => (this.isDeviceTypeLoading = true), 0);
 
     this.http.post("/metrics/GetLogCountByDeviceType", JSON.stringify({
-          StartDateUTC: this.deviceTypeDateRange.startDateUtc,
-          EndDateUTC: this.deviceTypeDateRange.endDateUtc,
-          TimePeriod: this.deviceTypeDateRange.timePeriod }))
-          .pipe(
-            takeUntil(this.ngUnsubscribe),
-            finalize(() => (this.isDeviceTypeLoading = false)) )
-            .subscribe((response) => {
-          let blob: any = response;
+      StartDateUTC: this.deviceTypeDateRange.startDateUtc,
+      EndDateUTC: this.deviceTypeDateRange.endDateUtc,
+      TimePeriod: this.deviceTypeDateRange.timePeriod
+    }))
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        finalize(() => (this.isDeviceTypeLoading = false)))
+      .subscribe((response) => {
+        let blob: any = response;
 
-          if (blob.success) {
-            this.deviceTypeData = blob.data;
-          }
-        },
+        if (blob.success) {
+          this.deviceTypeData = blob.data;
+        }
+      },
         (e) => this.logger.handleError(e)
       );
   }
@@ -170,24 +165,24 @@ export class AlaaapDashboardComponent  implements OnInit {
   private fetchReportDevice() {
     setTimeout(() => (this.isLogReportDeviceLoading = true), 0);
     this.http.post("/metrics/GetReportingAssetDeviceType",
-        JSON.stringify({
-          StartDateUTC: this.logReportDeviceDateRange.startDateUtc,
-          EndDateUTC: this.logReportDeviceDateRange.endDateUtc,
-          TimePeriod: this.logReportDeviceDateRange.timePeriod,
-        })
-      ).pipe(
-        takeUntil(this.ngUnsubscribe),
-        finalize(() => (this.isLogReportDeviceLoading = false))
-      ).subscribe(
-        (response) => {
-          let blob: any = response;
+      JSON.stringify({
+        StartDateUTC: this.logReportDeviceDateRange.startDateUtc,
+        EndDateUTC: this.logReportDeviceDateRange.endDateUtc,
+        TimePeriod: this.logReportDeviceDateRange.timePeriod,
+      })
+    ).pipe(
+      takeUntil(this.ngUnsubscribe),
+      finalize(() => (this.isLogReportDeviceLoading = false))
+    ).subscribe(
+      (response) => {
+        let blob: any = response;
 
-          if (blob.success) {
-            this.logReportDeviceData = blob.data;
-          }
-        },
-        (e) => this.logger.handleError(e)
-      );
+        if (blob.success) {
+          this.logReportDeviceData = blob.data;
+        }
+      },
+      (e) => this.logger.handleError(e)
+    );
   }
 
   getDateRange(dateRangeOption: any) {
@@ -198,7 +193,7 @@ export class AlaaapDashboardComponent  implements OnInit {
   }
 
   //1. DropDown Date Chooser
-  setDeviceTypeDateRange(dateRange:any) {
+  setDeviceTypeDateRange(dateRange: any) {
     this.isDrillDownDevice = false;
 
     if (dateRange.label === "Custom") {
@@ -222,7 +217,7 @@ export class AlaaapDashboardComponent  implements OnInit {
   }
 
   //2. DropDown Date Chooser
-  setLogsByReportDeviceDateRange(dateRange:any) {
+  setLogsByReportDeviceDateRange(dateRange: any) {
     this.isDrillDownlogReportDevice = false;
 
     if (dateRange.label === "Custom") {
@@ -248,7 +243,7 @@ export class AlaaapDashboardComponent  implements OnInit {
   }
 
   //3 DropDown Date Chooser
-  setAlertsBySeverityDateRange(dateRange:any) {
+  setAlertsBySeverityDateRange(dateRange: any) {
     this.isDrillLocalSeverity = false;
 
     if (dateRange.label === "Custom") {

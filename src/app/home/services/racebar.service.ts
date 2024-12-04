@@ -17,7 +17,7 @@ export class RaceBarService {
 
     getProducts() {
         const productsArray: any[] = [];
-        return this.http.get('assets/category-brands.csv', { responseType: 'text' }).pipe(
+        return this.http.get('assets/datasets/category-brands.csv', { responseType: 'text' }).pipe(
             map(data => {
                 let csvToRowArray = data.split("\n");
                 for (let index = 1; index < csvToRowArray.length - 1; index++) {

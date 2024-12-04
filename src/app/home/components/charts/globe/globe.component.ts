@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
-import * as world from './../../../../../assets/countries-110m.json';
+import * as world from './../../../../../assets/datasets/countries-110m.json';
 const colors = {
   Water: '#bfd7e4',
   Land: '"#EEE"',
@@ -65,7 +65,8 @@ export class GlobeComponent implements OnInit {
 
     // create one path per TopoJSON feature
 
-    let countries = topojson.feature(world as any, world.objects.countries as any) as any
+    let countries = topojson.feature(world as any, world.objects.countries as any) as any;
+
     let borders = topojson.mesh(world as any, world.objects.countries as any, (a, b) => a !== b);
     let graticule = d3.geoGraticule()
 

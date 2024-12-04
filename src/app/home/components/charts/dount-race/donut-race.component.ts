@@ -1,8 +1,6 @@
-import { CommonModule } from "@angular/common";
 import { Component, ViewEncapsulation, OnInit, ElementRef } from "@angular/core";
 import { LoadDataService } from "app/home/services/load.data.service";
 import * as d3 from "d3";
-import { getKeyFrames } from "../../models";
 
 
 @Component({
@@ -20,7 +18,7 @@ export class DonutRaceComponent implements OnInit {
     private duration = 15;
 
     private innerRadius_factor = 0.65;
-    private dist_text_factor = 1.54;
+    private distTextFactor = 1.54;
     private width_image = 56 * this.height / 700;
     private min_angle = 0.38;
     private hide_angle = 0.07;
@@ -28,12 +26,12 @@ export class DonutRaceComponent implements OnInit {
     private font_size_year = 64 * this.height / 700;
 
     private background_color = "#FDFDFD";
-    private border_color = "#C0C0C0";
+    private borderColor = "#C0C0C0";
     private parentElement: any | undefined;
 
-    private wrap_title_top = 180;
-    private font_size_title = 28 * this.height / 700;
-    private titleTop = "Rise and fall of popular web browsers (1994-2003)";
+    private fontSizeTitle = 28 * this.height / 700;
+    // private titleTop = "Rise and fall of popular web browsers (1994-2003)";
+    private titleTop = "";
 
     private title = "Market share (%)";
 
@@ -43,7 +41,6 @@ export class DonutRaceComponent implements OnInit {
 
     ngOnInit() {
         this.service.getKeyFrames().subscribe(response => {
-            // console.log(response);
             this.renderChart(response)
         })
     }
@@ -58,18 +55,16 @@ export class DonutRaceComponent implements OnInit {
     async renderChart(keyframes: any) {
         let svg = d3.select(this.parentElement)
             .select("svg")
-            .attr("width", this.width)
+            .attr("width", this.width * 1.5)
             .attr("height", this.height)
-            .attr("viewBox", [-this.width / 2, -this.height / 2, this.width, this.height])
+            .attr("viewBox", [-450, -this.height / 2, this.width / 1.3, this.height])
             .attr("style", "max-width: 100%; height: auto;")
             .style("background", this.background_color)
             // .attr("style", "outline: thin solid")
-            .style("outline-color", this.border_color);
-
-        //  svg.node();
+            .style("outline-color", this.borderColor);
 
         for (const keyframe of keyframes) {
-         
+
             const transition = svg.transition()
                 .duration(this.duration)
                 .ease(d3.easeLinear);
@@ -87,10 +82,9 @@ export class DonutRaceComponent implements OnInit {
 
             svg.append("g")
                 .attr("font-family", "sans-serif")
-                .attr("font-size", this.font_size_title)
+                .attr("font-size", this.fontSizeTitle)
                 .attr("font-weight", "bold")
                 .attr("fill-opacity", 0.2)
-
                 .selectAll()
                 .data(pie(keyframe[1]))
                 .join("text")
@@ -136,8 +130,8 @@ export class DonutRaceComponent implements OnInit {
                 .style("stroke-width", 1)
                 .attr("x1", (d: any) => this.arc.centroid(d)[0] * 1.2)
                 .attr("y1", (d: any) => this.arc.centroid(d)[1] * 1.2)
-                .attr("x2", (d: any) => this.arc.centroid(d)[0] * this.dist_text_factor * 0.88)
-                .attr("y2", (d: any) => this.arc.centroid(d)[1] * this.dist_text_factor * 0.88);
+                .attr("x2", (d: any) => this.arc.centroid(d)[0] * this.distTextFactor * 0.88)
+                .attr("y2", (d: any) => this.arc.centroid(d)[1] * this.distTextFactor * 0.88);
 
             svg.append("g")
                 .selectAll()
@@ -174,7 +168,7 @@ export class DonutRaceComponent implements OnInit {
                 .selectAll()
                 .data(pie(keyframe[1]))
                 .join("text")
-                .attr("transform", (d: any) => `translate(${[this.arc.centroid(d)[0] * this.dist_text_factor, this.arc.centroid(d)[1] * this.dist_text_factor]})`)
+                .attr("transform", (d: any) => `translate(${[this.arc.centroid(d)[0] * this.distTextFactor, this.arc.centroid(d)[1] * this.distTextFactor]})`)
                 .call(text => text.filter((d: any) => (d.endAngle - d.startAngle) > 2 * this.hide_angle).append("tspan")
                     .attr("y", "-0.6em")
                     .attr("dy", "-1em")

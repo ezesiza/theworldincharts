@@ -1,16 +1,15 @@
-
-@import "constants.less";
-@import "mixins.less";
-@import "palette.less";
+// @import "constants.less";
+// @import "mixins.less";
+// @import "palette.less";
 
 @date-picker-color: #0072B2;
 @date-picker-hover-background-color: #d9eaf4;
-@red-change:#EE3224;
-@material-icon-color:white;
-@header-color:#8b8b8a;
+@red-change: #EE3224;
+@material-icon-color: white;
+@header-color: #8b8b8a;
 
 @severity-cell-color: #0072B2;
-@button-text: @white;
+@button-text: white;
 @green-background: #008000;
 @green-background-hover: rgb(8, 80, 8);
 
@@ -22,28 +21,30 @@ h2 {
 }
 
 .panel-title {
-  width:90%;
+  width: 90%;
   font-weight: 400;
   font-size: 2.1rem;
 
   daterange-dropdown {
     top: 0;
-    color:initial;
+    color: initial;
     position: absolute;
     right: 50px;
     margin-top: -.5rem;
     font-size: initial;
     font-weight: initial;
+
     /deep/ span.dropdown-display-name {
-      all:unset;
+      all: unset;
     }
   }
-  span{
+
+  span {
     font-size: 16px;
   }
 }
 
-span.change{
+span.change {
   font-size: 20px;
 }
 
@@ -63,6 +64,7 @@ span.change{
     visibility: visible;
     color: @green-background;
   }
+
   &.neutral-increase {
     transform: rotate(-90deg);
     visibility: visible;
@@ -82,13 +84,14 @@ span.change{
   &.log-decrease {
     transform: rotate(90deg);
     visibility: visible;
-    color:  @red-change;
+    color: @red-change;
   }
 
 }
+
 .material-icons {
-	color: black;
-	font-size: 24px;
+  color: black;
+  font-size: 24px;
   margin-top: 2rem;
   margin-left: 0.7rem;
   padding-right: 1rem;
@@ -102,35 +105,36 @@ span.change{
 
 
 #header {
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	background: @header-color;
-	width: 100%;
-	height: 45px;
-	top: auto;
-	margin-bottom: 2rem;
-	h1 {
-		font-size: 3rem;
-		font-weight: 500;
-		margin: 0 0 0.1rem 1rem;
-		color: white;
-	}
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background: @header-color;
+  width: 100%;
+  height: 45px;
+  top: auto;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 500;
+    margin: 0 0 0.1rem 1rem;
+    color: white;
+  }
 }
 
 .row {
-	margin: 0 -2px;
+  margin: 0 -2px;
 }
 
 .row:after {
-	content: "";
-	display: table;
-	clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .w3-panel {
-	margin-top: 16px;
-	margin-bottom: 16px;
-	height: 60px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  height: 60px;
 }
 
 .log-header {
@@ -153,67 +157,68 @@ span.change{
 
 .w3-blue,
 .w3-hover-blue:hover {
-	color: #fff !important;
-	background-color: #102151 !important;
-	padding: 15px;
-	border-radius: 4px;
+  color: #fff !important;
+  background-color: #102151 !important;
+  padding: 15px;
+  border-radius: 4px;
 }
 
 .card {
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	text-align: center;
-	background-color: #f1f1f1;
-	height: 16rem;
-	margin: 0.8rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  text-align: center;
+  background-color: #f1f1f1;
+  height: 16rem;
+  margin: 0.8rem;
 }
 
 :host /deep/ .panel-container .panel-body {
-	overflow-y: unset;
+  overflow-y: unset;
 }
 
 .panel-title {
-	width: 90%;
-	font-weight: 400;
-	font-size: 2.1rem;
-	span {
-		font-size: 16px;
-	}
+  width: 90%;
+  font-weight: 400;
+  font-size: 2.1rem;
+
+  span {
+    font-size: 16px;
+  }
 }
 
 .panel-body {
-	.scrolling-container {
-		min-height: 50rem;
-		max-height: 50rem;
-		overflow-y: auto;
-	}
+  .scrolling-container {
+    min-height: 50rem;
+    max-height: 50rem;
+    overflow-y: auto;
+  }
 }
 
 .panel-body-container {
-	min-height: 5rem;
+  min-height: 5rem;
 }
 
 .row {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .column {
-	display: flex;
-	flex-direction: column;
-	flex-basis: 100%;
-	flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
 }
 
 .gutter {
-	width: 2rem;
+  width: 2rem;
 }
 
 strong {
-	font-size: 35px;
+  font-size: 35px;
   font-weight: 500;
 }
 
@@ -224,7 +229,7 @@ strong {
 
 @media (max-width: 57.3rem) {
   .panel-body-container {
-      padding-top: 4rem;
+    padding-top: 4rem;
   }
 }
 
@@ -232,13 +237,11 @@ strong {
 // LARGE FORM FACTOR STYLES
 // =====================================================================
 
-@media (min-width: @media-min-large-width) {
+@media (min-width: 100rem) {
   .panel-body-container {
-      height: 26rem;
-      overflow-y: auto;
+    height: 26rem;
+    overflow-y: auto;
   }
 }
 
-@media (min-width: 1168px) {
-
-}
+@media (min-width: 1168px) {}

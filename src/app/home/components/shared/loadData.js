@@ -1,14 +1,14 @@
 import * as d3 from 'd3';
 export const pieImages = [
-    { name: "Mosaic", image: '../../../assets/browsers/Mosaic.png' },
-    { name: "Safari", image: "../../../assets/browsers/Safari.png" },
-    { name: "Netscape", image: "../../../assets/browsers/Netscape.png" },
-    { name: "Opera", image: "../../../assets/browsers/opera.png" },
-    { name: "Chrome", image: "../../../assets/browsers/Chrome.png" },
-    { name: "Mozilla", image: "../../../assets/browsers/Mozilla.png" },
-    { name: "Firefox", image: "../../../assets/browsers/Firefox.png" },
-    { name: "Internet Explorer", image: "../../../assets/browsers/IE.png" },
-    { name: "Edge", image: "../../../assets/browsers/Edge.png" },
+    { name: "Mosaic", image: '../../../assets/datasets/browsers/Mosaic.png' },
+    { name: "Safari", image: "../../../assets/datasets/browsers/Safari.png" },
+    { name: "Netscape", image: "../../../assets/datasets/browsers/Netscape.png" },
+    { name: "Opera", image: "../../../assets/datasets/browsers/opera.png" },
+    { name: "Chrome", image: "../../../assets/datasets/browsers/Chrome.png" },
+    { name: "Mozilla", image: "../../../assets/datasets/browsers/Mozilla.png" },
+    { name: "Firefox", image: "../../../assets/datasets/browsers/Firefox.png" },
+    { name: "Internet Explorer", image: "../../../assets/datasets/browsers/IE.png" },
+    { name: "Edge", image: "../../../assets/datasets/browsers/Edge.png" },
 ];
 const startDate = new Date("1994-03-25").getTime();
 const endDate = Date.now();
@@ -60,7 +60,7 @@ export async function getDateValues() {
     console.log(list);
     return Array.from(d3.rollup(list, ([d]) => d.value, (d) => + new Date(d.date), (d) => d.name))
         .map(([date, data]) => [(new Date(date)), data])
-        // .sort(([a], [b]) => d3.ascending(a, b));
+    // .sort(([a], [b]) => d3.ascending(a, b));
 }
 
 export async function getKeyFrames() {
@@ -71,7 +71,7 @@ export async function getKeyFrames() {
 
     const k = 100;
     let ka, a, kb, b;
-    for ([[ka, a], [kb, b]] of d3.pairs(values) ) {
+    for ([[ka, a], [kb, b]] of d3.pairs(values)) {
         for (let i = 0; i < k; ++i) {
             const t = i / k;
 
@@ -85,7 +85,7 @@ export async function getKeyFrames() {
         const frame = await rank((name) => b.get(name) || 0);
 
         keyframes.push([new Date(kb), frame]);
-        
+
         return keyframes;
     }
 }

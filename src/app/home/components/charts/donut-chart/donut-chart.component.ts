@@ -68,7 +68,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
     for (const propName in changes) {
       this.logData = changes['logData'].currentValue;
       this.initializeOptions()
-        this.drawSlices(this.logData)
+      this.drawSlices(this.logData)
     }
   }
 
@@ -191,7 +191,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
 
   private getLegendKeys(): any {
     if (this.logData && this.logData.length >= 0) {
-      
+
       return this.logData.map((d: any) => d.category);
     } else {
       return this.logData[0]
@@ -211,7 +211,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
     }
 
     let legendKeys: any[] = this.getLegendKeys();
-    
+
     this.keys = [];
     for (let key of legendKeys) {
       this.keys.push(key);
@@ -232,7 +232,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   private renderFilteredChart() {
 
     let data: any = JSON.parse(JSON.stringify(this.logData));
-    
+
     let disabledItems: any = [];
 
     for (let key of this.keys) {
@@ -366,90 +366,89 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   transition = d3.select('path').transition().duration(750).ease(() => 200);
 
 
-  private drawSlices(data:any ) {
-  
+  private drawSlices(data: any) {
+
     if (!data) {
       data = this.backData;
     }
-   
-        this.initArc()
-        this.setArcs();
 
-        let total = 0;
-        data.map((item:any) => {
-          total = total + item.count;
+    this.initArc()
+    this.setArcs();
+
+    let total = 0;
+    data.map((item: any) => {
+      total = total + item.count;
+    });
+    this.totalCount = this.numberFormat(total);
+
+    this.pie = d3.pie().sort(null).value((d: any) => d.count);
+
+    let tooltip = d3
+      .select("body")
+      .append("div")
+      .style("position", "absolute")
+      .style("padding", "0 10px")
+      .style("background", "white")
+      .style("opacity", 0);
+
+    this.svg
+      .append("text")
+      .attr("text-anchor", "middle")
+      .attr("font-size", "27px")
+      .attr("font-weight", "600")
+      .attr("fill", "#4D4D4D")
+      .text(this.totalCount)
+      .attr("transform", "translate(" + this.width / 1.6 + "," + this.height / 1.9 + ")");
+
+    this.svg
+      .selectAll("path")
+      .remove()
+      .exit()
+      .data(this.pie(data))
+      .enter()
+      .append("g")
+      .append("path")
+      .attr("transform", `translate(${this.radius}, ${this.radius})`)
+      .attr("stroke", "white")
+      .attr("stroke-width", "1.3px")
+      .attr("cursor", "pointer")
+      .attr("d", this.arc)
+      .on("click", (d: any) => {
+        this.barFilter(d.data.category);
+        tooltip.style("display", "none");
+      })
+      .attr("fill", (d: any, i: any) => {
+        let colorKeys = Object.values(this.legendItem);
+        let colour = "";
+
+        let colorClass = this.getKeyClassName(d.data.category);
+        colorKeys.map((item: any) => {
+          let itemClass = item["className"];
+          colour = (colorClass === itemClass) ? item["color"] : colour;
         });
-        this.totalCount = this.numberFormat(total);
-        
-        this.pie = d3.pie().sort(null).value((d: any) => d.count);
+        return colour;
+      })
+      .on("mousemove", (event: any, { data }: any) => {
 
-        let tooltip = d3
-          .select("body")
-          .append("div")
-          .style("position", "absolute")
-          .style("padding", "0 10px")
-          .style("background", "white")
-          .style("opacity", 0);
-
-        this.svg
-          .append("text")
-          .attr("text-anchor", "middle")
-          .attr("font-size", "27px")
-          .attr("font-weight", "600")
-          .attr("fill", "#4D4D4D")
-          .text(this.totalCount)
-          .attr("transform", "translate(" + this.width / 1.6 + "," + this.height / 1.9 + ")");
-
-        this.svg
-          .selectAll("path")
-          .remove()
-          .exit()
-          .data(this.pie(data))
-          .enter()
-          .append("g")
-          .append("path")
-          .attr("transform", `translate(${this.radius}, ${this.radius})`)
-          .attr("stroke", "white")
-          .attr("stroke-width", "1.3px")
-          .attr("cursor", "pointer")
-          .attr("d", this.arc)
-          .on("click", (d:any) => {
-            this.barFilter(d.data.category);
-            tooltip.style("display", "none");
-          })
-          .attr("fill", (d: any, i: any) => {
-            let colorKeys = Object.values(this.legendItem);
-            let colour = "";
-
-            let colorClass = this.getKeyClassName(d.data.category);
-            console.log(colorClass);
-            colorKeys.map((item: any) => {
-              let itemClass = item["className"];
-              colour = (colorClass === itemClass) ? item["color"] : colour;
-            });
-            return colour;
-          })
-          .on("mousemove", (event: any, { data }: any) => {
-
-            tooltip.transition().duration(900).style("opacity", 0.9);
-            tooltip.html(
-              ` <div>
+        tooltip.transition().duration(900).style("opacity", 0.9);
+        tooltip.html(
+          ` <div>
                     <p>${data.category}
                       <strong>${this.d3Format(data.count)}</strong>
                       (${data.percent}%)
                     </p>
                 </div>`
-            )
-              .style("left", event.pageX - 35 + "px")
-              .style("top", event.pageY - 30 + "px")
-              .style("border-radius", "10px")
-              .style("pointer-events", "none")
-              .attr("transform", `translate(${event.pageX - 35}, ${event.pageY - 30})`);
-          })
-          .on("mouseout", function () {
-            tooltip.html("");
-          });
-        this.showBackground();
-        // return this.transition
-    }
+        )
+          .style("left", event.pageX - 35 + "px")
+          .style("top", event.pageY - 30 + "px")
+          .style("border-radius", "10px")
+          .style("pointer-events", "none")
+          .attr("transform", `translate(${event.pageX - 35}, ${event.pageY - 30})`);
+      })
+      .on("mouseout", function () {
+        tooltip.html("");
+      });
+    this.showBackground();
+    // return this.transition
+  }
 }
