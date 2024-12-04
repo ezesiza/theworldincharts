@@ -1,12 +1,18 @@
-<div>
-  <a routerLink="" class="previous">&laquo; Home</a>
-  <a routerLink="/browser" class="next">Next &raquo;</a>
+<div class="button-group" id="voronoi">
+  <header>
+    <div class="header">
+      <div class="button-group">
+        <button class="button" routerLink="">&laquo; Home</button>
+        <button class="button button2" routerLink="/metrics">Next &raquo;</button>
+      </div>
+    </div>
+  </header>
 </div>
 <!-- <alaaap-header></alaaap-header> -->
 <div class="row">
   <div class="column">
     <single-card>
-      <div class="panel-body">
+      <div class="panel-body" id="svg_container">
         <ng-content select=".under-chart-title"></ng-content>
         <time-series-bar-chart [dateRange]="dateRange" [data]="chartData">
           <ng-content select=".under-legend-item" ngProjectAs=".under-legend-item"></ng-content>

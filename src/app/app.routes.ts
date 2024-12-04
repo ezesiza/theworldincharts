@@ -13,12 +13,14 @@ import { DonutRaceComponent } from './home/components/charts/dount-race/donut-ra
 import { DonutChartComponent } from './home/components/charts/donut-chart/donut-chart.component';
 import { SankeyDragComponent } from './home/components/charts/sankey-drag/sankey-drag.component';
 import { SampleComponent } from './home/components/charts/sample/sample.component';
+import { MetricsDashboardComponent } from './home/components/dashboards/metrics-dashboard/metrics-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
     { path: 'voronoi', data: { animate: false }, component: VoronoiComponent },
     { path: 'voronoi-gdp', data: { animate: false }, component: VoronoiOriginalComponent },
     { path: 'earth', component: FlatEarthComponent },
+    { path: 'metrics', component: MetricsDashboardComponent },
     { path: 'industry', component: SankeyDragComponent },
     { path: 'compvaluation', component: RaceBarComponent },
     { path: 'browser', component: DonutRaceComponent },

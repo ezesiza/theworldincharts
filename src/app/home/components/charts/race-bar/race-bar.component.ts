@@ -1,5 +1,6 @@
 
 import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { PresentationService } from 'app/home/services/presentation.service';
 import { RaceBarService } from 'app/home/services/racebar.service';
 import * as d3 from 'd3';
 
@@ -26,6 +27,9 @@ export class RaceBarComponent implements OnInit {
   prev: any;
   next: any;
   products: any[] = [];
+  imageSource: string = ' CompanyValuationBar.png';
+  currentYear = '2000';
+  showDownload: boolean = false;
 
 
   // SVG
@@ -34,7 +38,11 @@ export class RaceBarComponent implements OnInit {
   textContent: string | undefined;
 
 
-  constructor(private service: RaceBarService, private element: ElementRef) {
+  constructor(
+    private service: RaceBarService,
+    private element: ElementRef,
+    private presentation: PresentationService
+  ) {
     this.parentElement = this.element.nativeElement;
   }
 
@@ -48,15 +56,20 @@ export class RaceBarComponent implements OnInit {
     })
   }
 
-  async initializeBars() {
-    let parentElement = d3.select(this.parentElement);
+  setDownload() {
+    this.showDownload = !this.showDownload;
+  }
 
-    let svg = this.svg = parentElement
-      .select("svg")
+
+  async initializeBars() {
+
+
+    let svg = this.svg = d3.select(this.parentElement).select("#chart").append("svg")
       .attr("viewBox", [0, 0, this.width, this.height])
       .attr("width", this.width)
       .attr("height", this.height)
-      .attr("style", "max-width: 100%; height: auto;");
+      .style("background", "#FDFDFD")
+    // .attr("style", "max-width: 100%; height: auto;");
 
 
     const updateBars = this.bars(svg);
@@ -77,6 +90,7 @@ export class RaceBarComponent implements OnInit {
       updateBars(keyframe, transition);
       updateLabels(keyframe, transition);
       updateTicker(keyframe, transition);
+      this.presentation.saveSvgToImage();
       await transition.end();
     }
   }
@@ -168,6 +182,7 @@ export class RaceBarComponent implements OnInit {
           .textTween((d: any) => (t: any) => this.formatNumber(d.value || (this.prev.get(d)).value))
           // .end().tween("text", (d: any) => this.textTween((this.prev.get(d) || d).value, d.value))
         ));
+
   }
 
 
@@ -197,6 +212,7 @@ export class RaceBarComponent implements OnInit {
       .call((bar: any) => bar.transition(transition)
         .attr("y", (d: any) => this.yScale(d.rank))
         .attr("width", (d: any) => this.xScale(d.value) - this.xScale(0)));
+
   }
 
   ticker(svg: any) {
@@ -210,6 +226,7 @@ export class RaceBarComponent implements OnInit {
       .text(this.formatDate(this.keyframes[0][0] as any));
 
     return ([date]: any, transition: any) => {
+      this.currentYear = this.formatDate(date)
       transition.end().then(() => now.text(this.formatDate(date)));
     };
   }

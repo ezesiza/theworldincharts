@@ -32,6 +32,7 @@ import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voron
 import { CustomSelectComponent } from './home/components/custom-select/custom-select.component';
 import { reducers } from './ngrx/reducers';
 import { CompanyFilterEffects } from './ngrx/effects/company.filter.effects';
+import { MetricsDashboardComponent } from './home/components/dashboards/metrics-dashboard/metrics-dashboard.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { CompanyFilterEffects } from './ngrx/effects/company.filter.effects';
     LandingComponent,
     AlaaapDashboardComponent,
     RaceBarComponent,
+    MetricsDashboardComponent,
     SingleCardComponent,
     DonutChartComponent],
   imports: [

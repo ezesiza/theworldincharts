@@ -1,9 +1,24 @@
-<single-card>
-  <div class="panel-body">
-    <div class="button-group">
-      <a routerLink="" class="previous">&laquo; Home</a>
-      <a routerLink="/analytics" class="next">Next &raquo;</a>
+<div class="button-group" id="voronoi">
+  <header>
+    <div class="header">
+      <h1>Companies Valuation From 2000 - 2019</h1>
+      <div class="button-group">
+        <button class="button" routerLink="">&laquo; Home</button>
+        <button class="button button3" title="Click to download jpg image" id="map2Jpg" (click)="setDownload()">Download
+          Image JPG</button>
+        <button class="button button2" routerLink="/analytics">Next &raquo;</button>
+      </div>
     </div>
-    <svg id="race-bar" width="960px" height="200px"></svg>
+  </header>
+</div>
+
+<single-card>
+  <div class="panel-body" id="svg_container">
+    <div id="svg_container">
+      <img id="img" width=1 height=1 />
+      <button *ngIf="showDownload"><a id="anchor" download={{currentYear+imageSource}}>
+          {{"Download Browser Share Image: "+currentYear}}</a></button>
+      <div id="chart"></div>
+    </div>
   </div>
 </single-card>

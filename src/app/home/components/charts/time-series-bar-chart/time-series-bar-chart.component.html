@@ -1,4 +1,5 @@
-<div class="chart-wrapper">
+<div class="chart-wrapper" id="svg_container">
+  <!-- <div id="svg_container"></div> -->
   <svg shape-rendering="crispEdges" width="1" height="1"></svg>
   <div class="legend">
     <span class="title" (click)="toggleAllLegendItems()" title="Click here to turn all filters on/off at once">
@@ -6,12 +7,13 @@
     </span>
     <ul>
       <li *ngFor="let key of keys" (click)="toggleLegendItem(key)">
-        <div class="bullet {{legend[key] && legend[key].className}}" [style.background-color]="legend[key] && legend[key].color"></div>
+        <div class="bullet {{legend[key] && legend[key].className}}"
+          [style.background-color]="legend[key] && legend[key].color"></div>
         <label [ngClass]="{'disabled': legend[key] && !legend[key].visible}">{{key}}</label>
       </li>
     </ul>
     <div class="time-series-icon-container">
-      <div class="time-series-table-control view-events-button"  (click)="applyLegendFiltersClick()">
+      <div class="time-series-table-control view-events-button" (click)="applyLegendFiltersClick()">
         <span class="material-icons">check</span>
         <span class="time-series-icon-label">Apply Filters</span>
       </div>

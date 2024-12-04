@@ -35,6 +35,8 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
   private applyLegendFilters: boolean = false;
   private parentElement;
   private svg: any;
+  imageSource: string = ' TimeSeriesChartData.png';
+  showDownload: boolean = false;
 
   constructor(
     private element: ElementRef,
@@ -148,6 +150,7 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
   }
 
   toggleLegendItem(key: string) {
+
     if (this.keys.length == this.legendVisibleCount()) {
       this.setAllLegendItems(false);
     }
@@ -186,6 +189,7 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
   }
 
   toggleAllLegendItems() {
+    this.presentationService.saveSvgToImage();
     // create a copy of the data and remove disabled items
     let data = JSON.parse(JSON.stringify(this.data));
     let disabledItems = [];

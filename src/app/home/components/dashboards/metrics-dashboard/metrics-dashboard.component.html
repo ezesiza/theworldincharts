@@ -1,220 +1,58 @@
-<metrics-header></metrics-header>
-<div>
-  <div class='row'>
-    <div class='column'>
-      <actionable-panel [loading]="isDeviceTypeLoading">
-        <div class="panel-title">
-          {{deviceTypeDataTitle}}
-              <span>
-                <daterange-dropdown
-                  [isDrilldownActive]="isDrillDownDevice"
-                  [dateRangeOptions]="dateRangeOptions"
-                  [selectedDateRangeOption]="deviceDateRangeOption"
-                  (onDateRangeSelected)="setDeviceTypeDateRange($event)"
-                  (onCustomDateRangeSelected)="setDeviceTypeDateRange($event)"
-                >
-              </daterange-dropdown>
-              </span>
-        </div>
-        <div class="panel-body">
-            <donut-chart
-                [dateRange]="deviceTypeDateRange"
-                [logData]="deviceTypeData"
-                [unit]="'Log(s)'"
-                (onSetChartFilters)="categoryClick($event,
-                    deviceTypeDateRange,
-                    deviceTypeDataTitle)"
-            >
-            </donut-chart>
-          <div class="date-label">
-            <p>{{logEventLabel+':'}}</p>
-            {{deviceTypeDateLabel}}
-          </div>
-        </div>
-      </actionable-panel>
+<div class="button-group" id="voronoi">
+  <header>
+    <div class="header">
+      <div class="button-group">
+        <button class="button" routerLink="">&laquo; Home</button>
+        <button class="button button2" routerLink="/browser">Next &raquo;</button>
+      </div>
     </div>
-    <!--Logs By Device Type-->
-    <div class='gutter'></div>
-    <div class='column'>
-      <actionable-panel [loading]="isAlertsBySeverityLoading">
-        <div class="panel-title">
-          {{alertsBySeverityDataTitle}}
-          <span>
-            <daterange-dropdown
-                [isDrilldownActive]="isDrillLocalSeverity"
-                [dateRangeOptions]="dateRangeOptions"
-                [selectedDateRangeOption]="alertsSeverityDateRangeOption"
-                (onDateRangeSelected)="setAlertsBySeverityDateRange($event)"
-                (onCustomDateRangeSelected)="setAlertsBySeverityDateRange($event)"
-            >
-            </daterange-dropdown>
-          </span>
-        </div>
-        <div class="panel-body">
-          <polar-chart
-              [dateRange]="alertsBySeverityDateRange"
-              [severityData]="alertsBySeverity"
-              [colorScale]="severityColorScale"
-              [unit]="'Alert(s)'"
-              (onSetChartFilters)="categoryClick($event,
-                  alertsBySeverityDateRange,
-                  alertsBySeverityDataTitle)">
-          </polar-chart>
-          <div class="date-label">
-            <p>{{alertsSeverityEventLabel+':'}}</p>
-            {{alertsBySeverityDateLabel}}
-          </div>
-        </div>
-      </actionable-panel>
-    </div>
-    <!--Localized Alerts By Severity-->
-    <div class='gutter'>
-    </div>
-    <div class='column'>
-      <actionable-panel [loading]="isTwAlertBySeverityLoading">
-        <div class="panel-title">
-          {{twAlertsBySeverityDataTitle}}
-          <span>
-              <daterange-dropdown
-                  [isDrilldownActive]="isDrillThreatSeverity"
-                  [dateRangeOptions]="dateRangeOptions"
-                  [selectedDateRangeOption]="twSeverityDateRangeOption"
-                  (onDateRangeSelected)="setTWAlertsBySeverityDateRange($event)"
-                  (onCustomDateRangeSelected)="setTWAlertsBySeverityDateRange($event)"
-              >
-              </daterange-dropdown>
-            </span>
-        </div>
-        <div class="panel-body">
-            <polar-chart
-                [dateRange]="twAlertsBySeverityDateRange"
-                [severityData]="twAlertsBySeverity"
-                [colorScale]="severityColorScale"
-                [unit]="'Alert(s)'"
-                (onSetChartFilters)="categoryClick(
-                    $event,
-                    twAlertsBySeverityDateRange,
-                    twAlertsBySeverityDataTitle)">
-            </polar-chart>
-          <div class="date-label">
-            <p>{{twSeverityEventLabel+':'}}</p>
-            {{twAlertsBySeverityDateLabel}}
-          </div>
-        </div>
-      </actionable-panel> <!-- ThreatWatch Alerts by Severity-->
-    </div>
+  </header>
+</div>
+<alaaap-header></alaaap-header>
+<div class="row">
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <radial-chart [data]="data3"></radial-chart>
+      </div>
+    </single-card>
   </div>
-  <div class='row'>
-    <div class='column'>
-      <actionable-panel [loading]="isDestinationCountryLoading">
-        <div class="panel-title country">
-          {{destinationCountryDataTitle}}
-          <span>
-             <daterange-dropdown
-                [isDrilldownActive]="isDrillDestinationCountry"
-                [dateRangeOptions]="dateRangeOptions"
-                [selectedDateRangeOption]="destinationDateRangeOption"
-                (onDateRangeSelected)="setDestinationCountryDateRange($event)"
-                (onCustomDateRangeSelected)="setDestinationCountryDateRange($event)"
-            >
-            </daterange-dropdown>
-          </span>
-
-        </div>
-        <div class="panel-body">
-          <donut-chart
-              [dateRange]="destinationCountryDateRange"
-              [logData]="destinationCountry"
-              [unit]="'Log(s)'"
-              (onSetChartFilters)="categoryClick(
-                  $event,
-                  destinationCountryDateRange,
-                  destinationCountryDataTitle)"
-          >
-          </donut-chart>
-          <div class="date-label">
-            <p>{{destinationEventLabel+':'}}</p>
-            {{destinationCountryDateLabel}}
-          </div>
-        </div>
-      </actionable-panel>
-    </div> <!-- By Destination Country-->
-    <div class='gutter'>
-    </div>
-    <div class='column'>
-      <actionable-panel [loading]="isAlertByCategoryLoading">
-        <div class="panel-title">
-          {{alertsByCategoryDataTitle }}
-
-          <span>
-             </span>
-              <daterange-dropdown
-                  [isDrilldownActive]="isDrillLocalizedCategory"
-                  [dateRangeOptions]="dateRangeOptions"
-                  [selectedDateRangeOption]="alertsCategoryDateRangeOption"
-                  (onDateRangeSelected)="setAlertsByCategoryDateRange($event)"
-                  (onCustomDateRangeSelected)="setAlertsByCategoryDateRange($event)"
-              >
-              </daterange-dropdown>
-
-        </div>
-        <div class="panel-body">
-          <donut-chart
-              [dateRange]="alertsByCategoryDateRange"
-              [logData]="alertsByCategory"
-              [isDynamicColors]='false'
-              [unit]="'Alert(s)'"
-              (onSetChartFilters)="categoryClick(
-                  $event,
-                  alertsByCategoryDateRange,
-                  alertsByCategoryDataTitle)"
-                >
-          </donut-chart>
-          <div class="date-label">
-            <p>{{categoryEventLabel+':'}}</p>
-            {{alertsByCategoryDateLabel}}
-          </div>
-        </div>
-      </actionable-panel>
-    </div>
-    <!--Alerts By Category-->
-    <div class='gutter'>
-    </div>
-    <div class='column'>
-      <actionable-panel [loading]="isTwAlertsByCategoryLoading">
-        <div class="panel-title"> {{twAlertsByCategoryDataTitle}}
-
-          <span>
-               <daterange-dropdown
-                  [isDrilldownActive]="isDrillThreatCategory"
-                  [dateRangeOptions]="dateRangeOptions"
-                  [selectedDateRangeOption]="twCategoryDateRangeOption"
-                  (onDateRangeSelected)="setTWAlertsByCategoryRange($event)"
-                  (onCustomDateRangeSelected)="setTWAlertsByCategoryRange($event)"
-              >
-              </daterange-dropdown>
-          </span>
-
-        </div>
-        <div class="panel-body">
-          <donut-chart
-              [dateRange]="twAlertsByCategoryDateRange"
-              [logData]="twAlertsByCategory"
-              [unit]="'Alert(s)'"
-              [colorScale]="threatWatchColorScale"
-              (onSetChartFilters)="categoryClick(
-                  $event,
-                  twAlertsByCategoryDateRange,
-                  twAlertsByCategoryDataTitle)"
-          >
-          </donut-chart>
-          <div class="date-label">
-            <p>{{twCategoryEventLabel+':'}}</p>
-            {{twAlertsByCategoryDateLabel}}
-          </div>
-        </div>
-      </actionable-panel>
-    </div><!-- ThreatWatch Alerts By Category-->
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <donut [logData]="data3"></donut>
+      </div>
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <donut [logData]="data2"></donut>
+      </div>
+    </single-card>
   </div>
 </div>
 
+<div class="row">
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <radial-chart [data]="data3"></radial-chart>
+      </div>
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <donut [logData]="data3"></donut>
+      </div>
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card>
+      <div class="panel-body">
+        <donut [logData]="data2"></donut>
+      </div>
+    </single-card>
+  </div>
+</div>

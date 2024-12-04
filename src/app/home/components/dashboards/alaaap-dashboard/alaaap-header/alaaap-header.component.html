@@ -1,6 +1,6 @@
 <overlay [action]="'minimize'" [loading]="false">
    <div class="panel-title">
-      <h2 class="title">Summary</h2>
+      <h2 class="title">Incident Summary</h2>
       <span>
 
       </span>
@@ -10,42 +10,45 @@
          <div class="column">
             <div class="card">
                <header id="header">
-                  <h1>Logs</h1>
+                  <h1>RansomWare</h1>
                </header>
-               <div>
+               <!-- <div>
                   Count
-               </div>
+               </div> -->
                <div>
-
-                  <span class="material-icons" [ngClass]="">play_arrow</span>
+                  <span class="change">Incident Count: 3616</span>
+                  <span class="material-icons" [ngClass]="'decrease'">play_arrow</span>
                </div>
             </div>
          </div>
          <div class="column">
             <div class="card">
                <header id="header">
-                  <h1>Reporting Assets</h1>
+                  <h1>Phishing Report</h1>
                </header>
                <div>
+                  <span class="change">Incident Count: 59</span>
+                  <span class="material-icons" [ngClass]="'decrease'">play_arrow</span>
+               </div>
+               <!-- <div>
                   <span class="count"><strong>Cccount</strong></span>
                </div>
                <div>
                   <span>
                      |number</span>
                   <span class="material-icons">play_arrow</span>
-               </div>
+               </div> -->
             </div>
          </div>
          <div class="column">
             <div class="card">
                <header id="header">
-                  <h1>Custom Alerts</h1>
+                  <h1>MITM Attacks</h1>
                </header>
                <div>
-
                </div>
                <div>
-                  <span class="change">{{'number'}}</span>
+                  <span class="change">Incident Count: 127</span>
                   <span class="material-icons" [ngClass]="'decrease'">play_arrow</span>
                </div>
             </div>

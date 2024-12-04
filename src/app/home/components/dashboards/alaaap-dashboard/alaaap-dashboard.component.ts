@@ -32,7 +32,7 @@ export class AlaaapDashboardComponent implements OnInit {
     { category: "March", count: 410, percent: 6 },
     { category: "April", count: 189, percent: 5 },
     { category: "May", count: 9011, percent: 0.06 }
-  ]
+  ];
 
   deviceTypeDateRange: DateRange = null;
   deviceTypeDateLabel: any;
@@ -110,7 +110,6 @@ export class AlaaapDashboardComponent implements OnInit {
       this.chartData = res.data
     })
   }
-
 
 
   private fetchDeviceType() {
