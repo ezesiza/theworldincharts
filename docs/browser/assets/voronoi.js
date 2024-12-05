@@ -39,8 +39,8 @@ var fontScale = d3.scaleLinear();
 var svg, drawingArea, treemapContainer;
 //end: reusable d3Selection
 
-var init = function(rootData) {
-  console.log(rootData);
+var init = function (rootData) {
+
   initData();
   initLayout(rootData);
   hierarchy = d3.hierarchy(rootData).sum(function (d) {
@@ -97,7 +97,7 @@ var initLayout = function (rootData) {
   drawLegends(rootData);
 }
 
- var drawTitle = function() {
+var drawTitle = function () {
   drawingArea
     .append("text")
     .attr("id", "title")
@@ -169,8 +169,8 @@ var drawLegends = function (rootData) {
     .attr(
       "transform",
       "translate(" +
-        [0, -continents.length * (legendHeight + interLegend) - 5] +
-        ")"
+      [0, -continents.length * (legendHeight + interLegend) - 5] +
+      ")"
     )
     .text("Continents");
 }

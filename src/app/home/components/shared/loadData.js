@@ -57,7 +57,7 @@ async function getBrowserNames() {
 
 export async function getDateValues() {
     const list = await transformedBrowserList();
-    console.log(list);
+
     return Array.from(d3.rollup(list, ([d]) => d.value, (d) => + new Date(d.date), (d) => d.name))
         .map(([date, data]) => [(new Date(date)), data])
     // .sort(([a], [b]) => d3.ascending(a, b));
@@ -65,7 +65,7 @@ export async function getDateValues() {
 
 export async function getKeyFrames() {
     const values = await getDateValues();
-    console.log(values);
+
     const keyframes = [];
 
 
