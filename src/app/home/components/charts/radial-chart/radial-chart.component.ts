@@ -1,5 +1,5 @@
 
-import { Component,ChangeDetectionStrategy , ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChange, ViewEncapsulation } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChange, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
 import { Subscription } from 'rxjs';
@@ -32,7 +32,7 @@ export class RadialChartComponent implements OnInit, OnDestroy {
   applyLegendFilters: boolean = false;
   private subscription: Subscription | undefined;
   private renderedWidth: number = 0;
-  private dataSource: any[]=[];
+  private dataSource: any[] = [];
   sortOrder = ["Critical", "Major", "Medium", "Minor", "Informational"];
 
 
@@ -73,7 +73,7 @@ export class RadialChartComponent implements OnInit, OnDestroy {
 
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     for (const propName in changes) {
-      if (changes.hasOwnProperty(propName) ) {
+      if (changes.hasOwnProperty(propName)) {
         switch (propName) {
           case "data": {
             // this.totalCount = this.d3Format(this.data["totalCount"]);
@@ -108,23 +108,23 @@ export class RadialChartComponent implements OnInit, OnDestroy {
     }
   }
 
-    // Sort the arc data to ensure a particular ordering.
-    sortArray(array: any) {
-      if (array === undefined || typeof array[0] === undefined) {
-        return Array(0);
-      }
-      if (typeof array[0] === "object") {
-        return array.sort((a:any, b:any) => {
-          return (
-            this.sortOrder.indexOf(b.category) - this.sortOrder.indexOf(a.category)
-          );
-        });
-      } else {
-        return array.sort((a: string, b: string) => {
-          return this.sortOrder.indexOf(b) - this.sortOrder.indexOf(a);
-        });
-      }
+  // Sort the arc data to ensure a particular ordering.
+  sortArray(array: any) {
+    if (array === undefined || typeof array[0] === undefined) {
+      return Array(0);
     }
+    if (typeof array[0] === "object") {
+      return array.sort((a: any, b: any) => {
+        return (
+          this.sortOrder.indexOf(b.category) - this.sortOrder.indexOf(a.category)
+        );
+      });
+    } else {
+      return array.sort((a: string, b: string) => {
+        return this.sortOrder.indexOf(b) - this.sortOrder.indexOf(a);
+      });
+    }
+  }
 
   applyLegendFiltersClick() {
     let items: any[] = [];
@@ -318,7 +318,6 @@ export class RadialChartComponent implements OnInit, OnDestroy {
   }
 
   private renderChart(data?: any[]) {
-    console.log(data);
     this.destroyChart();
     let parentElement = d3.select(this.parentElement);
 
@@ -462,7 +461,6 @@ export class RadialChartComponent implements OnInit, OnDestroy {
                </div>`
         )
           .style("left", (event: any) => {
-            console.log(event);
             return event.pageX - 35 + "px"
           })
           .style("top", (event: any) => event.pageY - 30 + "px")

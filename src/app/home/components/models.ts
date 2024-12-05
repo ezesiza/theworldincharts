@@ -81,7 +81,7 @@ export async function getKeyFrames() {
             ]);
         }
         keyframes.push([new Date(kb), await rank((name: any) => b.get(name) || 0)]);
-        console.log(keyframes);
+
         return keyframes;
     }
 }

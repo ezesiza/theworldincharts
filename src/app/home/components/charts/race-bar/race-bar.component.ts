@@ -200,11 +200,7 @@ export class RaceBarComponent implements OnInit {
           .attr("x", this.xScale(0))
           .attr("y", (d: any) => this.yScale((this.prev.get(d) || d).rank))
           .attr("width", (d: any) => this.xScale((this.prev.get(d) || d).value) - this.xScale(0)),
-        (update: any) => {
-          // console.log(data.slice(0, this.nSize));
-          // console.log(update);
-          return update
-        },
+        (update: any) => update,
         (exit: any) => exit.transition(transition).remove()
           .attr("y", (d: any) => this.yScale((this.next.get(d) || d).rank))
           .attr("width", (d: any) => this.xScale((this.next.get(d) || d).value) - this.xScale(0))

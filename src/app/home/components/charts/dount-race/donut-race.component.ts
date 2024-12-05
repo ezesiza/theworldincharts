@@ -123,7 +123,6 @@ export class DonutRaceComponent implements OnInit {
                     .attr("x", 0)
                     .attr("y", "10px")
                     .text(d => {
-                        console.log(this.formatDate(keyframe[0]));
                         this.currentYear = this.formatDate(keyframe[0]);
                         return this.formatDate(keyframe[0])
                     }))

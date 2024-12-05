@@ -31,7 +31,6 @@ export class FlatEarthComponent implements OnInit {
     this.service.getAiData().subscribe(res => {
       this.aiData = res.aiDataArray;
       this.aiCountries = res.countries;
-      console.log(res.countries.features.map((item: any) => item.properties.name));
       this.renderChart();
     });
   }

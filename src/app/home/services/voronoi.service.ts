@@ -37,7 +37,7 @@ export class VoronoiService {
                     // obj[headers[index]] =  row[index]
                     countriesArray.push(obj);
                 }
-                // console.log(countriesArray);
+
                 return countriesArray;
             }),
             catchError((error) => {

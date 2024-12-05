@@ -169,7 +169,6 @@ export class LoadDataService {
     getDateValues() {
         return this.transformedBrowserList().pipe(
             map(item => {
-                // console.log(item);
                 return {
                     dateValues: Array.from(d3.rollup(item, ([d]) => d.value, d => + new Date(d.date), d => d.name))
                         .map(([date, data]) => [(new Date(date)), data])
