@@ -44,7 +44,6 @@ export class VoronoiComponent implements OnInit {
         this.companyHierarchy = res.companyHierarchy
         this.countryList = [...this.companyHierarchy.data[1].keys()];
         this.symbolList = [...this.companyHierarchy.data[1].values()];
-        console.log(this.countryList);
         this.renderVoronoi();
       })
     })
