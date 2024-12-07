@@ -23,18 +23,18 @@ export class MetricsDashboardComponent implements OnInit {
   loadingState: boolean = false;
   data: any = {};
   data2 = [
-    { category: "January", count: 305, percent: 71 },
-    { category: "February", count: 1208, percent: 18 },
-    { category: "March", count: 110, percent: 6 },
-    { category: "April", count: 89, percent: 5 },
-    { category: "May", count: 1, percent: 0.06 }
+    { category: "Phishing", count: 305, percent: 71 },
+    { category: "Privilege Esc.", count: 1208, percent: 18 },
+    { category: "Spyware", count: 110, percent: 6 },
+    { category: "DDOS", count: 89, percent: 5 },
+    { category: "Malware", count: 1, percent: 0.06 }
   ]
   data3 = [
-    { category: "January", count: 208, percent: 71 },
-    { category: "February", count: 1505, percent: 18 },
-    { category: "March", count: 410, percent: 6 },
-    { category: "April", count: 189, percent: 5 },
-    { category: "May", count: 9011, percent: 0.06 }
+    { category: "Exfiltration", count: 208, percent: 71 },
+    { category: "Credential Acc.", count: 1505, percent: 18 },
+    { category: "Trojan", count: 410, percent: 6 },
+    { category: "Pwd Att&ck", count: 189, percent: 5 },
+    { category: "Network", count: 9011, percent: 0.06 }
   ];
 
   deviceTypeDateRange: DateRange = null;

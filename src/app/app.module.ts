@@ -33,15 +33,23 @@ import { CustomSelectComponent } from './home/components/custom-select/custom-se
 import { reducers } from './ngrx/reducers';
 import { CompanyFilterEffects } from './ngrx/effects/company.filter.effects';
 import { MetricsDashboardComponent } from './home/components/dashboards/metrics-dashboard/metrics-dashboard.component';
+import { TabsComponent } from './home/components/tabs/tabs.component';
+import { DynamicTabDirective } from './home/components/tabs/dynamic-tab.directive';
+import { DelaunayComponent } from './home/components/delaunay/delaunay.component';
+import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
 
 
 @NgModule({
-  declarations: [AppComponent, RadialChartComponent,
+  declarations: [
+    AppComponent,
+    RadialChartComponent,
     SankeyComponent,
     GlobeComponent,
     FlatEarthComponent,
     OverlayComponent,
     VoronoiOriginalComponent,
+    DelaunayComponent,
+    DelaunayDiagramComponent,
     CustomSelectComponent,
     SampleComponent,
     AlaaapHeaderComponent,
@@ -51,6 +59,8 @@ import { MetricsDashboardComponent } from './home/components/dashboards/metrics-
     LandingComponent,
     AnalyticsDashboardComponent,
     RaceBarComponent,
+    TabsComponent,
+    DynamicTabDirective,
     MetricsDashboardComponent,
     SingleCardComponent,
     DonutChartComponent],

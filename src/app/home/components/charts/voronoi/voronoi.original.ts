@@ -7,7 +7,7 @@ import { VoronoiService } from 'app/home/services/voronoi.service';
 import { PresentationService } from 'app/home/services/presentation.service';
 
 @Component({
-    selector: 'voronoi',
+    selector: 'app-voronoi',
     templateUrl: 'voronoi.original.component.html',
     styleUrls: ['./voronoi.component.less'],
     encapsulation: ViewEncapsulation.None
@@ -91,7 +91,7 @@ export class VoronoiOriginalComponent implements OnInit {
             .attr("width", this.width * 1.4)
             .attr("height", this.height * 1.4)
             .style("fill", "#F5F5F2")
-            .attr("viewBox", "-150, 10, 900, 900");
+            .attr("viewBox", "-120, -30, 900, 900");
         // .attr("width", this.width * 1.5)
         // .attr("height", this.height * 1.5)
         // .attr("viewBox", "-200, 30, 980, 850");
@@ -118,6 +118,7 @@ export class VoronoiOriginalComponent implements OnInit {
 
             svg.selectAll("g").remove();
 
+
             const transition = svg.transition()
                 .duration(this.duration)
                 .ease(d3.easePoly.exponent(1));
@@ -125,6 +126,27 @@ export class VoronoiOriginalComponent implements OnInit {
             const voronoi = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
             const labels = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
             const popLabels = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
+
+            // voronoi.append('clipPath')
+            //     .attr('class', 'boundary')
+            //     .attr("stroke", "#ccc")
+            //     .attr("stroke-width", "1")
+            //     .attr('r', 300);
+
+            // svg.append("clipPath")
+            //     .attr("id", "clip")
+            //     .append("circle")
+            //     .attr("r", 300);
+
+            let cradius = Math.min(this.width, this.height) / 2;
+            console.log(cradius);
+            svg.append('g').
+                append("circle")
+                .attr("r", 380)
+                .attr("fill", "none")
+                .attr("stroke", "gray")
+                .attr("transform", "translate(" + 390 + "," + 360 + ")")
+                .attr("stroke-width", 6);
 
             let seed = seedrandom('00');
 
@@ -238,6 +260,29 @@ export class VoronoiOriginalComponent implements OnInit {
                         return selectedYear as any
 
                     }));
+
+
+            // Add labels
+            let radius = 200;
+            const labelRadius = radius + 40;
+
+            // svg.selectAll('text')
+            //     .data(allNodes)
+            //     .enter()
+            //     .append('text')
+            //     .attr('transform', (d: any, i: number) => {
+            //         const angle = (i / allNodes.length) * 2 * Math.PI - Math.PI / 2;
+            //         const x = labelRadius * Math.cos(angle);
+            //         const y = labelRadius * Math.sin(angle);
+            //         return `translate(${x}, ${y}) rotate(${(angle * 180) / Math.PI + 90})`;
+            //     })
+            //     .attr('text-anchor', 'middle')
+            //     .attr('class', 'font-medium text-sm')
+            //     .text((d: any) => d.data.region)
+            //     .attr('cursor', 'default')
+            //     .attr('pointer-events', 'none')
+            //     .attr('fill', 'black')
+            //     .style('font-family', 'Montserrat');
 
             this.presentation.saveSvgToImage()
             await transition.end();

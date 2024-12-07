@@ -8,12 +8,13 @@ import { RadialDonutChartComponent } from './home/components/charts/radial-donut
 import { SankeyComponent } from './home/components/charts/sankey/sankey.component';
 import { FlatEarthComponent } from './home/components/charts/flat-earth/flat-earth.component';
 import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voronoi.original';
-import { SankeyMovableComponent } from './home/components/charts/sankey-movable/sankey-movable.component';
 import { DonutRaceComponent } from './home/components/charts/dount-race/donut-race.component';
-import { DonutChartComponent } from './home/components/charts/donut-chart/donut-chart.component';
 import { SankeyDragComponent } from './home/components/charts/sankey-drag/sankey-drag.component';
 import { SampleComponent } from './home/components/charts/sample/sample.component';
 import { MetricsDashboardComponent } from './home/components/dashboards/metrics-dashboard/metrics-dashboard.component';
+import { TabsComponent } from './home/components/tabs/tabs.component';
+import { DelaunayComponent } from './home/components/delaunay/delaunay.component';
+import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -25,8 +26,10 @@ export const routes: Routes = [
     { path: 'compvaluation', component: RaceBarComponent },
     { path: 'browser', component: DonutRaceComponent },
     { path: 'sankey', component: SankeyComponent },
-    { path: 'intent', component: RadialDonutChartComponent },
+    { path: 'delaunay', component: DelaunayComponent },
     { path: 'analytics', component: AnalyticsDashboardComponent },
+    { path: 'tabs', component: TabsComponent },
+    { path: 'diagram', component: DelaunayDiagramComponent },
     { path: 'sample', component: SampleComponent }
 ];
 

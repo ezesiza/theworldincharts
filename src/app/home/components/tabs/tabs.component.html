@@ -1,0 +1,24 @@
+<!-- <div class="button-group" id="voronoi">
+    <header>
+        <div class="header">
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button2" routerLink="/sample">Next &raquo;</button>
+            </div>
+        </div>
+    </header>
+</div> -->
+
+<div class="tab">
+    <button *ngFor="let tab of tabs;let i=index" class="tablinks" [class.active]="i === selectedIndex"
+        (click)="selectTab(i)">
+        {{tab.title}}
+    </button>
+</div>
+
+<div *ngFor="let tab of tabs" class="tabcontent" [id]="tab.id"
+    [style.display]="activeTab === tab.id ? 'block' : 'none'">
+    <h3>{{tab.title}}</h3>
+    <!-- {{tab.component}} -->
+</div>
+<ng-template appDynamicTab></ng-template>
