@@ -1,0 +1,40 @@
+<div style="font-size: 11pt">
+    <div>
+        <label for="scheme-select">Color Scheme:</label>
+        <select id="scheme-select" name="scheme" [(ngModel)]="selectedScheme" (change)="onSchemeChange($event)">
+            <option *ngFor="let scheme of schemes" [value]="scheme">{{ scheme }}</option>
+        </select>
+        <span style="border-left: 2px solid #ddd; padding-left: 5px"></span>
+    </div>
+
+    <div>
+        Style:
+        <label for="2d">
+            <input type="radio" id="2d" name="style" [value]="'2d'" [(ngModel)]="selectedStyle"
+                (change)="onStyleChange('2d')" />2D
+        </label>
+        <label for="3d">
+            <input type="radio" id="3d" name="style" [value]="'3d'" [(ngModel)]="selectedStyle"
+                (change)="onStyleChange('3d')" />3D
+        </label>
+        <label for="flat">
+            <input type="radio" id="flat" name="style" [value]="'flat'" [(ngModel)]="selectedStyle"
+                (change)="onStyleChange('flat')" />Flat
+        </label>
+        <span style="border-left: 2px solid #ddd; padding-left: 5px"></span>
+    </div>
+
+    <div>
+        <!-- <label>
+            <input type="checkbox" name="showpct" [(ngModel)]="showPercentage" (change)="toggleShowPercentage()" />
+            Show percentage of the
+        </label>
+        <label for="first">
+            <input type="radio" id="first" name="pct" [value]="'first'" [(ngModel)]="selectedPctOption" />first
+        </label>
+        <label for="previous">
+            <input type="radio" id="previous" name="pct" [value]="'previous'" [(ngModel)]="selectedPctOption" />previous
+        </label>
+        stage -->
+    </div>
+</div>

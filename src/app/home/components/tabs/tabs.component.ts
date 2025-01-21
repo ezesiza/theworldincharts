@@ -62,7 +62,6 @@ export class TabsComponent implements OnInit {
   }
 
   selectTab(index: number): void {
-    console.log(index);
     this.selectedIndex = index;
     this.loadTabContent(index);
   }

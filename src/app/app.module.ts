@@ -6,7 +6,8 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { CommonModule, NgClass } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -37,11 +38,14 @@ import { TabsComponent } from './home/components/tabs/tabs.component';
 import { DynamicTabDirective } from './home/components/tabs/dynamic-tab.directive';
 import { DelaunayComponent } from './home/components/delaunay/delaunay.component';
 import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
+import { FunnelChartComponent } from './home/components/charts/funnel/funnel.component';
+import { FormSelectComponent } from './home/components/form-select/form-select.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    FormSelectComponent,
     RadialChartComponent,
     SankeyComponent,
     GlobeComponent,
@@ -50,6 +54,7 @@ import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.di
     VoronoiOriginalComponent,
     DelaunayComponent,
     DelaunayDiagramComponent,
+    FunnelChartComponent,
     CustomSelectComponent,
     SampleComponent,
     AlaaapHeaderComponent,
@@ -68,6 +73,7 @@ import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.di
     NgClass,
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

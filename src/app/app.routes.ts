@@ -15,6 +15,7 @@ import { MetricsDashboardComponent } from './home/components/dashboards/metrics-
 import { TabsComponent } from './home/components/tabs/tabs.component';
 import { DelaunayComponent } from './home/components/delaunay/delaunay.component';
 import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
+import { FunnelChartComponent } from './home/components/charts/funnel/funnel.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -30,6 +31,8 @@ export const routes: Routes = [
     { path: 'analytics', component: AnalyticsDashboardComponent },
     { path: 'tabs', component: TabsComponent },
     { path: 'diagram', component: DelaunayDiagramComponent },
+    { path: 'radial', component: RadialDonutChartComponent },
+    { path: 'funnel', component: FunnelChartComponent },
     { path: 'sample', component: SampleComponent }
 ];
 

@@ -24,7 +24,7 @@ export class DonutRaceComponent implements OnInit {
     private min_angle = 0.38;
     private hide_angle = 0.07;
     private font_size = 15;
-    private font_size_year = 64 * this.height / 700;
+    private fontSizeYear = 64 * this.height / 700;
     currentYear = '1994';
 
     private background_color = "#FDFDFD";
@@ -35,7 +35,7 @@ export class DonutRaceComponent implements OnInit {
 
     private fontSizeTitle = 28 * this.height / 700;
     // private titleTop = "Rise and fall of popular web browsers (1994-2003)";
-    private titleTop = "";
+    private titleTop = "Browsers Market Share";
 
     private title = "Market share (%)";
 
@@ -112,7 +112,7 @@ export class DonutRaceComponent implements OnInit {
 
             svg.append("g")
                 .attr("font-family", "sans-serif")
-                .attr("font-size", this.font_size_year)
+                .attr("font-size", this.fontSizeYear)
                 .attr("text-anchor", "middle")
                 .attr("fill-opacity", 0.2)
                 .selectAll()
@@ -130,15 +130,14 @@ export class DonutRaceComponent implements OnInit {
                     .attr("font-weight", "lighter")
                     .attr("x", 0)
                     .attr("y", 50 * this.height / 700)
-                    .attr("font-size", this.font_size_year / 2.8)
+                    .attr("font-size", this.fontSizeYear / 2.8)
                     .text(this.title));
-
 
             svg.append("g")
                 .selectAll()
                 .data(pie(keyframe[1]))
                 .enter()
-                .filter((d: any) => (d.endAngle - d.startAngle) > 2 * this.hide_angle)
+                .filter((d) => (d.endAngle - d.startAngle) > 2 * this.hide_angle)
                 .append('line')
                 .style("stroke", "black")
                 .style("stroke-width", 1)

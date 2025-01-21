@@ -96,198 +96,228 @@ export class VoronoiOriginalComponent implements OnInit {
         // .attr("height", this.height * 1.5)
         // .attr("viewBox", "-200, 30, 980, 850");
 
-        for (const selectedYear of newYears) {
+        // for (const selectedYear of newYears) {
 
-            this.selectedYear = Number(selectedYear);
-            this.currentYear = this.displayYear = Number(selectedYear);
+        // this.selectedYear = Number(selectedYear);
+        // this.currentYear = this.displayYear = Number(selectedYear);
 
-            const freedomYear = freedom.filter((obj: any) => (Number(obj.year) === this.selectedYear));
-            const freedomNest = d3.group(freedomYear, (d: any) => d.region_simple);
+        const freedomYear = freedom.filter((obj: any) => (Number(obj.year) === this.selectedYear));
+        const freedomNest = d3.group(freedomYear, (d: any) => d.region_simple);
 
-            const populationHierarchy = d3.hierarchy(freedomNest, (d: any) => {
-                if (typeof d.values === 'function') {
-                    if (d.length === 2) {
-                        return d[1]
-                    }
-                } else {
-                    return d.values
+        const populationHierarchy = d3.hierarchy(freedomNest, (d: any) => {
+            if (typeof d.values === 'function') {
+                if (d.length === 2) {
+                    return d[1]
                 }
-            }).sum((d: any) => d.population);
+            } else {
+                return d.values
+            }
+        }).sum((d: any) => d.population);
 
 
-
-            svg.selectAll("g").remove();
-
-
-            const transition = svg.transition()
-                .duration(this.duration)
-                .ease(d3.easePoly.exponent(1));
-
-            const voronoi = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
-            const labels = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
-            const popLabels = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
-
-            // voronoi.append('clipPath')
-            //     .attr('class', 'boundary')
-            //     .attr("stroke", "#ccc")
-            //     .attr("stroke-width", "1")
-            //     .attr('r', 300);
-
-            // svg.append("clipPath")
-            //     .attr("id", "clip")
-            //     .append("circle")
-            //     .attr("r", 300);
-
-            let cradius = Math.min(this.width, this.height) / 2;
-            console.log(cradius);
-            svg.append('g').
-                append("circle")
-                .attr("r", 380)
-                .attr("fill", "none")
-                .attr("stroke", "gray")
-                .attr("transform", "translate(" + 390 + "," + 360 + ")")
-                .attr("stroke-width", 6);
-
-            let seed = seedrandom('00');
-
-            const ellipse = d3.range(100).map((i: any) => [(this.width * (1 + 0.99 * Math.cos((i / 50) * Math.PI))) / 2, (this.height * (1 + 0.99 * Math.sin((i / 50) * Math.PI))) / 2]);
-            let voronoiTreeMap = voronoiTreemap().prng(seed) as any;
-            let voronoiTreeMaps = voronoiTreeMap.clip(ellipse);
-
-            this.colorHierarchy(populationHierarchy);
-            voronoiTreeMaps(populationHierarchy);
-
-            let allNodes = populationHierarchy.descendants()
-                .sort((a, b) => b.depth - a.depth).map((d, i) => {
-                    return Object.assign({}, d, { id: i })
-                });
-
-            let hoveredShape: any = null;
-
-            voronoi.selectAll('path')
-                .data(allNodes)
-                .enter()
-                .append('path')
-                .attr('d', (d: any) => "M" + d.polygon.join("L") + "Z")
-                .style('fill', (d: any) => d.parent ? d.parent.color : d.color)
-                .attr("stroke", "white")
-                .attr("stroke-width", 2.5)
-                .style('fill-opacity', (d: any) => d.depth === 2 ? 1 : 0)
-                .attr('pointer-events', (d: any) => d.depth === 2 ? 'all' : 'none')
-                .on('mouseenter', (d: any) => {
-                    let { id } = d.target.__data__;
-                    let label = labels.select(`.label-${id}`);
-                    label.attr('opacity', 1)
-                    let popLabel = popLabels.select(`.label-${id}`);
-                    popLabel.attr('opacity', 1)
-                })
-                .on('mouseleave', (d: any) => {
-                    let { id, data } = d.target.__data__;
-                    let label = labels.select(`.label-${id}`);
-                    label.attr('opacity', (d: any) => Number(data.population) > 130000000 ? 1 : 0)
-                    let popLabel = popLabels.select(`.label-${id}`);
-                    popLabel.attr('opacity', (d: any) => Number(data.population) > 130000000 ? 1 : 0)
-                })
-                .attr("stroke-width", (d: any) => 7 - d.depth * 2.8)
-                .style('fill', (d: any) => d.color)
-                .transition()
-                .duration(1000);
-
-            d3.select('g')
-                .call(d3.zoom()
-                    .extent([[-10, -10], [this.width * 1.5, this.height * 1.5]])
-                    .scaleExtent([1, 8])
-                    .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
+        svg.selectAll("g").remove();
 
 
-            labels.selectAll('text')
-                .data(allNodes.filter((d: any) => d.depth === 2))
-                .enter()
-                .append('text')
-                .attr('class', (d: any) => `label-${d.id}`)
-                .attr('text-anchor', 'middle')
-                .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 6] + ")")
-                .text((d: any) => d.data.key || d.data.countries)
-                .attr('opacity', (d: any) => {
-                    if (d.data.key === hoveredShape) {
-                        return (1);
-                    } else if (d.data.population > 130000000) {
-                        return (1);
-                    } else { return (0); }
-                })
+        const transition = svg.transition()
+            .duration(this.duration)
+        // .ease(d3.easePoly.exponent(1));
 
-                .attr('cursor', 'default')
-                .attr('pointer-events', 'none')
-                .attr('fill', 'black')
-                .style('font-family', 'Montserrat');
+        const drawingArea = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")")
 
-            popLabels.selectAll('text')
-                .data(allNodes.filter((d: any) => d.depth === 2))
-                .enter()
-                .append('text')
-                .attr('class', (d: any) => `label-${d.id}`)
-                .attr('text-anchor', 'middle')
-                .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 25] + ")")
-                .text((d: any) => this.bigFormat(d.data.population))
-                .attr('opacity', (d: any) => {
-                    if (d.data.key === hoveredShape) {
-                        return (1);
-                    } else if (d.data.population > 130000000) {
-                        return (1);
-                    } else { return (0); }
-                })
-                .attr('cursor', 'default')
-                .attr('pointer-events', 'none')
-                .attr('fill', 'black')
-                .style('font-size', '12px')
-                .style('font-family', 'Montserrat');
-
-            svg.append("g")
-                .attr("transform", "translate(" + -70 + "," + this.margins.bottom + ")")
-                .attr("font-family", "sans-serif")
-                .attr("font-size", this.fontSizeYear)
-                .attr("text-anchor", "right")
-                .attr("fill-opacity", 0.2)
-                .attr("fill", "black")
-                .selectAll()
-                .data(allNodes.filter((d: any) => !isNaN(d.data.year)))
-                .join("text")
-                .call(text => text.append("tspan")
-                    .attr("font-weight", "bold")
-                    .attr("x", 100)
-                    .attr("y", "10px")
-                    .text((d: any) => {
-                        return selectedYear as any
-
-                    }));
+        const voronoi = drawingArea;
+        const labels = drawingArea;
+        const popLabels = drawingArea;
+        let clipLabel = drawingArea;
 
 
-            // Add labels
-            let radius = 200;
-            const labelRadius = radius + 40;
+        const cradius = Math.min(this.width, this.height) / 2;
 
-            // svg.selectAll('text')
-            //     .data(allNodes)
-            //     .enter()
-            //     .append('text')
-            //     .attr('transform', (d: any, i: number) => {
-            //         const angle = (i / allNodes.length) * 2 * Math.PI - Math.PI / 2;
-            //         const x = labelRadius * Math.cos(angle);
-            //         const y = labelRadius * Math.sin(angle);
-            //         return `translate(${x}, ${y}) rotate(${(angle * 180) / Math.PI + 90})`;
-            //     })
-            //     .attr('text-anchor', 'middle')
-            //     .attr('class', 'font-medium text-sm')
-            //     .text((d: any) => d.data.region)
-            //     .attr('cursor', 'default')
-            //     .attr('pointer-events', 'none')
-            //     .attr('fill', 'black')
-            //     .style('font-family', 'Montserrat');
+        // const 
+        clipLabel = svg.append('g').
+            append("circle")
+            .attr("r", 334)
+            .attr("fill", "none")
+            .attr("stroke", "gray")
+            .attr("transform", "translate(" + 390 + "," + 360 + ")")
+            .attr("stroke-width", 0.5) as any;
 
-            this.presentation.saveSvgToImage()
-            await transition.end();
-        }
+        // Create clip path
+        clipLabel.append('clipPath')
+            .attr('id', 'circle-clip')
+            .append('circle')
+            .attr('r', cradius);
+
+        let seed = seedrandom('00');
+
+        const ellipse = d3.range(100).map((i: any) => [(this.width * (1 + 0.99 * Math.cos((i / 50) * Math.PI))) / 2, (this.height * (1 + 0.99 * Math.sin((i / 50) * Math.PI))) / 2]);
+        let voronoiTreeMap = voronoiTreemap().prng(seed) as any;
+        let voronoiTreeMaps = voronoiTreeMap.clip(ellipse);
+
+        this.colorHierarchy(populationHierarchy);
+        voronoiTreeMaps(populationHierarchy);
+
+        let allNodes = populationHierarchy.descendants()
+            .sort((a, b) => b.depth - a.depth).map((d, i) => {
+                return Object.assign({}, d, { id: i })
+            });
+
+
+        let hoveredShape: any = null;
+
+        voronoi
+            .selectAll('path')
+            .data(allNodes)
+            .enter()
+            .append('path')
+            .attr('d', (d: any) => "M" + d.polygon.join("L") + "Z")
+            .style('fill', (d: any) => d.parent ? d.parent.color : d.color)
+            .attr("stroke", "white")
+            .attr("stroke-width", 2.5)
+            .style('fill-opacity', (d: any) => d.depth === 2 ? 1 : 0)
+            .attr('pointer-events', (d: any) => d.depth === 2 ? 'all' : 'none')
+            .on('mouseenter', (d: any) => {
+                let { id } = d.target.__data__;
+                let label = labels.select(`.label-${id}`);
+                label.attr('opacity', 1)
+                let popLabel = popLabels.select(`.label-${id}`);
+                popLabel.attr('opacity', 1)
+            })
+            .on('mouseleave', (d: any) => {
+                let { id, data } = d.target.__data__;
+                let label = labels.select(`.label-${id}`);
+                label.attr('opacity', (d: any) => Number(data.population) > 130000000 ? 1 : 0)
+                let popLabel = popLabels.select(`.label-${id}`);
+                popLabel.attr('opacity', (d: any) => Number(data.population) > 130000000 ? 1 : 0)
+            })
+            .attr("stroke-width", (d: any) => 7 - d.depth * 2.8)
+            .style('fill', (d: any) => d.color)
+        // .transition()
+        // .duration(1000);
+
+        // d3.select('g')
+        svg
+            .call(d3.zoom()
+                .extent([[-10, -10], [this.width * 1.5, this.height * 1.5]])
+                .scaleExtent([1, 8])
+                .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
+
+
+        labels.selectAll('text')
+            .data(allNodes.filter((d: any) => d.depth === 2))
+            .enter()
+            .append('text')
+            .attr('class', (d: any) => `label-${d.id}`)
+            .attr('text-anchor', 'middle')
+            .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 6] + ")")
+            .text((d: any) => d.data.key || d.data.countries)
+            .attr('opacity', (d: any) => {
+                if (d.data.key === hoveredShape) {
+
+                    return (1);
+                } else if (d.data.population > 130000000) {
+                    return (1);
+                } else { return (0); }
+            })
+
+            .attr('cursor', 'default')
+            .attr('pointer-events', 'none')
+            .attr('fill', 'black')
+            .style('font-family', 'Montserrat');
+
+        popLabels.selectAll('text')
+            .data(allNodes.filter((d: any) => d.depth === 2))
+            .enter()
+            .append('text')
+            .attr('class', (d: any) => `label-${d.id}`)
+            .attr('text-anchor', 'middle')
+            .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 25] + ")")
+            .text((d: any) => this.bigFormat(d.data.population))
+            .attr('opacity', (d: any) => {
+                if (d.data.key === hoveredShape) {
+                    return (1);
+                } else if (d.data.population > 130000000) {
+                    return (1);
+                } else { return (0); }
+            })
+            .attr('cursor', 'default')
+            .attr('pointer-events', 'none')
+            .attr('fill', 'black')
+            .style('font-size', '12px')
+            .style('font-family', 'Montserrat');
+
+        voronoi.append("g")
+            .attr("transform", "translate(" + -70 + "," + this.margins.bottom + ")")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", this.fontSizeYear)
+            .attr("text-anchor", "right")
+            .attr("fill-opacity", 0.2)
+            .attr("fill", "black")
+            .selectAll()
+            .data(allNodes.filter((d: any) => !isNaN(d.data.year)))
+            .join("text")
+            .call(text => text.append("tspan")
+                .attr("font-weight", "bold")
+                .attr("x", 100)
+                .attr("y", "10px")
+                .text((d: any) => {
+                    // return selectedYear as any
+                    return null
+
+                }));
+
+        // Add labels
+        let radius = 200;
+        const labelRadius = radius + 40;
+        const regions = [... new Set(allNodes)]
+
+
+        svg
+            // .selectAll('text')
+            .selectAll('.clipPath')
+            .data(regions.filter((d: any) => d.depth === 2))
+            .enter()
+            .append('text')
+            // .attr('class', (d: any) => `label-${d.id}`)
+            .attr("class", "clipPath")
+            .attr('transform', (d: any, i: number) => {
+                const angle = (i / d.parent.data[1].length) * 2 * Math.PI - Math.PI / 2;
+                // const angle = (i / allNodes.length) * 2 * Math.PI - Math.PI / 2;
+                const x = labelRadius * Math.cos(angle);
+                const y = labelRadius * Math.sin(angle);
+
+                return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${(angle * 180) / Math.PI + 90})`;
+                // return `translate(${x + 80}, ${y}) rotate(${(angle * 180) / Math.PI + 90})`;
+            })
+            .attr('text-anchor', 'middle')
+            .attr('class', 'font-medium text-sm')
+            .text((d: any) => {
+
+                return d.data.region_simple
+            })
+            .attr('opacity', (d: any, e: any, f: any) => {
+                if (d3.select(f[e]).text() == d.data.region_simple) {
+                    // if (d.id === e) {
+                    return (1);
+                }
+                else { return (0); }
+            })
+            // .attr('opacity', (d: any, e: any, f: any) => {
+            //     console.log(d.data.key);
+            //     if (d.data.key === hoveredShape) {
+            //         return (1);
+            //     } else if (d.data.population > 130000000) {
+            //         return (1);
+            //     } else { return (0); }
+            // })
+            .attr('cursor', 'default')
+            .attr('pointer-events', 'none')
+            .attr('fill', 'black')
+            .style('font-family', 'Montserrat');
+
+        this.presentation.saveSvgToImage();
+        await transition.end();
     }
+    // }
 
     bigFormat = d3.format(",.0f");
     formatDate = d3.utcFormat("%Y");

@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
+
+interface ChartData {
+  hex: string;
+  name: string;
+  startAngle?: number;
+  endAngle?: number;
+  s?: number;
+  e?: number;
+}
 
 @Component({
   selector: 'radial-donut-chart',
@@ -8,444 +17,254 @@ import * as d3 from 'd3';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
+
 export class RadialDonutChartComponent implements OnInit {
-  svg: any;
-  margin = 0;
-  width = 600;
-  height = 600;
-  maxBarHeight = this.height / 2 - (this.margin + 70);
-  innerRadius = 0.1 * this.maxBarHeight; // innermost circle
+
+
+  @ViewChild('chartContainer', { static: true }) private chartContainer!: ElementRef;
+
+
+  private readonly tau = 2 * Math.PI;
+  private readonly w = 960;
+  private readonly h = 960;
+  private readonly outerThickness = 30;
+  private readonly outerMargin = 3;
+  private readonly maxWordLength = 20;
+
+  private outer: ChartData[] = [
+    { hex: "#D6D6D6", name: "1. volt" },
+    { hex: "#D6D6D6", name: "2. tour yellow" },
+    { hex: "#D6D6D6", name: "3. total orange" },
+    { hex: "#D6D6D6", name: "4. hot punch" },
+    { hex: "#D6D6D6", name: "5. speed red" },
+    { hex: "#D6D6D6", name: "6. fuchsia blast" },
+    { hex: "#D6D6D6", name: "7. hyper magenta" },
+    { hex: "#D6D6D6", name: "8. hyper grape" },
+    { hex: "#D6D6D6", name: "9. ocean bliss" },
+    { hex: "#D6D6D6", name: "10. photo blue" },
+    { hex: "#D6D6D6", name: "11. ultramarine" },
+    { hex: "#D6D6D6", name: "12. solar red" },
+  ];
+
+  private outer2: ChartData[] = [
+    { hex: "#D6D6D6", name: "11. volt" },
+    { hex: "#D6D6D6", name: "22. tour yellow" },
+    { hex: "#D6D6D6", name: "33. total orange" },
+    { hex: "#D6D6D6", name: "44. hot punch" },
+    { hex: "#D6D6D6", name: "55. speed red" },
+    { hex: "#D6D6D6", name: "66. fuchsia blast" },
+    { hex: "#D6D6D6", name: "77. hyper magenta" },
+    { hex: "#D6D6D6", name: "88. hyper grape" },
+    { hex: "#D6D6D6", name: "99. ocean bliss" },
+    { hex: "#D6D6D6", name: "1010. photo blue" },
+    { hex: "#D6D6D6", name: "1111. ultramarine" },
+    { hex: "#D6D6D6", name: "1212. solar red" },
+  ];
+
+  private outerLabels: ChartData[] = [
+    { hex: "#51BE58", name: "1. yellows yellows", s: 0, e: 3 },
+    { hex: "#3EB4F0", name: "2. reds reds", s: 3, e: 6 },
+    { hex: "#FA44B3", name: "3. blues blues", s: 6, e: 9 },
+    { hex: "#FED130", name: "4. neutrals neutrals", s: 9, e: 12 }
+  ];
+
+  private svg: any;
+  private g: any;
 
   ngOnInit() {
-    this.initChart();
-    d3.csv('assets/datasets/intent-index.csv', d3.autoType)
-      .then((data: any) => {
-        this.renderChart(data);
-      })
-      .catch(error => console.log(error))
+    this.createChart();
   }
 
-  initChart() {
-    this.svg = d3.select('body')
-      .append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height)
-      .append("g")
-      .attr("class", "chart")
-      .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
+  private createChart(): void {
+    this.svg = d3.select(this.chartContainer.nativeElement)
+      .append('svg')
+      .attr('width', this.w)
+      .attr('height', this.h);
 
-    const defs = this.svg.append("defs");
+    this.g = this.svg.append('g')
+      .attr('transform', `translate(${this.w / 2},${this.h / 2})`);
 
-    let gradients = defs
-      .append("linearGradient")
-      .attr("id", "gradient-chart-area")
-      .attr("x1", "50%")
-      .attr("y1", "0%")
-      .attr("x2", "50%")
-      .attr("y2", "100%")
-      .attr("spreadMethod", "pad");
-
-    gradients.append("stop")
-      .attr("offset", "0%")
-      .attr("stop-color", "#EDF0F0")
-      .attr("stop-opacity", 1);
-
-    gradients.append("stop")
-      .attr("offset", "100%")
-      .attr("stop-color", "#ACB7BE")
-      .attr("stop-opacity", 1);
-
-    gradients = defs
-      .append("linearGradient")
-      .attr("id", "gradient-questions")
-      .attr("x1", "50%")
-      .attr("y1", "0%")
-      .attr("x2", "50%")
-      .attr("y2", "100%")
-      .attr("spreadMethod", "pad");
-
-    gradients.append("stop")
-      .attr("offset", "0%")
-      .attr("stop-color", "#F6F8F9")
-      .attr("stop-opacity", 1);
-
-    gradients.append("stop")
-      .attr("offset", "100%")
-      .attr("stop-color", "#D4DAE0")
-      .attr("stop-opacity", 1);
-
-    gradients = defs
-      .append("radialGradient")
-      .attr("id", "gradient-bars")
-      .attr("gradientUnits", "userSpaceOnUse")
-      .attr("cx", "0")
-      .attr("cy", "0")
-      .attr("r", this.maxBarHeight)
-      .attr("spreadMethod", "pad") as any;
-
-    gradients.append("stop")
-      .attr("offset", "0%")
-      .attr("stop-color", "#F3D5AA");
-
-    gradients.append("stop")
-      .attr("offset", "50%")
-      .attr("stop-color", "#F4A636");
-
-    gradients.append("stop")
-      .attr("offset", "100%")
-      .attr("stop-color", "#AF4427");
-
-    this.svg.append("circle")
-      .attr("r", this.maxBarHeight + 70)
-      .classed("category-circle", true);
-
-    this.svg.append("circle")
-      .attr("r", this.maxBarHeight + 40)
-      .classed("question-circle", true);
-
-    this.svg.append("circle")
-      .attr("r", this.maxBarHeight)
-      .classed("chart-area-circle", true);
-
-    this.svg.append("circle")
-      .attr("r", this.innerRadius)
-      .classed("center-circle", true);
+    this.setupArcs();
+    this.drawOuterLabels();
+    this.drawOuterPies();
+    this.drawOuterColorArcs();
   }
 
+  private setupArcs(): void {
+    const spliterSeg = this.tau / 72;
+    const seg = (this.tau - spliterSeg * this.outerLabels.length) / this.outer.length;
 
-  renderChart(data: any) {
-
-    let cats = data.map((d: any, i: number) => {
-      return d.category_label;
+    // Add start and end angles to data
+    this.outer.forEach((el, i) => {
+      const offset = (Math.floor(i / (this.outer.length / this.outerLabels.length)) * spliterSeg) - (this.tau / 8);
+      el.startAngle = i * seg + offset;
+      el.endAngle = (i + 1) * seg + offset;
     });
 
-    let catCounts: any = {};
-    for (let i = 0; i < cats.length; i++) {
-      let num = cats[i];
-      catCounts[num] = catCounts[num] ? catCounts[num] + 1 : 1;
+    this.outer2.forEach((el, i) => {
+      const offset = (Math.floor(i / (this.outer2.length / this.outerLabels.length)) * spliterSeg) - (this.tau / 8);
+      el.startAngle = i * seg + offset;
+      el.endAngle = (i + 1) * seg + offset;
+    });
+  }
+
+  private isTextInverted(d: any): boolean {
+    return (d.startAngle > (this.tau / 8 * 3 - 0.1) && d.endAngle < (this.tau / 8 * 5 + 0.1));
+  }
+
+  private getLabelArc(d: string, startAngle: number, endAngle: number): string {
+    const firstArcSection = /(^.+?)L/;
+    let newArc = firstArcSection.exec(d)?.[1] || '';
+
+    if (this.isTextInverted({ startAngle, endAngle })) {
+      const startLoc = /M(.*?)A/;
+      const middleLoc = /A(.*?)0,0,1/;
+      const endLoc = /0,0,1,(.*?)$/;
+
+      const newStart = endLoc.exec(newArc)?.[1] || '';
+      const newEnd = startLoc.exec(newArc)?.[1] || '';
+      const middleSec = middleLoc.exec(newArc)?.[1] || '';
+
+      newArc = `M${newStart}A${middleSec}0,0,0,${newEnd}`;
     }
-    // remove dupes (not exactly the fastest)
-    cats = cats.filter((v: any, i: number) => {
-      return cats.indexOf(v) == i;
-    });
-    let numCatBars = cats.length;
 
-    let angle = 0,
-      rotate = 0;
-
-    data.forEach((d: any, i: any) => {
-      // bars start and end angles
-      d.startAngle = angle;
-      angle += (2 * Math.PI) / numCatBars / catCounts[d.category_label];
-      d.endAngle = angle;
-
-      // y axis minor lines (i.e. questions) rotation
-
-      d.rotate = rotate;
-      rotate += 360 / numCatBars / catCounts[d.category_label];
-    });
-
-    // categoryLabel
-    const arc_category_label = d3.arc()
-      .startAngle(function (d, i) {
-        return (i * 2 * Math.PI) / numCatBars;
-      })
-      .endAngle(function (d, i) {
-
-        return ((i + 1) * 2 * Math.PI) / numCatBars;
-      })
-      .innerRadius(this.maxBarHeight + 40)
-      .outerRadius(this.maxBarHeight + 64);
-
-
-    const categoryText = this.svg.selectAll("path.category_label_arc")
-      .data(cats)
-      .enter().append("path")
-      .classed("category-label-arc", true)
-      .attr("id", (d: any, i: any) => {
-        return "category_label_" + i;
-      }) //Give each slice a unique ID
-      .attr("fill", "none")
-      .attr("d", arc_category_label);
-
-
-    categoryText.each((d: any, i: number) => {
-      //Search pattern for everything between the start and the first capital L
-      const firstArcSection = /(^.+?)L/;
-      // console.log(this.svg);
-      //Grab everything up to the first Line statement
-      let newArc = firstArcSection.exec(d3.select(this as any)?.attr("d"))[1];
-
-      //Replace all the commas so that IE can handle it
-      newArc = newArc.replace(/,/g, " ");
-      console.log(newArc);
-
-      //If the whole bar lies beyond a quarter of a circle (90 degrees or pi/2)
-      // and less than 270 degrees or 3 * pi/2, flip the end and start position
-      const startAngle = (i * 2 * Math.PI) / numCatBars,
-        endAngle = ((i + 1) * 2 * Math.PI) / numCatBars;
-
-      if (startAngle > Math.PI / 2 && startAngle < 3 * Math.PI / 2 && endAngle > Math.PI / 2 && endAngle < 3 * Math.PI / 2) {
-        const startLoc = /M(.*?)A/, //Everything between the capital M and first capital A
-          middleLoc = /A(.*?)0 0 1/, //Everything between the capital A and 0 0 1
-          endLoc = /0 0 1 (.*?)$/; //Everything between the 0 0 1 and the end of the string (denoted by $)
-        //Flip the direction of the arc by switching the start and end point (and sweep flag)
-        const newStart = endLoc.exec(newArc)[1];
-        const newEnd = startLoc.exec(newArc)[1];
-        const middleSec = middleLoc.exec(newArc)[1];
-
-        //Build up the new arc notation, set the sweep-flag to 0
-        newArc = "M" + newStart + "A" + middleSec + "0 0 0 " + newEnd;
-
-      } //if
-
-      //Create a new invisible arc that the text can flow along
-
-      // modifying existing arc instead
-      d3.select(this as any).attr("d", newArc);
-    });
-
-    this.svg.selectAll(".category-label-text")
-      .data(cats)
-      .enter().append("text")
-      .attr("class", "category-label-text")
-      //.attr("x", 0)   //Move the text from the start angle of the arc
-      //Move the labels below the arcs for those slices with an end angle greater than 90 degrees
-      .attr("dy", function (d: any, i: number) {
-        const startAngle = (i * 2 * Math.PI) / numCatBars,
-          endAngle = ((i + 1) * 2 * Math.PI) / numCatBars;
-        return (startAngle > Math.PI / 2 && startAngle < 3 * Math.PI / 2 && endAngle > Math.PI / 2 && endAngle < 3 * Math.PI / 2 ? -4 : 14);
-      })
-      .append("textPath")
-      .attr("startOffset", "50%")
-      .style("text-anchor", "middle")
-      .attr("xlink:href", function (d: any, i: number) {
-        return "#category_label_" + i;
-      })
-      .text(function (d: any) {
-        return d;
-      });
-
-
-    // question_label
-    const arc_question_label = d3.arc()
-      .startAngle(function (d, i) {
-        return d.startAngle;
-      })
-      .endAngle(function (d, i) {
-        return d.endAngle;
-      })
-      //.innerRadius(maxBarHeight + 2)
-      .outerRadius(this.maxBarHeight + 2);
-
-    let questionText = this.svg.selectAll("path.question_label_arc")
-      .data(data)
-      .enter().append("path")
-      .classed("question-label-arc", true)
-      .attr("id", function (d: any, i: any) {
-        return "question_label_" + i;
-      }) //Give each slice a unique ID
-      .attr("fill", "none")
-      .attr("d", arc_question_label);
-
-    questionText.each((d: any, i: number) => {
-      //Search pattern for everything between the start and the first capital L
-      const firstArcSection = /(^.+?)L/;
-
-      //Grab everything up to the first Line statement
-      let newArc = firstArcSection.exec(d3.select(this as any).attr("d"))[1];
-      //Replace all the commas so that IE can handle it
-      newArc = newArc.replace(/,/g, " ");
-
-      //If the end angle lies beyond a quarter of a circle (90 degrees or pi/2)
-      //flip the end and start position
-      if (d.startAngle > Math.PI / 2 && d.startAngle < 3 * Math.PI / 2 && d.endAngle > Math.PI / 2 && d.endAngle < 3 * Math.PI / 2) {
-        const startLoc = /M(.*?)A/, //Everything between the capital M and first capital A
-          middleLoc = /A(.*?)0 0 1/, //Everything between the capital A and 0 0 1
-          endLoc = /0 0 1 (.*?)$/; //Everything between the 0 0 1 and the end of the string (denoted by $)
-        //Flip the direction of the arc by switching the start and end point (and sweep flag)
-        const newStart = endLoc.exec(newArc)[1];
-        const newEnd = startLoc.exec(newArc)[1];
-        const middleSec = middleLoc.exec(newArc)[1];
-
-        //Build up the new arc notation, set the sweep-flag to 0
-        newArc = "M" + newStart + "A" + middleSec + "0 0 0 " + newEnd;
-      } //if
-
-      //Create a new invisible arc that the text can flow along
-      /*                            svg.append("path")
-       .attr("class", "hiddenDonutArcs")
-       .attr("id", "question_label_"+i)
-       .attr("d", newArc)
-       .style("fill", "none");*/
-
-      // modifying existing arc instead
-      d3.select(this as any).attr("d", newArc);
-    });
-
-    questionText = this.svg.selectAll(".question-label-text")
-      .data(data)
-      .enter().append("text")
-      .attr("class", "question-label-text")
-      //.attr("x", 0)   //Move the text from the start angle of the arc
-      //.attr("y", 0)
-      //Move the labels below the arcs for those slices with an end angle greater than 90 degrees
-      /*                        .attr("dy", function (d, i) {
-       return (d.startAngle > Math.PI / 2 && d.startAngle < 3 * Math.PI / 2 && d.endAngle > Math.PI / 2 && d.endAngle < 3 * Math.PI / 2 ? 10 : -10);
-       })*/
-      .append("textPath")
-      //.attr("startOffset", "50%")
-      //.style("text-anchor", "middle")
-      //.style("dominant-baseline", "central")
-      .style('font-size', '7px')
-      .style('font-family', 'sans-serif')
-      .attr("xlink:href", function (d: any, i: any) {
-        return "#question_label_" + i;
-      })
-      .text(function (d: any) {
-        return d.question_label.toUpperCase();
-      })
-      .call(this.wrapTextOnArc, this.maxBarHeight);
-
-    // adjust dy (labels vertical start) based on number of lines (i.e. tspans)
-    questionText.each((d: any, i: any) => {
-      //console.log(d3.select(this)[0]);
-      const textPath: any = d3.select(this as any),
-        tspanCount = textPath[0][0].childNodes.length;
-
-      if (d.startAngle > Math.PI / 2 && d.startAngle < 3 * Math.PI / 2 && d.endAngle > Math.PI / 2 && d.endAngle < 3 * Math.PI / 2) {
-        // set baseline for one line and adjust if greater than one line
-        d3.select(textPath.childNodes[0]).attr("dy", 3 + (tspanCount - 1) * -0.6 + 'em');
-      } else {
-        d3.select(textPath.childNodes[0]).attr("dy", -2.1 + (tspanCount - 1) * -0.6 + 'em');
-      }
-    });
-
-    /* bars */
-    const arc = d3.arc()
-      .startAngle(function (d, i) {
-        return d.startAngle;
-      })
-      .endAngle(function (d, i) {
-        return d.endAngle;
-      })
-      .innerRadius(this.innerRadius);
-
-    const bars = this.svg.selectAll("path.bar")
-      .data(data)
-      .enter().append("path")
-      .classed("bars", true)
-      .each((d: any) => {
-        console.log(d);
-        d.outerRadius = this.innerRadius;
-      })
-      .attr("d", arc);
-
-    bars.transition().ease("elastic").duration(1000).delay((d: any, i: any) => {
-      return i * 100;
-    })
-      .attrTween("d", (d: any, index: any) => {
-        let i = d3.interpolate(d.outerRadius, x_scale(+d.value));
-        return (t: any) => {
-          d.outerRadius = i(t);
-          return arc(d, index);
-        };
-      });
-
-    let x_scale = d3.scaleLinear()
-      .domain([0, 100])
-      .range([this.innerRadius, this.maxBarHeight]);
-
-
-    let y_scale = d3.scaleLinear()
-      .domain([0, 100])
-      .range([-this.innerRadius, -this.maxBarHeight]);
-
-    this.svg.selectAll("circle.x.minor")
-      .data(y_scale.ticks(10))
-      .enter().append("circle")
-      .classed("gridlines minor", true)
-      .attr("r", function (d: any) {
-        return x_scale(d);
-      });
-
-    // question lines
-    this.svg.selectAll("line.y.minor")
-      .data(data)
-      .enter().append("line")
-      .classed("gridlines minor", true)
-      .attr("y1", -this.innerRadius)
-      .attr("y2", -this.maxBarHeight - 40)
-      .attr("transform", function (d: any, i: any) {
-        return "rotate(" + (d.rotate) + ")";
-      });
-
-    // category lines
-    this.svg.selectAll("line.y.major")
-      .data(cats)
-      .enter().append("line")
-      .classed("gridlines major", true)
-      .attr("y1", -this.innerRadius)
-      .attr("y2", -this.maxBarHeight - 70)
-      .attr("transform", function (d: any, i: any) {
-        return "rotate(" + (i * 360 / numCatBars) + ")";
-      });
-
+    return newArc;
   }
 
+  private drawOuterLabels(): void {
+    const arcOuterLabels_innerRadius = this.getOuterArc2OuterRadius() + this.outerMargin + this.outerThickness;
+    const arcOuterLabels_OuterRadius = arcOuterLabels_innerRadius + 18;
 
-  wrapTextOnArc = (text: any, radius: number) => {
-    // note getComputedTextLength() doesn't work correctly for text on an arc,
-    // hence, using a hidden text element for measuring text length.
-    let temporaryText = d3.select('svg')
-      .append("text")
-      .attr("class", "temporary-text") // used to select later
-      .style("font", "7px sans-serif")
-      .style("opacity", 0); // hide element
+    const arcOuterLabelsArc = d3.arc()
+      .innerRadius(arcOuterLabels_innerRadius)
+      .outerRadius(arcOuterLabels_OuterRadius);
 
-    let getTextLength = function (string: any) {
-      temporaryText.text(string);
-      return temporaryText.node().getComputedTextLength();
-    };
+    const arcOuterLabelsStartAngle = -this.tau / this.outerLabels.length / 2;
+    const arcOuterLabelsPie = d3.pie()
+      .startAngle(arcOuterLabelsStartAngle)
+      .endAngle(arcOuterLabelsStartAngle + this.tau)
+      .value(() => 1)
+      .padAngle(.01)
+      .sort(null);
 
-    text.each((d: any) => {
-      let text = d3.select(this as any);
-      let words: any = text.text().split(/[ \f\n\r\t\v]+/).reverse(); //Don't cut non-breaking space (\xA0), as well as the Unicode characters \u00A0 \u2028 \u2029)
-      let word: any;
-      let wordCount = words.length;
-      let line: any = [];
-      let textLength;
-      let lineHeight = 1.1; // ems
-      let x = 0;
-      let y = 0;
-      let dy = 0;
-      let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
-      let arcLength = ((d.endAngle - d.startAngle) / (2 * Math.PI)) * (2 * Math.PI * radius);
-      let paddedArcLength = arcLength - 16;
+    // Create paths for labels
+    this.g.selectAll('.outerLabel')
+      .data(arcOuterLabelsPie(this.outerLabels as any))
+      .enter()
+      .each((d: any, i: number) => {
+        const labelArc = this.getLabelArc(arcOuterLabelsArc(d), d.startAngle, d.endAngle);
 
-      while (word = words.pop()) {
-        line.push(word);
-        tspan.text(line.join(" "));
-        textLength = getTextLength(tspan.text());
-        tspan.attr("x", (arcLength - textLength) / 2);
+        this.g.append('path')
+          .classed('outerLabel', true)
+          .attr('class', 'hiddenOuterLabelArcs')
+          .attr('id', `outerLabelArc${i}`)
+          .attr('d', labelArc)
+          .style('fill', 'none');
+      });
 
-        if (textLength > paddedArcLength && line.length > 1) {
-          // remove last word
-          line.pop();
-          tspan.text(line.join(" "));
-          textLength = getTextLength(tspan.text());
-          tspan.attr("x", (arcLength - textLength) / 2);
-
-          // start new line with last word
-          line = [word];
-          tspan = text.append("tspan").attr("dy", lineHeight + dy + "em").text(word);
-          textLength = getTextLength(tspan.text());
-          tspan.attr("x", (arcLength - textLength) / 2);
-        }
-      }
-    });
-
-    d3.selectAll("text.temporary-text").remove()
+    // Add text labels
+    this.g.selectAll('.outerLabelText')
+      .data(arcOuterLabelsPie(this.outerLabels as any))
+      .enter()
+      .append('text')
+      .attr('class', 'outerLabelText')
+      .attr('dy', (d: any) => this.isTextInverted(d) ? 18 : -11)
+      .append('textPath')
+      .attr('startOffset', '50%')
+      .style('text-anchor', 'middle')
+      .attr('xlink:href', (d: any, i: number) => `#outerLabelArc${i}`)
+      .text((d: any) => d.data.name)
+      .attr('font-size', `${(18 / 750) * this.w}px`)
+      .attr('font-weight', 700)
+      .attr('letter-spacing', 2.2);
   }
 
+  private getOuterArcOuterRadius(): number {
+    return 350;
+  }
+
+  private getOuterArc2OuterRadius(): number {
+    return this.getOuterArcOuterRadius() + this.outerMargin + this.outerThickness;
+  }
+
+  private drawOuterPies(): void {
+    // First outer ring
+    const arcOuter = d3.arc()
+      .innerRadius(this.getOuterArcOuterRadius())
+      .outerRadius(this.getOuterArcOuterRadius() - this.outerThickness)
+      .padAngle(0.001 * this.tau);
+
+    const pieOuter = this.g.selectAll('.outer')
+      .data(this.outer)
+      .enter();
+
+    this.drawPieSection(pieOuter, arcOuter, 'outer', 1);
+
+    // Second outer ring
+    const arcOuter2 = d3.arc()
+      .innerRadius(this.getOuterArc2OuterRadius())
+      .outerRadius(this.getOuterArc2OuterRadius() - this.outerThickness)
+      .padAngle(0.0009 * this.tau);
+
+    const pieOuter2 = this.g.selectAll('.outer2')
+      .data(this.outer2)
+      .enter();
+
+    this.drawPieSection(pieOuter2, arcOuter2, 'outer2', 2);
+  }
+
+  private drawPieSection(selection: any, arc: any, className: string, layer: number): void {
+    selection.append('path')
+      .classed(className, true)
+      .attr('id', (d: any, i: number) => `${className}Arc_${i}`)
+      .style('fill', (d: any) => d.hex)
+      .attr('d', arc)
+      .each((d: any, i: number) => {
+        const labelArc = this.getLabelArc(arc(d), d.startAngle, d.endAngle);
+
+        this.g.append('path')
+          .classed('outerLabel', true)
+          .attr('class', 'hiddenOuterLabelArcs')
+          .attr('id', `outerLayer${layer}LabelArc${i}`)
+          .attr('d', labelArc)
+          .style('fill', 'none');
+      });
+
+    selection.append('text')
+      .attr('id', (d: any) => d.name)
+      .attr('dy', (d: any) => this.isTextInverted(d) ? -10 : 20)
+      .append('textPath')
+      .attr('startOffset', '50%')
+      .style('text-anchor', 'middle')
+      .attr('xlink:href', (d: any, i: number) => `#outerLayer${layer}LabelArc${i}`)
+      .text((d: any) => d.name)
+      .attr('font-size', `${(12 / 750) * this.w}px`)
+      .style('fill', '#000')
+      .attr('font-weight', 700);
+  }
+
+  private drawOuterColorArcs(): void {
+    const arcOuterColorArc_innerRadius = this.getOuterArcOuterRadius();
+    const arcOuterColorArc = d3.arc()
+      .innerRadius(arcOuterColorArc_innerRadius)
+      .outerRadius(arcOuterColorArc_innerRadius + this.outerMargin + 3);
+
+    const arcOuterColorArcStartAngle = -this.tau / this.outerLabels.length / 2;
+    const arcOuterColorArcPie = d3.pie()
+      .startAngle(arcOuterColorArcStartAngle)
+      .endAngle(arcOuterColorArcStartAngle + this.tau)
+      .value(() => 1)
+      .padAngle(.35)
+      .sort(null);
+
+    this.g.selectAll('.outerColor')
+      .data(arcOuterColorArcPie(this.outerLabels as any))
+      .enter()
+      .append('path')
+      .attr('class', 'outerColor')
+      .attr('id', (d: any, i: number) => `outerColorArc${i}`)
+      .style('fill', (d: any) => d.data.hex)
+      .attr('d', arcOuterColorArc);
+  }
 }

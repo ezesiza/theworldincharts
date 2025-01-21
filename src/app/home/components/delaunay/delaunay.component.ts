@@ -82,7 +82,7 @@ export class DelaunayComponent implements OnInit {
     this.svg.append('circle')
       .attr('class', 'boundary')
       .attr("stroke", "#ccc")
-      .attr("stroke-width", "11")
+      .attr("stroke-width", "1")
       .attr('r', this.radius * 1.1);
 
     // Create clip path
@@ -117,7 +117,7 @@ export class DelaunayComponent implements OnInit {
       .attr('fill', 'white');
 
     // Add labels
-    const labelRadius = this.radius + 10;
+    const labelRadius = this.radius + 30;
 
     this.svg.selectAll('text')
       .data(points)
@@ -125,6 +125,7 @@ export class DelaunayComponent implements OnInit {
       .append('text')
       .attr('transform', (d: Point, i: number) => {
         const angle = (i / this.data.length) * 2 * Math.PI - Math.PI / 2;
+        console.log(angle);
         const x = labelRadius * Math.cos(angle);
         const y = labelRadius * Math.sin(angle);
         return `translate(${x}, ${y}) rotate(${(angle * 180) / Math.PI + 90})`;

@@ -18,8 +18,8 @@ export class LandingComponent implements OnInit {
 
   async ngOnInit() {
 
-    this.service.getKeyFrames().subscribe(response => {
-      this.browsers = response;
+    this.service.getKeyFrames().subscribe(browseers => {
+      this.browsers = browseers;
     })
     this.racebarService.getKeyFrames().subscribe((products: any) => {
       this.products = products;
