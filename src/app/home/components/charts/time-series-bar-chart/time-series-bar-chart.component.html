@@ -17,6 +17,12 @@
         <span class="material-icons">check</span>
         <span class="time-series-icon-label">Apply Filters</span>
       </div>
+      <div appContextMenu [menuOptions]="['Back', 'Reload', 'Save', 'Save As', 'Inspect']"
+        (optionSelected)="handleOptionSelected($event)" class="time-series-table-control view-events-button"
+        (click)="applyLegendFiltersClick()">
+        <span class="material-icons">list</span>
+        <span class="time-series-icon-label">Context Menu</span>
+      </div>
     </div>
     <!-- <ng-content select=".under-legend-item" ngProjectAs=".under-legend-item"></ng-content> -->
   </div>

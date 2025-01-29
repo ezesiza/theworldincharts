@@ -40,6 +40,7 @@ import { DelaunayComponent } from './home/components/delaunay/delaunay.component
 import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
 import { FunnelChartComponent } from './home/components/charts/funnel/funnel.component';
 import { FormSelectComponent } from './home/components/form-select/form-select.component';
+import { ContextMenuDirective } from './home/directives/context-menu.directive';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { FormSelectComponent } from './home/components/form-select/form-select.c
     AnalyticsDashboardComponent,
     RaceBarComponent,
     TabsComponent,
+    ContextMenuDirective,
     DynamicTabDirective,
     MetricsDashboardComponent,
     SingleCardComponent,

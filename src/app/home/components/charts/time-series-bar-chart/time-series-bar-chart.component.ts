@@ -188,10 +188,15 @@ export class TimeSeriesBarChartComponent extends UnsubscribeOnDestroy implements
     return count;
   }
 
-  toggleAllLegendItems() {
+  handleOptionSelected(option: string) {
+    console.log('Selected option:', option);
     this.presentationService.saveSvgToImage();
+    // Perform further actions based on the selected option
+  }
+
+  toggleAllLegendItems() {
     // create a copy of the data and remove disabled items
-    let data = JSON.parse(JSON.stringify(this.data));
+    // let data = JSON.parse(JSON.stringify(this.data));
     let disabledItems = [];
     let enabledItems = [];
 

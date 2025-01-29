@@ -1,19 +1,19 @@
-
 <div class="panel-wrapper">
-    <div class="panel-container actionable collapsible" >
-      <!-- <div class="panel" [ngClass]="{'component-loading-mask': loading}"> -->
-      <div class="panel">
-        <div class="card panel-content-container">
-          <div class="panel-header">
-            <ng-content select=".panel-title"></ng-content>
-            <ng-content select=".panel-properties"></ng-content>
-            <button *ngIf="action === 'minimize'" class="circle-button minimize-button" (click)="isMinimized = !isMinimized"></button>
-            <button *ngIf="action === 'close'" class="circle-button close-button" (click)="null"></button>
-          </div>
-          <div class="panel-body-container">
-            <ng-content select=".panel-body"></ng-content>
-          </div>
+  <div class="panel-container actionable collapsible">
+    <!-- <div class="panel" [ngClass]="{'component-loading-mask': loading}"> -->
+    <div class="panel">
+      <div class="card panel-content-container">
+        <div class="panel-header">
+          <ng-content select=".panel-title"></ng-content>
+          <ng-content select=".panel-properties"></ng-content>
+          <button *ngIf="action === 'minimize'" class="circle-button minimize-button"
+            (click)="isMinimized = !isMinimized"></button>
+          <button *ngIf="action === 'close'" class="circle-button close-button" (click)="null"></button>
+        </div>
+        <div class="panel-body-container">
+          <ng-content select=".panel-body"></ng-content>
         </div>
       </div>
     </div>
   </div>
+</div>
