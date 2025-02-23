@@ -122,10 +122,16 @@ export class DelaunayComponent implements OnInit {
     this.svg.selectAll('text')
       .data(points)
       .enter()
+      // .filter((text: any, v: any, e: any) => {
+      //   return d3.select(e[v]).each((item: any) => {
+      //     // console.log(text);
+      //     return item.data.region === text.data.region
+      //   })
+      // })
       .append('text')
-      .attr('transform', (d: Point, i: number) => {
+      .attr('transform', (d: Point, i: number, j: any) => {
+
         const angle = (i / this.data.length) * 2 * Math.PI - Math.PI / 2;
-        console.log(angle);
         const x = labelRadius * Math.cos(angle);
         const y = labelRadius * Math.sin(angle);
         return `translate(${x}, ${y}) rotate(${(angle * 180) / Math.PI + 90})`;

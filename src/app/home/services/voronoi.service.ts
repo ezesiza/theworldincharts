@@ -75,6 +75,7 @@ export class VoronoiService {
         return this.getCompanyData().pipe(map((data: any) => {
 
             const nested = d3.group(data, (d: any) => d[filterBy]);
+            // console.log(nested);
 
             const companyHierarchy = d3.hierarchy(nested, (d: any) => {
 

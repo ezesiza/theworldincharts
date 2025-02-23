@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as d3 from "d3";
 import seedrandom from 'seedrandom';
 import { voronoiTreemap } from './voronoiTreemap';
@@ -6,8 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { VoronoiService } from 'app/home/services/voronoi.service';
 import { PresentationService } from 'app/home/services/presentation.service';
-import { companyDataSelector, getCurrentQuery, State } from 'app/ngrx/reducers';
+import { getCurrentQuery, State } from 'app/ngrx/reducers';
 import { GetAllData, SetCurrentQuery } from 'app/ngrx/actions/filter.actions';
+
 
 @Component({
   selector: 'voronoi',
@@ -138,24 +139,48 @@ export class VoronoiComponent implements OnInit {
     }
   }
 
-  arcGenerator = d3.arc().innerRadius((d: any) => d.radii - 3).outerRadius((d: any) => d.radii).startAngle(d => d.startAngle).endAngle(d => 1)
+  checkPolygon = (points: any) => {
+    let curvedSection = [];
+    let startIndex = 0;
 
+    // Find sequence where both conditions are met:
+    // - x values are decreasing
+    // - y values are increasing
+    for (let i = 0; i < points.length - 1; i++) {
+      if (points[i][0] > points[i + 1][0] && // x is decreasing
+        points[i][1] < points[i + 1][1]) {  // y is increasing
+        if (curvedSection.length === 0) {
+          startIndex = i;
+        }
+        curvedSection.push(points[i]);
+      } else if (curvedSection.length > 0) {
+        // Add the last point of the curve
+        curvedSection.push(points[i]);
+        break;
+      }
+    }
+
+
+    return curvedSection;
+  }
   renderVoronoi() {
 
     let svg = d3.select("#chart").append("svg")
       .attr("width", this.width * 1.5)
       .attr("height", this.height * 1.5)
-      .attr("viewBox", "-250, 30, 980, 850")
+      .attr("viewBox", "-220, 10, 980, 950")
       .style("background", "white")
 
 
     const transition = svg.transition()
       .duration(this.duration)
       .ease(d3.easePoly.exponent(1));
+    const drawingArea = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")")
 
-    const voronoi = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")")
-    const labels = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
-    const popLabels = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")");
+    const voronoi = drawingArea
+    const labels = drawingArea;
+    const popLabels = drawingArea;
+    let labelsText = drawingArea;
 
     let seed = seedrandom('00');
 
@@ -174,6 +199,75 @@ export class VoronoiComponent implements OnInit {
       });
 
     let hoveredShape: any = null;
+    const margin = { top: 20, right: 20, bottom: 20, left: 40 };
+
+    const children = this.companyHierarchy.children;
+    // .map((d: any) => d.data[0]);
+
+
+    // Add labels
+    let radius = 200;
+    const labelRadius = radius + 15;
+
+    const cradius = Math.min(this.width, this.height) / 2;
+
+    // const 
+    labelsText = svg.append('g').
+      append("circle")
+      .attr("r", 339)
+      .attr("fill", "none")
+      .attr("stroke", "gray")
+      .attr("transform", "translate(" + 390 + "," + 360 + ")")
+      .attr("stroke-width", 1.5) as any;
+
+    // Create clip path
+    labelsText.append('clipPath')
+      .attr('id', 'circle-clip')
+      .append('circle')
+      .attr('r', cradius)
+
+    svg
+      .selectAll('text')
+      .data(allNodes.filter((d: any) => d.depth === 2))
+      // .data(allNodes.filter((d: any) => d.depth === 2))
+      // .data(children)
+      .enter()
+      .append('text')
+      // .attr("class", "clipPath")
+      .attr('class', (d: any) => `label-${d.id}`)
+      .attr('transform', (d: any, i: number) => {
+        // console.log(this.symbolList);
+        const angle = (i / d.parent.data[1].length) * 2 * Math.PI - Math.PI / 2;
+        const x = labelRadius * Math.cos(angle);
+        const y = labelRadius * Math.sin(angle);
+
+        return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${(angle * 180) / Math.PI + 90})`;
+        // return "translate(" + [d.polygon.site.x, d.polygon.site.y] + ")"
+      })
+      .attr("font-weight", "bold")
+      .attr("class", "tick")
+      .text((d: any) => {
+        console.log(d);
+        // return children.includes(d.parent.data[0]) ?  : '';
+        return d.data.Country;
+      })
+      .attr('text-anchor', 'middle')
+      .attr('class', 'font-medium text-sm')
+      .attr('opacity', (d: any) => {
+
+        if (d.data.key === hoveredShape) {
+
+          return (1);
+        } else if (d.data.SharePrice > 406) {
+          return (1);
+        } else { return (0); }
+      })
+      .attr('cursor', 'default')
+      .attr('pointer-events', 'none')
+      .attr('fill', 'black')
+      .style('font-family', 'Montserrat');
+
+
 
     voronoi.selectAll('path')
       .data(allNodes)
@@ -206,7 +300,7 @@ export class VoronoiComponent implements OnInit {
 
     d3.select('g')
       .call(d3.zoom()
-        .extent([[-10, -10], [this.width * 1.5, this.height * 1.5]])
+        .extent([[-150, -10], [this.width * 1.5, this.height * 1.5]])
         .scaleExtent([1, 8])
         .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
 
@@ -231,18 +325,6 @@ export class VoronoiComponent implements OnInit {
       .attr('pointer-events', 'none')
       .attr('fill', 'black')
       .style('font-family', 'Montserrat');
-
-    const r = 200;
-    const txr = r * 0.9
-    const x = this.width / 2;
-    const y = 250;
-    const arc = d3.arc()
-    const arcPath = arc({
-      innerRadius: txr,
-      outerRadius: txr,
-      startAngle: -Math.PI,
-      endAngle: Math.PI
-    });
 
     popLabels.selectAll('text')
       .data(allNodes.filter((d: any) => d.depth === 2))
@@ -272,41 +354,9 @@ export class VoronoiComponent implements OnInit {
       .style('font-size', '12px')
       .style('font-family', 'Montserrat');
 
-    svg.selectAll()
-      .data(allNodes)
-      .enter().append("path")
-      .attr("d", arcPath)
-      .attr("id", "textArc")
-      .attr('transform', `translate(${x - 80}, ${y - 80})`)
-      .attr("fill", "none")
-      .attr('stroke', "none");
 
-    svg
-      .selectAll('.arcLabel')
-      .data(allNodes)
-      .enter()
-      .append("text")
-      .attr("x", Math.PI * txr)
-      // .attr("dy", (d: any) => {
-      //   // console.log(d);
-      //   return d
-      // })
-      .attr("class", "arcLabel")
-      .attr("fill", "blue")
-      .attr('text-anchor', 'middle')
-      .attr('alignment-baseline', 'central')
-      .append("textPath")
-      .attr('href', '#textArc')
-      .text((d: any) => {
-        // console.log(d);
-        return d.data.Country
-      });
-
-    labels.selectAll("text")
-      .each(function (d: any, i) {
-        return d.data.Company
-      });
     this.presentation.saveSvgToImage()
+    // })
   }
 
   bigFormat = d3.format(",.0f");

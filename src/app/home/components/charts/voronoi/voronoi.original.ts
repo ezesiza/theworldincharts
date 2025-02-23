@@ -83,6 +83,17 @@ export class VoronoiOriginalComponent implements OnInit {
     }
 
     async renderVoronoi(freedom: any) {
+
+        const checkPolygon = (polygon: any) => {
+            console.log(polygon);
+            polygon.filter((point: any) => {
+                return point[1] === Math.max(...polygon.map((p: any) => p[1])) || // max y
+                    point[1] === Math.min(...polygon.map((p: any) => p[1])) || // min y
+                    point[0] === Math.max(...polygon.map((p: any) => p[0])) || // max x
+                    point[0] === Math.min(...polygon.map((p: any) => p[0]));   // min x
+            });
+        }
+
         const years = freedom.map((item: any, i: number) => item.year);
 
         const newYears = [... new Set(years)].sort();
@@ -114,7 +125,6 @@ export class VoronoiOriginalComponent implements OnInit {
                 }
             }).sum((d: any) => d.population);
 
-
             svg.selectAll("g").remove();
 
 
@@ -129,17 +139,16 @@ export class VoronoiOriginalComponent implements OnInit {
             const popLabels = drawingArea;
             let clipLabel = drawingArea;
 
-
             const cradius = Math.min(this.width, this.height) / 2;
 
             // const 
             clipLabel = svg.append('g').
                 append("circle")
-                .attr("r", 334)
+                .attr("r", 339)
                 .attr("fill", "none")
                 .attr("stroke", "gray")
                 .attr("transform", "translate(" + 390 + "," + 360 + ")")
-                .attr("stroke-width", 0.5) as any;
+                .attr("stroke-width", 1.5) as any;
 
             // Create clip path
             clipLabel.append('clipPath')
@@ -160,7 +169,6 @@ export class VoronoiOriginalComponent implements OnInit {
                 .sort((a, b) => b.depth - a.depth).map((d, i) => {
                     return Object.assign({}, d, { id: i })
                 });
-
 
             let hoveredShape: any = null;
 
@@ -197,7 +205,7 @@ export class VoronoiOriginalComponent implements OnInit {
             // d3.select('g')
             svg
                 .call(d3.zoom()
-                    .extent([[-10, -10], [this.width * 1.5, this.height * 1.5]])
+                    .extent([[-350, -10], [this.width * 1.5, this.height * 1.5]])
                     .scaleExtent([1, 8])
                     .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
 
@@ -218,32 +226,31 @@ export class VoronoiOriginalComponent implements OnInit {
                         return (1);
                     } else { return (0); }
                 })
-
                 .attr('cursor', 'default')
                 .attr('pointer-events', 'none')
                 .attr('fill', 'black')
                 .style('font-family', 'Montserrat');
 
-            popLabels.selectAll('text')
-                .data(allNodes.filter((d: any) => d.depth === 2))
-                .enter()
-                .append('text')
-                .attr('class', (d: any) => `label-${d.id}`)
-                .attr('text-anchor', 'middle')
-                .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 25] + ")")
-                .text((d: any) => this.bigFormat(d.data.population))
-                .attr('opacity', (d: any) => {
-                    if (d.data.key === hoveredShape) {
-                        return (1);
-                    } else if (d.data.population > 130000000) {
-                        return (1);
-                    } else { return (0); }
-                })
-                .attr('cursor', 'default')
-                .attr('pointer-events', 'none')
-                .attr('fill', 'black')
-                .style('font-size', '12px')
-                .style('font-family', 'Montserrat');
+            // popLabels.selectAll('text')
+            //     .data(allNodes.filter((d: any) => d.depth === 2))
+            //     .enter()
+            //     .append('text')
+            //     .attr('class', (d: any) => `label-${d.id}`)
+            //     .attr('text-anchor', 'middle')
+            //     .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 25] + ")")
+            //     .text((d: any) => this.bigFormat(d.data.population))
+            //     .attr('opacity', (d: any) => {
+            //         if (d.data.key === hoveredShape) {
+            //             return (1);
+            //         } else if (d.data.population > 130000000) {
+            //             return (1);
+            //         } else { return (0); }
+            //     })
+            //     .attr('cursor', 'default')
+            //     .attr('pointer-events', 'none')
+            //     .attr('fill', 'black')
+            //     .style('font-size', '12px')
+            //     .style('font-family', 'Montserrat');
 
             voronoi.append("g")
                 .attr("transform", "translate(" + -70 + "," + this.margins.bottom + ")")
@@ -257,62 +264,57 @@ export class VoronoiOriginalComponent implements OnInit {
                 .join("text")
                 .call(text => text.append("tspan")
                     .attr("font-weight", "bold")
-                    .attr("x", 100)
-                    .attr("y", "10px")
-                    .text((d: any) => {
-                        return selectedYear as any
-                        // return null
-
-                    }));
+                    .attr("x", -50)
+                    .attr("y", "110px")
+                    .text((d: any) => selectedYear as any));
 
             // Add labels
             let radius = 200;
-            const labelRadius = radius + 40;
-            const regions = [... new Set(allNodes)]
+            const labelRadius = radius + 15;
+            const regions = [... new Set(allNodes)];
+            let children = populationHierarchy.children;
 
 
-            // svg
-            //     // .selectAll('text')
-            //     .selectAll('.clipPath')
-            //     .data(regions.filter((d: any) => d.depth === 2))
-            //     .enter()
-            //     .append('text')
-            //     // .attr('class', (d: any) => `label-${d.id}`)
-            //     .attr("class", "clipPath")
-            //     .attr('transform', (d: any, i: number) => {
-            //         const angle = (i / d.parent.data[1].length) * 2 * Math.PI - Math.PI / 2;
-            //         // const angle = (i / allNodes.length) * 2 * Math.PI - Math.PI / 2;
-            //         const x = labelRadius * Math.cos(angle);
-            //         const y = labelRadius * Math.sin(angle);
+            svg
+                // clipLabel
+                // .selectAll('text')
+                .selectAll('.clipPath')
+                .data(regions.filter((d: any) => d.depth === 2))
+                .enter()
+                .append('text')
+                // .attr('class', (d: any) => `label-${d.id}`)
+                .attr("id", (d: any) => d.data.region_simple)
+                // .attr("d",  d => d.ringPath())
+                .attr("class", "clipPath")
+                .attr('transform', (d: any, i: number) => {
+                    const angle = (i / d.parent.data[1].length) * 2 * Math.PI - Math.PI / 2;
+                    // console.log(angle);
+                    // const angle = (i / allNodes.length) * 2 * Math.PI - Math.PI / 2;
+                    const x = labelRadius * Math.cos(angle);
+                    const y = labelRadius * Math.sin(angle);
+                    // console.log(x, y);
+                    return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${(angle * 180) / Math.PI + 90})`;
+                    // return `translate(${x + 80}, ${y}) rotate(${(angle * 180) / Math.PI + 90})`;
+                })
+                .attr('text-anchor', 'middle')
+                .attr('class', 'font-medium text-sm')
+                .text((d: any) => {
+                    console.log(d.data.region_simple);
+                    // (checkPolygon(d.polygon));
+                    return d.data.region_simple;
+                })
+                .attr('opacity', (d: any, e: any, f: any) => {
 
-            //         return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${(angle * 180) / Math.PI + 90})`;
-            //         // return `translate(${x + 80}, ${y}) rotate(${(angle * 180) / Math.PI + 90})`;
-            //     })
-            //     .attr('text-anchor', 'middle')
-            //     .attr('class', 'font-medium text-sm')
-            //     .text((d: any) => {
-
-            //         return d.data.region_simple
-            //     })
-            //     .attr('opacity', (d: any, e: any, f: any) => {
-            //         if (d3.select(f[e]).text() == d.data.region_simple) {
-            //             // if (d.id === e) {
-            //             return (1);
-            //         }
-            //         else { return (0); }
-            //     })
-            // .attr('opacity', (d: any, e: any, f: any) => {
-            //     console.log(d.data.key);
-            //     if (d.data.key === hoveredShape) {
-            //         return (1);
-            //     } else if (d.data.population > 130000000) {
-            //         return (1);
-            //     } else { return (0); }
-            // })
-            // .attr('cursor', 'default')
-            // .attr('pointer-events', 'none')
-            // .attr('fill', 'black')
-            // .style('font-family', 'Montserrat');
+                    if (d.data.key === hoveredShape) {
+                        return (1);
+                    } else if (d.data.population > 130000000) {
+                        return (1);
+                    } else { return (0); }
+                })
+                .attr('cursor', 'default')
+                .attr('pointer-events', 'none')
+                .attr('fill', 'black')
+                .style('font-family', 'Montserrat');
 
             this.presentation.saveSvgToImage();
             await transition.end();

@@ -18,16 +18,16 @@ export class DonutRaceComponent implements OnInit {
 
     private duration = 15;
 
-    private innerRadius_factor = 0.65;
+    private innerRadiusFactor = 0.65;
     private distTextFactor = 1.54;
-    private width_image = 56 * this.height / 700;
-    private min_angle = 0.38;
-    private hide_angle = 0.07;
-    private font_size = 15;
+    private widthImage = 56 * this.height / 700;
+    private minAngle = 0.38;
+    private hideAngle = 0.07;
+    private fontSize = 15;
     private fontSizeYear = 64 * this.height / 700;
     currentYear = '1994';
 
-    private background_color = "#FDFDFD";
+    private backgroundColor = "#FDFDFD";
     private borderColor = "#C0C0C0";
     private parentElement: any | undefined;
     imageSource: string = 'BrowserShare.jpg';
@@ -57,7 +57,7 @@ export class DonutRaceComponent implements OnInit {
     }
 
     private arc = d3.arc()
-        .innerRadius(this.radius * this.innerRadius_factor)
+        .innerRadius(this.radius * this.innerRadiusFactor)
         .outerRadius(this.radius);
 
     private formatDate = d3.timeFormat("%Y")
@@ -70,7 +70,7 @@ export class DonutRaceComponent implements OnInit {
             .attr("height", this.height)
             .attr("viewBox", [-450, -this.height / 2, this.width / 1.3, this.height])
             .attr("style", "max-width: 100%; height: auto;")
-            .style("background", this.background_color)
+            .style("background", this.backgroundColor)
             // .attr("style", "outline: thin solid")
             .style("outline-color", this.borderColor);
 
@@ -137,7 +137,7 @@ export class DonutRaceComponent implements OnInit {
                 .selectAll()
                 .data(pie(keyframe[1]))
                 .enter()
-                .filter((d) => (d.endAngle - d.startAngle) > 2 * this.hide_angle)
+                .filter((d) => (d.endAngle - d.startAngle) > 2 * this.hideAngle)
                 .append('line')
                 .style("stroke", "black")
                 .style("stroke-width", 1)
@@ -154,45 +154,52 @@ export class DonutRaceComponent implements OnInit {
                 .attr("d", this.arc as any)
                 .append("title")
                 .text((d: any) => {
-                    // console.log(d.data);
+                    // console.log(d.data.name, d.data.value);
                     // this.currentYear = 
                     return `${d.data.name}: ${d.data.value.toLocaleString()}`
                 });
 
-            svg.append("g")
-                .selectAll()
-                .data(pie(keyframe[1]))
-                .join("svg:image")
-                .filter((d: any) => (d.endAngle - d.startAngle) < this.min_angle && (d.endAngle - d.startAngle) > this.hide_angle)
-                .attr("xlink:href", (d: any) => d.data.image)
-                .attr("transform", (d: any) => `translate(${[this.arc.centroid(d)[0] - this.width_image * 0.5 * (d.endAngle - d.startAngle) / this.min_angle,
-                this.arc.centroid(d)[1] - this.width_image * 0.5 * (d.endAngle - d.startAngle) / this.min_angle]})`)
-                .attr('width', (d: any) => this.width_image * (d.endAngle - d.startAngle) / this.min_angle);
+
+            svg
+                .call(d3.zoom()
+                    .extent([[-350, -10], [this.width * 1.5, this.height * 1.5]])
+                    .scaleExtent([1, 8])
+                    .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
 
             svg.append("g")
                 .selectAll()
                 .data(pie(keyframe[1]))
                 .join("svg:image")
-                .filter((d: any) => (d.endAngle - d.startAngle) > this.min_angle)
+                .filter((d: any) => (d.endAngle - d.startAngle) < this.minAngle && (d.endAngle - d.startAngle) > this.hideAngle)
                 .attr("xlink:href", (d: any) => d.data.image)
-                .attr("transform", (d: any) => `translate(${[this.arc.centroid(d)[0] - this.width_image / 2, this.arc.centroid(d)[1] - this.width_image / 2]})`)
-                .attr('width', (d: any) => this.width_image);
+                .attr("transform", (d: any) => `translate(${[this.arc.centroid(d)[0] - this.widthImage * 0.5 * (d.endAngle - d.startAngle) / this.minAngle,
+                this.arc.centroid(d)[1] - this.widthImage * 0.5 * (d.endAngle - d.startAngle) / this.minAngle]})`)
+                .attr('width', (d: any) => this.widthImage * (d.endAngle - d.startAngle) / this.minAngle);
+
+            svg.append("g")
+                .selectAll()
+                .data(pie(keyframe[1]))
+                .join("svg:image")
+                .filter((d: any) => (d.endAngle - d.startAngle) > this.minAngle)
+                .attr("xlink:href", (d: any) => d.data.image)
+                .attr("transform", (d: any) => `translate(${[this.arc.centroid(d)[0] - this.widthImage / 2, this.arc.centroid(d)[1] - this.widthImage / 2]})`)
+                .attr('width', (d: any) => this.widthImage);
 
             svg.append("g")
                 .attr("font-family", "sans-serif")
-                .attr("font-size", this.font_size)
+                .attr("font-size", this.fontSize)
                 .attr("text-anchor", "middle")
                 .selectAll()
                 .data(pie(keyframe[1]))
                 .join("text")
                 .attr("transform", (d: any) => `translate(${[this.arc.centroid(d)[0] * this.distTextFactor, this.arc.centroid(d)[1] * this.distTextFactor]})`)
-                .call(text => text.filter((d: any) => (d.endAngle - d.startAngle) > 2 * this.hide_angle).append("tspan")
+                .call(text => text.filter((d: any) => (d.endAngle - d.startAngle) > 2 * this.hideAngle).append("tspan")
                     .attr("y", "-0.6em")
                     .attr("dy", "-1em")
                     .attr("font-weight", "bold")
                     .attr("class", "tick")
                     .text((d: any) => d.data.name))
-                .call(text => text.filter((d: any) => (d.endAngle - d.startAngle) > 2 * this.hide_angle).append("tspan")
+                .call(text => text.filter((d: any) => (d.endAngle - d.startAngle) > 2 * this.hideAngle).append("tspan")
                     .attr("x", 0)
                     .attr("dy", "1.2em")
                     .attr("fill-opacity", 0.7)
@@ -231,5 +238,9 @@ export class DonutRaceComponent implements OnInit {
         });
 
         return 0;
+    }
+
+    zoomed({ transform }: any, svg: any) {
+        svg.attr("transform", transform);
     }
 }

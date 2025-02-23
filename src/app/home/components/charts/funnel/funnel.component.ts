@@ -39,7 +39,7 @@ const data2 = [
   styleUrls: ['funnel.component.less']
 })
 export class FunnelChartComponent implements OnInit {
-  @Input() data: FunnelDataPoint[] = data2;
+  @Input() data: FunnelDataPoint[] = data;
   @Input() width = 600;
   @Input() height = 400;
   @Input() options: FunnelOptions = {
@@ -74,7 +74,6 @@ export class FunnelChartComponent implements OnInit {
       this.svg.selectAll("*").remove();
     }
 
-    // d3.select("#chart").remove();
     this.svg = d3
       .select("#chart").append("svg")
       // .attr("viewBox", [0, 0, this.width, this.height]);

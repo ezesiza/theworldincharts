@@ -55,12 +55,12 @@ export class FunnelChart {
     private data: FunnelChartData[] | null | any = null;
     private chartData: FunnelChartData[];
     private total = 0;
-    private streamlined = true;
+    private streamlined = false;
 
     private options: FunnelChartOptions = {
         palette: d3.schemeTableau10 as any,
         style: '3d',
-        streamlined: true,
+        streamlined: false,
         percentage: 'first',
         showPercentage: true,
     };
@@ -235,7 +235,7 @@ export class FunnelChart {
             const first = this.data[0];
 
             this.g?.append("text")
-                .attr("text-anchor", "middle")
+                .attr("text-anchor", "left")
                 .attr("font-size", this.font.size?.label)
                 .attr("font-weight", "bold")
                 .attr("fill", "#666")
