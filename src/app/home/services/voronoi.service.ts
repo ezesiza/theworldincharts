@@ -64,8 +64,6 @@ export class VoronoiService {
                         Country: row[5].replace(/(\r\n|\n|\r)/gm, ""),
                     });
                 }
-
-                // return marketArray.filter((item: any) => ["United Kingdom"].includes(item.Country));
                 return marketArray.filter((item: any) => ["Germany", "Spain", "Turkey", "Russia", "Argentina", "Tunisia", "Brazil", "Ireland", "Poland", "Italy", "Greece", "Czech Republic"].includes(item.Country));
             })
         );
