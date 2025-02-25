@@ -9,6 +9,12 @@ import { PresentationService } from 'app/home/services/presentation.service';
 import { getCurrentQuery, State } from 'app/ngrx/reducers';
 import { GetAllData, SetCurrentQuery } from 'app/ngrx/actions/filter.actions';
 
+interface Point {
+  x: number;
+  y: number;
+}
+
+
 
 @Component({
   selector: 'voronoi',
@@ -139,56 +145,26 @@ export class VoronoiComponent implements OnInit {
     }
   }
 
-  checkPolygon = (points: any) => {
-    let curvedSection = [];
-    let startIndex = 0;
-
-    // Find sequence where both conditions are met:
-    // - x values are decreasing
-    // - y values are increasing
-    for (let i = 0; i < points.length - 1; i++) {
-      if (points[i][0] > points[i + 1][0] && // x is decreasing
-        points[i][1] < points[i + 1][1]) {  // y is increasing
-        if (curvedSection.length === 0) {
-          startIndex = i;
-        }
-        curvedSection.push(points[i]);
-      } else if (curvedSection.length > 0) {
-        // Add the last point of the curve
-        curvedSection.push(points[i]);
-        break;
-      }
-    }
-
-
-    return curvedSection;
-  }
   renderVoronoi() {
 
     let svg = d3.select("#chart").append("svg")
-      .attr("width", this.width * 1.5)
-      .attr("height", this.height * 1.5)
+      .attr("width", this.width * 1.2)
+      .attr("height", this.height * 1.2)
       .attr("viewBox", "-220, 10, 980, 950")
-      .style("background", "white")
+      .style("background", "white");
 
-
-    const transition = svg.transition()
-      .duration(this.duration)
-      .ease(d3.easePoly.exponent(1));
     const drawingArea = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")")
 
     const voronoi = drawingArea
     const labels = drawingArea;
     const popLabels = drawingArea;
-    let labelsText = drawingArea;
+    let arcTextLabel = svg;
 
     let seed = seedrandom('00');
-
     const ellipse = d3.range(100).map((i: any) => [(this.width * (1 + 0.99 * Math.cos((i / 50) * Math.PI))) / 2, (this.height * (1 + 0.99 * Math.sin((i / 50) * Math.PI))) / 2]);
 
     let voronoiTreeMap = voronoiTreemap().prng(seed) as any;
     let voronoiTreeMaps = voronoiTreeMap.clip(ellipse);
-
 
     this.countryColorHierarchy(this.companyHierarchy);
     voronoiTreeMaps(this.companyHierarchy);
@@ -199,75 +175,59 @@ export class VoronoiComponent implements OnInit {
       });
 
     let hoveredShape: any = null;
-    const margin = { top: 20, right: 20, bottom: 20, left: 40 };
-
-    const children = this.companyHierarchy.children;
-    // .map((d: any) => d.data[0]);
-
 
     // Add labels
     let radius = 200;
     const labelRadius = radius + 15;
-
     const cradius = Math.min(this.width, this.height) / 2;
+    const pathId = "textPath" + Math.floor(Math.random() * 10000);
+    const lineGenerator = d3.line().x(d => d[0]).y(d => d[1]).curve(d3.curveBasis);
+
 
     // const 
-    labelsText = svg.append('g').
-      append("circle")
-      .attr("r", 339)
-      .attr("fill", "none")
-      .attr("stroke", "gray")
-      .attr("transform", "translate(" + 390 + "," + 360 + ")")
-      .attr("stroke-width", 1.5) as any;
-
-    // Create clip path
-    labelsText.append('clipPath')
+    // arcTextLabel.append('g').
+    //   append("circle")
+    //   .attr("r", 339)
+    //   .attr("fill", "none")
+    //   .attr("stroke", "grey")
+    //   .attr("transform", "translate(" + 390 + "," + 360 + ")")
+    //   .attr("stroke-width", 1.5) as any;
+    // // Create clip path
+    arcTextLabel.append('clipPath')
       .attr('id', 'circle-clip')
       .append('circle')
-      .attr('r', cradius)
+      .attr('r', cradius);
 
-    svg
+
+    arcTextLabel
       .selectAll('text')
-      .data(allNodes.filter((d: any) => d.depth === 2))
-      // .data(allNodes.filter((d: any) => d.depth === 2))
-      // .data(children)
+      .data(allNodes.filter((d: any) => d.data.length === 2 && d.data[0] !== undefined))
       .enter()
       .append('text')
-      // .attr("class", "clipPath")
       .attr('class', (d: any) => `label-${d.id}`)
       .attr('transform', (d: any, i: number) => {
-        // console.log(this.symbolList);
-        const angle = (i / d.parent.data[1].length) * 2 * Math.PI - Math.PI / 2;
+        console.log(d);
+        // const angle = (i / d.data[1].length) * 2 * Math.PI - Math.PI / 2;
+        const angle = (i * 360 / d.data[1].length - 90) * (Math.PI / 180) * 1.6 - Math.PI / 8;
         const x = labelRadius * Math.cos(angle);
         const y = labelRadius * Math.sin(angle);
 
         return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${(angle * 180) / Math.PI + 90})`;
-        // return "translate(" + [d.polygon.site.x, d.polygon.site.y] + ")"
+
+        // return `translate(${d.polygon.site.x + 40}, ${d.polygon.site.y + 20})`;
       })
+      // .attr("transform", (d: any) => "translate(" + [d.polygon.site.x + 50, d.polygon.site.y + 20] + ")")
       .attr("font-weight", "bold")
       .attr("class", "tick")
       .text((d: any) => {
-        console.log(d);
-        // return children.includes(d.parent.data[0]) ?  : '';
-        return d.data.Country;
+        return d.data[0]
       })
       .attr('text-anchor', 'middle')
       .attr('class', 'font-medium text-sm')
-      .attr('opacity', (d: any) => {
-
-        if (d.data.key === hoveredShape) {
-
-          return (1);
-        } else if (d.data.SharePrice > 406) {
-          return (1);
-        } else { return (0); }
-      })
       .attr('cursor', 'default')
       .attr('pointer-events', 'none')
       .attr('fill', 'black')
       .style('font-family', 'Montserrat');
-
-
 
     voronoi.selectAll('path')
       .data(allNodes)
@@ -294,13 +254,12 @@ export class VoronoiComponent implements OnInit {
         popLabel.attr('opacity', 0)
       })
       .attr("stroke-width", (d: any) => 7 - d.depth * 2.8)
-      .style('fill', (d: any) => d.color)
-      .transition()
-      .duration(1000);
+      .style('fill', (d: any) => d.color);
+
 
     d3.select('g')
       .call(d3.zoom()
-        .extent([[-150, -10], [this.width * 1.5, this.height * 1.5]])
+        .extent([[-150, -100], [this.width * 1.5, this.height * 1.5]])
         .scaleExtent([1, 8])
         .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
 
@@ -313,7 +272,10 @@ export class VoronoiComponent implements OnInit {
       })
       .attr('text-anchor', 'middle')
       .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 6] + ")")
-      .text((d: any) => d.data.Company)
+      .text((d: any) => {
+
+        return d.data.Company
+      })
       .attr('opacity', (d: any) => {
         if (d.data.key === hoveredShape) {
           return (1);
@@ -364,5 +326,53 @@ export class VoronoiComponent implements OnInit {
 
   zoomed({ transform }: any, svg: any) {
     svg.attr("transform", transform);
+  }
+
+  findCurvedSection(rawPoints: [number, number][]): {
+    start: number;
+    end: number;
+    points: Point[];
+  } {
+    const points: Point[] = rawPoints.map(([x, y]) => ({ x, y }));
+    let curveStart = -1;
+    let curveEnd = -1;
+    let currentSequenceStart = -1;
+    let maxSequenceLength = 0;
+
+    // Look for the longest sequence where x decreases consistently
+    for (let i = 0; i < points.length - 1; i++) {
+      if (points[i].x > points[i + 1].x) {
+        // Start of a new sequence or continuation
+        if (currentSequenceStart === -1) {
+          currentSequenceStart = i;
+        }
+
+        // If this sequence is longer than our previous longest
+        const currentLength = i - currentSequenceStart + 2;
+        if (currentLength > maxSequenceLength) {
+          maxSequenceLength = currentLength;
+          curveStart = currentSequenceStart + 1;
+          curveEnd = i - 1;
+        }
+      } else if (currentSequenceStart !== -1) {
+        // Sequence broken
+        currentSequenceStart = -1;
+      }
+    }
+
+    // Extract the curved section points
+    const curvedPoints = points.slice(curveStart, curveEnd + 1);
+
+    // console.log("Curve analysis:");
+    // console.log(`Start index: ${curveStart}`);
+    // console.log(`End index: ${curveEnd}`);
+    // console.log("Start point:", points[curveStart]);
+    // console.log("End point:", points[curveEnd]);
+
+    return {
+      start: curveStart,
+      end: curveEnd,
+      points: curvedPoints
+    };
   }
 }
