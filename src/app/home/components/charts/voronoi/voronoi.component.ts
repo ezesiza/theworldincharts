@@ -148,9 +148,9 @@ export class VoronoiComponent implements OnInit {
   renderVoronoi() {
 
     let svg = d3.select("#chart").append("svg")
-      .attr("width", this.width * 1.2)
-      .attr("height", this.height * 1.2)
-      .attr("viewBox", "-220, 10, 980, 950")
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("viewBox", "-30, 10, 780, 750")
       .style("background", "white");
 
     const drawingArea = svg.append("g").attr("transform", "translate(" + this.margins.left + "," + this.margins.top + ")")
@@ -208,7 +208,7 @@ export class VoronoiComponent implements OnInit {
       .attr('transform', (d: any, i: number) => {
         console.log(d);
         // const angle = (i / d.data[1].length) * 2 * Math.PI - Math.PI / 2;
-        const angle = (i * 360 / d.data[1].length - 90) * (Math.PI / 180) * 1.6 - Math.PI / 8;
+        const angle = (i * 360 / d.data[1].length - 90) * (Math.PI / 180) * 1.8 - Math.PI / 12;
         const x = labelRadius * Math.cos(angle);
         const y = labelRadius * Math.sin(angle);
 
@@ -257,9 +257,9 @@ export class VoronoiComponent implements OnInit {
       .style('fill', (d: any) => d.color);
 
 
-    d3.select('g')
+    d3.select('voronoi')
       .call(d3.zoom()
-        .extent([[-150, -100], [this.width * 1.5, this.height * 1.5]])
+        .extent([[-50, -10], [this.width * 1.5, this.height * 1.5]])
         .scaleExtent([1, 8])
         .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
 
