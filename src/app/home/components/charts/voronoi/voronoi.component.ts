@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import * as d3 from "d3";
 import seedrandom from 'seedrandom';
 import { voronoiTreemap } from './voronoiTreemap';
@@ -14,8 +14,6 @@ interface Point {
   y: number;
 }
 
-
-
 @Component({
   selector: 'voronoi',
   templateUrl: 'voronoi.component.html',
@@ -23,6 +21,7 @@ interface Point {
 })
 
 export class VoronoiComponent implements OnInit {
+
   height = 680;
   width = 680;
   private margins = { top: 20, right: 20, bottom: 50, left: 50 };
@@ -37,9 +36,11 @@ export class VoronoiComponent implements OnInit {
   companyHierarchy: any = null;
   countryList: any = [];
   symbolList: any = [];
+  countrySelected: any = [];
   imageSource: string = ' CompanyValuation.jpg';
   showDownload: boolean = false;
-  currentQuery: string = 'Country'
+  currentQuery: string = 'Country';
+  showCardOne: boolean = false;
 
 
   constructor(private store: Store<State>, private service: VoronoiService, private presentation: PresentationService) { }
@@ -102,7 +103,7 @@ export class VoronoiComponent implements OnInit {
 
     this.countryList.forEach((item: any, i: number) => {
       const t: number = i / this.countryList.length;
-      countryObject[item] = colorOrdinal(t)
+      countryObject[item] = colorInterpol(t)
     });
 
 
@@ -148,8 +149,8 @@ export class VoronoiComponent implements OnInit {
   renderVoronoi() {
 
     let svg = d3.select("#chart").append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height)
+      .attr("width", this.width / 1.1)
+      .attr("height", this.height / 1.1)
       .attr("viewBox", "-30, 10, 780, 750")
       .style("background", "white");
 
@@ -159,6 +160,7 @@ export class VoronoiComponent implements OnInit {
     const labels = drawingArea;
     const popLabels = drawingArea;
     let arcTextLabel = svg;
+
 
     let seed = seedrandom('00');
     const ellipse = d3.range(100).map((i: any) => [(this.width * (1 + 0.99 * Math.cos((i / 50) * Math.PI))) / 2, (this.height * (1 + 0.99 * Math.sin((i / 50) * Math.PI))) / 2]);
@@ -181,17 +183,17 @@ export class VoronoiComponent implements OnInit {
     const labelRadius = radius + 15;
     const cradius = Math.min(this.width, this.height) / 2;
     const pathId = "textPath" + Math.floor(Math.random() * 10000);
-    const lineGenerator = d3.line().x(d => d[0]).y(d => d[1]).curve(d3.curveBasis);
-
+    // const lineGenerator = d3.line().x(d => d[0]).y(d => d[1]).curve(d3.curveBasis) as any;
+    const lineGenerator = d3.line();
 
     // const 
-    // arcTextLabel.append('g').
-    //   append("circle")
-    //   .attr("r", 339)
-    //   .attr("fill", "none")
-    //   .attr("stroke", "grey")
-    //   .attr("transform", "translate(" + 390 + "," + 360 + ")")
-    //   .attr("stroke-width", 1.5) as any;
+    arcTextLabel.append('g').
+      append("circle")
+      .attr("r", 339)
+      .attr("fill", "none")
+      .attr("stroke", "grey")
+      .attr("transform", "translate(" + 390 + "," + 360 + ")")
+      .attr("stroke-width", 1.5) as any;
     // // Create clip path
     arcTextLabel.append('clipPath')
       .attr('id', 'circle-clip')
@@ -206,21 +208,42 @@ export class VoronoiComponent implements OnInit {
       .append('text')
       .attr('class', (d: any) => `label-${d.id}`)
       .attr('transform', (d: any, i: number) => {
-        console.log(d);
-        // const angle = (i / d.data[1].length) * 2 * Math.PI - Math.PI / 2;
-        const angle = (i * 360 / d.data[1].length - 90) * (Math.PI / 180) * 1.8 - Math.PI / 12;
+        let boundaries = this.findCircularBoundaries(d);
+        let points = d.polygon;
+        // console.log();
+
+        let sumX = 0;
+        let sumY = 0;
+
+        for (let i = 0; i < points.length; i++) {
+          sumX += points[i][0];
+          sumY += points[i][1];
+        }
+
+        // Calculate the average for x and y
+        const midpointX = sumX / points.length;
+        const midpointY = sumY / points.length;
+
+        const countrySize = this.countryList.length
+        const angle = (i * 360 / (1 + countrySize) + countrySize) * (Math.PI / countrySize) - Math.PI / (1 + countrySize);
+
         const x = labelRadius * Math.cos(angle);
         const y = labelRadius * Math.sin(angle);
+        const dx = midpointX - d.polygon.site.x;
+        const dy = midpointY - d.polygon.site.y;
 
-        return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${(angle * 180) / Math.PI + 90})`;
+        // console.log(d.data[0], boundaries, dx, dy);
+        // console.log(d.data[0], boundaries, d.polygon.site.x, d.polygon.site.y);
 
-        // return `translate(${d.polygon.site.x + 40}, ${d.polygon.site.y + 20})`;
+        // return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${((angle * 180) / Math.PI + 90)})`;
+
+        return "translate(" + [boundaries.center[0] + 35, boundaries.center[1]] + ")"
       })
       // .attr("transform", (d: any) => "translate(" + [d.polygon.site.x + 50, d.polygon.site.y + 20] + ")")
       .attr("font-weight", "bold")
       .attr("class", "tick")
       .text((d: any) => {
-        return d.data[0]
+        return d.data[0];
       })
       .attr('text-anchor', 'middle')
       .attr('class', 'font-medium text-sm')
@@ -238,6 +261,18 @@ export class VoronoiComponent implements OnInit {
       .attr("stroke", "white")
       .attr("stroke-width", 2.5)
       .style('fill-opacity', (d: any) => d.depth === 2 ? 1 : 0)
+      .on("click", (event: any, d: any) => {
+        this.showCardOne = true;
+        this.destroyChart(d3.select("#card-one"));
+        this.countrySelected = d;
+
+        this.createNewSvg(d.parent.polygon);
+        // this.createNewSvg(children);
+      })
+      .on("dblclick", (event: any, d: any) => {
+        this.showCardOne = false;
+        this.setZoom(svg);
+      })
       .attr('pointer-events', (d: any) => d.depth === 2 ? 'all' : 'none')
       .on('mouseenter', (d: any) => {
         let { id } = d.target.__data__;
@@ -256,12 +291,12 @@ export class VoronoiComponent implements OnInit {
       .attr("stroke-width", (d: any) => 7 - d.depth * 2.8)
       .style('fill', (d: any) => d.color);
 
-
-    d3.select('voronoi')
+    d3.select('#chart')
       .call(d3.zoom()
-        .extent([[-50, -10], [this.width * 1.5, this.height * 1.5]])
-        .scaleExtent([1, 8])
+        .extent([[-4, -1], [this.width / 24, this.height / 24]])
+        .scaleExtent([1, 1.01])
         .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
+
 
     labels.selectAll('text')
       .data(allNodes.filter((d: any) => d.depth === 2))
@@ -328,51 +363,145 @@ export class VoronoiComponent implements OnInit {
     svg.attr("transform", transform);
   }
 
-  findCurvedSection(rawPoints: [number, number][]): {
-    start: number;
-    end: number;
-    points: Point[];
-  } {
-    const points: Point[] = rawPoints.map(([x, y]) => ({ x, y }));
-    let curveStart = -1;
-    let curveEnd = -1;
-    let currentSequenceStart = -1;
-    let maxSequenceLength = 0;
+  setZoom(svg: any = null) {
+    d3.select('#chart')
+      .call(d3.zoom()
+        .extent([[-1, 10], [this.width / 12, this.height / 12]])
+        .scaleExtent([1, 1.1])
+        .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
+  }
 
-    // Look for the longest sequence where x decreases consistently
-    for (let i = 0; i < points.length - 1; i++) {
-      if (points[i].x > points[i + 1].x) {
-        // Start of a new sequence or continuation
-        if (currentSequenceStart === -1) {
-          currentSequenceStart = i;
-        }
+  findCircularBoundaries(d: any) {
+    const points: [number, number][] = d.polygon;
+    // Find the centroid of the polygon
+    let cx = 0, cy = 0;
+    points.forEach((point: [number, number]) => {
+      cx += point[0];
+      cy += point[1];
+    });
+    cx /= points.length;
+    cy /= points.length;
 
-        // If this sequence is longer than our previous longest
-        const currentLength = i - currentSequenceStart + 2;
-        if (currentLength > maxSequenceLength) {
-          maxSequenceLength = currentLength;
-          curveStart = currentSequenceStart + 1;
-          curveEnd = i - 1;
-        }
-      } else if (currentSequenceStart !== -1) {
-        // Sequence broken
-        currentSequenceStart = -1;
+    // Calculate distances from centroid to each point
+    const distances = points.map(point => {
+      const dx = point[0] - cx;
+      const dy = point[1] - cy;
+      return Math.sqrt(dx * dx + dy * dy);
+    });
+
+    // Find the average distance to use as circle radius
+    const radius = d3.mean(distances);
+
+    // Find points that are approximately on the circle
+    const threshold = radius * .55; // 15% tolerance
+    const circularPoints = points.filter((point, i) => {
+      const dist = distances[i];
+      return Math.abs(dist - radius) < threshold;
+    });
+    // console.log(d.data[0], JSON.stringify(circularPoints));
+    return {
+      center: [cx, cy],
+      radius: radius,
+      points: circularPoints.sort((a: number[], b: number[]) => a[0] - b[0])
+    };
+  }
+
+  createNewSvg(polygon: any) {
+    // let svg: any = d3.select("#card-one");
+    const margin = 2;
+    let svg = d3.select("#card-one").append("svg")
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("viewBox", "-30, 10, 780, 750")
+      .style("background", "white")
+      .attr('xmlns', 'http://www.w3.org/2000/svg');
+
+
+    // Determine scales
+    const xScale = d3.scaleLinear()
+      .domain([d3.min(polygon, (d: any) => d[0]) as any - margin, d3.max(polygon, (d: any) => d[0]) + margin] as any)
+      .range([0, this.width]);
+
+    const yScale = d3.scaleLinear()
+      .domain([d3.min(polygon, (d: any) => d[1]) as any - margin, d3.max(polygon, (d: any) => d[1]) + margin] as any)
+      .range([this.height, 0]);
+
+
+
+    // Modified line generator to create an offset path
+    const lineGenerator = d3.line()
+      .x(d => xScale(d[0]) + 10)
+      .y(d => yScale(d[1]) + 40);  // Increased offset to 70 pixels above path
+
+
+    // Create polygon path
+    const polygonPath = svg.append('path')
+      .datum(polygon)
+      .attr('d', d3.line().x((d: any) => xScale(d[0])).y((d: any) => yScale(d[1])) as any)
+      .attr('id', 'polygonPath')
+      .attr('fill', 'lightblue')
+      .attr('stroke', 'blue')
+      .attr('stroke-width', 2)
+      .attr('fill-opacity', 0.5);
+
+
+    // Create offset path for text
+    const textPath = svg.append('path')
+      .datum(polygon)
+      .attr('d', lineGenerator as any)
+      .attr('id', 'textPathOffset')
+      .attr('fill', 'none')
+      .attr('stroke', 'none');
+
+    // Draw polygon
+    svg.selectAll('circle')
+      .data(polygon)
+      .enter()
+      .append('circle')
+      .attr('cx', (d: any) => {
+        return xScale(d[0])
+      })
+      .attr('cy', (d: any) => yScale(d[1]))
+      .attr('r', 5)
+      .attr('fill', 'red');
+  }
+
+  private destroyChart(svg: any) {
+    if (svg && !svg.empty()) {
+      svg.attr("width", "0");
+      svg.selectAll("*").remove();
+    }
+  }
+
+  createTransformInterpolator(source: any, target: any) {
+    // Create d3 interpolators for both translation and rotation
+    const translateInterpolator = d3.interpolate(
+      source.translate,
+      target.translate
+    );
+
+    // Normalize rotation angles (optional, but helps with smooth transitions)
+    let sourceRotation = source.rotate % 360;
+    let targetRotation = target.rotate % 360;
+
+    // Choose the shortest path for rotation
+    if (Math.abs(targetRotation - sourceRotation) > 180) {
+      if (targetRotation > sourceRotation) {
+        sourceRotation += 360;
+      } else {
+        targetRotation += 360;
       }
     }
 
-    // Extract the curved section points
-    const curvedPoints = points.slice(curveStart, curveEnd + 1);
+    const rotateInterpolator = d3.interpolate(sourceRotation, targetRotation);
 
-    // console.log("Curve analysis:");
-    // console.log(`Start index: ${curveStart}`);
-    // console.log(`End index: ${curveEnd}`);
-    // console.log("Start point:", points[curveStart]);
-    // console.log("End point:", points[curveEnd]);
+    // Return the interpolator function that will be called with a time parameter (0 to 1)
+    return function (t: any) {
+      const currentTranslate = translateInterpolator(t);
+      const currentRotate = rotateInterpolator(t);
 
-    return {
-      start: curveStart,
-      end: curveEnd,
-      points: curvedPoints
+      return `translate(${currentTranslate[0]}, ${currentTranslate[1]}) rotate(${currentRotate})`;
     };
   }
+
 }

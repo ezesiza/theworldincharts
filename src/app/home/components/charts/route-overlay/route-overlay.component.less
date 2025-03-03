@@ -1,0 +1,45 @@
+/* fullscreen-overlay.component.scss */
+.fullscreen-overlay {
+    position: absolute;
+    margin-top: 10rem;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(241, 237, 237, 0.85);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.close-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgb(116, 115, 115);
+    border: none;
+    color: rgb(57, 56, 56);
+    font-size: 24px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgba(28, 26, 26, 0.1);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}

@@ -7,7 +7,7 @@ import { RaceBarComponent } from './home/components/charts/race-bar/race-bar.com
 import { RadialDonutChartComponent } from './home/components/charts/radial-donut-chart/radial-donut-chart.component';
 import { SankeyComponent } from './home/components/charts/sankey/sankey.component';
 import { FlatEarthComponent } from './home/components/charts/flat-earth/flat-earth.component';
-import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voronoi.original';
+import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voronoi-original/voronoi.original';
 import { DonutRaceComponent } from './home/components/charts/dount-race/donut-race.component';
 import { SankeyDragComponent } from './home/components/charts/sankey-drag/sankey-drag.component';
 import { SampleComponent } from './home/components/charts/sample/sample.component';
@@ -16,6 +16,7 @@ import { TabsComponent } from './home/components/tabs/tabs.component';
 import { DelaunayComponent } from './home/components/delaunay/delaunay.component';
 import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
 import { FunnelChartComponent } from './home/components/charts/funnel/funnel.component';
+import { DivergingBarsComponent } from './home/components/charts/divergin-bars/diverging-bars.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -33,7 +34,10 @@ export const routes: Routes = [
     { path: 'diagram', component: DelaunayDiagramComponent },
     { path: 'radial', component: RadialDonutChartComponent },
     { path: 'funnel', component: FunnelChartComponent },
-    { path: 'sample', component: SampleComponent }
+    { path: 'overlay/content1', component: DivergingBarsComponent },
+    // { path: 'overlay/content2', component: DivergingBarsComponent },
+    { path: 'sample', component: SampleComponent },
+    { path: '**', redirectTo: '/' }
 ];
 
 @NgModule({

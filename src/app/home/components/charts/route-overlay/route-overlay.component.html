@@ -1,0 +1,6 @@
+<div class="fullscreen-overlay" [class.active]="isActive">
+    <div class="overlay-content">
+        <button class="close-buttons" (click)="onClose()">✕</button>
+        <ng-content></ng-content>
+    </div>
+</div>

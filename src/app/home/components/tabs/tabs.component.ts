@@ -1,7 +1,7 @@
-import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
 import { DynamicTabDirective } from './dynamic-tab.directive';
 import { FlatEarthComponent } from '../charts/flat-earth/flat-earth.component';
-import { VoronoiOriginalComponent } from '../charts/voronoi/voronoi.original';
+import { VoronoiOriginalComponent } from '../charts/voronoi/voronoi-original/voronoi.original';
 import { VoronoiComponent } from '../charts/voronoi/voronoi.component';
 
 
@@ -12,7 +12,7 @@ interface TabItem {
 }
 
 @Component({
-  selector: 'app-tabs',
+  selector: 'tabs-item',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.less']
 })
@@ -26,6 +26,7 @@ export class TabsComponent implements OnInit {
   @ViewChild(DynamicTabDirective, { static: true }) dynamicTabHost!: DynamicTabDirective;
   activeTab: string = 'Company Voronoi';
 
+  @Input()
   tabs: TabItem[] = [
     {
       title: 'Company Voronoi',

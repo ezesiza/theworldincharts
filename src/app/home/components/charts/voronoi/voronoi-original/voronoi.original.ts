@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import * as d3 from "d3";
 import seedrandom from 'seedrandom';
-import { voronoiTreemap } from './voronoiTreemap';
+import { voronoiTreemap } from './../voronoiTreemap';
 import { ActivatedRoute } from '@angular/router';
 import { VoronoiService } from 'app/home/services/voronoi.service';
 import { PresentationService } from 'app/home/services/presentation.service';
@@ -9,7 +9,7 @@ import { PresentationService } from 'app/home/services/presentation.service';
 @Component({
     selector: 'app-voronoi',
     templateUrl: 'voronoi.original.component.html',
-    styleUrls: ['./voronoi.component.less'],
+    styleUrls: ['./voronoi.component.original.less'],
     encapsulation: ViewEncapsulation.None
     // changeDetection: ChangeDetectionStrategy.OnPush,
 })

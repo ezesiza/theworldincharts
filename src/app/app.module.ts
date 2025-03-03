@@ -28,8 +28,8 @@ import { SankeyComponent } from './home/components/charts/sankey/sankey.componen
 import { FlatEarthComponent } from './home/components/charts/flat-earth/flat-earth.component';
 import { OverlayComponent } from './home/components/overlay/overlay.component';
 import { AlaaapHeaderComponent } from './home/components/dashboards/alaaap-dashboard/alaaap-header/alaaap-header.component';
+import { BubbleChartComponent, } from "./home/components/charts/bubble-chart/bubble-chart.component";
 import { SampleComponent } from './home/components/charts/sample/sample.component';
-import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voronoi.original';
 import { CustomSelectComponent } from './home/components/custom-select/custom-select.component';
 import { reducers } from './ngrx/reducers';
 import { CompanyFilterEffects } from './ngrx/effects/company.filter.effects';
@@ -41,6 +41,10 @@ import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.di
 import { FunnelChartComponent } from './home/components/charts/funnel/funnel.component';
 import { FormSelectComponent } from './home/components/form-select/form-select.component';
 import { ContextMenuDirective } from './home/directives/context-menu.directive';
+import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voronoi-original/voronoi.original';
+// import { DivergingBarsComponent } from './home/components/charts/diverging-bars/diverging-bars.component';
+import { RouteOverlayComponent } from './home/components/charts/route-overlay/route-overlay.component';
+import { DivergingBarsComponent } from './home/components/charts/divergin-bars/diverging-bars.component';
 
 
 @NgModule({
@@ -52,6 +56,7 @@ import { ContextMenuDirective } from './home/directives/context-menu.directive';
     GlobeComponent,
     FlatEarthComponent,
     OverlayComponent,
+    RouteOverlayComponent,
     VoronoiOriginalComponent,
     DelaunayComponent,
     DelaunayDiagramComponent,
@@ -67,8 +72,10 @@ import { ContextMenuDirective } from './home/directives/context-menu.directive';
     RaceBarComponent,
     TabsComponent,
     ContextMenuDirective,
+    DivergingBarsComponent,
     DynamicTabDirective,
     MetricsDashboardComponent,
+    BubbleChartComponent,
     SingleCardComponent,
     DonutChartComponent],
   imports: [
@@ -81,8 +88,7 @@ import { ContextMenuDirective } from './home/directives/context-menu.directive';
     BrowserAnimationsModule,
     HttpClientModule,
     EffectsModule.forRoot([CompanyFilterEffects]),
-    StoreModule.forRoot(reducers)
-
+    StoreModule.forRoot(reducers),
   ],
   providers: [],
   bootstrap: [AppComponent],
