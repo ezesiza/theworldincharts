@@ -25,6 +25,7 @@
     "d3": "^6.7.0",
     "d3-delaunay": "^6.0.4",
     "d3-sankey": "^0.12.3",
+    "d3-svg-annotation": "^2.5.1",
     "d3-voronoi-map": "^2.1.1",
     "d3-voronoi-treemap": "^1.1.2",
     "d3-weighted-voronoi": "^1.1.3",

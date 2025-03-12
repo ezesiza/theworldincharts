@@ -22,6 +22,14 @@
             {{"Download Company Valuation Image"}}</a></button>
         <div class="row">
           <div id="chart" class="column"></div>
+
+          <div appBouncingArrow>
+            <div class="description">
+              <span>
+                <h4>Click on the chart to explore more details</h4>
+              </span>
+            </div>
+          </div>
           <div class="column">
             <bubble-chart [inputData]="countrySelected"></bubble-chart>
           </div>

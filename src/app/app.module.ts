@@ -45,6 +45,8 @@ import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voron
 // import { DivergingBarsComponent } from './home/components/charts/diverging-bars/diverging-bars.component';
 import { RouteOverlayComponent } from './home/components/charts/route-overlay/route-overlay.component';
 import { DivergingBarsComponent } from './home/components/charts/divergin-bars/diverging-bars.component';
+import { BouncingArrowDirective } from './bouncy-arrow.directive';
+import { LineChartComponent } from './home/components/charts/line-chart/line-chart.component';
 
 
 @NgModule({
@@ -74,7 +76,9 @@ import { DivergingBarsComponent } from './home/components/charts/divergin-bars/d
     ContextMenuDirective,
     DivergingBarsComponent,
     DynamicTabDirective,
+    BouncingArrowDirective,
     MetricsDashboardComponent,
+    LineChartComponent,
     BubbleChartComponent,
     SingleCardComponent,
     DonutChartComponent],

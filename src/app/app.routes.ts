@@ -17,6 +17,7 @@ import { DelaunayComponent } from './home/components/delaunay/delaunay.component
 import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
 import { FunnelChartComponent } from './home/components/charts/funnel/funnel.component';
 import { DivergingBarsComponent } from './home/components/charts/divergin-bars/diverging-bars.component';
+import { LineChartComponent } from './home/components/charts/line-chart/line-chart.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -35,7 +36,7 @@ export const routes: Routes = [
     { path: 'radial', component: RadialDonutChartComponent },
     { path: 'funnel', component: FunnelChartComponent },
     { path: 'overlay/content1', component: DivergingBarsComponent },
-    // { path: 'overlay/content2', component: DivergingBarsComponent },
+    { path: 'linechart', component: LineChartComponent },
     { path: 'sample', component: SampleComponent },
     { path: '**', redirectTo: '/' }
 ];

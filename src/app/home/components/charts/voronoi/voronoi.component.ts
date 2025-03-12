@@ -8,6 +8,9 @@ import { VoronoiService } from 'app/home/services/voronoi.service';
 import { PresentationService } from 'app/home/services/presentation.service';
 import { getCurrentQuery, State } from 'app/ngrx/reducers';
 import { GetAllData, SetCurrentQuery } from 'app/ngrx/actions/filter.actions';
+import { BouncingArrowDirective } from 'app/bouncy-arrow.directive';
+
+
 
 interface Point {
   x: number;
