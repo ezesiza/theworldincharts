@@ -158,7 +158,8 @@ export class DivergingBarsComponent implements OnInit, OnDestroy {
       .attr('class', 'secondlabel')
       .text(this.rightLabel)
       .attr('x', this.innerMargin)
-      .attr('y', this.topMargin - 3);
+      .attr('y', this.topMargin - 3)
+      .attr('text-anchor', 'end');
 
     // Create bar groups
     this.bar = this.svg.selectAll('g.bar')

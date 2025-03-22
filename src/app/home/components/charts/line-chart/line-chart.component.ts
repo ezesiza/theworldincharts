@@ -9,6 +9,7 @@ import { annotation, annotationLabel, annotationCallout, annotationCalloutCircle
 })
 export class LineChartComponent implements OnInit {
   showAnnotations = false; // Boolean to control annotation visibility
+  showDownload: boolean = false;
 
 
   ngOnInit(): void {
@@ -189,6 +190,10 @@ export class LineChartComponent implements OnInit {
   toggleAnnotations() {
     this.showAnnotations = !this.showAnnotations;
     this.createChart();
+  }
+
+  setDownload() {
+    this.showDownload = !this.showDownload;
   }
 
   parseTime = d3.isoParse;

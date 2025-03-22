@@ -84,16 +84,6 @@ export class VoronoiOriginalComponent implements OnInit {
 
     async renderVoronoi(freedom: any) {
 
-        const checkPolygon = (polygon: any) => {
-            console.log(polygon);
-            polygon.filter((point: any) => {
-                return point[1] === Math.max(...polygon.map((p: any) => p[1])) || // max y
-                    point[1] === Math.min(...polygon.map((p: any) => p[1])) || // min y
-                    point[0] === Math.max(...polygon.map((p: any) => p[0])) || // max x
-                    point[0] === Math.min(...polygon.map((p: any) => p[0]));   // min x
-            });
-        }
-
         const years = freedom.map((item: any, i: number) => item.year);
 
         const newYears = [... new Set(years)].sort();
@@ -272,8 +262,6 @@ export class VoronoiOriginalComponent implements OnInit {
             let radius = 200;
             const labelRadius = radius + 15;
             const regions = [... new Set(allNodes)];
-            let children = populationHierarchy.children;
-
 
             svg
                 // clipLabel

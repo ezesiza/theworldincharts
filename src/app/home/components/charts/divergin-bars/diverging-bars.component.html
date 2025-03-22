@@ -8,7 +8,7 @@
     </defs>
 </svg> -->
 
-<route-overlay (close)="onClose()">
+<!-- <route-overlay (close)="onClose()">
     <div class="overlay-demo-content">
         <div class="chart-container">
             <div class="content">
@@ -17,6 +17,22 @@
                     <button (click)="generateRandomData()" class="generate-btn">Generate Random Data</button>
                 </div>
             </div>
+        </div>
+    </div>
+</route-overlay> -->
+<route-overlay (close)="onClose()">
+    <div class="overlay-demo-content">
+        <div class="chart-container">
+            <single-card>
+                <div class="panel-body">
+                    <div class="content">
+                        <div id="vis"></div>
+                        <div class="controls">
+                            <button (click)="generateRandomData()" class="generate-btn">Generate Random Data</button>
+                        </div>
+                    </div>
+                </div>
+            </single-card>
         </div>
     </div>
 </route-overlay>
