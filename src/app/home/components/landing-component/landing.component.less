@@ -45,13 +45,19 @@
   }
 }
 
-// =====================================================================
-// GLOBAL STYLES
-// =====================================================================
+
+
+.search-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .search-input {
   margin: 5rem 0 5rem 0;
 
   input {
+    .box-shadow(0 0 8px 1px #e1e1e1);
     border-radius: @input-radius;
     border: 1px solid @border-color;
     background: @white;
@@ -62,12 +68,64 @@
     width: 100%;
     height: 24px;
     margin: @spacing-md auto;
-
-    &:hover {
-      .box-shadow(0 0 8px 1px #e1e1e1);
-    }
   }
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: @spacing-md;
+  padding: @spacing-md;
+
+  >div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: @spacing-md;
+
+    h3 {
+      margin-bottom: @spacing-md;
+      font-size: 1.25rem;
+      color: @primary-color;
+    }
+  }
+
+  .button {
+    margin: @spacing-sm;
+    width: calc(100% - @spacing-sm * 2);
+  }
+
+  @media (max-width: @desktop-width) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: @tablet-width) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// =====================================================================
+// GLOBAL STYLES
+// =====================================================================
+// .search-input {
+//   margin: 5rem 0 5rem 0;
+
+//   input {
+//     border-radius: @input-radius;
+//     border: 1px solid @border-color;
+//     background: @white;
+//     padding: @spacing-md;
+//     display: flex;
+//     z-index: 3;
+//     max-width: 90%;
+//     width: 100%;
+//     height: 24px;
+//     margin: @spacing-md auto;
+
+//     &:hover {
+//       .box-shadow(0 0 8px 1px #e1e1e1);
+//     }
+//   }
+// }
 
 .button {
   background-color: @primary-color;
@@ -98,127 +156,127 @@
   }
 }
 
-.grid-container {
-  display: grid;
-  height: auto;
-  min-height: 300px;
-  align-content: center;
-  grid-template-columns: 1fr;
-  gap: @spacing-md;
-  padding: @spacing-md;
+// .grid-container {
+//   display: grid;
+//   height: auto;
+//   min-height: 300px;
+//   align-content: center;
+//   grid-template-columns: 1fr;
+//   gap: @spacing-md;
+//   padding: @spacing-md;
 
-  >div {
-    background-color: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    padding: @spacing-md;
-    font-size: 1.25rem;
-  }
+//   >div {
+//     background-color: rgba(255, 255, 255, 0.8);
+//     text-align: center;
+//     padding: @spacing-md;
+//     font-size: 1.25rem;
+//   }
 
-  @media (min-width: @tablet-width) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+//   @media (min-width: @tablet-width) {
+//     grid-template-columns: repeat(2, 1fr);
+//   }
 
-  @media (min-width: @desktop-width) {
-    grid-template-columns: repeat(3, 1fr);
-    height: 400px;
-  }
+//   @media (min-width: @desktop-width) {
+//     grid-template-columns: repeat(3, 1fr);
+//     height: 400px;
+//   }
 
-  @media (min-width: @large-desktop) {
-    gap: @spacing-lg;
-  }
-}
+//   @media (min-width: @large-desktop) {
+//     gap: @spacing-lg;
+//   }
+// }
 
-.panel {
-  &-title {
-    width: 100%;
-    font-weight: 400;
-    font-size: 1.5rem;
-    position: relative;
-    padding: @spacing-md;
+// .panel {
+//   &-title {
+//     width: 100%;
+//     font-weight: 400;
+//     font-size: 1.5rem;
+//     position: relative;
+//     padding: @spacing-md;
 
-    daterange-dropdown {
-      position: relative;
-      width: 100%;
-      margin-top: @spacing-md;
-      font-size: 0.875rem;
-    }
+//     daterange-dropdown {
+//       position: relative;
+//       width: 100%;
+//       margin-top: @spacing-md;
+//       font-size: 0.875rem;
+//     }
 
-    span {
-      font-size: 0.875rem;
-    }
+//     span {
+//       font-size: 0.875rem;
+//     }
 
-    @media (min-width: @tablet-width) {
-      font-size: 1.8rem;
-      width: 80%;
+//     @media (min-width: @tablet-width) {
+//       font-size: 1.8rem;
+//       width: 80%;
 
-      daterange-dropdown {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: auto;
-      }
-    }
+//       daterange-dropdown {
+//         position: absolute;
+//         top: 0;
+//         right: 0;
+//         width: auto;
+//       }
+//     }
 
-    @media (min-width: @desktop-width) {
-      font-size: 2.1rem;
-      width: 60%;
-    }
-  }
+//     @media (min-width: @desktop-width) {
+//       font-size: 2.1rem;
+//       width: 60%;
+//     }
+//   }
 
-  &-body {
-    .date-label {
-      text-align: center;
-      font-weight: 400;
-      padding: 0;
-      margin: 0;
-    }
+//   &-body {
+//     .date-label {
+//       text-align: center;
+//       font-weight: 400;
+//       padding: 0;
+//       margin: 0;
+//     }
 
-    &-container {
-      min-width: 100%;
-      padding: @spacing-md;
-      max-height: 400px;
-      overflow-y: auto;
+//     &-container {
+//       min-width: 100%;
+//       padding: @spacing-md;
+//       max-height: 400px;
+//       overflow-y: auto;
 
-      @media (min-width: @desktop-width) {
-        height: 26rem;
-      }
+//       @media (min-width: @desktop-width) {
+//         height: 26rem;
+//       }
 
-      @media (min-width: @large-desktop) {
-        padding: @spacing-lg;
-      }
-    }
-  }
-}
+//       @media (min-width: @large-desktop) {
+//         padding: @spacing-lg;
+//       }
+//     }
+//   }
+// }
 
-.row {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+// .row {
+//   display: flex;
+//   flex-direction: column;
+//   width: 100%;
 
-  @media (min-width: @tablet-width) {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-}
+//   @media (min-width: @tablet-width) {
+//     flex-direction: row;
+//     flex-wrap: wrap;
+//   }
+// }
 
-.column {
-  flex: 1;
-  margin-bottom: @spacing-md;
+// .column {
+//   flex: 1;
+//   margin-bottom: @spacing-md;
 
-  @media (min-width: @tablet-width) {
-    flex-basis: 0;
-    margin-bottom: 0;
-    padding: 0 @spacing-sm;
-  }
-}
+//   @media (min-width: @tablet-width) {
+//     flex-basis: 0;
+//     margin-bottom: 0;
+//     padding: 0 @spacing-sm;
+//   }
+// }
 
-// Dropdown styles for desktop
-@media (min-width: @desktop-width) {
+// // Dropdown styles for desktop
+// @media (min-width: @desktop-width) {
 
-  dropdown,
-  complex-dropdown,
-  daterange-dropdown ::ng-deep dropdown {
-    margin-left: 0;
-    margin-bottom: @spacing-md;
-  }
-}
+//   dropdown,
+//   complex-dropdown,
+//   daterange-dropdown ::ng-deep dropdown {
+//     margin-left: 0;
+//     margin-bottom: @spacing-md;
+//   }
+// }

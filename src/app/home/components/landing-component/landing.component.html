@@ -1,4 +1,4 @@
-<div class="search-input">
+<!-- <div class="search-input">
   <input name="q" type="text" placeholder="Search" autocomplete="off" autofocus>
 </div>
 <div class="grid-container">
@@ -12,9 +12,27 @@
   <div><button class="button button2" routerLink="/metrics">Metrics Dashboard</button></div>
   <div><button class="button button2" routerLink="/linechart">Line Chart</button></div>
   <div><button class="button button2" routerLink="/funnel">Funnel Chart</button></div>
-  <!-- <div><button class="button button2" routerLink="/dashboard">New Dashboard</button></div> -->
   <div><button class="button button2" routerLink="/tabs">Tabs</button></div>
   <div><button class="button button2" routerLink="/delaunay">Delaunay</button></div>
   <div><button class="button button2" routerLink="/sample">Sample</button></div>
   <div><button class="button button2" routerLink="/diagram">Del. Diagram</button></div>
+</div> -->
+
+<div class="search-container">
+  <div class="search-input">
+    <input type="text" placeholder="Search" autocomplete="off" autofocus [formControl]="searchControl"
+      (input)="onSearch()" (keydown.arrowdown)="onArrowDown()" (keydown.arrowup)="onArrowUp()"
+      (keydown.enter)="onEnter()">
+  </div>
+
+  <div class="grid-container">
+    <ng-container *ngFor="let category of getOptionsByCategory() | keyvalue">
+      <div>
+        <h3>{{ category.key }}</h3>
+        <button *ngFor="let option of category.value" class="button button2" (click)="selectOption(option)">
+          {{ option.name }}
+        </button>
+      </div>
+    </ng-container>
+  </div>
 </div>
