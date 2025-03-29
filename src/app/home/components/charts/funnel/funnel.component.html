@@ -1,28 +1,26 @@
-<div class="button-group" id="voronoi">
+<div class="button-group" id="funnel" *ngIf="activatedRoute==='funnel'">
     <header>
         <div class="header">
             <h1>Funnel Chart</h1>
             <div class="button-group">
                 <button class="button" routerLink="">&laquo; Home</button>
-                <!-- <button class="button button3" title="Click to download png image" id="map2Jpg"
-                    (click)="setDownload()">Download Image JPG</button> -->
                 <button class="button button2" routerLink="/browser">Next &raquo;</button>
-                <div class="controls">
-                    <form-select (schemeChange)="onSchemeChange($event)" (styleChange)="onStyleChange($event)"
-                        (percentageToggle)="onPercentageToggle($event)"
-                        (pctOptionChange)="onPctOptionChange($event)"></form-select>
-                </div>
             </div>
         </div>
     </header>
 </div>
 <single-card>
-    <div class="panel-body" id="svg_container">
+    <div class="panel-body">
+        <div class="controls">
+            <form-select (schemeChange)="onSchemeChange($event)" (styleChange)="onStyleChange($event)"
+                (percentageToggle)="onPercentageToggle($event)"
+                (pctOptionChange)="onPctOptionChange($event)"></form-select>
+        </div>
         <div id="svg_container">
             <img id="img" width=1 height=1 />
             <!-- <button *ngIf="showDownload"><a id="anchor" download={{currentYear+imageSource}}>
                     {{"Download Browser Share Image: "+currentYear}}</a></button> -->
-            <div id="chart"></div>
+            <svg width="1" height="1"></svg>
         </div>
     </div>
 </single-card>

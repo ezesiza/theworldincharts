@@ -1,18 +1,125 @@
-.header {
-    background-color: #f1f1f1;
-    padding: 20px;
-    text-align: center;
-    margin: 1rem;
-}
+/////////////////////////////////////////////
+// =====================================================================
+// IMPORTS
+// =====================================================================
 
-.controls {
-    margin: auto;
-    width: 50%;
-    border: 3px solid green;
-    padding: 10px;
-}
+// @import 'constants.less';
+// @import 'mixins.less';
+// @import 'palette.less';
+
+// =====================================================================
+// VARIABLES
+// =====================================================================
+@legend-block-color: black;
 
 
-.button.button3 {
-    background-color: #606f94;
+// =====================================================================
+// GLOBAL STYLES
+// =====================================================================
+
+
+
+// funnel-chart {
+//     max-width: 50px;
+
+//     .chart-wrapper {
+//         overflow: hidden;
+//         display: block;
+//         height: 40vh;
+//         margin-top: -1px;
+//     }
+
+//     .checkmark-icon {
+//         margin-right: 10px;
+//     }
+
+//     .legend {
+//         font-weight: bold;
+//         font-size: 1.2rem;
+//         position: absolute;
+//         top: 5rem;
+//         right: -2rem;
+//         // .user-select(none);
+
+//         .title {
+//             cursor: pointer;
+//         }
+
+//         ul {
+//             font-weight: normal;
+//             list-style-type: none;
+//             overflow-y: hidden;
+//             padding: 0;
+//         }
+
+//         li {
+//             cursor: pointer;
+//             min-width: 12rem;
+//             margin: 0.4rem 0.4rem;
+//             white-space: nowrap;
+//         }
+
+//         label {
+//             display: inline-block;
+//             pointer-events: none;
+//             line-height: 1.2rem;
+//             vertical-align: middle;
+//             padding-left: 0.8rem;
+//             white-space: normal;
+//         }
+
+//         .apply-filter {
+//             cursor: pointer;
+//             text-decoration: underline;
+//             color: blue;
+//             font-size: 1.4rem;
+//             font-weight: normal;
+//         }
+//     }
+
+//     .bullet {
+//         display: inline-block;
+//         background-color: @legend-block-color;
+//         height: 1.4rem;
+//         width: 1.4rem;
+//         vertical-align: middle;
+//         border-radius: 50%;
+//     }
+
+//     .disabled {
+//         opacity: 0.5;
+//     }
+
+//     .tick line {
+//         stroke-opacity: .2;
+//     }
+
+
+// }
+
+// =====================================================================
+// LARGE FORM FACTOR STYLES
+// =====================================================================
+
+@media (min-width: 57.3rem) {
+    polar-chart {
+        .legend {
+            float: right;
+            margin: 1rem 0;
+
+            ul {
+                max-height: 32rem;
+                width: 15.2rem;
+                margin: 0.5rem 0;
+            }
+
+            li {
+                width: 11.8rem;
+            }
+
+            label {
+                max-width: 9.8rem;
+            }
+        }
+    }
 }

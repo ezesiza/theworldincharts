@@ -12,10 +12,6 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class BubbleChartComponent implements OnInit {
-
-
-  constructor(private router: Router) { }
-
   @Input() inputData: any = [];
   height = 500;
   width = 500;
@@ -28,6 +24,7 @@ export class BubbleChartComponent implements OnInit {
     }
   ];
 
+  constructor(private router: Router) { }
   ngOnInit(): void {
 
   }
@@ -43,7 +40,7 @@ export class BubbleChartComponent implements OnInit {
   }
 
   toOverlay() {
-    this.router.navigate(['/overlay/content1'])
+    this.router.navigate(['/diverging'])
   }
 
   createBubbleChart(root: any) {

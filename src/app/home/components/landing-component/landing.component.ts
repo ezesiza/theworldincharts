@@ -29,14 +29,15 @@ export class LandingComponent implements OnInit {
     { name: 'Global Companies by Market Cap', route: '/voronoi', category: 'Dashboards' },
     { name: 'Analytics Dashboard', route: '/analytics', category: 'Dashboards' },
     { name: 'Metrics Dashboard', route: '/metrics', category: 'Dashboards' },
+    { name: 'Finance Dashboard', route: '/finance', category: 'Dashboards' },
 
     { name: 'Line Chart', route: '/linechart', category: 'Charts' },
     { name: 'Funnel Chart', route: '/funnel', category: 'Charts' },
-    { name: 'Delaunay', route: '/delaunay', category: 'Charts' },
+    { name: 'Diverging Bars', route: '/diverging', category: 'Charts' },
+    { name: 'Radial Bars', route: '/stacked', category: 'Charts' },
 
     { name: 'Tabs', route: '/tabs', category: 'Components' },
-    { name: 'Sample', route: '/sample', category: 'Components' },
-    { name: 'Delaunay Diagram', route: '/diagram', category: 'Components' }
+    { name: 'Sample', route: '/sample', category: 'Components' }
   ];
 
   searchControl = new FormControl('');
@@ -48,12 +49,8 @@ export class LandingComponent implements OnInit {
     this.filteredOptions = [...this.allOptions];
 
     // Setup search input with debounce and distinct checking
-    this.searchControl.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(() => {
-      this.onSearch();
-    });
+    this.searchControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(() => { this.onSearch(); });
   }
 
   onSearch() {
@@ -88,17 +85,18 @@ export class LandingComponent implements OnInit {
   }
 
   selectOption(option: SearchOption) {
-    // Navigate to the corresponding route
-    // You'll need to inject Router in the constructor
-    this.router.navigate([option.route]);
 
     // For now, just set the input value and clear options
     this.searchControl.setValue(option.name);
     this.filteredOptions = [];
+    // Navigate to the corresponding route
+    // You'll need to inject Router in the constructor
+    this.router.navigate([option.route]);
   }
 
   // Group options by category
   getOptionsByCategory(): { [key: string]: SearchOption[] } {
+
     return this.filteredOptions.reduce((acc, option) => {
       const category = option.category || 'Uncategorized';
       if (!acc[category]) {

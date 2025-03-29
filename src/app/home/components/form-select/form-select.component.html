@@ -1,6 +1,6 @@
 <div style="font-size: 11pt">
     <div>
-        <label for="scheme-select">Color Scheme:</label>
+        <!-- <label for="scheme-select">Color Scheme:</label> -->
         <select id="scheme-select" name="scheme" [(ngModel)]="selectedScheme" (change)="onSchemeChange($event)">
             <option *ngFor="let scheme of schemes" [value]="scheme">{{ scheme }}</option>
         </select>

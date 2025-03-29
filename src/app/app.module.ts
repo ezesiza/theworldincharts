@@ -36,17 +36,19 @@ import { CompanyFilterEffects } from './ngrx/effects/company.filter.effects';
 import { MetricsDashboardComponent } from './home/components/dashboards/metrics-dashboard/metrics-dashboard.component';
 import { TabsComponent } from './home/components/tabs/tabs.component';
 import { DynamicTabDirective } from './home/components/tabs/dynamic-tab.directive';
-import { DelaunayComponent } from './home/components/delaunay/delaunay.component';
-import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
 import { FunnelChartComponent } from './home/components/charts/funnel/funnel.component';
 import { FormSelectComponent } from './home/components/form-select/form-select.component';
 import { ContextMenuDirective } from './home/directives/context-menu.directive';
 import { VoronoiOriginalComponent } from './home/components/charts/voronoi/voronoi-original/voronoi.original';
-// import { DivergingBarsComponent } from './home/components/charts/diverging-bars/diverging-bars.component';
 import { RouteOverlayComponent } from './home/components/charts/route-overlay/route-overlay.component';
 import { DivergingBarsComponent } from './home/components/charts/divergin-bars/diverging-bars.component';
 import { BouncingArrowDirective } from './bouncy-arrow.directive';
 import { LineChartComponent } from './home/components/charts/line-chart/line-chart.component';
+import { FinanceDashboardComponent } from './home/components/dashboards/finance-dashboard/finance-dashboard.component';
+import { VoronoiEffects } from './ngrx/effects/voronoi.effects';
+import { voronoiReducer } from './ngrx/reducers/voronoi.reducer';
+import { VoronoiStateService } from './home/services/state.service';
+import { RadialStackedBarChartComponent } from './home/components/charts/radial-stacked-bar-chart/radial-stacked-bar-chart.component';
 
 
 @NgModule({
@@ -55,13 +57,12 @@ import { LineChartComponent } from './home/components/charts/line-chart/line-cha
     FormSelectComponent,
     RadialChartComponent,
     SankeyComponent,
+    RadialStackedBarChartComponent,
     GlobeComponent,
     FlatEarthComponent,
     OverlayComponent,
     RouteOverlayComponent,
     VoronoiOriginalComponent,
-    DelaunayComponent,
-    DelaunayDiagramComponent,
     FunnelChartComponent,
     CustomSelectComponent,
     SampleComponent,
@@ -79,6 +80,7 @@ import { LineChartComponent } from './home/components/charts/line-chart/line-cha
     BouncingArrowDirective,
     MetricsDashboardComponent,
     LineChartComponent,
+    FinanceDashboardComponent,
     BubbleChartComponent,
     SingleCardComponent,
     DonutChartComponent],
@@ -93,8 +95,10 @@ import { LineChartComponent } from './home/components/charts/line-chart/line-cha
     HttpClientModule,
     EffectsModule.forRoot([CompanyFilterEffects]),
     StoreModule.forRoot(reducers),
+    StoreModule.forFeature('voronoi', voronoiReducer),
+    EffectsModule.forFeature([VoronoiEffects]),
   ],
-  providers: [],
+  providers: [VoronoiStateService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

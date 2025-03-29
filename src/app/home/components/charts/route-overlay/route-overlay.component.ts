@@ -1,6 +1,7 @@
 
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'route-overlay',
@@ -19,10 +20,11 @@ export class RouteOverlayComponent {
   @Input() isActive = true;
   @Output() close = new EventEmitter<void>();
 
-  constructor(private location: Location) { }
+  constructor(private location: Location, private router: Router) { }
 
   onClose(): void {
     this.close.emit();
     this.location.back();
+    // this.router.navigate([".."]);
   }
 }

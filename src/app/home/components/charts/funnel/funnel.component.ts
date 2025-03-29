@@ -1,6 +1,7 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { FunnelChart } from './funnel.chart';
+import { ActivatedRoute } from '@angular/router';
 
 interface FunnelDataPoint {
   stage: string;
@@ -16,12 +17,12 @@ interface FunnelOptions {
 }
 
 const data = [
-  { stage: "Invitation", value: 500000 },
-  { stage: "Create account", value: 350138 },
-  { stage: "Complete profile", value: 213067 },
-  { stage: "Start trial", value: 177635 },
-  { stage: "Finish trial", value: 140071 },
-  { stage: "Subscribe", value: 93081 }
+  { stage: "Org. Account", value: 500000 },
+  { stage: "Account Active", value: 350138 },
+  { stage: "Gold Profile", value: 213067 },
+  { stage: "Trial Ended", value: 177635 },
+  { stage: "Trial Active", value: 140071 },
+  { stage: "Sub. Onhold", value: 93081 }
 ]
 
 const data2 = [
@@ -30,18 +31,19 @@ const data2 = [
   { stage: "Neveda", value: 3276813 },
   { stage: "California", value: 6925318 },
   { stage: "Florida", value: 2380152 }
-
 ];
 
 @Component({
   selector: 'funnel-chart',
   templateUrl: 'funnel.component.html',
-  styleUrls: ['funnel.component.less']
+  styleUrls: ['funnel.component.less'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class FunnelChartComponent implements OnInit {
   @Input() data: FunnelDataPoint[] = data;
   @Input() width = 600;
   @Input() height = 400;
+  private margins = { top: 15, right: 15, bottom: 10, left: 5 };
   @Input() options: FunnelOptions = {
     palette: d3.schemeTableau10 as any,
     style: '3d',
@@ -55,18 +57,31 @@ export class FunnelChartComponent implements OnInit {
   private g: d3.Selection<SVGGElement, unknown, null, undefined>;
   currentScheme: any = 'schemeSet2';
   currentStyle: any = '2d';
+  private parentElement: any;
+  activatedRoute: string = '';
 
 
-  constructor(private el: ElementRef) { }
+  constructor(private element: ElementRef, private route: ActivatedRoute) {
+    this.parentElement = this.element.nativeElement;
+  }
 
 
   ngOnInit(): void {
+    this.route.url.subscribe(data => {
+      this.activatedRoute = data[0].path;
+    });
     this.initializeChart();
+  }
+
+  private getChartWidth(): number {
+    let panelWidth = this.parentElement.getBoundingClientRect().width;
+    return panelWidth > 0 ? panelWidth : 0;
   }
 
 
   private initializeChart() {
-    this.container = d3.select(this.el.nativeElement).select('div');
+    let parentElement = d3.select(this.parentElement);
+    // this.container = parentElement.select('svg');
 
 
     if (this.svg && !this.svg.empty()) {
@@ -74,23 +89,26 @@ export class FunnelChartComponent implements OnInit {
       this.svg.selectAll("*").remove();
     }
 
-    this.svg = d3
-      .select("#chart").append("svg")
-      // .attr("viewBox", [0, 0, this.width, this.height]);
-      .attr("viewBox", `-80, -50, ${this.width * 1.8}, ${this.height * 1.8}`)
-    // .attr('width', this.width)
-    // .attr('height', this.height);
-    this.renderChart();
+    this.svg = parentElement.select('svg')
+      // .attr("viewBox", `-80, -50, ${this.width * 1.8}, ${this.height * 1.8}`)
+      .attr("viewBox", "-60, 0, 680, 600")
+      .attr("preserveAspectRatio", "xMidYMid meet")
+      .attr("transform", `translate(${this.margins.left}, ${this.margins.top})`);
+
+    this.svg.attr("width", this.getChartWidth() / 1.2);
+    this.svg.attr("height", this.height);
+
+    this.renderChart(this.svg);
   }
 
 
-  renderChart() {
+  renderChart(svg: any) {
 
-    const chart = new FunnelChart(this.svg, data2)
+    const chart = new FunnelChart(svg, data)
       .setSize([this.width, this.height])
       .setOptions({ palette: this.updateColorScheme(this.currentScheme), style: this.currentStyle, streamlined: false })
       .setField({ stage: "stage" })
-      .setData(data2)
+      .setData(data)
       .render();
     // return chart.render();
   }

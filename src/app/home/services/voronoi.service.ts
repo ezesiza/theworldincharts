@@ -1,19 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map } from 'rxjs';
+import { BehaviorSubject, catchError, map } from 'rxjs';
+import * as VoronoiActions from './../../ngrx/actions/voronoi.actions';
+import * as VoronoiSelectors from './../../ngrx/selectors/voronoi.selectors';
+
 
 import * as d3 from 'd3';
+import { Store } from '@ngrx/store';
 
 
 @Injectable({ providedIn: "root" })
 export class VoronoiService {
+    private startDate = new Date("1994-01-01").getTime();
+    private endDate = new Date("2023-01-01").getTime();
 
-
-    startDate = new Date("1994-01-01").getTime();
-    endDate = new Date("2023-01-01").getTime();
-
-
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private store: Store) { }
 
 
     getCountries() {
@@ -144,6 +145,38 @@ export class VoronoiService {
             data[i].rank = Math.min(12, i);
         }
         return data;
+    }
+
+    loadCountries() {
+        this.store.dispatch(VoronoiActions.loadCountries());
+    }
+
+    loadCompanies() {
+        this.store.dispatch(VoronoiActions.loadCompanies());
+    }
+
+    getCountries$() {
+        return this.store.select(VoronoiSelectors.selectCountries);
+    }
+
+    getCompanyData$() {
+        return this.store.select(VoronoiSelectors.selectCompanies);
+    }
+
+    getNestedCompanyData$(filterBy: string) {
+        return this.store.select(VoronoiSelectors.selectNestedCompanyData(filterBy));
+    }
+
+    getDateValues$() {
+        return this.store.select(VoronoiSelectors.selectDateValues);
+    }
+
+    getKeyFrames$() {
+        return this.store.select(VoronoiSelectors.selectKeyFrames);
+    }
+
+    getNameFrames$() {
+        return this.store.select(VoronoiSelectors.selectNameFrames);
     }
 
 }

@@ -13,11 +13,11 @@ import { SankeyDragComponent } from './home/components/charts/sankey-drag/sankey
 import { SampleComponent } from './home/components/charts/sample/sample.component';
 import { MetricsDashboardComponent } from './home/components/dashboards/metrics-dashboard/metrics-dashboard.component';
 import { TabsComponent } from './home/components/tabs/tabs.component';
-import { DelaunayComponent } from './home/components/delaunay/delaunay.component';
-import { DelaunayDiagramComponent } from './home/components/delaunay/delaunay.diagram';
 import { FunnelChartComponent } from './home/components/charts/funnel/funnel.component';
 import { DivergingBarsComponent } from './home/components/charts/divergin-bars/diverging-bars.component';
 import { LineChartComponent } from './home/components/charts/line-chart/line-chart.component';
+import { FinanceDashboardComponent } from './home/components/dashboards/finance-dashboard/finance-dashboard.component';
+import { RadialStackedBarChartComponent } from './home/components/charts/radial-stacked-bar-chart/radial-stacked-bar-chart.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -29,14 +29,14 @@ export const routes: Routes = [
     { path: 'compvaluation', component: RaceBarComponent },
     { path: 'browser', component: DonutRaceComponent },
     { path: 'sankey', component: SankeyComponent },
-    { path: 'delaunay', component: DelaunayComponent },
     { path: 'analytics', component: AnalyticsDashboardComponent },
     { path: 'tabs', component: TabsComponent },
-    { path: 'diagram', component: DelaunayDiagramComponent },
     { path: 'radial', component: RadialDonutChartComponent },
     { path: 'funnel', component: FunnelChartComponent },
-    { path: 'overlay/content1', component: DivergingBarsComponent },
+    { path: 'stacked', component: RadialStackedBarChartComponent },
+    { path: 'diverging', component: DivergingBarsComponent },
     { path: 'linechart', component: LineChartComponent },
+    { path: 'finance', component: FinanceDashboardComponent },
     { path: 'sample', component: SampleComponent },
     { path: '**', redirectTo: '/' }
 ];

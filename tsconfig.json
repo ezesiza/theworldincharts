@@ -5,15 +5,16 @@
     "baseUrl": "./src",
     "allowJs": true,
     "paths": {
-      "@assets":["./src/assets"]
+      "@assets": [
+        "./src/assets"
+      ]
     },
     "outDir": "./dist/out-tsc",
     "resolveJsonModule": true,
-    
-    "allowSyntheticDefaultImports": true ,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "strictNullChecks":false,
+    "strictNullChecks": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,

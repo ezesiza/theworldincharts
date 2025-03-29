@@ -1,21 +1,15 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as d3 from "d3";
 import seedrandom from 'seedrandom';
 import { voronoiTreemap } from './voronoiTreemap';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { VoronoiService } from 'app/home/services/voronoi.service';
 import { PresentationService } from 'app/home/services/presentation.service';
 import { getCurrentQuery, State } from 'app/ngrx/reducers';
 import { GetAllData, SetCurrentQuery } from 'app/ngrx/actions/filter.actions';
-import { BouncingArrowDirective } from 'app/bouncy-arrow.directive';
+import { VoronoiStateService } from 'app/home/services/state.service';
+import { setCountrySelected } from 'app/ngrx/actions/voronoi.actions';
 
-
-
-interface Point {
-  x: number;
-  y: number;
-}
 
 @Component({
   selector: 'voronoi',
@@ -23,12 +17,11 @@ interface Point {
   styleUrls: ['./voronoi.component.less']
 })
 
-export class VoronoiComponent implements OnInit {
+export class VoronoiComponent implements OnInit, OnDestroy {
 
   height = 680;
   width = 680;
   private margins = { top: 20, right: 20, bottom: 50, left: 50 };
-  private fontSizeYear = 64 * this.height / 900;
 
   animate: boolean = true;
   freedom: any = null;
@@ -40,44 +33,85 @@ export class VoronoiComponent implements OnInit {
   countryList: any = [];
   symbolList: any = [];
   countrySelected: any = [];
+  companyCountry: any = '';
   imageSource: string = ' CompanyValuation.jpg';
   showDownload: boolean = false;
   currentQuery: string = 'Country';
   showCardOne: boolean = false;
+  private isChartRendered: boolean = false;
 
 
-  constructor(private store: Store<State>, private service: VoronoiService, private presentation: PresentationService) { }
+  constructor(
+    private store: Store<State>,
+    private service: VoronoiService,
+    private presentation: PresentationService,
+    private stateService: VoronoiStateService) { }
+
+  // ngOnInit() {
+  //   this.service.loadCompanies();
+  //   this.service.getNestedCompanyData$('Country').subscribe((response: any) => {
+  //     this.companyHierarchy = response.companyHierarchy
+
+  //     this.countryList = [...this.companyHierarchy.data[1].keys()];
+  //     this.symbolList = [...this.companyHierarchy.data[1].values()];
+  //     this.renderVoronoi();
+  //   })
+  // }
+
+  ngOnDestroy() {
+    this.isChartRendered = false;
+    d3.select("#chart").selectAll("*").remove();
+  }
 
   ngOnInit() {
-    this.store.select(getCurrentQuery).subscribe(res => {
-      this.currentQuery = res;
-      this.service.getNestedCompanyData(res).subscribe((res: any) => {
-        this.companyHierarchy = res.companyHierarchy
+
+    // Subscribe to store changes
+    this.store.select((state: any) => state['voronoi'].countrySelected)
+      .subscribe(data => {
+        console.log(data);
+        if (data) {
+          this.countrySelected = data;
+        }
+      });
+
+    // Only load companies if not already loaded
+    if (!this.companyHierarchy) {
+      this.service.loadCompanies();
+    }
+
+    // Only subscribe if chart hasn't been rendered
+    if (!this.isChartRendered) {
+      this.service.getNestedCompanyData$('Country').subscribe((response: any) => {
+        this.companyHierarchy = response.companyHierarchy;
         this.countryList = [...this.companyHierarchy.data[1].keys()];
         this.symbolList = [...this.companyHierarchy.data[1].values()];
         this.renderVoronoi();
-      })
-    })
-    // this.store.select(companyDataSelector).subscribe((res: any) => {
-    //   if (res.data && res.data.length > 0) {
-    //     this.companyHierarchy = res.companyHierarchy;
-    //     console.log(this.companyHierarchy);
-    //     this.countryList = [...this.companyHierarchy.data[1].keys()];
-    //     this.symbolList = [...this.companyHierarchy.data[1].values()];
-    //     this.renderVoronoi();
-    //   }
-    // })
-    // this.route.data.subscribe(data => {
-    //   console.log(data);
-    // });
-  }
+        this.isChartRendered = true;
+      });
+    }
 
+    // Restore state if it exists
+    if (this.stateService.companyCountry) {
+      this.companyCountry = this.stateService.companyCountry;
+      this.showCardOne = this.stateService.showCardOne;
+      if (this.stateService.selectedPolygon) {
+        this.createNewSvg(this.stateService.selectedPolygon);
+      }
+    }
+  }
 
   setDownload() {
     this.showDownload = !this.showDownload;
   }
 
+  // Update where 'd' is being set to countrySelected
+  updateSelection(d: any) {
+    // Dispatch to store
+    this.store.dispatch(setCountrySelected({ data: d }));
+  }
+
   getSelectionChange(event: any) {
+    this.store.dispatch(setCountrySelected({ data: event }));
     if (this.currentQuery !== event.value) {
       this.store.dispatch(new SetCurrentQuery(event.value));
       this.store.dispatch(new GetAllData());
@@ -150,10 +184,10 @@ export class VoronoiComponent implements OnInit {
   }
 
   renderVoronoi() {
-
+    d3.select("#chart").selectAll("*").remove();
     let svg = d3.select("#chart").append("svg")
       .attr("width", this.width / 1.1)
-      .attr("height", this.height / 1.1)
+      .attr("height", this.height / 1.05)
       .attr("viewBox", "-30, 10, 780, 750")
       .style("background", "white");
 
@@ -186,7 +220,6 @@ export class VoronoiComponent implements OnInit {
     const labelRadius = radius + 15;
     const cradius = Math.min(this.width, this.height) / 2;
     const pathId = "textPath" + Math.floor(Math.random() * 10000);
-    // const lineGenerator = d3.line().x(d => d[0]).y(d => d[1]).curve(d3.curveBasis) as any;
     const lineGenerator = d3.line();
 
     // const 
@@ -197,12 +230,12 @@ export class VoronoiComponent implements OnInit {
       .attr("stroke", "grey")
       .attr("transform", "translate(" + 390 + "," + 360 + ")")
       .attr("stroke-width", 1.5) as any;
-    // // Create clip path
+
+    // Create clip path
     arcTextLabel.append('clipPath')
       .attr('id', 'circle-clip')
       .append('circle')
       .attr('r', cradius);
-
 
     arcTextLabel
       .selectAll('text')
@@ -265,15 +298,24 @@ export class VoronoiComponent implements OnInit {
       .attr("stroke-width", 2.5)
       .style('fill-opacity', (d: any) => d.depth === 2 ? 1 : 0)
       .on("click", (event: any, d: any) => {
+        this.companyCountry = d.data.Company + " - " + d.data.Country;
+
         this.showCardOne = true;
         this.destroyChart(d3.select("#card-one"));
+        this.updateSelection(d);
         this.countrySelected = d;
 
-        this.createNewSvg(d.parent.polygon);
+        // Save state
+        this.stateService.companyCountry = this.companyCountry;
+        this.stateService.selectedPolygon = d.parent.polygon;
+        this.stateService.showCardOne = true;
+
+        this.createNewSvg(this.stateService.selectedPolygon);
         // this.createNewSvg(children);
       })
       .on("dblclick", (event: any, d: any) => {
         this.showCardOne = false;
+        this.stateService.showCardOne = false;
         this.setZoom(svg);
       })
       .attr('pointer-events', (d: any) => d.depth === 2 ? 'all' : 'none')

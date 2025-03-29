@@ -1,38 +1,21 @@
-<!-- <svg>
-    <defs>
-        <linearGradient id="myGradient" x1="-50%" y1="40%" x2="50%" y2="100%" spreadMethod="pad">
-            <stop offset="0%" stop-color="#FFE066" stop-opacity="1" />
-            <stop offset="50%" stop-color="#FFEB9B" stop-opacity="1" />
-            <stop offset="100%" stop-color="#fff" stop-opacity="1" />
-        </linearGradient>
-    </defs>
-</svg> -->
-
-<!-- <route-overlay (close)="onClose()">
-    <div class="overlay-demo-content">
-        <div class="chart-container">
-            <div class="content">
-                <div id="vis"></div>
-                <div class="controls">
-                    <button (click)="generateRandomData()" class="generate-btn">Generate Random Data</button>
-                </div>
+<overlay [action]="'close'">
+    <div class="panel-body">
+        <div class="content">
+            <div id="vis"></div>
+            <div class="controls">
+                <button (click)="generateRandomData()" class="generate-btn">Generate Random Data</button>
             </div>
         </div>
     </div>
-</route-overlay> -->
-<route-overlay (close)="onClose()">
+</overlay>
+<!-- <route-overlay (close)="onClose()">
     <div class="overlay-demo-content">
         <div class="chart-container">
             <single-card>
                 <div class="panel-body">
-                    <div class="content">
-                        <div id="vis"></div>
-                        <div class="controls">
-                            <button (click)="generateRandomData()" class="generate-btn">Generate Random Data</button>
-                        </div>
-                    </div>
+                    
                 </div>
             </single-card>
         </div>
     </div>
-</route-overlay>
+</route-overlay> -->
