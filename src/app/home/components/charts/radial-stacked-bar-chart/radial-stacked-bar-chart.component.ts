@@ -18,15 +18,16 @@ export class RadialStackedBarChartComponent implements OnInit {
   private outerRadius = Math.min(this.width, this.height) / 2;
   private margin = { top: 20, right: 20, bottom: 20, left: 20 };
   private radius: number = Math.min(this.width, this.height) / 2;
+  isLoading: boolean = true;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
+    setTimeout(() => (this.isLoading = false), 3000);
     this.loadData();
   }
 
   private async loadData() {
-
     try {
       // Load your CSV data here
       const csvData = (await d3.csv('assets/datasets/age_csv_data.csv'));
@@ -49,22 +50,15 @@ export class RadialStackedBarChartComponent implements OnInit {
       .append('svg')
       .attr('width', this.width)
       .attr('height', this.height)
-      .attr('viewBox', [-this.width / 2, -this.height / 2, this.width, this.height])
+      .attr('viewBox', [-this.width / 1.2, -this.height / 2, this.width * 2, this.height * 2])
       .attr('style', 'width: 100%; height: auto; font: 10px sans-serif;');
-    console.log(this.data);
-    // Stack the data
-    // const series = d3.stack<any, any>()
-    //   .keys(d3.union(this.data.map(d => d.age)))
-    //   .value((d: any, key: any) => d[key].population)
-    //   (d3.index(this.data, d => d.state, d => d.age));
+
+
 
     const series = d3.stack()
       .keys(d3.union(this.data.map(d => d.age))) // distinct series keys, in input order
       // .value(([, D], key) => D.get(key).population) 
-      .value((d: any, key: any) => {
-        console.log(d[1].get(key));
-        return d[1].get(key).population
-      })
+      .value((d: any, key: any) => d[1].get(key).population)
       (d3.index(this.data, d => d.state, d => d.age) as any);
 
 

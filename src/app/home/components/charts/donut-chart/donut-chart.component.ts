@@ -17,9 +17,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   @Input() logData: any | undefined;
   @Input() colorScale: any;
   @Input() isDynamicColors: boolean = false;
-
   @Input() unit: any;
-
   @Output() onSetChartFilters: EventEmitter<any> = new EventEmitter<any>();
 
   applyLegendFilters: boolean = false;

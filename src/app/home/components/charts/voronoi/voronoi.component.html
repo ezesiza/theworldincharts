@@ -1,21 +1,21 @@
 <div>
-  <single-card>
+  <h1>Top Global Companies by Market Capitalization</h1>
+  <header>
+    <div class="header">
+      <div class="button-group">
+        <button class="button" routerLink="">&laquo; Home</button>
+        <button class="button button3" title="Click to download png image" id="map2Jpg" (click)="setDownload()">Download
+          Image JPG</button>
+        <button class="button button2" routerLink="/voronoi-gdp">Next &raquo;</button>
+        <custom-select (selectionChange)="getSelectionChange($event)">Select
+        </custom-select>
+        <!-- <button class="button button4">Gray</button>
+            <button class="button button5">Black</button> -->
+      </div>
+    </div>
+  </header>
+  <single-card [loading]="isLoading">
     <div class="panel-body">
-      <h1>Top Global Companies by Market Capitalization</h1>
-      <header>
-        <div class="header">
-          <div class="button-group">
-            <button class="button" routerLink="">&laquo; Home</button>
-            <button class="button button3" title="Click to download png image" id="map2Jpg"
-              (click)="setDownload()">Download Image JPG</button>
-            <button class="button button2" routerLink="/voronoi-gdp">Next &raquo;</button>
-            <custom-select (selectionChange)="getSelectionChange($event)">Select
-            </custom-select>
-            <!-- <button class="button button4">Gray</button>
-                <button class="button button5">Black</button> -->
-          </div>
-        </div>
-      </header>
       <h1>{{companyCountry }}</h1>
       <div id="svg_container">
         <img id="img" width=1 height=1 />
@@ -38,11 +38,11 @@
       </div>
     </div>
   </single-card>
-  <div *ngIf="showCardOne">
+  <!-- <div *ngIf="showCardOne">
     <single-card>
       <div class="panel-body">
         <div id="card-one"></div>
       </div>
     </single-card>
-  </div>
+  </div> -->
 </div>

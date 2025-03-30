@@ -59,6 +59,7 @@ export class FunnelChartComponent implements OnInit {
   currentStyle: any = '2d';
   private parentElement: any;
   activatedRoute: string = '';
+  isLoading: boolean = true;
 
 
   constructor(private element: ElementRef, private route: ActivatedRoute) {
@@ -67,6 +68,7 @@ export class FunnelChartComponent implements OnInit {
 
 
   ngOnInit(): void {
+    setTimeout(() => (this.isLoading = false), 3000)
     this.route.url.subscribe(data => {
       this.activatedRoute = data[0].path;
     });

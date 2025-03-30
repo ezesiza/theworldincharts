@@ -21,6 +21,7 @@ export class FlatEarthComponent implements OnInit {
   download: Function = null;
   imageSource: string = ' ForeignAid.png';
   showDownload: boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     private service: LoadDataService,
@@ -28,6 +29,7 @@ export class FlatEarthComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    setTimeout(() => (this.isLoading = false), 2500)
     this.service.getAiData().subscribe(res => {
       this.aiData = res.aiDataArray;
       this.aiCountries = res.countries;

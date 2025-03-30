@@ -1,8 +1,8 @@
 <div class="panel-wrapper">
   <div class="panel-container actionable collapsible">
-    <!-- <div class="panel" [ngClass]="{'component-loading-mask': loading}"> -->
     <div class="panel">
-      <div class="card panel-content-container">
+      <!-- <div class="panel"> -->
+      <div class="card panel-content-container" [ngClass]="{'component-loading-mask': loading}">
         <div class="panel-header">
           <ng-content select=".panel-title"></ng-content>
           <ng-content select=".panel-properties"></ng-content>

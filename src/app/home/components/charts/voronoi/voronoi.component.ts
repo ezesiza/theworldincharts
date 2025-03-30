@@ -39,6 +39,7 @@ export class VoronoiComponent implements OnInit, OnDestroy {
   currentQuery: string = 'Country';
   showCardOne: boolean = false;
   private isChartRendered: boolean = false;
+  isLoading: boolean = true;
 
 
   constructor(
@@ -64,11 +65,10 @@ export class VoronoiComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    setTimeout(() => (this.isLoading = false), 3000);
     // Subscribe to store changes
     this.store.select((state: any) => state['voronoi'].countrySelected)
       .subscribe(data => {
-        console.log(data);
         if (data) {
           this.countrySelected = data;
         }

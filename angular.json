@@ -28,12 +28,10 @@
             "inlineStyleLanguage": "less",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/assets/styles"
+              "src/assets"
             ],
             "styles": [
-              "src/styles.less",
-              "src/assets/style.css"
+              "src/styles.less"
             ],
             "scripts": []
           },

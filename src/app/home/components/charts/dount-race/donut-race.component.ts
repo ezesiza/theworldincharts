@@ -32,6 +32,7 @@ export class DonutRaceComponent implements OnInit {
     private parentElement: any | undefined;
     imageSource: string = 'BrowserShare.jpg';
     showDownload: boolean = false;
+    isLoading: boolean = true;
 
     private fontSizeTitle = 28 * this.height / 700;
     // private titleTop = "Rise and fall of popular web browsers (1994-2003)";
@@ -47,6 +48,7 @@ export class DonutRaceComponent implements OnInit {
     }
 
     ngOnInit() {
+        setTimeout(() => (this.isLoading = false), 3000);
         this.service.getKeyFrames().subscribe(response => {
             this.renderChart(response)
         })

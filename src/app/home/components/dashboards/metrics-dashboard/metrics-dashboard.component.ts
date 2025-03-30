@@ -20,7 +20,7 @@ import { LoggerService } from 'app/services/logger.service';
 export class MetricsDashboardComponent implements OnInit {
 
   isDrilldownActive: boolean;
-  loadingState: boolean = false;
+  loadingState: boolean = true;
   data: any = {};
   data2 = [
     { category: "Phishing", count: 305, percent: 71 },
@@ -121,6 +121,7 @@ export class MetricsDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    setTimeout(() => (this.loadingState = false), 3000);
   }
 
 

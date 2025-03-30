@@ -63,10 +63,12 @@ export class DivergingBarsComponent implements OnInit, OnDestroy {
   private total: any;
   private commas = d3.format(",.0f");
   private resizeSubscription: Subscription | null = null;
+  isLoading = true;
 
   constructor(private el: ElementRef, private zone: NgZone, private router: Router) { }
 
   ngOnInit(): void {
+    setTimeout(() => (this.isLoading = false), 3000);
     this.initChart();
     this.drawChart();
 

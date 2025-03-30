@@ -10,10 +10,10 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 export class SingleCardComponent implements OnInit {
 
   @Input() action: string = '';
-  @Input() loading: boolean = false;
+  @Input() loading: boolean = true;
   isMinimized: boolean = false;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
   }

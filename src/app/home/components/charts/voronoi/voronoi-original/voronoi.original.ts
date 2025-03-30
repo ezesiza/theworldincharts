@@ -286,11 +286,7 @@ export class VoronoiOriginalComponent implements OnInit {
                 })
                 .attr('text-anchor', 'middle')
                 .attr('class', 'font-medium text-sm')
-                .text((d: any) => {
-                    console.log(d.data.region_simple);
-                    // (checkPolygon(d.polygon));
-                    return d.data.region_simple;
-                })
+                .text((d: any) => d.data.region_simple)
                 .attr('opacity', (d: any, e: any, f: any) => {
 
                     if (d.data.key === hoveredShape) {
