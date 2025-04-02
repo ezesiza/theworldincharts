@@ -32,6 +32,7 @@ export class VoronoiOriginalComponent implements OnInit {
     imageSource: string = ' World_Gdp_Data.png';
     showDownload: boolean = false;
     currentYear: number = 2016;
+    isLoading: boolean = true;
 
 
     constructor(private route: ActivatedRoute, private presentation: PresentationService, private service: VoronoiService) { }
@@ -43,8 +44,8 @@ export class VoronoiOriginalComponent implements OnInit {
         // });
         d3.csv('assets/datasets/freedom_clean.csv', d3.autoType)
             .then((freedom: any) => {
-
                 this.renderVoronoi(freedom);
+                setTimeout(() => this.isLoading = false, 2000);
             })
             .catch(error => console.log(error))
     }

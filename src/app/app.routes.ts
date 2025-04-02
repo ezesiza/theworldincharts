@@ -18,6 +18,8 @@ import { DivergingBarsComponent } from './home/components/charts/divergin-bars/d
 import { LineChartComponent } from './home/components/charts/line-chart/line-chart.component';
 import { FinanceDashboardComponent } from './home/components/dashboards/finance-dashboard/finance-dashboard.component';
 import { RadialStackedBarChartComponent } from './home/components/charts/radial-stacked-bar-chart/radial-stacked-bar-chart.component';
+import { AnimatedBubbleComponent } from './home/components/charts/animated-bubble/animated-bubble.component';
+import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -38,6 +40,8 @@ export const routes: Routes = [
     { path: 'linechart', component: LineChartComponent },
     { path: 'finance', component: FinanceDashboardComponent },
     { path: 'sample', component: SampleComponent },
+    { path: 'crypto', component: AnimatedBubbleComponent },
+    { path: 'bubble-monitor', component: BubbleRealtimeDashboardComponent },
     { path: '**', redirectTo: '/' }
 ];
 

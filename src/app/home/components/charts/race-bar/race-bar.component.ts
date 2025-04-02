@@ -30,6 +30,7 @@ export class RaceBarComponent implements OnInit {
   imageSource: string = ' CompanyValuationBar.png';
   currentYear = '2000';
   showDownload: boolean = false;
+  isLoading: boolean = true;
 
 
   // SVG
@@ -52,7 +53,8 @@ export class RaceBarComponent implements OnInit {
       this.next = data.next;
       this.prev = data.prev;
       this.products = data.products;
-      this.initializeBars()
+      this.initializeBars();
+      setTimeout(() => (this.isLoading = false), 2000)
     })
   }
 

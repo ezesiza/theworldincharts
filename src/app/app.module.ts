@@ -49,6 +49,9 @@ import { VoronoiEffects } from './ngrx/effects/voronoi.effects';
 import { voronoiReducer } from './ngrx/reducers/voronoi.reducer';
 import { VoronoiStateService } from './home/services/state.service';
 import { RadialStackedBarChartComponent } from './home/components/charts/radial-stacked-bar-chart/radial-stacked-bar-chart.component';
+import { AnimatedBubbleComponent } from './home/components/charts/animated-bubble/animated-bubble.component';
+import { ModalComponent } from './home/components/charts/modal/modal.component';
+import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
 
 
 @NgModule({
@@ -61,6 +64,9 @@ import { RadialStackedBarChartComponent } from './home/components/charts/radial-
     GlobeComponent,
     FlatEarthComponent,
     OverlayComponent,
+    ModalComponent,
+    BubbleRealtimeDashboardComponent,
+    AnimatedBubbleComponent,
     RouteOverlayComponent,
     VoronoiOriginalComponent,
     FunnelChartComponent,

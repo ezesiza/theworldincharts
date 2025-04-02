@@ -1,0 +1,145 @@
+// =====================================================================
+// IMPORTS
+// =====================================================================
+
+// @import 'constants.less';
+// @import 'palette.less';
+
+// =====================================================================
+// VARIABLES
+// =====================================================================
+
+// @modal-page-color: @gray;
+@modal-background-color: white;
+// @modal-button-color: @gray;
+@modal-opacity: 0.6;
+@modal-font-color: #4D4D4D;
+
+// =====================================================================
+// GLOBAL STYLES
+// =====================================================================
+
+.modal-container {
+    &:before {
+        content: "";
+        background-color: black;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: @modal-opacity;
+        z-index: 10;
+    }
+
+    &.component-loading-mask:after {
+        position: fixed;
+    }
+}
+
+.modal {
+    background-color: @modal-background-color;
+    color: @modal-font-color;
+    position: fixed;
+    max-height: 90%;
+    max-width: 90%;
+    top: 50%;
+    left: 50%;
+    margin: auto;
+    border-radius: 1rem;
+    z-index: 11;
+    transform: translate(-50%, -50%);
+}
+
+.modal-content-container {
+    padding: 2rem;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.modal-header {
+    position: relative;
+    display: inline-flex;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.modal-body-container {
+    position: relative;
+    overflow-y: auto;
+    height: calc(100% - 4.4rem);
+}
+
+.modal-body {
+    height: 100%;
+
+    ag-grid-angular {
+        height: 100% !important;
+    }
+
+    .ag-root-wrapper {
+        height: 100%;
+    }
+
+    .ag-root-wrapper-body {
+        overflow: hidden;
+    }
+
+    .ag-body-viewport {
+        overflow: auto;
+    }
+}
+
+.close-button {
+    right: 0;
+    top: 0;
+    margin-left: 2rem;
+    // border-color: @modal-button-color;
+
+    &:before,
+    &:after {
+        // background: @modal-button-color;
+    }
+}
+
+.resizer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    user-select: none;
+
+    &:hover {
+        cursor: nwse-resize;
+    }
+
+    .material-icons {
+        transform: rotate(-45deg);
+        color: lightgrey;
+        pointer-events: none;
+    }
+}
+
+.is-resizing {
+    height: 20rem;
+    width: 20rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    .material-icons {
+        color: transparent;
+    }
+}
+
+.resizing-mask {
+    user-select: none;
+    opacity: 0.5;
+}
+
+// =====================================================================
+// LARGE FORM FACTOR STYLES
+// =====================================================================
+
+// @media (min-width: @media-min-large-width) {}

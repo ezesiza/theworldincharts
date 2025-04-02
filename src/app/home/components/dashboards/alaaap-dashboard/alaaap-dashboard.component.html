@@ -12,7 +12,7 @@
 <!-- <alaaap-header></alaaap-header> -->
 <div class="row">
   <div class="column">
-    <single-card>
+    <single-card [loading]="loadingState">
       <div class="panel-body" id="svg_container">
         <ng-content select=".under-chart-title"></ng-content>
         <time-series-bar-chart [dateRange]="dateRange" [data]="chartData">
@@ -24,21 +24,21 @@
 </div>
 <div class="row">
   <div class="column">
-    <single-card>
+    <single-card [loading]="loadingState">
       <div class="panel-body">
         <radial-chart [data]="data3"></radial-chart>
       </div>
     </single-card>
   </div>
   <div class="column">
-    <single-card>
+    <single-card [loading]="loadingState">
       <div class="panel-body">
         <donut [logData]="data3"></donut>
       </div>
     </single-card>
   </div>
   <div class="column">
-    <single-card>
+    <single-card [loading]="loadingState">
       <div class="panel-body">
         <donut [logData]="data2"></donut>
       </div>

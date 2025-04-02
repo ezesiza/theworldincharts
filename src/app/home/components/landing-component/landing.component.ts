@@ -24,12 +24,14 @@ export class LandingComponent implements OnInit {
     { name: 'World GDP by Population', route: '/voronoi-gdp', category: 'Visualizations' },
     { name: 'Companies Valuation', route: '/compvaluation', category: 'Visualizations' },
     { name: 'Energy Data', route: '/sankey', category: 'Visualizations' },
+    { name: 'Crypto Trade', route: '/crypto', category: 'Visualizations' },
 
     { name: 'Aid Data', route: '/earth', category: 'Dashboards' },
     { name: 'Global Companies by Market Cap', route: '/voronoi', category: 'Dashboards' },
     { name: 'Analytics Dashboard', route: '/analytics', category: 'Dashboards' },
     { name: 'Metrics Dashboard', route: '/metrics', category: 'Dashboards' },
     { name: 'Finance Dashboard', route: '/finance', category: 'Dashboards' },
+    { name: 'RealTime Monitor', route: '/bubble-monitor', category: 'Dashboards' },
 
     { name: 'Line Chart', route: '/linechart', category: 'Charts' },
     { name: 'Funnel Chart', route: '/funnel', category: 'Charts' },

@@ -1,0 +1,20 @@
+<div *ngIf="isVisible" class="modal-container" [class.component-loading-mask]="isLoading">
+    <div *ngIf="!isLoading" class="modal" [style.min-width.px]="(minWidth && minWidth > 0) ? minWidth : ''"
+        [style.height]="height ? height + 'px' : ''" [style.width]="width ? width + 'px' : ''" #modal>
+        <div class="modal-content-container" [class.resizing-mask]="isResizing">
+            <div class="modal-header">
+                <ng-content select=".modal-title"></ng-content>
+                <button class="circle-button close-button" (click)="hideModal()"></button>
+            </div>
+            <div class="modal-body-container">
+                <ng-content select=".modal-body"></ng-content>
+            </div>
+        </div>
+        <div *ngIf="enableResizing" class="resizer material-icons" [class.is-resizing]="isResizing"
+            (mousedown)="onResizerMouseDown($event)">
+            <span class="material-icons">keyboard_arrow_down</span>
+        </div>
+    </div>
+</div>
+
+<!-- EXAMPLE USAGE: <modal [isLoading]="loadingStatus" [isVisible]="showModal" (event)="toggleModal()"></modal>-->

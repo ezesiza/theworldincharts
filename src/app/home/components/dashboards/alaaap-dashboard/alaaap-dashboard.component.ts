@@ -17,7 +17,7 @@ import { LoadDataService } from 'app/home/services/load.data.service';
 export class AnalyticsDashboardComponent implements OnInit {
 
   isDrilldownActive: boolean;
-  loadingState: boolean = false;
+  loadingState: boolean = true;
   data: any = {};
   data2 = [
     { category: "Execution", count: 305, percent: 71 },
@@ -59,6 +59,7 @@ export class AnalyticsDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    setTimeout(() => (this.loadingState = false), 3000)
     this.loadservice.getWatch().subscribe((res: any) => {
       this.chartData = res.data
     })
