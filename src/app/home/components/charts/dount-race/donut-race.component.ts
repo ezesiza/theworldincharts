@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, OnInit, ElementRef } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { LoadDataService } from "app/home/services/load.data.service";
 import { PresentationService } from "app/home/services/presentation.service";
 import * as d3 from "d3";
@@ -39,15 +40,21 @@ export class DonutRaceComponent implements OnInit {
     private titleTop = "Browsers Market Share";
 
     private title = "Market share (%)";
+    currentRoute: boolean = true;
 
     constructor(
         private element: ElementRef,
+        private route: ActivatedRoute,
         private presentation: PresentationService,
         private service: LoadDataService) {
         this.parentElement = this.element.nativeElement;
     }
 
     ngOnInit() {
+        this.route.url.subscribe(url => {
+            this.currentRoute = url[0].path === 'browser';
+        });
+
         setTimeout(() => (this.isLoading = false), 3000);
         this.service.getKeyFrames().subscribe(response => {
             this.renderChart(response)
@@ -70,8 +77,11 @@ export class DonutRaceComponent implements OnInit {
             .select("#chart").append("svg")
             .attr("width", this.width * 1.5)
             .attr("height", this.height)
-            .attr("viewBox", [-450, -this.height / 2, this.width / 1.3, this.height])
-            .attr("style", "max-width: 100%; height: auto;")
+            .attr("viewBox", [-250, -this.height / 2, this.width / 1.3, this.height])
+            .attr("style", (d: any) => {
+
+                return this.currentRoute ? "max-width: 50%; height: auto;" : "max-width: 100%; height: auto;"
+            })
             .style("background", this.backgroundColor)
             // .attr("style", "outline: thin solid")
             .style("outline-color", this.borderColor);
@@ -162,11 +172,11 @@ export class DonutRaceComponent implements OnInit {
                 });
 
 
-            svg
-                .call(d3.zoom()
-                    .extent([[-350, -10], [this.width * 1.5, this.height * 1.5]])
-                    .scaleExtent([1, 8])
-                    .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
+            // svg
+            //     .call(d3.zoom()
+            //         .extent([[-350, -10], [this.width * 1.5, this.height * 1.5]])
+            //         .scaleExtent([1, 8])
+            //         .on("zoom", (d: any) => this.zoomed(d, svg)) as any);
 
             svg.append("g")
                 .selectAll()
@@ -211,7 +221,7 @@ export class DonutRaceComponent implements OnInit {
             // .call(this.wrap, 8);
 
             // setTimeout(() => svg.interrupt());
-            this.presentation.saveSvgToImage();
+            // this.presentation.saveSvgToImage();
             await transition.end();
         }
     }

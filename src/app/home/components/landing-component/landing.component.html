@@ -26,8 +26,8 @@
   </div>
 
   <div class="grid-container">
-    <ng-container *ngFor="let category of getOptionsByCategory() | keyvalue">
-      <div>
+    <ng-container>
+      <div *ngFor="let category of getOptionsByCategory() | keyvalue">
         <h3>{{ category.key }}</h3>
         <button *ngFor="let option of category.value" class="button button2" (click)="selectOption(option)">
           {{ option.name }}

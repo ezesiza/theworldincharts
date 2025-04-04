@@ -1,7 +1,7 @@
 <div class="button-group" id="funnel">
     <header>
         <div class="header">
-            <h1>Realtime Monitor</h1>
+            <h1>Crypto Trade Monitor</h1>
             <div class="button-group">
                 <button class="button" routerLink="">&laquo; Home</button>
                 <button class="button button2" routerLink="/browser">Next &raquo;</button>
@@ -9,37 +9,9 @@
         </div>
     </header>
 </div>
+
 <div class="grid">
-    <!-- Row 1 -->
-    <div class="column">
-        <animated-bubble [trades]="trades"></animated-bubble>
-    </div>
-    <div class="column">
-        <animated-bubble [trades]="trades"></animated-bubble>
-    </div>
-    <div class="column">
-        <animated-bubble [trades]="trades"></animated-bubble>
-    </div>
-
-    <!-- Row 2 -->
-    <div class="column">
-        <animated-bubble [trades]="trades"></animated-bubble>
-    </div>
-    <div class="column">
-        <animated-bubble [trades]="trades"></animated-bubble>
-    </div>
-    <div class="column">
-        <animated-bubble [trades]="trades"></animated-bubble>
-    </div>
-
-    <!-- Row 3 -->
-    <div class="column">
-        <animated-bubble [trades]="trades"></animated-bubble>
-    </div>
-    <div class="column">
-        <animated-bubble [trades]="trades"></animated-bubble>
-    </div>
-    <div class="column">
+    <div class="column" *ngFor="let productId of productIds">
         <animated-bubble [trades]="trades"></animated-bubble>
     </div>
 </div>

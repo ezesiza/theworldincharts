@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, SimpleChange, ViewChild, ViewEncapsulation } from '@angular/core';
-import { WebSocketService } from 'app/services/websocket.service';
 import * as d3 from 'd3';
 
 interface Trade {
@@ -16,13 +15,11 @@ interface Trade {
   selector: 'animated-bubble',
   templateUrl: './animated-bubble.component.html',
   styleUrl: './animated-bubble.component.less',
-  providers: [WebSocketService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
 
 export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('bubbleContainer') private bubbleContainer: ElementRef;
 
   @Input() trades: Trade[] = [];
   @Input() productIds: string[] = [
@@ -58,14 +55,9 @@ export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit
 
   ngOnInit() {
 
-    if (this.trades.length < 1) {
-
-    }
-    // this.updateInterval = d3.interval(() => this.updateChart(), 20);
   }
 
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-
     setTimeout(() => (this.isLoading = false), 2000);
     if (changes['trades'].currentValue) {
 
@@ -73,7 +65,7 @@ export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit
         const now = new Date();
         this.offset = this.trades[0].dateObj.getTime() - now.getTime();
         this.trades = changes['trades'].currentValue;
-        this.initializeChart();
+
         this.updateInterval = d3.interval(() => this.updateChart(), 20);
       }
     }
@@ -81,9 +73,7 @@ export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   ngAfterViewInit(): void {
-    // this.setupWebSocket();
-    // this.initializeChart();
-    // this.updateInterval = d3.interval(() => this.updateChart(), 20);
+    this.initializeChart();
   }
 
   ngOnDestroy() {
@@ -93,32 +83,20 @@ export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   private initializeChart() {
-    let parentElement = d3.select(this.parentElement);
 
     if (this.svg && !this.svg.empty()) {
       this.svg.attr("width", "0");
       this.svg.selectAll("*").remove();
     }
 
+    let parentElement = d3.select(this.parentElement);
+
     // Define canvas
     this.svg = this.svg = parentElement.select('svg')
-      // .attr("viewBox", `-80, -50, ${this.width * 1.8}, ${this.height * 1.8}`)
-      .attr("viewBox", "-35, -20, 680, 600")
+      .attr("viewBox", "-55, -20, 680, 600")
       .attr("preserveAspectRatio", "xMidYMid meet")
-    // .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
-
-    this.svg.attr("width", this.getChartWidth() / 1.2);
-    this.svg.attr("height", this.height);
-
-
-
-    // d3.select("#chart")
-    //   .attr("width", this.width + this.margin.left + this.margin.right)
-    //   .attr("height", this.height + this.margin.top + this.margin.bottom)
-    //   .append("g")
-    //   .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
-
-
+      .attr("width", this.getChartWidth() / 1.2)
+      .attr("height", this.height);
 
     // Create tooltip
     this.tooltip = d3.select("body").append("div")
@@ -219,8 +197,8 @@ export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit
       .merge(circles)
       .attr('cx', (d: Trade) => this.x(d.dateObj));
 
-    d3.select('#xAxisBottom').call(this.xAxisBottom);
-    d3.select('#xAxisTop').call(this.xAxisTop);
+    d3.selectAll('#xAxisBottom').call(this.xAxisBottom);
+    d3.selectAll('#xAxisTop').call(this.xAxisTop);
   }
 
   private getMatrix(circle: any) {

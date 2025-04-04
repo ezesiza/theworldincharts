@@ -20,6 +20,7 @@ import { FinanceDashboardComponent } from './home/components/dashboards/finance-
 import { RadialStackedBarChartComponent } from './home/components/charts/radial-stacked-bar-chart/radial-stacked-bar-chart.component';
 import { AnimatedBubbleComponent } from './home/components/charts/animated-bubble/animated-bubble.component';
 import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
+import { DonutRealtimeDashboardComponent } from './home/components/dashboards/donut-realtime-dashboard/donut-realtime-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -42,6 +43,7 @@ export const routes: Routes = [
     { path: 'sample', component: SampleComponent },
     { path: 'crypto', component: AnimatedBubbleComponent },
     { path: 'bubble-monitor', component: BubbleRealtimeDashboardComponent },
+    { path: 'donut-monitor', component: DonutRealtimeDashboardComponent },
     { path: '**', redirectTo: '/' }
 ];
 

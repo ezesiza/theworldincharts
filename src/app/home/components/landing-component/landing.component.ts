@@ -25,6 +25,7 @@ export class LandingComponent implements OnInit {
     { name: 'Companies Valuation', route: '/compvaluation', category: 'Visualizations' },
     { name: 'Energy Data', route: '/sankey', category: 'Visualizations' },
     { name: 'Crypto Trade', route: '/crypto', category: 'Visualizations' },
+    { name: 'Browser Realtime Monitor', route: '/donut-monitor', category: 'Visualizations' },
 
     { name: 'Aid Data', route: '/earth', category: 'Dashboards' },
     { name: 'Global Companies by Market Cap', route: '/voronoi', category: 'Dashboards' },
@@ -87,12 +88,9 @@ export class LandingComponent implements OnInit {
   }
 
   selectOption(option: SearchOption) {
-
-    // For now, just set the input value and clear options
     this.searchControl.setValue(option.name);
     this.filteredOptions = [];
-    // Navigate to the corresponding route
-    // You'll need to inject Router in the constructor
+
     this.router.navigate([option.route]);
   }
 
@@ -102,6 +100,7 @@ export class LandingComponent implements OnInit {
     return this.filteredOptions.reduce((acc, option) => {
       const category = option.category || 'Uncategorized';
       if (!acc[category]) {
+        // console.log(acc);
         acc[category] = [];
       }
       acc[category].push(option);

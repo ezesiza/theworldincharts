@@ -52,6 +52,7 @@ import { RadialStackedBarChartComponent } from './home/components/charts/radial-
 import { AnimatedBubbleComponent } from './home/components/charts/animated-bubble/animated-bubble.component';
 import { ModalComponent } from './home/components/charts/modal/modal.component';
 import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
+import { DonutRealtimeDashboardComponent } from './home/components/dashboards/donut-realtime-dashboard/donut-realtime-dashboard.component';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/b
     CustomSelectComponent,
     SampleComponent,
     AlaaapHeaderComponent,
+    DonutRealtimeDashboardComponent,
     DonutRaceComponent,
     TimeSeriesBarChartComponent,
     VoronoiComponent,
