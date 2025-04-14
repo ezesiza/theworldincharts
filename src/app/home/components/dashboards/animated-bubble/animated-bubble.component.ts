@@ -202,7 +202,7 @@ export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit
 
     circles.enter()
       .append('circle')
-      .on("mouseenter", (event: any, d: any) => {
+      .on("mousemove", (event: any, d: any) => {
         this.tooltip.html(displayTooltip(d))
           .style("left", event.pageX - 35 + "px")
           .style("top", event.pageY - 30 + "px")
@@ -212,10 +212,7 @@ export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit
         this.tooltip.transition().duration(100).style("opacity", 1);
       })
       .on("mouseout", (d: any) => {
-
-        this.tooltip.style("opacity", 0)
-          .style("display", "").style("text-decoration", "none");
-
+        this.tooltip.transition().duration(100).style("opacity", 0).style("display", "").style("text-decoration", "none");
       })
       .attr('class', (d: Trade) => d.side)
       .attr("stroke", '1px')
