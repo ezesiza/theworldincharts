@@ -212,12 +212,9 @@ export class AnimatedBubbleComponent implements OnInit, OnDestroy, AfterViewInit
         this.tooltip.transition().duration(100).style("opacity", 1);
       })
       .on("mouseout", (d: any) => {
-        (this.tooltip.html() as any)
-          .duration(500)
-          .style("opacity", 0)
-          .style("display", "")
-          .style("text-decoration", "none");
-        // (this.tooltip).html("")
+
+        this.tooltip.style("opacity", 0)
+          .style("display", "").style("text-decoration", "none");
 
       })
       .attr('class', (d: Trade) => d.side)
