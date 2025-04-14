@@ -18,9 +18,10 @@ import { DivergingBarsComponent } from './home/components/charts/divergin-bars/d
 import { LineChartComponent } from './home/components/charts/line-chart/line-chart.component';
 import { FinanceDashboardComponent } from './home/components/dashboards/finance-dashboard/finance-dashboard.component';
 import { RadialStackedBarChartComponent } from './home/components/charts/radial-stacked-bar-chart/radial-stacked-bar-chart.component';
-import { AnimatedBubbleComponent } from './home/components/charts/animated-bubble/animated-bubble.component';
+import { AnimatedBubbleComponent } from './home/components/dashboards/animated-bubble/animated-bubble.component';
 import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
-import { DonutRealtimeDashboardComponent } from './home/components/dashboards/donut-realtime-dashboard/donut-realtime-dashboard.component';
+import { DonutRealtimeDashboardComponent } from './home/components/charts/donut-realtime-dashboard/donut-realtime-dashboard.component';
+import { AttackTreeComponent } from './home/components/charts/attack-tree/attack-tree.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -36,6 +37,7 @@ export const routes: Routes = [
     { path: 'tabs', component: TabsComponent },
     { path: 'radial', component: RadialDonutChartComponent },
     { path: 'funnel', component: FunnelChartComponent },
+    { path: 'attack-tree', component: AttackTreeComponent },
     { path: 'stacked', component: RadialStackedBarChartComponent },
     { path: 'diverging', component: DivergingBarsComponent },
     { path: 'linechart', component: LineChartComponent },

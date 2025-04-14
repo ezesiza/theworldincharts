@@ -1,23 +1,3 @@
-<!-- <div class="search-input">
-  <input name="q" type="text" placeholder="Search" autocomplete="off" autofocus>
-</div>
-<div class="grid-container">
-  <div><button class="button button2" routerLink="/browser">Browser Market Share(Donut)</button></div>
-  <div><button class="button button2" routerLink="/voronoi">Global Companies by Market Cap. (Voronoi)</button></div>
-  <div><button class="button button2" routerLink="/voronoi-gdp">World GdP by Pop. (Voronoi)</button></div>
-  <div><button class="button button2" routerLink="/earth">Aid Data (FlatEarth)</button></div>
-  <div><button class="button button2" routerLink="/sankey">Energy Data (Sankey)</button></div>
-  <div><button class="button button2" routerLink="/compvaluation">Companies Valuation (Bars)</button></div>
-  <div><button class="button button2" routerLink="/analytics">Analytics Dashboard (TimeSeries/Pie)</button></div>
-  <div><button class="button button2" routerLink="/metrics">Metrics Dashboard</button></div>
-  <div><button class="button button2" routerLink="/linechart">Line Chart</button></div>
-  <div><button class="button button2" routerLink="/funnel">Funnel Chart</button></div>
-  <div><button class="button button2" routerLink="/tabs">Tabs</button></div>
-  <div><button class="button button2" routerLink="/delaunay">Delaunay</button></div>
-  <div><button class="button button2" routerLink="/sample">Sample</button></div>
-  <div><button class="button button2" routerLink="/diagram">Del. Diagram</button></div>
-</div> -->
-
 <div class="search-container">
   <div class="search-input">
     <input type="text" placeholder="Search" autocomplete="off" autofocus [formControl]="searchControl"
@@ -26,13 +6,13 @@
   </div>
 
   <div class="grid-container">
-    <ng-container>
-      <div *ngFor="let category of getOptionsByCategory() | keyvalue">
+    <div *ngFor="let category of getOptionsByCategory() | keyvalue">
+      <ng-container>
         <h3>{{ category.key }}</h3>
         <button *ngFor="let option of category.value" class="button button2" (click)="selectOption(option)">
           {{ option.name }}
         </button>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
   </div>
 </div>

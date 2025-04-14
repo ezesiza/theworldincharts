@@ -83,7 +83,7 @@ export class VoronoiComponent implements OnInit, OnDestroy {
     if (!this.isChartRendered) {
       this.service.getNestedCompanyData$('Country').subscribe((response: any) => {
         this.companyHierarchy = response.companyHierarchy;
-        this.countryList = [...this.companyHierarchy.data[1].keys()];
+        this.countryList = [...this.companyHierarchy?.data[1].keys()];
         this.symbolList = [...this.companyHierarchy.data[1].values()];
         this.renderVoronoi();
         this.isChartRendered = true;

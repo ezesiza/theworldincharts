@@ -19,28 +19,28 @@ interface ChartData {
 export class DivergingBarsComponent implements OnInit, OnDestroy {
   // Data for the chart
   private data: ChartData[] = [
-    { "sharedLabel": "Loli", "barData1": 43041, "barData2": 40852 },
-    { "sharedLabel": "yoman", "barData1": 38867, "barData2": 36296 },
-    { "sharedLabel": "goat", "barData1": 41748, "barData2": 40757 },
-    { "sharedLabel": "meat", "barData1": 24831, "barData2": 23624 },
-    { "sharedLabel": "Kevin-Chen", "barData1": 15764, "barData2": 15299 },
-    { "sharedLabel": "Daniel", "barData1": 17006, "barData2": 16071 },
-    { "sharedLabel": "allen-cat", "barData1": 24309, "barData2": 23235 },
-    { "sharedLabel": "toosyou", "barData1": 46756, "barData2": 46065 },
-    { "sharedLabel": "plant", "barData1": 41923, "barData2": 41704 },
-    { "sharedLabel": "water", "barData1": 42565, "barData2": 42159 },
-    { "sharedLabel": "bavarage", "barData1": 44316, "barData2": 45468 },
-    { "sharedLabel": "cake", "barData1": 42975, "barData2": 44223 },
-    { "sharedLabel": "car", "barData1": 36755, "barData2": 39452 },
-    { "sharedLabel": "boat", "barData1": 31578, "barData2": 34063 },
-    { "sharedLabel": "cloth", "barData1": 10328, "barData2": 11799 },
-    { "sharedLabel": "hat", "barData1": 13917, "barData2": 14949 },
-    { "sharedLabel": "shoe", "barData1": 7920, "barData2": 8589 },
-    { "sharedLabel": "man", "barData1": 9003, "barData2": 10397 },
-    { "sharedLabel": "book", "barData1": 14322, "barData2": 16832 },
-    { "sharedLabel": "hair", "barData1": 12369, "barData2": 15836 },
-    { "sharedLabel": "bed", "barData1": 8710, "barData2": 12377 },
-    { "sharedLabel": "haha", "barData1": 5853, "barData2": 12213 }
+    { "sharedLabel": "Live animals and meat", "barData1": 43041, "barData2": 40852 },
+    { "sharedLabel": "Dairy products", "barData1": 38867, "barData2": 36296 },
+    { "sharedLabel": "Fruits and Vegetables", "barData1": 41748, "barData2": 40757 },
+    { "sharedLabel": "Coffee, Tea, Cocoa and Spices", "barData1": 24831, "barData2": 23624 },
+    { "sharedLabel": "Cereals and food preparations", "barData1": 15764, "barData2": 15299 },
+    { "sharedLabel": "Oilseeds, fats and oils", "barData1": 17006, "barData2": 16071 },
+    { "sharedLabel": "Sugars and confectionery", "barData1": 24309, "barData2": 23235 },
+    { "sharedLabel": "Beverages and tobacco", "barData1": 46756, "barData2": 46065 },
+    { "sharedLabel": "Cotton, silk and wool", "barData1": 41923, "barData2": 41704 },
+    { "sharedLabel": "Other agricultural products", "barData1": 42565, "barData2": 42159 },
+    { "sharedLabel": "Fish and fish products", "barData1": 44316, "barData2": 45468 },
+    { "sharedLabel": "Minerals and metals", "barData1": 42975, "barData2": 44223 },
+    { "sharedLabel": "Petroleum", "barData1": 36755, "barData2": 39452 },
+    { "sharedLabel": "Chemicals", "barData1": 31578, "barData2": 34063 },
+    { "sharedLabel": "Wood, paper, furniture", "barData1": 10328, "barData2": 11799 },
+    { "sharedLabel": "Textiles", "barData1": 13917, "barData2": 14949 },
+    { "sharedLabel": "Clothing", "barData1": 7920, "barData2": 8589 },
+    { "sharedLabel": "Rubber, leather and footwear", "barData1": 9003, "barData2": 10397 },
+    { "sharedLabel": "Mechanical", "barData1": 14322, "barData2": 16832 },
+    { "sharedLabel": "Elect. Mach./Elect. Equip.", "barData1": 12369, "barData2": 15836 },
+    { "sharedLabel": "Transport equipment", "barData1": 8710, "barData2": 12377 },
+    { "sharedLabel": "Other Manufactures", "barData1": 5853, "barData2": 12213 }
   ];
 
   // Chart configuration
@@ -108,7 +108,7 @@ export class DivergingBarsComponent implements OnInit, OnDestroy {
   }
 
   private updateDimensions(): void {
-    this.labelSpace = 30 + this.w / 100;
+    this.labelSpace = 100 + this.w / 100;
     this.innerMargin = this.w / 2 + this.labelSpace;
     this.chartWidth = this.w - this.innerMargin - this.outerMargin;
     this.barWidth = this.h / this.data.length;
@@ -135,10 +135,10 @@ export class DivergingBarsComponent implements OnInit, OnDestroy {
     const gradient = defs.append('linearGradient')
       .attr('id', 'myGradient')
       .attr('gradientUnits', 'userSpaceOnUse')
-      .attr('x1', '0%')
-      .attr('y1', '0%')
-      .attr('x2', '100%')
-      .attr('y2', '0%');
+      .attr('x1', '-50%')
+      .attr('y1', '40%')
+      .attr('x2', '0%')
+      .attr('y2', '100%');
 
     gradient.append('stop')
       .attr('offset', '0%')
@@ -161,7 +161,7 @@ export class DivergingBarsComponent implements OnInit, OnDestroy {
       .text(this.rightLabel)
       .attr('x', this.innerMargin)
       .attr('y', this.topMargin - 3)
-      .attr('text-anchor', 'end');
+    // .attr('text-anchor', 'end');
 
     // Create bar groups
     this.bar = this.svg.selectAll('g.bar')
@@ -222,6 +222,7 @@ export class DivergingBarsComponent implements OnInit, OnDestroy {
 
     // Add right bars (male)
     this.bar.append('rect')
+      .attr('class', 'malebar')
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
       .attr('fill', '#247BA0')
@@ -292,8 +293,8 @@ export class DivergingBarsComponent implements OnInit, OnDestroy {
   // Method to handle the generate button click
   public generateRandomData(): void {
     this.data.forEach(item => {
-      item.barData1 = Math.random() * this.dataRange;
-      item.barData2 = Math.random() * this.dataRange;
+      item.barData1 = Math.random() * this.dataRange * 1.4;
+      item.barData2 = Math.random() * this.dataRange * 1.4;
     });
 
     this.refreshChart();

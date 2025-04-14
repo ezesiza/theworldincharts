@@ -49,10 +49,11 @@ import { VoronoiEffects } from './ngrx/effects/voronoi.effects';
 import { voronoiReducer } from './ngrx/reducers/voronoi.reducer';
 import { VoronoiStateService } from './home/services/state.service';
 import { RadialStackedBarChartComponent } from './home/components/charts/radial-stacked-bar-chart/radial-stacked-bar-chart.component';
-import { AnimatedBubbleComponent } from './home/components/charts/animated-bubble/animated-bubble.component';
+import { AnimatedBubbleComponent } from './home/components/dashboards/animated-bubble/animated-bubble.component';
 import { ModalComponent } from './home/components/charts/modal/modal.component';
 import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
-import { DonutRealtimeDashboardComponent } from './home/components/dashboards/donut-realtime-dashboard/donut-realtime-dashboard.component';
+import { DonutRealtimeDashboardComponent } from './home/components/charts/donut-realtime-dashboard/donut-realtime-dashboard.component';
+import { AttackTreeComponent } from './home/components/charts/attack-tree/attack-tree.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { DonutRealtimeDashboardComponent } from './home/components/dashboards/do
     FlatEarthComponent,
     OverlayComponent,
     ModalComponent,
+    AttackTreeComponent,
     BubbleRealtimeDashboardComponent,
     AnimatedBubbleComponent,
     RouteOverlayComponent,

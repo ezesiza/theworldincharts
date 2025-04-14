@@ -20,8 +20,7 @@ export class LandingComponent implements OnInit {
   constructor(private router: Router) { }
   // Categorized list of searchable options
   private allOptions: SearchOption[] = [
-    { name: 'Browser Market Share', route: '/browser', category: 'Visualizations' },
-    { name: 'World GDP by Population', route: '/voronoi-gdp', category: 'Visualizations' },
+    { name: 'GDP Population', route: '/voronoi-gdp', category: 'Visualizations' },
     { name: 'Companies Valuation', route: '/compvaluation', category: 'Visualizations' },
     { name: 'Energy Data', route: '/sankey', category: 'Visualizations' },
     { name: 'Crypto Trade', route: '/crypto', category: 'Visualizations' },
@@ -29,11 +28,13 @@ export class LandingComponent implements OnInit {
 
     { name: 'Aid Data', route: '/earth', category: 'Dashboards' },
     { name: 'Global Companies by Market Cap', route: '/voronoi', category: 'Dashboards' },
-    { name: 'Analytics Dashboard', route: '/analytics', category: 'Dashboards' },
-    { name: 'Metrics Dashboard', route: '/metrics', category: 'Dashboards' },
+    { name: 'Analytics Dashboard', route: '/analytics', category: 'CyberSec' },
+    { name: 'Metrics Dashboard', route: '/metrics', category: 'CyberSec' },
+    { name: 'Mitre Dashboard', route: '/attack-tree', category: 'CyberSec' },
     { name: 'Finance Dashboard', route: '/finance', category: 'Dashboards' },
     { name: 'RealTime Monitor', route: '/bubble-monitor', category: 'Dashboards' },
 
+    { name: 'Browser Market Share', route: '/browser', category: 'Charts' },
     { name: 'Line Chart', route: '/linechart', category: 'Charts' },
     { name: 'Funnel Chart', route: '/funnel', category: 'Charts' },
     { name: 'Diverging Bars', route: '/diverging', category: 'Charts' },
@@ -100,7 +101,6 @@ export class LandingComponent implements OnInit {
     return this.filteredOptions.reduce((acc, option) => {
       const category = option.category || 'Uncategorized';
       if (!acc[category]) {
-        // console.log(acc);
         acc[category] = [];
       }
       acc[category].push(option);
