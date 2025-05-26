@@ -10,7 +10,7 @@
         </div>
     </div>
 </header>
-<single-card>
+<single-card [loading]="isLoading">
     <div class="panel-body">
         <label>
             <input type="checkbox" (change)="toggleAnnotations()" />

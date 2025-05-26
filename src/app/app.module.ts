@@ -54,6 +54,7 @@ import { ModalComponent } from './home/components/charts/modal/modal.component';
 import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
 import { DonutRealtimeDashboardComponent } from './home/components/charts/donut-realtime-dashboard/donut-realtime-dashboard.component';
 import { AttackTreeComponent } from './home/components/charts/attack-tree/attack-tree.component';
+import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attack-tree.component2';
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { AttackTreeComponent } from './home/components/charts/attack-tree/attack
     OverlayComponent,
     ModalComponent,
     AttackTreeComponent,
+    AttackTreeComponent2,
     BubbleRealtimeDashboardComponent,
     AnimatedBubbleComponent,
     RouteOverlayComponent,

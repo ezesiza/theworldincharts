@@ -22,6 +22,7 @@ import { AnimatedBubbleComponent } from './home/components/dashboards/animated-b
 import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
 import { DonutRealtimeDashboardComponent } from './home/components/charts/donut-realtime-dashboard/donut-realtime-dashboard.component';
 import { AttackTreeComponent } from './home/components/charts/attack-tree/attack-tree.component';
+import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attack-tree.component2';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -37,7 +38,7 @@ export const routes: Routes = [
     { path: 'tabs', component: TabsComponent },
     { path: 'radial', component: RadialDonutChartComponent },
     { path: 'funnel', component: FunnelChartComponent },
-    { path: 'attack-tree', component: AttackTreeComponent },
+    { path: 'attack-tree', component: AttackTreeComponent2 },
     { path: 'stacked', component: RadialStackedBarChartComponent },
     { path: 'diverging', component: DivergingBarsComponent },
     { path: 'linechart', component: LineChartComponent },

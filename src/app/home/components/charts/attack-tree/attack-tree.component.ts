@@ -201,10 +201,10 @@ export class AttackTreeComponent implements OnInit, OnChanges {
     this.svg = d3.select(container)
       .append("svg")
       .attr("width", this.width)
-      .attr("height", this.dx)
+      .attr("height", this.dy)
       // Adjusted viewBox for 90 degree rotation
       .attr("viewBox", [-this.marginTop, -this.marginLeft, this.width, this.dx])
-      .attr("style", "max-width: 100%; height: auto; font: 20px sans-serif; user-select: none;");
+      .attr("style", "max-width: 100%; height: auto; font: 10px sans-serif; user-select: none;");
 
     this.gLink = this.svg.append("g")
       .attr("fill", "none")
@@ -215,6 +215,8 @@ export class AttackTreeComponent implements OnInit, OnChanges {
     this.gNode = this.svg.append("g")
       .attr("cursor", "pointer")
       .attr("pointer-events", "all");
+
+    this.update(null, this.root);
 
     // Initialize the nodes' positions
     // Swapped for 90 degree rotation
@@ -228,7 +230,7 @@ export class AttackTreeComponent implements OnInit, OnChanges {
       }
     });
 
-    this.update(null, this.root);
+
   }
 
   private update(event: any, source: any): void {
@@ -253,9 +255,12 @@ export class AttackTreeComponent implements OnInit, OnChanges {
 
     const transition = this.svg.transition()
       .duration(duration)
-      .attr("width", width * 2.2)
-      // Adjusted viewBox for rotation - x and y are swapped
-      .attr("viewBox", [top.y - this.marginLeft - 1000, -this.marginTop * 20, width, this.width]);
+      .attr("width", width)
+      // .attr("height", this.dx * 380)
+      // Adjusted viewBox for 90 degree rotation
+      .attr("viewBox", [-this.marginTop, -this.marginLeft, this.width, this.dx])
+    // Adjusted viewBox for rotation - x and y are swapped
+    // .attr("viewBox", [top.y - this.marginLeft - 1000, -this.marginTop + 600, width, this.width]);
 
     // Update the nodes
     const node = this.gNode.selectAll("g")
@@ -279,7 +284,7 @@ export class AttackTreeComponent implements OnInit, OnChanges {
 
     // Adjusted text positioning for rotation
     nodeEnter.append("text")
-      .attr("dy", "-0.31em") // Adjusted for rotation
+      .attr("dy", "0.31em") // Adjusted for rotation
       .attr("x", 0)
       .attr("y", (d: { _children: any; }) => d._children ? 6 : -6) // Swapped for rotation
       .attr("text-anchor", "middle") // Center text after rotation

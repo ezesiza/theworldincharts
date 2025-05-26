@@ -10,9 +10,11 @@ import { annotation, annotationLabel, annotationCallout, annotationCalloutCircle
 export class LineChartComponent implements OnInit {
   showAnnotations = false; // Boolean to control annotation visibility
   showDownload: boolean = false;
+  isLoading: boolean = true;
 
 
   ngOnInit(): void {
+    setTimeout(() => (this.isLoading = false), 3000)
     this.createChart();
   }
 

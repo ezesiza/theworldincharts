@@ -47,25 +47,29 @@ export class LandingComponent implements OnInit {
   searchControl = new FormControl('');
   filteredOptions: SearchOption[] = [];
   selectedIndex = -1;
+  landingItems: { [key: string]: SearchOption[] } = {};
 
   ngOnInit() {
     // Initialize with all options
     this.filteredOptions = [...this.allOptions];
-
+    this.landingItems = this.getOptionsByCategory();
     // Setup search input with debounce and distinct checking
     this.searchControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(() => { this.onSearch(); });
+      .subscribe(() => {
+        this.onSearch();
+      });
+
   }
 
   onSearch() {
     const searchTerm = this.searchControl.value?.toLowerCase() || '';
+    this.landingItems = this.getOptionsByCategory();
 
     // Filter options based on search term
     this.filteredOptions = this.allOptions.filter(option =>
       option.name.toLowerCase().includes(searchTerm) ||
       option.category?.toLowerCase().includes(searchTerm)
     );
-
     // Reset selected index when filtering
     this.selectedIndex = -1;
   }

@@ -6,7 +6,7 @@
   </div>
 
   <div class="grid-container">
-    <div *ngFor="let category of getOptionsByCategory() | keyvalue">
+    <div *ngFor="let category of landingItems | keyvalue">
       <ng-container>
         <h3>{{ category.key }}</h3>
         <button *ngFor="let option of category.value" class="button button2" (click)="selectOption(option)">
