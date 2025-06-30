@@ -1,0 +1,248 @@
+@dark-mode-background-color: #1e1e1e;
+@dark-mode-footer-background-color: #58585a;
+@dark-mode-font-color: white;
+@dark-mode-panel-background-color: #2f2f2f;
+@dark-mode-panel-background-color-with-invert: #cfcfcf;
+@dark-mode-dark-blue-color: #1f1f38;
+@dark-mode-action-color: #B3E5FC;
+
+body.light .dark-mode {
+    nav>nav-tree>ul>li:not(:hover)>a.active {
+        color: @dark-mode-action-color;
+    }
+}
+
+.dark-mode {
+    background-color: @dark-mode-background-color;
+
+    .logo-container {
+        padding: 1rem;
+        // background-color: @background-color;
+        border-radius: 1rem;
+    }
+
+    header nav>nav-tree>ul>li>a {
+        color: @dark-mode-font-color;
+    }
+
+    #cliffy:not(.active) {
+        .welcome-tag {
+            color: @dark-mode-font-color;
+        }
+
+        .chevron-icon:after {
+            color: @dark-mode-font-color;
+        }
+    }
+
+    footer {
+        background-color: @dark-mode-footer-background-color !important;
+        box-shadow: 0 50vh 0 50vh @dark-mode-footer-background-color !important;
+
+        a,
+        .legal-container,
+        .footer-link {
+            color: @dark-mode-font-color !important;
+        }
+
+        .social-container {
+            color: @dark-mode-font-color;
+
+            a {
+                filter: invert(1);
+            }
+        }
+    }
+
+    .content-container,
+    .checked-listbox,
+    .text-field:disabled {
+        color: @dark-mode-font-color;
+    }
+
+    .panel-container .panel,
+    .modal {
+        background-color: @dark-mode-panel-background-color;
+        color: @dark-mode-font-color;
+    }
+
+    .panel-select {
+        border: transparent;
+    }
+
+    .highlight,
+    .panel-select:after,
+    .ag-cell.rag-red,
+    .ag-cell.rag-green,
+    .ag-cell.rag-yellow,
+    .ag-cell.rag-grey {
+        color: black;
+    }
+
+    dropdown.custom .dropdown-container .dropdown-display:before {
+        background-color: white;
+    }
+
+    .dropdown-container {
+        background-color: white;
+    }
+
+    .circular-background {
+        background-color: @dark-mode-action-color;
+        color: @dark-mode-dark-blue-color !important;
+    }
+
+    .material-icons,
+    .download-icon,
+    .download-icon:before,
+    .download-icon:after,
+    .material-icons.decrease,
+    .material-icons.toggle,
+    .material-icons.increase {
+        color: @dark-mode-action-color;
+    }
+
+    .arrow-icon,
+    .eye-icon,
+    .pencil-icon,
+    .pencil-icon:before {
+        background-color: @dark-mode-action-color;
+    }
+
+    .picture-icon,
+    .picture-icon:before,
+    .picture-icon:after {
+        border-color: @dark-mode-action-color;
+    }
+
+    .pencil-icon:after {
+        border-left-color: @dark-mode-action-color;
+    }
+
+    analytics-visualization .panel-body #chord-filter-container button.active,
+    stored-events-timeline .event-count {
+        background-color: @dark-mode-action-color;
+    }
+
+    .time-series-icon-label,
+    .ag-cell .active,
+    .master-detail-toggle,
+    .value.active,
+    concierge-associated-selector .click-container,
+    stored-events-timeline .event-row,
+    report-modify-cell .link {
+        color: @dark-mode-action-color;
+    }
+
+    stored-concierge .container-reset label,
+    .table-control-label,
+    stored-behavior-dashboard actionable-panel label,
+    stored-events-timeline .timeline-control span {
+        color: @dark-mode-action-color !important;
+    }
+
+    tabbed-panel-header .tabs-container,
+    stored-events-timeline .name-container {
+        background-color: @dark-mode-panel-background-color;
+    }
+
+    threat-life-cycle {
+        .category .graphic {
+            border-color: @dark-mode-panel-background-color;
+
+            &:before {
+                border-color: @dark-mode-panel-background-color;
+            }
+        }
+    }
+
+    time-series-bar-chart text,
+    sparkline-chart text,
+    donut-chart text,
+    polar-chart text {
+        fill: @dark-mode-font-color !important;
+    }
+
+    donut-chart path {
+        stroke: transparent;
+    }
+
+    metrics-dashboard .card {
+        background-color: #3f3e3e;
+    }
+
+    alaaap-header .card {
+        background-color: #3f3e3e;
+    }
+
+    stored-concierge {
+        .basic-filter {
+            color: @dark-mode-font-color;
+        }
+
+        .container-filter-configuration {
+            background-color: @dark-mode-dark-blue-color;
+
+            .suggest-wrapper input {
+                height: 3.4rem;
+            }
+        }
+
+        .configured-filter {
+            color: black;
+        }
+    }
+
+    .stored-concierge .modal-bulk-editor .modal-body-container .modal-body,
+    .stored-concierge .modal-breadcrumb-editor .modal .filters,
+    add-edit-custom-alert .modal-bulk-editor .modal-body-container .modal-body {
+        background-color: @dark-mode-dark-blue-color;
+    }
+
+    report-wizard .tab-container .tab span,
+    report-template .report-type,
+    resources .report-type {
+        color: @dark-mode-font-color;
+    }
+
+    stored-behavior-dashboard {
+        .detail-container {
+            background-color: @dark-mode-dark-blue-color;
+        }
+
+        .sub-panel-header {
+            color: @dark-mode-font-color;
+        }
+    }
+
+    concierge-associated-selector .container-associated-resources {
+        color: black;
+    }
+
+    filter-search #search {
+        background-color: white;
+    }
+
+    sparkline-chart svg {
+        filter: invert(1);
+
+        text {
+            fill: black !important;
+        }
+    }
+
+    add-edit-custom-alert {
+        .container-filter-configuration {
+            background-color: @dark-mode-dark-blue-color;
+        }
+    }
+
+    side-list-panel .unselected .main-panel-container [main-panel]:before {
+        background-color: black !important;
+        opacity: 0.9 !important;
+    }
+
+    audit-dashboard .panel .card {
+        background-color: black;
+    }
+}

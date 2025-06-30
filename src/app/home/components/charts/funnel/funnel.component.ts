@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import * as d3 from 'd3';
 import { FunnelChart } from './funnel.chart';
 import { ActivatedRoute } from '@angular/router';
@@ -39,7 +39,7 @@ const data2 = [
   styleUrls: ['funnel.component.less'],
   encapsulation: ViewEncapsulation.None,
 })
-export class FunnelChartComponent implements OnInit {
+export class FunnelChartComponent implements OnInit, OnDestroy {
   @Input() data: FunnelDataPoint[] = data;
   @Input() width = 600;
   @Input() height = 400;
@@ -60,12 +60,13 @@ export class FunnelChartComponent implements OnInit {
   private parentElement: any;
   activatedRoute: string = '';
   isLoading: boolean = true;
-
+  private animationFrameId: number | null = null;
+  private rotationAngle: number = 0;
+  isRotating: boolean = false;
 
   constructor(private element: ElementRef, private route: ActivatedRoute) {
     this.parentElement = this.element.nativeElement;
   }
-
 
   ngOnInit(): void {
     setTimeout(() => (this.isLoading = false), 3000)
@@ -73,6 +74,12 @@ export class FunnelChartComponent implements OnInit {
       this.activatedRoute = data[0].path;
     });
     this.initializeChart();
+    // this.startRotation();
+    this.isRotating = false;
+  }
+
+  ngOnDestroy(): void {
+    this.stopRotation();
   }
 
   private getChartWidth(): number {
@@ -80,11 +87,9 @@ export class FunnelChartComponent implements OnInit {
     return panelWidth > 0 ? panelWidth : 0;
   }
 
-
   private initializeChart() {
     let parentElement = d3.select(this.parentElement);
     // this.container = parentElement.select('svg');
-
 
     if (this.svg && !this.svg.empty()) {
       this.svg.attr("width", "0");
@@ -101,11 +106,13 @@ export class FunnelChartComponent implements OnInit {
     this.svg.attr("height", this.height);
 
     this.renderChart(this.svg);
+    this.rotationAngle = 0; // Reset rotation on re-render
+    if (this.isRotating) {
+      this.startRotation();
+    };
   }
 
-
   renderChart(svg: any) {
-
     const chart = new FunnelChart(svg, data)
       .setSize([this.width, this.height])
       .setOptions({ palette: this.updateColorScheme(this.currentScheme), style: this.currentStyle, streamlined: false })
@@ -157,5 +164,46 @@ export class FunnelChartComponent implements OnInit {
 
   onPctOptionChange(option: string) {
     console.log('Selected percentage option:', option);
+  }
+
+  private startRotation() {
+    this.stopRotation();
+    const rotate = () => {
+      this.rotationAngle = (this.rotationAngle + 0.5) % 360;
+      // Apply rotateY to the SVG element using CSS
+      if (this.svg && !this.svg.empty()) {
+        const svgNode = this.svg.node();
+        if (svgNode) {
+          svgNode.style.transform = `rotateY(${this.rotationAngle}deg)`;
+          svgNode.style.transformOrigin = `50% 50%`;
+        }
+      }
+      this.animationFrameId = requestAnimationFrame(rotate);
+    };
+    this.animationFrameId = requestAnimationFrame(rotate);
+  }
+
+  private stopRotation() {
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+    // Remove the transform style from the SVG
+    if (this.svg && !this.svg.empty()) {
+      const svgNode = this.svg.node();
+      if (svgNode) {
+        svgNode.style.transform = '';
+      }
+    }
+  }
+
+  onPauseClick() {
+    if (this.isRotating) {
+      this.stopRotation();
+      this.isRotating = false;
+    } else {
+      this.startRotation();
+      this.isRotating = true;
+    }
   }
 }

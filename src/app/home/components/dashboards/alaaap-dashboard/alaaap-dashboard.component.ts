@@ -1,4 +1,3 @@
-
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -59,13 +58,31 @@ export class AnalyticsDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.data2 = this.randomizeData(this.data2);
+    this.data3 = this.randomizeData(this.data3);
     setTimeout(() => (this.loadingState = false), 3000)
     this.loadservice.getWatch().subscribe((res: any) => {
       this.chartData = res.data
     })
   }
 
+  private randomizeData(data: any[]): any[] {
+    // Generate random counts and recalculate percent
+    const randomized = data.map(item => ({
+      ...item,
+      count: Math.floor(Math.random() * 10000) + 1 // random count between 1 and 10,000
+    }));
+    const total = randomized.reduce((sum, item) => sum + item.count, 0);
+    return randomized.map(item => ({
+      ...item,
+      percent: Math.round((item.count / total) * 100)
+    }));
+  }
 
+  public randomizeAllData() {
+    this.data2 = this.randomizeData(this.data2);
+    this.data3 = this.randomizeData(this.data3);
+  }
 
 }
 

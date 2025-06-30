@@ -21,7 +21,6 @@ import { RadialStackedBarChartComponent } from './home/components/charts/radial-
 import { AnimatedBubbleComponent } from './home/components/dashboards/animated-bubble/animated-bubble.component';
 import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
 import { DonutRealtimeDashboardComponent } from './home/components/charts/donut-realtime-dashboard/donut-realtime-dashboard.component';
-import { AttackTreeComponent } from './home/components/charts/attack-tree/attack-tree.component';
 import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attack-tree.component2';
 
 export const routes: Routes = [

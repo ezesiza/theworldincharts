@@ -9,18 +9,20 @@
 
     <div>
         Style:
-        <label for="2d">
-            <input type="radio" id="2d" name="style" [value]="'2d'" [(ngModel)]="selectedStyle"
-                (change)="onStyleChange('2d')" />2D
+        <label [for]="'2d-' + uniqueId">
+            <input type="radio" [id]="'2d-' + uniqueId" [name]="'style-' + uniqueId" [value]="'2d'"
+                [(ngModel)]="selectedStyle" (change)="onStyleChange('2d')" />2D
         </label>
-        <label for="3d">
-            <input type="radio" id="3d" name="style" [value]="'3d'" [(ngModel)]="selectedStyle"
-                (change)="onStyleChange('3d')" />3D
+        <label [for]="'3d-' + uniqueId">
+            <input type="radio" [id]="'3d-' + uniqueId" [name]="'style-' + uniqueId" [value]="'3d'"
+                [(ngModel)]="selectedStyle" (change)="onStyleChange('3d')" />3D
         </label>
-        <label for="flat">
-            <input type="radio" id="flat" name="style" [value]="'flat'" [(ngModel)]="selectedStyle"
-                (change)="onStyleChange('flat')" />Flat
+        <label [for]="'flat-' + uniqueId">
+            <input type="radio" [id]="'flat-' + uniqueId" [name]="'style-' + uniqueId" [value]="'flat'"
+                [(ngModel)]="selectedStyle" (change)="onStyleChange('flat')" />Flat
         </label>
+        <button type="button" (click)="onPauseClick()" style="margin-left:8px;">{{ isRotating ? 'Pause' : 'Resume'
+            }}</button>
         <span style="border-left: 2px solid #ddd; padding-left: 5px"></span>
     </div>
 

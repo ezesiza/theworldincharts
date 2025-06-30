@@ -13,8 +13,8 @@
     <div class="panel-body">
         <div class="controls">
             <form-select (schemeChange)="onSchemeChange($event)" (styleChange)="onStyleChange($event)"
-                (percentageToggle)="onPercentageToggle($event)"
-                (pctOptionChange)="onPctOptionChange($event)"></form-select>
+                (percentageToggle)="onPercentageToggle($event)" (pctOptionChange)="onPctOptionChange($event)"
+                (pauseClick)="onPauseClick()" [isRotating]="isRotating"></form-select>
         </div>
         <div id="svg_container">
             <img id="img" width=1 height=1 />

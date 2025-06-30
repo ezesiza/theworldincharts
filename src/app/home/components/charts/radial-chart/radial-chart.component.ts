@@ -1,4 +1,3 @@
-
 import { Component, ChangeDetectionStrategy, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChange, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
@@ -6,17 +5,14 @@ import { Subscription } from 'rxjs';
 import { PresentationService } from '../../../services/presentation.service';
 
 @Component({
-  selector: "radial-chart",
-  standalone: true,
-  imports: [
-    CommonModule,
-  ],
+  selector: "radial-chart2",
+
   templateUrl: "./radial-chart.component.html",
   styleUrls: ["radial-chart.component.less"],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RadialChartComponent implements OnInit, OnDestroy {
+export class RadialChartComponent2 implements OnInit, OnDestroy {
 
 
 
@@ -28,6 +24,8 @@ export class RadialChartComponent implements OnInit, OnDestroy {
   @Input() unit: any;
 
   @Output() onSetChartFilters: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onRandomizeClick = new EventEmitter<string>();
+  @Input() id!: string;
 
   applyLegendFilters: boolean = false;
   private subscription: Subscription | undefined;
@@ -367,6 +365,10 @@ export class RadialChartComponent implements OnInit, OnDestroy {
     }
   }
 
+  randomize() {
+    this.onRandomizeClick.emit(this.id);
+  }
+
   private numberFormat(num: number) {
     if (num >= 1000000000) {
       return Math.trunc(num / 1000000000).toFixed(1).replace(/\.0$/, "") + "G";
@@ -421,8 +423,9 @@ export class RadialChartComponent implements OnInit, OnDestroy {
       .text(this.totalCount)
       .attr("transform", "translate(" + this.width / 1.6 + "," + this.height / 1.9 + ")");
 
-
-    return this.svg
+    // --- Animation for radial slices ---
+    const arcGen = d3.arc().outerRadius(this.radius).innerRadius(this.radius * 0.7);
+    const arcs = this.svg
       .selectAll("path")
       .remove()
       .exit()
@@ -434,15 +437,9 @@ export class RadialChartComponent implements OnInit, OnDestroy {
       .attr("stroke", "white")
       .attr("stroke-width", "1.3px")
       .attr("cursor", "pointer")
-      .attr("d", this.arc)
-      .on("click", (d: { data: { category: any; }; }) => {
-        this.barFilter(d.data.category);
-        tooltip.style("display", "none");
-      })
-      .attr("fill", (d: { data: { category: string; }; }, i: any) => {
+      .attr("fill", (d: any, i: any) => {
         let colorKeys = Object.values(this.legendItem);
         let colour = "";
-
         let colorClass = this.getKeyClassName(d.data.category);
         colorKeys.map((item: any) => {
           let itemClass = item["className"];
@@ -450,30 +447,42 @@ export class RadialChartComponent implements OnInit, OnDestroy {
         });
         return colour;
       })
-      .on("mousemove", (d: { data: { category: any; count: any; percent: any; }; }, i: any) => {
+      .on("click", (d: any) => {
+        this.barFilter(d.data.category);
+        tooltip.style("display", "none");
+      })
+      .on("mousemove", (event: any, { data }: any) => {
         tooltip.transition().duration(900).style("opacity", 0.9);
         tooltip.html(
           ` <div>
-                      <p>${d.data.category}
-                          <strong>${this.d3Format(d.data.count)}</strong> ${this.unit}
-                          (${d.data.percent}%)
+                      <p>${data.category}
+                          <strong>${this.d3Format(data.count)}</strong> ${this.unit}
+                          (${data.percent}%)
                       </p>
                </div>`
         )
-          .style("left", (event: any) => {
-            return event.pageX - 35 + "px"
-          })
-          .style("top", (event: any) => event.pageY - 30 + "px")
+          .style("left", event.pageX - 35 + "px")
+          .style("top", event.pageY - 30 + "px")
           .style("border-radius", "10px")
           .style("pointer-events", "none")
           .style("display", "")
-          .attr("transform", (event: any) => `translate(${event.pageX - 35}, ${event.pageY - 30})`);
+          .attr("transform", `translate(${event.pageX - 35}, ${event.pageY - 30})`);
       })
-      .on("mouseout", (event: any) => {
+      .on("mouseout", function () {
         tooltip.html("");
-        d3.select(this.svg);
-        d3.select(this.svg).transition().duration(500);
       });
+
+    // Animate the arcs
+    arcs.transition()
+      .duration(900)
+      .ease(d3.easeCubic)
+      .attrTween("d", function (d: any) {
+        const i = d3.interpolate({ startAngle: d.startAngle, endAngle: d.startAngle }, d);
+        return function (t: number) {
+          return arcGen(i(t));
+        };
+      });
+
     this.showBackground();
   }
 }

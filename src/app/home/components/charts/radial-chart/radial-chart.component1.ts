@@ -7,12 +7,12 @@ import {
   Output,
   SimpleChange,
   ViewEncapsulation,
+  OnChanges,
+  OnDestroy
 } from "@angular/core";
 import * as d3 from "d3";
-import { Subscription } from "rxjs/internal/Subscription";
+import { Subscription } from "rxjs";
 import { PresentationService } from "../../../services/presentation.service";
-import { CommonModule } from "@angular/common";
-
 
 
 @Component({
@@ -21,7 +21,7 @@ import { CommonModule } from "@angular/common";
   styleUrls: ["./radial-chart.component.less"],
   encapsulation: ViewEncapsulation.None,
 })
-export class RadialChartComponent implements OnInit {
+export class RadialChartComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input()
   data!: any[];
@@ -46,6 +46,8 @@ export class RadialChartComponent implements OnInit {
 
   @Output()
   onSetChartFilters: EventEmitter<object> = new EventEmitter<object>();
+
+  @Output() onRandomizeClick = new EventEmitter<string>();
 
   // set constants
   private width = 160;
@@ -73,7 +75,7 @@ export class RadialChartComponent implements OnInit {
   itemsArray: any[] = [];
 
   constructor(
-    element: ElementRef,
+    private element: ElementRef,
     private presentationService: PresentationService) {
     this.parentElement = element.nativeElement;
   }
@@ -83,15 +85,14 @@ export class RadialChartComponent implements OnInit {
       if (changes.hasOwnProperty(propName)) {
         switch (propName) {
           case "data": {
-            // this.totalCount = this.d3Format(this.data["totalCount"]);
-            this.dataSource = this.data;
-            this.dataSource = this.sortArray(this.dataSource).map((item: any, i: any) => {
+            this.dataSource = this.data ? [...this.data] : [];
+            this.dataSource = this.sortArray(this.dataSource).map((item: any, i: number) => {
               item["index"] = i;
               return item;
             });
-
             this.initializeOptions();
             this.renderChart(this.dataSource);
+            break;
           }
         }
       }
@@ -105,7 +106,7 @@ export class RadialChartComponent implements OnInit {
           this.renderedWidth = value.width;
         } else if (this.renderedWidth !== value.width) {
           this.renderedWidth = value.width;
-          this.onResize(value);
+          // this.onResize(value);
         }
       }
     );
@@ -118,9 +119,9 @@ export class RadialChartComponent implements OnInit {
   }
 
   // Sort the arc data to ensure a particular ordering.
-  sortArray(array: any) {
-    if (array === undefined || typeof array[0] === undefined) {
-      return Array(0);
+  sortArray(array: any[]) {
+    if (!array || typeof array[0] === 'undefined') {
+      return [];
     }
     if (typeof array[0] === "object") {
       return array.sort((a: any, b: any) => {
@@ -159,9 +160,9 @@ export class RadialChartComponent implements OnInit {
 
   private getLegendKeys() {
     if (this.dataSource && this.dataSource.length > 0) {
-      return this.sortArray(this.dataSource.map((d) => d.category)).reverse();
+      return this.sortArray(this.dataSource.map((d: any) => d.category)).reverse();
     } else {
-      return this.dataSource[0];
+      return [];
     }
   }
 
@@ -187,11 +188,11 @@ export class RadialChartComponent implements OnInit {
   }
 
   toggleAllLegendItems() {
-    let disabledItems = [];
-    let enabledItems = [];
+    let disabledItems: string[] = [];
+    let enabledItems: string[] = [];
     this.islegendClicked = true;
 
-    for (let key of this.keys) {
+    this.keys.forEach((key: string) => {
       if (this.legendItem[key]) {
         if (this.legendItem[key].visible) {
           enabledItems.push(key);
@@ -200,12 +201,12 @@ export class RadialChartComponent implements OnInit {
           disabledItems.push(key);
         }
       }
-    }
+    });
 
     // If none are disabled, we should disable all
     if (!disabledItems.length) {
       enabledItems.forEach((key) => {
-        this.legendItem[key].visible = this.legendItem[key].visible;
+        this.legendItem[key].visible = false;
       });
     }
 
@@ -216,13 +217,13 @@ export class RadialChartComponent implements OnInit {
   toggleLegendItem(key: string) {
     this.islegendClicked = true;
 
-    if (this.keys.length == this.legendVisibleCount()) {
+    if (this.keys.length === this.legendVisibleCount()) {
       this.setAllLegendItems(false);
     }
 
     this.legendItem[key].visible = !this.legendItem[key].visible;
 
-    if (this.legendVisibleCount() == 0) {
+    if (this.legendVisibleCount() === 0) {
       this.setAllLegendItems(true);
       this.islegendClicked = false;
     }
@@ -231,35 +232,35 @@ export class RadialChartComponent implements OnInit {
   }
 
   private renderFilteredChart() {
-    let data = JSON.parse(JSON.stringify(this.dataSource));
-    let disabledItems: any = [];
+    try {
+      let data = JSON.parse(JSON.stringify(this.dataSource));
+      let disabledItems: string[] = [];
 
-    for (let key of this.keys) {
-      if (this.legendItem[key] && !this.legendItem[key].visible)
-        disabledItems.push(key);
-    }
+      this.keys.forEach((key: string) => {
+        if (this.legendItem[key] && !this.legendItem[key].visible)
+          disabledItems.push(key);
+      });
 
-    if (disabledItems.length) {
-      data = data.map((d: any, i: any) => {
-        disabledItems.forEach((disabled: any) => {
-          if (d.category === disabled) {
-            d = {
+      if (disabledItems.length) {
+        data = data.map((d: any, i: number) => {
+          if (disabledItems.includes(d.category)) {
+            return {
               category: d.category,
               count: 0,
               percent: 0,
               index: i,
             };
           }
-        });
-        if (d.hasOwnProperty("category")) {
           return d;
-        }
-      });
+        });
+      }
+
+      data = data.filter((item: any) => item !== undefined && item.count > 0);
+
+      this.renderChart(data);
+    } catch (error) {
+      console.error('Error in renderFilteredChart:', error);
     }
-
-    data = data.filter((item: any) => item !== undefined && item.count > 0);
-
-    this.renderChart(data);
   }
 
   getEnabledItems() {
@@ -283,7 +284,12 @@ export class RadialChartComponent implements OnInit {
     this.onSetChartFilters.emit({ items: [item], islegendClicked: true });
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.destroyChart();
+  }
 
   private destroyChart() {
     if (this.svg && !this.svg.empty()) {
@@ -293,15 +299,33 @@ export class RadialChartComponent implements OnInit {
   }
 
   private getChartWidth(): number {
-    let panelWidth = this.parentElement.getBoundingClientRect().width;
+    try {
+      // Check if parent element exists
+      if (!this.parentElement) {
+        console.warn('Parent element not available for width calculation');
+        return 160; // fallback width
+      }
 
-    if (this.keys.length > 0 && this.presentationService.isLargePresentation()) {
-      panelWidth -= this.presentationService.isExtendedPresentation() ? 50 : 25;
-    } else {
-      panelWidth -= 5;
+      // Use the width of the chart-wrapper for responsive sizing
+      const wrapper = this.parentElement.querySelector('.chart-wrapper');
+      let panelWidth = wrapper ? wrapper.getBoundingClientRect().width : this.parentElement.getBoundingClientRect().width;
+
+      // Check if we got a valid width
+      if (!panelWidth || isNaN(panelWidth)) {
+        console.warn('Invalid panel width:', panelWidth);
+        return 160; // fallback width
+      }
+
+      if (this.keys && this.keys.length > 0 && this.presentationService.isLargePresentation()) {
+        panelWidth -= this.presentationService.isExtendedPresentation() ? 50 : 25;
+      } else {
+        panelWidth -= 5;
+      }
+      return panelWidth > 0 ? panelWidth : 160; // minimum fallback width
+    } catch (error) {
+      console.error('Error in getChartWidth:', error);
+      return 160; // fallback width
     }
-
-    return panelWidth > 0 ? panelWidth : 0;
   }
 
   d3Format = d3.format(" ,");
@@ -321,137 +345,228 @@ export class RadialChartComponent implements OnInit {
   }
 
   renderChart(data: any[]) {
-    this.destroyChart();
+    try {
+      this.destroyChart();
 
-    const drawArcBack = d3
-      .arc()
-      .innerRadius((d, i) => this.arcMin + i * this.arcWidth + this.arcPad)
-      .outerRadius((d, i) => this.arcMin + (i + 1) * this.arcWidth)
-      .startAngle(0 * (this.PI / 180))
-      .endAngle((d, i) => 2 * this.PI);
+      // Check if parent element exists
+      if (!this.parentElement) {
+        console.warn('Parent element not found for radial chart');
+        return;
+      }
 
-    if (!data) {
-      data = this.dataSource;
-    }
+      const drawArcBack = d3
+        .arc()
+        .innerRadius((d: any, i: number) => this.arcMin + i * this.arcWidth + this.arcPad)
+        .outerRadius((d: any, i: number) => this.arcMin + (i + 1) * this.arcWidth)
+        .startAngle(0)
+        .endAngle((d: any, i: number) => 2 * this.PI);
 
-    let total = 0;
-    data.map((item) => (total = total + item.count));
+      if (!data) {
+        data = this.dataSource;
+      }
 
-    this.totalCount = this.numberFormat(total);
+      let total = 0;
+      data.forEach((item) => (total += item.count));
 
-    let parentElement = d3
-      .select(this.parentElement)
-      .attr("transform", `translate(${this.margin.left}, ${this.margin.top})`);
+      this.totalCount = this.numberFormat(total);
 
-    let svg = (this.svg = parentElement.select("svg"))
-      .attr("viewBox", "-59, -60, 390, 280")
-      .attr("preserveAspectRatio", "xMidYMin meet");
+      let chartWidth = this.getChartWidth();
+      let chartHeight = this.height * 1.35;
 
-    svg.attr("width", this.getChartWidth() / 1.2);
+      // Check if we have valid dimensions
+      if (chartWidth <= 0 || chartHeight <= 0) {
+        console.warn('Invalid chart dimensions:', { chartWidth, chartHeight });
+        return;
+      }
 
-    svg.attr("height", this.height * 1.35);
+      let parentElement = d3.select(this.parentElement);
 
-    if (this.parentElement == null || this.totalCount < 1) {
-      svg
-        .selectAll(".arc-backgrounds")
-        .data(this.backData)
-        .enter()
-        .append("svg:path")
-        .style("fill", "#f3f3f3")
-        .text("No data found.")
-        .attr("text-anchor", "middle")
-        .attr("transform", "translate(80,80)")
+      // Check if d3 selection was successful
+      if (!parentElement || parentElement.empty()) {
+        console.warn('Failed to select parent element with d3');
+        return;
+      }
+
+      // Try to select or create the SVG element
+      let svgSelection = parentElement.select("svg");
+      if (svgSelection.empty()) {
+        // Create SVG if it doesn't exist
+        svgSelection = parentElement.append("svg") as any;
+      }
+
+      let svg = (this.svg = svgSelection
         .attr("viewBox", "-59, -60, 390, 280")
         .attr("preserveAspectRatio", "xMidYMin meet")
-        .attr("d", drawArcBack as any);
+        .attr("width", chartWidth)
+        .attr("height", chartHeight)) as any;
+
+      // Check if SVG was created successfully
+      if (!this.svg || this.svg.empty()) {
+        console.warn('Failed to create or select SVG element');
+        return;
+      }
+
+      svg.attr("width", chartWidth);
+      svg.attr("height", chartHeight);
+
+      if (this.parentElement == null || this.totalCount < 1) {
+        try {
+          svg
+            .selectAll(".arc-backgrounds")
+            .data(this.backData)
+            .enter()
+            .append("svg:path")
+            .style("fill", "#f3f3f3")
+            .text("No data found.")
+            .attr("text-anchor", "middle")
+            .attr("transform", "translate(80,80)")
+            .attr("viewBox", "-59, -60, 390, 280")
+            .attr("preserveAspectRatio", "xMidYMin meet")
+            .attr("d", drawArcBack as any);
+        } catch (backgroundError) {
+          console.warn('Failed to create background arcs:', backgroundError);
+        }
+      }
+
+      this.scale = d3.scaleLinear()
+        .domain([0, d3.max(data, (d: any) => d.count) * 1.2])
+        .range([0, 2 * Math.PI]);
+
+      //------------------------- Draw Arc & Bars----------------//
+
+      const drawArc = d3
+        .arc()
+        .innerRadius((d: any) => this.arcMin + d["index"] * this.arcWidth + this.arcPad)
+        .outerRadius((d: any) => this.arcMin + (d["index"] + 1) * this.arcWidth)
+        .startAngle(0)
+        .endAngle((d: any) => this.scale(d["count"]));
+
+      // Tooltip
+      let tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "radial-tooltip")
+        .style("position", "absolute")
+        .style("padding", "0 10px")
+        .style("background", "white")
+        .style("opacity", 0)
+        .style("pointer-events", "none")
+        .style("border-radius", "10px");
+
+      try {
+        svg
+          .append("text")
+          .attr("text-anchor", "middle")
+          .attr("font-size", "27px")
+          .attr("font-weight", "600")
+          .attr("fill", "#4d4d4d")
+          .text(this.totalCount)
+          .attr("transform", "translate(" + this.width / 2.0 + "," + this.height / 2.2 + ")");
+      } catch (textError) {
+        console.warn('Failed to append text:', textError);
+      }
+
+      try {
+        svg
+          .selectAll(".arc-backgrounds")
+          .data(this.backData)
+          .enter()
+          .append("svg:path")
+          .style("fill", "#f3f3f3")
+          .attr("transform", "translate(80,80)")
+          .attr("cursor", "pointer")
+          .attr("d", drawArcBack as any);
+      } catch (backgroundError) {
+        console.warn('Failed to create background arcs:', backgroundError);
+      }
+
+      svg.selectAll("path.arc-path").remove();
+      const arcPaths = svg.selectAll("path.arc-path")
+        .data(data, (d: any) => d.category);
+
+      try {
+        // Enter
+        const arcEnter = arcPaths.enter()
+          .append("svg:path")
+          .attr("class", "arc-path")
+          .attr("transform", "translate(80,80)")
+          .attr("cursor", "pointer")
+          .attr("fill", (d: any) => {
+            // Add safety check for legendItem
+            if (!this.legendItem || !this.legendItem[d.category]) {
+              return "#ccc"; // fallback color
+            }
+            let colorKeys = Object.values(this.legendItem);
+            let colour = "";
+            let colorClass = this.getKeyClassName(d.category);
+            colorKeys.forEach((item: any) => {
+              let itemClass = item["className"];
+              if (colorClass === itemClass) {
+                colour = item["color"];
+              }
+            });
+            return colour;
+          })
+          .on("click", (event: MouseEvent, d: any) => {
+            this.barFilter(d.category);
+            tooltip.style("display", "none");
+          })
+          .on("mousemove", (event: MouseEvent, data: any) => {
+            tooltip.transition().duration(200).style("opacity", 0.9);
+            tooltip.html(
+              `<div><p>${data.category} <strong>${this.d3Format(data.count)}</strong> (${data.percent}%)</p></div>`
+            )
+              .style("left", event.pageX - 35 + "px")
+              .style("top", event.pageY - 30 + "px");
+          })
+          .on("mouseout", function () {
+            tooltip.transition().duration(200).style("opacity", 0);
+            tooltip.html("");
+          })
+          // Set initial arc shape for animation
+          .attr("d", (d: any) => {
+            // Start from 0 angle for animation
+            const zeroArc = { ...d, count: 0 };
+            return drawArc(zeroArc);
+          });
+
+        // Merge enter and update selections
+        const arcMerge = arcEnter.merge(arcPaths as any) as any;
+
+        // Animate the arcs
+        arcMerge
+          .transition()
+          .duration(900)
+          .ease(d3.easeCubic)
+          .attrTween("d", function (this: SVGPathElement, d: any) {
+            try {
+              const tween = this as any;
+              const prev = tween.current || { ...d, count: 0 };
+              const interpolate = d3.interpolate(prev, d);
+              tween.current = d;
+              return function (t: number) {
+                try {
+                  return drawArc(interpolate(t));
+                } catch (arcError) {
+                  console.error('Error in arcTween inner function:', arcError, { d, t, interpolate });
+                  return null;
+                }
+              };
+            } catch (tweenError) {
+              console.error('Error in attrTween:', tweenError, { d, this: this });
+              return (_t: number): string | null => null;
+            }
+          });
+      } catch (arcError) {
+        console.error('Error creating or animating arcs:', arcError);
+      }
+    } catch (error) {
+      console.error('Error in renderChart:', error);
     }
+  }
 
-    this.scale = d3.scaleLinear()
-      .domain([0, d3.max(data, (d) => d.count) * 1.2])
-      .range([0, 2 * Math.PI]);
-
-    //------------------------- Draw Arc & Bars----------------//
-
-    const drawArc = d3
-      .arc()
-      .innerRadius((d: any, i) => this.arcMin + d["index"] * this.arcWidth + this.arcPad)
-      .outerRadius((d: any, i) => this.arcMin + (d["index"] + 1) * this.arcWidth)
-      .startAngle(0 * (this.PI / 180))
-      .endAngle((d: any, i) => this.scale(d["count"]));
-
-    let tooltip = d3
-      .select("body")
-      .append("div")
-      .style("position", "absolute")
-      .style("padding", "0 10px")
-      .style("background", "white")
-      .style("opacity", 0);
-
-    const arcs = svg.selectAll("path.arc-path").remove().exit().data(data);
-
-    svg
-      .append("text")
-      .attr("text-anchor", "middle")
-      .attr("font-size", "27px")
-      .attr("font-weight", "600")
-      .attr("fill", "#4d4d4d")
-      .text(this.totalCount)
-      .attr("transform", "translate(" + this.width / 2.0 + "," + this.height / 2.2 + ")");
-
-    svg
-      .selectAll(".arc-backgrounds")
-      .data(this.backData)
-      .enter()
-      .append("svg:path")
-      .style("fill", "#f3f3f3")
-      .attr("transform", "translate(80,80)")
-      .attr("cursor", "pointer")
-      .attr("d", drawArcBack as any);
-
-    arcs
-      .enter()
-      .append("svg:path")
-      .attr("class", "arc-path") // assigns a class for easier selecting
-      .attr("transform", "translate(80,80)")
-      .attr("d", drawArc)
-      .attr("cursor", "pointer")
-      .on("click", (d) => {
-        this.barFilter(d.category);
-        tooltip.style("display", "none");
-      })
-      .attr("fill", (d, i) => {
-        let colorKeys = Object.values(this.legendItem);
-        let colour = "";
-
-        let colorClass = this.getKeyClassName(d.category);
-        colorKeys.map((item: any) => {
-          let itemClass = item["className"];
-          colour = (colorClass === itemClass) ? item["color"] : colour;
-        });
-        return colour;
-      })
-      .on("mousemove", (event, data) => {
-        tooltip.transition().duration(900).style("opacity", 0.9);
-        tooltip.html(
-          ` <div>
-                  <p>${data.category}
-                    <strong>${this.d3Format(data.count)}</strong>
-                    (${data.percent}%)
-                  </p>
-              </div>`
-        )
-          .style("left", event.pageX - 35 + "px")
-          .style("top", event.pageY - 30 + "px")
-          .style("border-radius", "10px")
-          .style("pointer-events", "none")
-          // .style("display", "")
-          .attr("transform", `translate(${event.pageX - 35}, ${event.pageY - 30})`);
-      })
-      .on("mouseout", function () {
-        tooltip.html("");
-        d3.select(this);
-        d3.select(this).transition().duration(500);
-      });
+  randomize() {
+    this.onRandomizeClick.emit(this.id);
   }
 }
 

@@ -1,23 +1,78 @@
 #overlay {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 2;
-    cursor: pointer;
-  }
-  
-  #text{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 50px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-  }
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+
+#text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 50px;
+  color: white;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+body.dark-mode {
+  background: #181818 !important;
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .panel-body,
+body.dark-mode .header,
+body.dark-mode #overlay,
+body.dark-mode .single-card,
+body.dark-mode .button {
+  background: #232323 !important;
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .button {
+  background: #333 !important;
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode svg {
+  background: #232323 !important;
+}
+
+@import '../styles/dark-mode.less';
+
+.dark-mode-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  background: linear-gradient(90deg, #232526 0%, #414345 100%);
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  transition: background 0.3s, color 0.3s;
+}
+
+.dark-mode-toggle .toggle-icon {
+  font-size: 1.3rem;
+  transition: color 0.3s;
+}
+
+.dark-mode .dark-mode-toggle {
+  background: linear-gradient(90deg, #232526 0%, #0f2027 100%);
+  color: #ffe082;
+}

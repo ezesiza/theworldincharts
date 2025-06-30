@@ -17,10 +17,12 @@ import { PresentationService } from 'app/home/services/presentation.service';
 export class VoronoiOriginalComponent implements OnInit {
     height = 680;
     width = 680;
-    private margins = { top: 20, right: 20, bottom: 50, left: 50 };
+    private margins = { top: 20, right: 40, bottom: 50, left: 50 };
     private fontSizeYear = 64 * this.height / 900;
 
     animate: boolean = true;
+    private animationPaused: boolean = false;
+    private animationTimeout: any = null;
     freedom: any = null;
     duration: number = 1250;
     selectedYear: number = 2008;
@@ -83,7 +85,21 @@ export class VoronoiOriginalComponent implements OnInit {
         }
     }
 
-    async renderVoronoi(freedom: any) {
+    toggleAnimation() {
+        this.animate = !this.animate;
+        this.animationPaused = !this.animationPaused;
+        if (!this.animationPaused) {
+            this.resumeAnimation();
+        }
+    }
+
+    private async resumeAnimation() {
+        if (this.freedom) {
+            await this.renderVoronoi(this.freedom, true);
+        }
+    }
+
+    async renderVoronoi(freedom: any, resume: boolean = false) {
 
         const years = freedom.map((item: any, i: number) => item.year);
 
@@ -93,13 +109,18 @@ export class VoronoiOriginalComponent implements OnInit {
             .attr("width", this.width * 1.4)
             .attr("height", this.height * 1.4)
             .style("fill", "#F5F5F2")
-            .attr("viewBox", "-120, -30, 900, 900");
+            .attr("viewBox", "-120, -80, 1000, 1000");
         // .attr("width", this.width * 1.5)
         // .attr("height", this.height * 1.5)
         // .attr("viewBox", "-200, 30, 980, 850");
 
-        for (const selectedYear of newYears) {
-
+        let yearIndex = resume ? newYears.indexOf(this.selectedYear) : 0;
+        for (; yearIndex < newYears.length; yearIndex++) {
+            if (this.animationPaused) {
+                this.selectedYear = Number(newYears[yearIndex]);
+                break;
+            }
+            const selectedYear = newYears[yearIndex];
             this.selectedYear = Number(selectedYear);
             this.currentYear = this.displayYear = Number(selectedYear);
 
@@ -222,26 +243,6 @@ export class VoronoiOriginalComponent implements OnInit {
                 .attr('fill', 'black')
                 .style('font-family', 'Montserrat');
 
-            // popLabels.selectAll('text')
-            //     .data(allNodes.filter((d: any) => d.depth === 2))
-            //     .enter()
-            //     .append('text')
-            //     .attr('class', (d: any) => `label-${d.id}`)
-            //     .attr('text-anchor', 'middle')
-            //     .attr("transform", (d: any) => "translate(" + [d.polygon.site.x, d.polygon.site.y + 25] + ")")
-            //     .text((d: any) => this.bigFormat(d.data.population))
-            //     .attr('opacity', (d: any) => {
-            //         if (d.data.key === hoveredShape) {
-            //             return (1);
-            //         } else if (d.data.population > 130000000) {
-            //             return (1);
-            //         } else { return (0); }
-            //     })
-            //     .attr('cursor', 'default')
-            //     .attr('pointer-events', 'none')
-            //     .attr('fill', 'black')
-            //     .style('font-size', '12px')
-            //     .style('font-family', 'Montserrat');
 
             voronoi.append("g")
                 .attr("transform", "translate(" + -70 + "," + this.margins.bottom + ")")
@@ -259,50 +260,99 @@ export class VoronoiOriginalComponent implements OnInit {
                     .attr("y", "110px")
                     .text((d: any) => selectedYear as any));
 
-            // Add labels
-            let radius = 200;
-            const labelRadius = radius + 15;
-            const regions = [... new Set(allNodes)];
-
-            svg
-                // clipLabel
-                // .selectAll('text')
-                .selectAll('.clipPath')
-                .data(regions.filter((d: any) => d.depth === 2))
-                .enter()
-                .append('text')
-                // .attr('class', (d: any) => `label-${d.id}`)
-                .attr("id", (d: any) => d.data.region_simple)
-                // .attr("d",  d => d.ringPath())
-                .attr("class", "clipPath")
-                .attr('transform', (d: any, i: number) => {
-                    const angle = (i / d.parent.data[1].length) * 2 * Math.PI - Math.PI / 2;
-                    // console.log(angle);
-                    // const angle = (i / allNodes.length) * 2 * Math.PI - Math.PI / 2;
-                    const x = labelRadius * Math.cos(angle);
-                    const y = labelRadius * Math.sin(angle);
-                    // console.log(x, y);
-                    return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${(angle * 180) / Math.PI + 90})`;
-                    // return `translate(${x + 80}, ${y}) rotate(${(angle * 180) / Math.PI + 90})`;
-                })
-                .attr('text-anchor', 'middle')
-                .attr('class', 'font-medium text-sm')
-                .text((d: any) => d.data.region_simple)
-                .attr('opacity', (d: any, e: any, f: any) => {
-
-                    if (d.data.key === hoveredShape) {
-                        return (1);
-                    } else if (d.data.population > 130000000) {
-                        return (1);
-                    } else { return (0); }
-                })
-                .attr('cursor', 'default')
-                .attr('pointer-events', 'none')
-                .attr('fill', 'black')
-                .style('font-family', 'Montserrat');
+            // Remove old arc labels if any
+            svg.selectAll('.arc-label-path').remove();
+            svg.selectAll('.arc-label-text').remove();
+            // Place region labels using centroid-based angle
+            const centerX = 390;
+            const centerY = 360;
+            const arcRadius = 339 + 30;
+            // Use populationHierarchy for region nodes
+            const regionNodes = (populationHierarchy.children || []);
+            // Create a hidden SVG text element for measuring text width
+            let tempText = d3.select('body').append('svg').attr('id', 'temp-svg-label-measure').style('position', 'absolute').style('visibility', 'hidden');
+            regionNodes.forEach((region: any, i: number) => {
+                const children = region.children || [];
+                if (children.length === 0) return;
+                // For each child (depth 2), compute the angle from the center using the centroid of its polygon
+                const angles = children.map((child: any) => {
+                    if (!child.polygon) return null;
+                    const centroid = d3.polygonCentroid(child.polygon);
+                    const dx = centroid[0] - centerX;
+                    const dy = centroid[1] - centerY;
+                    let angle = Math.atan2(dy, dx);
+                    if (angle < 0) angle += 2 * Math.PI;
+                    return angle;
+                }).filter((a: number | null) => a !== null);
+                if (angles.length === 0) return;
+                // Find min and max angle for the region's angular span
+                let minAngle = Math.min(...angles);
+                let maxAngle = Math.max(...angles);
+                // Handle wrap-around (if sector crosses 0)
+                if (maxAngle - minAngle > Math.PI) {
+                    [minAngle, maxAngle] = [maxAngle, minAngle + 2 * Math.PI];
+                }
+                let arcWidth = Math.abs(maxAngle - minAngle);
+                let meanAngle = (minAngle + maxAngle) / 2;
+                let minArcWidth = Math.PI / 12; // 15 degrees
+                let startAngle = minAngle;
+                let endAngle = maxAngle;
+                // If arc is too small, fallback to minArcWidth centered at meanAngle
+                if (arcWidth < minArcWidth) {
+                    startAngle = meanAngle - minArcWidth / 2;
+                    endAngle = meanAngle + minArcWidth / 2;
+                    arcWidth = minArcWidth;
+                }
+                const arcLength = arcRadius * arcWidth;
+                // Measure text width and adjust font size if needed
+                const labelText = region.data[0];
+                let fontSize = 16;
+                let textElem = tempText.append('text').text(labelText).style('font-family', 'Montserrat').style('font-size', fontSize + 'px');
+                let textWidth = (textElem.node() as SVGTextElement).getBBox().width;
+                textElem.remove();
+                if (arcLength < textWidth + 20) {
+                    // Reduce font size so label fits
+                    fontSize = Math.max(10, Math.floor(fontSize * (arcLength / (textWidth + 20))));
+                }
+                // Re-measure with new font size
+                textElem = tempText.append('text').text(labelText).style('font-family', 'Montserrat').style('font-size', fontSize + 'px');
+                textWidth = (textElem.node() as SVGTextElement).getBBox().width;
+                textElem.remove();
+                // Always show the label
+                const arcPath = d3.arc()({
+                    innerRadius: arcRadius,
+                    outerRadius: arcRadius,
+                    startAngle: startAngle,
+                    endAngle: endAngle
+                });
+                const arcId = `arc-label-path-${i}`;
+                svg.append('path')
+                    .attr('id', arcId)
+                    .attr('class', 'arc-label-path')
+                    .attr('d', arcPath)
+                    .attr('transform', `translate(${centerX},${centerY})`)
+                    .attr('fill', 'none')
+                    .attr('stroke', 'none');
+                // Place label at the midpoint of the arc
+                svg.append('text')
+                    .attr('class', 'arc-label-text')
+                    .append('textPath')
+                    .attr('href', `#${arcId}`)
+                    .attr('startOffset', '50%')
+                    .text(labelText)
+                    .attr('font-weight', 'bold')
+                    .attr('class', 'tick font-medium text-sm')
+                    .attr('cursor', 'default')
+                    .attr('pointer-events', 'none')
+                    .attr('fill', 'black')
+                    .style('font-family', 'Montserrat')
+                    .style('font-size', fontSize + 'px');
+            });
+            tempText.remove();
 
             this.presentation.saveSvgToImage();
             await transition.end();
+            if (this.animationPaused) break;
         }
     }
 

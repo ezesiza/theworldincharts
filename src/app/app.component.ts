@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +9,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   pathname = '/';
+  isDarkMode = false;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private themeService: ThemeService) {
     this.pathname = location.pathname;
   }
 
   ngOnInit() {
-    // this.on()
+    this.themeService.isDarkModeEnabled$.subscribe((enabled) => {
+      this.isDarkMode = enabled;
+    });
+  }
+
+  toggleDarkMode() {
+    this.themeService.toggleDarkMode();
   }
 
   on() {

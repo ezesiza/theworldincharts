@@ -19,6 +19,8 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   @Input() isDynamicColors: boolean = false;
   @Input() unit: any;
   @Output() onSetChartFilters: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onRandomizeClick: EventEmitter<any> = new EventEmitter<any>();
+  @Input() id: string = '';
 
   applyLegendFilters: boolean = false;
   private subscription: Subscription | undefined;
@@ -65,12 +67,18 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     for (const propName in changes) {
       this.logData = changes['logData'].currentValue;
-      this.initializeOptions()
-      this.drawSlices(this.logData)
+      if (this.logData && Array.isArray(this.logData) && this.logData.length > 0) {
+        this.initializeOptions()
+        this.drawSlices(this.logData)
+      }
     }
   }
 
   ngOnInit() {
+    if (this.logData && Array.isArray(this.logData) && this.logData.length > 0) {
+      this.initializeOptions();
+      this.drawSlices(this.logData);
+    }
     this.subscription = this.presentationService.windowSize.subscribe(
       (value) => {
         if (!this.renderedWidth) {
@@ -78,7 +86,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
         } else if (this.renderedWidth !== value.width) {
           this.renderedWidth = value.width;
           // this.onResize(value);
-          this.renderFilteredChart();
+          // this.renderFilteredChart();
         }
       }
     );
@@ -129,11 +137,11 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   }
 
   public toggleAllLegendItems() {
+    this.onRandomizeClick.emit(this.id);
     let disabledItems: any = [];
     let enabledItems: any[] = [];
     this.islegendClicked = true;
     for (let key of this.keys) {
-
       if (this.legendItem[key]) {
         if (this.legendItem[key].visible) {
           enabledItems.push(key);
@@ -143,7 +151,6 @@ export class DonutChartComponent implements OnInit, OnDestroy {
         }
       }
     }
-
     // If none are disabled, we should disable all
     if (!disabledItems.length) {
       enabledItems.forEach((key) => {
@@ -228,6 +235,11 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   }
 
   private renderFilteredChart() {
+    if (!this.logData || !Array.isArray(this.logData) || this.logData.length === 0) {
+      // Handle case when no valid data is available
+      this.drawSlices(this.backData);
+      return;
+    }
 
     let data: any = JSON.parse(JSON.stringify(this.logData));
 
@@ -256,14 +268,33 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   }
 
   private getChartWidth(): number {
-    let panelWidth = this.parentElement.getBoundingClientRect().width;
-    if (this.keys.length > 0 && this.presentationService.isLargePresentation()) {
-      panelWidth -= this.presentationService.isExtendedPresentation() ? 50 : 20;
-    } else {
-      panelWidth -= 5;
-    }
+    try {
+      // Check if parent element exists
+      if (!this.parentElement) {
+        console.warn('Parent element not available for width calculation');
+        return 200; // fallback width
+      }
 
-    return panelWidth > 0 ? panelWidth : 0;
+      // Use the width of the chart-wrapper for responsive sizing
+      const wrapper = this.parentElement.querySelector('.chart-wrapper');
+      let panelWidth = wrapper ? wrapper.getBoundingClientRect().width : this.parentElement.getBoundingClientRect().width;
+
+      // Check if we got a valid width
+      if (!panelWidth || isNaN(panelWidth)) {
+        console.warn('Invalid panel width:', panelWidth);
+        return 200; // fallback width
+      }
+
+      if (this.keys && this.keys.length > 0 && this.presentationService.isLargePresentation()) {
+        panelWidth -= this.presentationService.isExtendedPresentation() ? 50 : 20;
+      } else {
+        panelWidth -= 5;
+      }
+      return panelWidth > 0 ? panelWidth : 200; // minimum fallback width
+    } catch (error) {
+      console.error('Error in getChartWidth:', error);
+      return 200; // fallback width
+    }
   }
 
   get donutWidth(): number {
@@ -286,60 +317,110 @@ export class DonutChartComponent implements OnInit, OnDestroy {
 
 
   private initArc() {
+    try {
+      this.destroyChart();
 
-    this.destroyChart();
-    let parentElement = d3.select(this.parentElement);
+      // Check if parent element exists
+      if (!this.parentElement) {
+        console.warn('Parent element not found for donut chart');
+        return;
+      }
 
-    let svg = (this.svg = parentElement
-      .select("svg")
-      .attr("viewBox", "0, 0, 380, 250")
-      .attr("preserveAspectRatio", "xMidYMid meet")
-      .attr("transform", `translate(${this.margins.left}, ${this.margins.top})`));
+      let parentElement = d3.select(this.parentElement);
 
-    svg.attr("width", this.getChartWidth() / 1.2);
-    svg.attr("height", this.height);
+      // Check if d3 selection was successful
+      if (!parentElement || parentElement.empty()) {
+        console.warn('Failed to select parent element with d3');
+        return;
+      }
 
-    let transition = this.svg.transition()
-      .duration(150)
-      .ease(d3.easeLinear);
-    if (this.parentElement == null || !this.logData) {
+      let chartWidth = this.getChartWidth();
+      let chartHeight = this.height;
 
-      svg
-        .append("text")
-        .transition()
-        .duration(15)
-        .ease(d3.easeLinear)
-        .attr("height", 290)
-        .attr("x", 120)
-        .attr("y", 140)
-        .attr("text-anchor", "middle")
-        .attr("font-size", "14px")
-        .attr("font-weight", "500")
-        .text("No relevant data found.");
+      // Check if we have valid dimensions
+      if (chartWidth <= 0 || chartHeight <= 0) {
+        console.warn('Invalid chart dimensions:', { chartWidth, chartHeight });
+        return;
+      }
+
+      // Try to select or create the SVG element
+      let svgSelection = parentElement.select("svg") as any;
+      if (svgSelection.empty()) {
+        // Create SVG if it doesn't exist
+        svgSelection = parentElement.append("svg") as any;
+      }
+
+      this.svg = (svgSelection
+        .attr("viewBox", "0, 0, 380, 250")
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("transform", `translate(${this.margins.left}, ${this.margins.top})`)
+        .attr("width", chartWidth)
+        .attr("height", chartHeight)) as any;
+
+      // Check if SVG was created successfully
+      if (!this.svg || this.svg.empty()) {
+        console.warn('Failed to create or select SVG element');
+        return;
+      }
+
+      if (this.parentElement == null || !this.logData) {
+        try {
+          if (this.svg && !this.svg.empty()) {
+            this.svg
+              .append("text")
+              .transition()
+              .duration(15)
+              .ease(d3.easeLinear)
+              .attr("height", 290)
+              .attr("x", 120)
+              .attr("y", 140)
+              .attr("text-anchor", "middle")
+              .attr("font-size", "14px")
+              .attr("font-weight", "500")
+              .text("No relevant data found.");
+          }
+        } catch (textError) {
+          console.warn('Failed to append text:', textError);
+        }
+      }
+    } catch (error) {
+      console.error('Error in initArc:', error);
     }
-    transition.end()
   }
 
   private showBackground() {
-    let backPie = d3.pie().sort(null).value((d: any) => d.value);
+    try {
+      // Check if SVG is available
+      if (!this.svg || this.svg.empty()) {
+        console.warn('SVG not available for background');
+        return;
+      }
 
-    if (this.totalCount < 1) {
-      this.initArc();
-      this.setArcs();
+      let backPie = d3.pie().sort(null).value((d: any) => d.value);
 
-      this.svg
-        .selectAll(".backpath")
-        .remove()
-        .exit()
-        .data(backPie(this.backData))
-        .enter()
-        // .append("g")
-        .append("svg:path")
-        .attr("transform", `translate(${this.radius}, ${this.radius})`)
-        .attr("cursor", "pointer")
-        .attr("stroke-width", "1.3px")
-        .attr("d", this.arc)
-        .style("fill", "#F3F3F3");
+      if (this.totalCount < 1) {
+        this.initArc();
+        this.setArcs();
+
+        try {
+          this.svg
+            .selectAll(".backpath")
+            .remove()
+            .exit()
+            .data(backPie(this.backData))
+            .enter()
+            .append("svg:path")
+            .attr("transform", `translate(${this.radius}, ${this.radius})`)
+            .attr("cursor", "pointer")
+            .attr("stroke-width", "1.3px")
+            .attr("d", this.arc)
+            .style("fill", "#F3F3F3");
+        } catch (backgroundError) {
+          console.warn('Failed to create background:', backgroundError);
+        }
+      }
+    } catch (error) {
+      console.error('Error in showBackground:', error);
     }
   }
 
@@ -361,92 +442,126 @@ export class DonutChartComponent implements OnInit, OnDestroy {
     return d3.format(" ,")(d);
   }
 
-  transition = d3.select('path').transition().duration(750).ease(() => 200);
+  // transition = d3.select('path').transition().duration(750).ease(() => 200);
 
 
   private drawSlices(data: any) {
+    try {
+      if (!data) {
+        data = this.backData;
+      }
 
-    if (!data) {
-      data = this.backData;
-    }
+      // Ensure legendItem is initialized before proceeding
+      if (!this.legendItem || Object.keys(this.legendItem).length === 0) {
+        this.initializeOptions();
+      }
 
-    this.initArc()
-    this.setArcs();
+      this.initArc();
 
-    let total = 0;
-    data.map((item: any) => {
-      total = total + item.count;
-    });
-    this.totalCount = this.numberFormat(total);
+      // Check if SVG was created successfully
+      if (!this.svg || this.svg.empty()) {
+        console.warn('SVG not available for drawing slices');
+        return;
+      }
 
-    this.pie = d3.pie().sort(null).value((d: any) => d.count);
+      this.setArcs();
 
-    let tooltip = d3
-      .select("body")
-      .append("div")
-      .style("position", "absolute")
-      .style("padding", "0 10px")
-      .style("background", "white")
-      .style("opacity", 0);
-
-    this.svg
-      .append("text")
-      .attr("text-anchor", "middle")
-      .attr("font-size", "27px")
-      .attr("font-weight", "600")
-      .attr("fill", "#4D4D4D")
-      .text(this.totalCount)
-      .attr("transform", "translate(" + this.width / 1.6 + "," + this.height / 1.9 + ")");
-
-    this.svg
-      .selectAll("path")
-      .remove()
-      .exit()
-      .data(this.pie(data))
-      .enter()
-      .append("g")
-      .append("path")
-      .attr("transform", `translate(${this.radius}, ${this.radius})`)
-      .attr("stroke", "white")
-      .attr("stroke-width", "1.3px")
-      .attr("cursor", "pointer")
-      .attr("d", this.arc)
-      .on("click", (d: any) => {
-        this.barFilter(d.data.category);
-        tooltip.style("display", "none");
-      })
-      .attr("fill", (d: any, i: any) => {
-        let colorKeys = Object.values(this.legendItem);
-        let colour = "";
-
-        let colorClass = this.getKeyClassName(d.data.category);
-        colorKeys.map((item: any) => {
-          let itemClass = item["className"];
-          colour = (colorClass === itemClass) ? item["color"] : colour;
-        });
-        return colour;
-      })
-      .on("mousemove", (event: any, { data }: any) => {
-
-        tooltip.transition().duration(900).style("opacity", 0.9);
-        tooltip.html(
-          ` <div>
-                    <p>${data.category}
-                      <strong>${this.d3Format(data.count)}</strong>
-                      (${data.percent}%)
-                    </p>
-                </div>`
-        )
-          .style("left", event.pageX - 35 + "px")
-          .style("top", event.pageY - 30 + "px")
-          .style("border-radius", "10px")
-          .style("pointer-events", "none")
-          .attr("transform", `translate(${event.pageX - 35}, ${event.pageY - 30})`);
-      })
-      .on("mouseout", function () {
-        tooltip.html("");
+      let total = 0;
+      data.map((item: any) => {
+        total = total + item.count;
       });
-    this.showBackground();
-    // return this.transition
+      this.totalCount = this.numberFormat(total);
+
+      this.pie = d3.pie().sort(null).value((d: any) => d.count);
+
+      let tooltip = d3
+        .select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("padding", "0 10px")
+        .style("background", "white")
+        .style("opacity", 0);
+
+      this.svg
+        .append("text")
+        .attr("text-anchor", "middle")
+        .attr("font-size", "27px")
+        .attr("font-weight", "600")
+        .attr("fill", "#4D4D4D")
+        .text(this.totalCount)
+        .attr("transform", "translate(" + this.width / 1.6 + "," + this.height / 1.9 + ")");
+
+      // --- Animation for donut slices ---
+      const arcGen = d3.arc().outerRadius(this.radius).innerRadius(this.radius * 0.7);
+
+      try {
+        const arcs = this.svg
+          .selectAll("path")
+          .remove()
+          .exit()
+          .data(this.pie(data))
+          .enter()
+          .append("g")
+          .append("path")
+          .attr("transform", `translate(${this.radius}, ${this.radius})`)
+          .attr("stroke", "white")
+          .attr("stroke-width", "1.3px")
+          .attr("cursor", "pointer")
+          .attr("fill", (d: any, i: any) => {
+            // Add safety check for legendItem
+            if (!this.legendItem || !this.legendItem[d.data.category]) {
+              return "#ccc"; // fallback color
+            }
+            let colorKeys = Object.values(this.legendItem);
+            let colour = "";
+            let colorClass = this.getKeyClassName(d.data.category);
+            colorKeys.map((item: any) => {
+              let itemClass = item["className"];
+              colour = (colorClass === itemClass) ? item["color"] : colour;
+            });
+            return colour;
+          })
+          .on("click", (d: any) => {
+            this.barFilter(d.data?.category);
+            tooltip.style("display", "none");
+          })
+          .on("mousemove", (event: any, { data }: any) => {
+            tooltip.transition().duration(900).style("opacity", 0.9);
+            tooltip.html(
+              ` <div>
+                        <p>${data.category}
+                          <strong>${this.d3Format(data.count)}</strong>
+                          (${data.percent}%)
+                        </p>
+                    </div>`
+            )
+              .style("left", event.pageX - 35 + "px")
+              .style("top", event.pageY - 30 + "px")
+              .style("border-radius", "10px")
+              .style("pointer-events", "none")
+              .attr("transform", `translate(${event.pageX - 35}, ${event.pageY - 30})`);
+          })
+          .on("mouseout", function () {
+            tooltip.html("");
+          });
+
+        // Animate the arcs
+        arcs.transition()
+          .duration(900)
+          .ease(d3.easeCubic)
+          .attrTween("d", function (d: any) {
+            const i = d3.interpolate({ startAngle: d.startAngle, endAngle: d.startAngle }, d);
+            return function (t: number) {
+              return arcGen(i(t));
+            };
+          });
+      } catch (arcError) {
+        console.error('Error creating arcs:', arcError);
+      }
+
+      this.showBackground();
+    } catch (error) {
+      console.error('Error in drawSlices:', error);
+    }
   }
 }

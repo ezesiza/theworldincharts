@@ -17,14 +17,22 @@ export class FormSelectComponent implements OnChanges {
   ];
   defaultScheme = this.schemes[1];
   @Input() defaultStyle = '2d';
+  @Input() isRotating: boolean = false;
 
   @Output() schemeChange = new EventEmitter<string>();
   @Output() styleChange = new EventEmitter<string>();
   @Output() percentageToggle = new EventEmitter<boolean>();
   @Output() pctOptionChange = new EventEmitter<string>();
+  @Output() pauseClick = new EventEmitter<void>();
 
   selectedScheme = this.defaultScheme;
   selectedStyle = this.defaultStyle;
+
+  uniqueId: string;
+
+  constructor() {
+    this.uniqueId = Math.random().toString(36).substring(2, 9);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(changes);
@@ -39,5 +47,9 @@ export class FormSelectComponent implements OnChanges {
     console.log(value);
     this.selectedStyle = value;
     this.styleChange.emit(this.selectedStyle);
+  }
+
+  onPauseClick() {
+    this.pauseClick.emit();
   }
 }

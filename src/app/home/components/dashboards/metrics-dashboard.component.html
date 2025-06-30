@@ -1,0 +1,12 @@
+<div class="dashboard-grid">
+    <single-card *ngFor="let cfg of chartConfigs; let i = index" [loading]="loadingState">
+        <div class="panel-body">
+            <radial-chart *ngIf="i % 2 === 0" [data]="getChartData(cfg.id)" [id]="cfg.id"
+                (onRandomizeClick)="randomizeDataForCharts($event)">
+            </radial-chart>
+            <donut *ngIf="i % 2 === 1" [id]="cfg.id" [logData]="getChartData(cfg.id)"
+                (onRandomizeClick)="randomizeDataForCharts($event)">
+            </donut>
+        </div>
+    </single-card>
+</div>

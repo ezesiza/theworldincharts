@@ -55,6 +55,8 @@ import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/b
 import { DonutRealtimeDashboardComponent } from './home/components/charts/donut-realtime-dashboard/donut-realtime-dashboard.component';
 import { AttackTreeComponent } from './home/components/charts/attack-tree/attack-tree.component';
 import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attack-tree.component2';
+import { SparklineChartComponent } from './home/components/charts/sparkline-chart/sparkline-chart.component';
+import { RadialChartComponent2 } from './home/components/charts/radial-chart/radial-chart.component';
 
 
 @NgModule({
@@ -62,6 +64,7 @@ import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attac
     AppComponent,
     FormSelectComponent,
     RadialChartComponent,
+    RadialChartComponent2,
     SankeyComponent,
     RadialStackedBarChartComponent,
     GlobeComponent,
@@ -70,6 +73,7 @@ import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attac
     ModalComponent,
     AttackTreeComponent,
     AttackTreeComponent2,
+    SparklineChartComponent,
     BubbleRealtimeDashboardComponent,
     AnimatedBubbleComponent,
     RouteOverlayComponent,

@@ -11,7 +11,7 @@
 <div>
   <alaaap-header></alaaap-header>
 </div>
-<div class="row">
+<!-- <div class="row">
   <div class="column">
     <single-card [loading]="loadingState">
       <div class="panel-body">
@@ -22,14 +22,16 @@
   <div class="column">
     <single-card [loading]="loadingState">
       <div class="panel-body">
-        <donut [logData]="data3"></donut>
+        <donut id="data3a" [logData]="getChartData('data3a')" (onRandomizeClick)="randomizeDataForCharts($event)">
+        </donut>
       </div>
     </single-card>
   </div>
   <div class="column">
     <single-card [loading]="loadingState">
       <div class="panel-body">
-        <donut [logData]="data2"></donut>
+        <donut id="data2a" [logData]="getChartData('data2a')" (onRandomizeClick)="randomizeDataForCharts($event)">
+        </donut>
       </div>
     </single-card>
   </div>
@@ -46,14 +48,72 @@
   <div class="column">
     <single-card [loading]="loadingState">
       <div class="panel-body">
-        <donut [logData]="data3"></donut>
+        <donut id="data3b" [logData]="getChartData('data3b')" (onRandomizeClick)="randomizeDataForCharts($event)">
+        </donut>
       </div>
     </single-card>
   </div>
   <div class="column">
     <single-card [loading]="loadingState">
       <div class="panel-body">
-        <donut [logData]="data2"></donut>
+        <donut id="data2b" [logData]="getChartData('data2b')" (onRandomizeClick)="randomizeDataForCharts($event)">
+        </donut>
+      </div>
+    </single-card>
+  </div>
+</div> -->
+
+<div class="row">
+  <div class="column">
+    <single-card [loading]="loadingState">
+      <div class="panel-body">
+        <radial-chart [data]="getChartData(chartConfigs[0].id)" [id]="chartConfigs[0].id"
+          (onRandomizeClick)="randomizeDataForCharts($event)"></radial-chart>
+      </div>
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card [loading]="loadingState">
+      <div class="panel-body">
+        <donut [id]="chartConfigs[1].id" [logData]="getChartData(chartConfigs[1].id)"
+          (onRandomizeClick)="randomizeDataForCharts($event)">
+        </donut>
+      </div>
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card [loading]="loadingState">
+      <div class="panel-body">
+        <radial-chart [data]="getChartData(chartConfigs[2].id)" [id]="chartConfigs[2].id"
+          (onRandomizeClick)="randomizeDataForCharts($event)"></radial-chart>
+      </div>
+    </single-card>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
+    <single-card [loading]="loadingState">
+      <div class="panel-body">
+        <donut [id]="chartConfigs[3].id" [logData]="getChartData(chartConfigs[3].id)"
+          (onRandomizeClick)="randomizeDataForCharts($event)">
+        </donut>
+      </div>
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card [loading]="loadingState">
+      <div class="panel-body">
+        <radial-chart [data]="getChartData(chartConfigs[4].id)" [id]="chartConfigs[4].id"
+          (onRandomizeClick)="randomizeDataForCharts($event)"></radial-chart>
+      </div>
+    </single-card>
+  </div>
+  <div class="column">
+    <single-card [loading]="loadingState">
+      <div class="panel-body">
+        <donut [id]="chartConfigs[5].id" [logData]="getChartData(chartConfigs[5].id)"
+          (onRandomizeClick)="randomizeDataForCharts($event)">
+        </donut>
       </div>
     </single-card>
   </div>

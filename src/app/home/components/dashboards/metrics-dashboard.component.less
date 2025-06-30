@@ -1,0 +1,28 @@
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 1rem 0;
+
+    @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+single-card,
+.single-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.panel-body {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 1rem 0.5rem;
+}

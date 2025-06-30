@@ -217,10 +217,22 @@ export class VoronoiComponent implements OnInit, OnDestroy {
 
     // Add labels
     let radius = 200;
-    const labelRadius = radius + 15;
-    const cradius = Math.min(this.width, this.height) / 2;
-    const pathId = "textPath" + Math.floor(Math.random() * 10000);
-    const lineGenerator = d3.line();
+    const labelRadiusOffset = 20; // Offset from the main circle for labels
+    const circleRadiusForLabels = 339 + labelRadiusOffset;
+    const centerX = 390;
+    const centerY = 360;
+
+    // Create a single circular path for all country labels
+    const pathData = `M ${centerX + circleRadiusForLabels}, ${centerY}
+                      A ${circleRadiusForLabels},${circleRadiusForLabels} 0 1,1 ${centerX - circleRadiusForLabels},${centerY}
+                      A ${circleRadiusForLabels},${circleRadiusForLabels} 0 1,1 ${centerX + circleRadiusForLabels},${centerY} Z`;
+
+    arcTextLabel.append("path")
+      .attr("id", "countryLabelPath")
+      .attr("d", pathData)
+      .attr("fill", "none")
+      .attr("stroke", "none");
+
 
     // const 
     arcTextLabel.append('g').
@@ -235,54 +247,38 @@ export class VoronoiComponent implements OnInit, OnDestroy {
     arcTextLabel.append('clipPath')
       .attr('id', 'circle-clip')
       .append('circle')
-      .attr('r', cradius);
+      .attr('r', circleRadiusForLabels);
+
+    // Filter and prepare country nodes for angular positioning
+    const countryNodes = allNodes.filter((d: any) => d.data.length === 2 && d.data[0] !== undefined)
+      .map((d: any) => {
+        // Calculate angle relative to the chart's center
+        let angle = Math.atan2(d.polygon.site.y - centerY, d.polygon.site.x - centerX);
+        // Normalize angle to be between 0 and 2*PI
+        if (angle < 0) {
+          angle += 2 * Math.PI;
+        }
+        return { ...d, angle: angle };
+      })
+      .sort((a: any, b: any) => a.angle - b.angle); // Sort to ensure consistent text path flow
+
 
     arcTextLabel
       .selectAll('text')
-      .data(allNodes.filter((d: any) => d.data.length === 2 && d.data[0] !== undefined))
+      .data(countryNodes) // Use sorted countryNodes
       .enter()
       .append('text')
       .attr('class', (d: any) => `label-${d.id}`)
-      .attr('transform', (d: any, i: number) => {
-        let boundaries = this.findCircularBoundaries(d);
-        let points = d.polygon;
-        // console.log();
-
-        let sumX = 0;
-        let sumY = 0;
-
-        for (let i = 0; i < points.length; i++) {
-          sumX += points[i][0];
-          sumY += points[i][1];
-        }
-
-        // Calculate the average for x and y
-        const midpointX = sumX / points.length;
-        const midpointY = sumY / points.length;
-
-        const countrySize = this.countryList.length
-        const angle = (i * 360 / (1 + countrySize) + countrySize) * (Math.PI / countrySize) - Math.PI / (1 + countrySize);
-
-        const x = labelRadius * Math.cos(angle);
-        const y = labelRadius * Math.sin(angle);
-        const dx = midpointX - d.polygon.site.x;
-        const dy = midpointY - d.polygon.site.y;
-
-        // console.log(d.data[0], boundaries, dx, dy);
-        // console.log(d.data[0], boundaries, d.polygon.site.x, d.polygon.site.y);
-
-        // return `translate(${1.6 * x + 390}, ${1.6 * y + 360}) rotate(${((angle * 180) / Math.PI + 90)})`;
-
-        return "translate(" + [boundaries.center[0] + 35, boundaries.center[1]] + ")"
+      .append("textPath") // Append textPath here
+      .attr("href", "#countryLabelPath")
+      .attr("startOffset", (d: any) => {
+        // Calculate offset based on the node's angular position
+        const offset = (d.angle / (2 * Math.PI)) * 100;
+        return offset + "%";
       })
-      // .attr("transform", (d: any) => "translate(" + [d.polygon.site.x + 50, d.polygon.site.y + 20] + ")")
+      .text((d: any) => d.data[0])
       .attr("font-weight", "bold")
-      .attr("class", "tick")
-      .text((d: any) => {
-        return d.data[0];
-      })
-      .attr('text-anchor', 'middle')
-      .attr('class', 'font-medium text-sm')
+      .attr("class", "tick font-medium text-sm")
       .attr('cursor', 'default')
       .attr('pointer-events', 'none')
       .attr('fill', 'black')

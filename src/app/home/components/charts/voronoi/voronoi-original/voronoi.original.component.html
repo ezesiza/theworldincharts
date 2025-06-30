@@ -10,6 +10,9 @@
                 <button class="button button3" title="Click to download png image" id="map2Jpg"
                     (click)="setDownload()">Download Image JPG</button>
                 <button class="button button2" routerLink="/earth">Next &raquo;</button>
+                <!-- Pause/Start Animation Button -->
+                <button class="button" (click)="toggleAnimation()">{{ animate ? 'Pause Animation' : 'Start Animation'
+                    }}</button>
                 <!-- <custom-select (selectionChange)="getSelectionChange($event)">Select
           </custom-select> -->
             </div>
