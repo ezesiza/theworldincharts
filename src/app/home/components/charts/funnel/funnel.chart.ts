@@ -88,6 +88,8 @@ export class FunnelChart {
     private onHover: ((data: FunnelChartData) => void) | null = null;
     private onClick: ((data: FunnelChartData) => void) | null = null;
 
+    private selectedStages: Set<string> = new Set();
+
     constructor(container: d3.Selection<SVGSVGElement, unknown, null, undefined>, data: any) {
         this.container = container;
         this.chartData = data;
@@ -462,7 +464,37 @@ export class FunnelChart {
             })
             .on("pointerleave", () => {
                 this.hideTooltip();
+            })
+            .on("click", (e: any, d: any) => {
+                e.stopPropagation();
+                if (this.selectedStages.has(d.stage)) {
+                    this.selectedStages.delete(d.stage);
+                } else {
+                    this.selectedStages.add(d.stage);
+                }
+                // If all sections are selected, reset
+                if (this.selectedStages.size === this.chartData.length) {
+                    this.selectedStages.clear();
+                }
+                this.updateBlur();
+                if (this.onClick) this.onClick(d);
             });
+
+        // Click outside to reset blur
+        d3.select(this.container.node()).on("click.resetBlur", () => {
+            this.selectedStages.clear();
+            this.updateBlur();
+        });
+    }
+
+    private updateBlur() {
+        if (!this.g) return;
+        const layers = this.g.selectAll(".layer");
+        if (this.selectedStages.size > 0) {
+            layers.classed("funnel-blur", (d: any) => !this.selectedStages.has(d.stage));
+        } else {
+            layers.classed("funnel-blur", false);
+        }
     }
 
     calcTextLength(text: String) {
