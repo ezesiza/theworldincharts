@@ -1,0 +1,228 @@
+chart = {
+  
+  const svg = d3.create("svg")
+      .attr("viewBox", [-width / 2, -height / 2, width, height])
+      .style("padding-top", `${margin.top}px`);
+    
+  // 2019 paths
+  svg.append("g")
+    .attr("class", "temp")
+    .selectAll("path")
+    .data(data)
+    .join("path")    
+      .attr("opacity", 1)
+      .attr("data-state", d => `${d.state}`)
+      .attr("fill", (d,i) => "#7f8c8d")
+      .attr("stroke", "#fff")
+      .attr("stroke-width", 2)
+      .attr("d", (d,i) => arc(d,i,1,"sept2019"))
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
+  
+  // 2020 paths
+  svg.append("g")
+    .selectAll("path")
+    .data(data)
+    .join("path")    
+            .attr("opacity", 1)
+            .attr("data-state", d => `${d.state}`)
+            .attr("fill", "#d35400")
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 2)
+            .attr("d", (d,i) => arc(d,i,-1,"sept2020"))
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
+  
+  // legend on the side
+  const states = svg.append("g")
+      .attr("transform", `translate(-${width/2 - margin.left} -${height/2})`)
+      .attr("font-size", 10)
+      .selectAll("text")
+      .data(data)
+      .join("text")
+          .attr("class", "state")
+          .attr("data-state", d => `${d.state}`)
+          .attr("opacity", 1)
+          .attr("y", (d,i) =>  legendScale(data.length - i))
+          .text(d => d.state + " +" + d.change + " pts")
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
+  
+  // years header
+  const yearHeader = svg.append("g")
+      .attr("font-size", 25)
+      .attr("font-weight", "bold")
+      .attr("transform", `translate(-${width/2} -${height/2 - margin.top})`)
+  
+  yearHeader
+      .append("text")
+      .attr("fill", "#7f8c8d") 
+      .attr("x", width/2 - 60)
+      .text("2019")
+  yearHeader
+      .append("text")
+      .attr("fill", "#d35400") 
+      .attr("x", width/2 + 5)
+      .text("2020")
+  
+  svg.append("g")
+      .call(yAxis)
+  
+  d3.selectAll("label").on("click", function() { 
+    activateBtn(this)
+  });
+       
+  // I couldn't make the viz responsive for width below 690 
+  if (window.innerWidth > 740) { return svg.node() }
+  else { return  md`**Unfortunately, I couldn't make the viz responsive...**` }
+  
+}
+
+arc = (d, i, dir, year) => d3.arc()
+  .innerRadius(paddingScale(i) - 20)
+  .outerRadius(paddingScale(i+1) - 20)
+  .startAngle(0)
+  .endAngle(dir * y(d[year]))()
+
+  y = d3.scaleLinear()
+  .domain([0, 20])
+  .range([0, -Math.PI])
+
+  paddingScale = d3.scaleLinear()
+  .domain([0,data.length+1])
+  .range([120,height/2])
+
+  legendScale = d3.scaleLinear()
+  .domain([0,data.length+1])
+  .range([20,height - margin.bottom - 30])
+
+  yAxis = g => g
+    .attr("font-family", "sans-serif")
+    .attr("font-size", 10)
+    .attr("text-anchor", "middle")
+
+    // left axis
+    .call(g => g.selectAll("g")
+      .data(d3.range(0, 21, 5))
+      .join("g")
+        .call(g => g.append("path")
+            .attr("stroke", "#000")
+            .attr("stroke-opacity", 0.2)
+            .attr("d", d => `
+              M${d3.pointRadial(y(d), paddingScale(0) - 40)}
+              L${d3.pointRadial(y(d), paddingScale(data.length/2))}
+            `))
+         .call(g => g.append("text")
+            .attr("x",d => d3.pointRadial(y(d), 60)[0])
+            .attr("y",d => d3.pointRadial(y(d), 60)[1])
+            .text((d,i) => `${d3.range(0, 21, 5)[i]}%`)))
+
+    // right axis
+    .call(g => g.selectAll("g")
+      .data(d3.range(0, 21, 5))
+      .join("g")
+        .call(g => g.append("path")
+            .attr("stroke", "#000")
+            .attr("stroke-opacity", 0.2)
+            .attr("d", d => `
+              M${d3.pointRadial(-y(d), paddingScale(0) - 40)}
+              L${d3.pointRadial(-y(d), paddingScale(data.length/2))}
+            `))
+         .call(g => g.append("text")
+            .attr("x",d => d3.pointRadial(-y(d), 60)[0])
+            .attr("y",d => d3.pointRadial(-y(d), 60)[1])
+            .text((d,i) => `${d3.range(0, 21, 5)[i]}%`)))
+
+            mousemove = (event, d) => {  
+  d3.select(".temporary").style("display", "none")
+  d3.selectAll(`[data-state]`).attr("opacity", 0.2);
+  d3.selectAll(`[data-state="${d.state}"]`).attr("opacity", 1);
+  d3.selectAll(`[data-state="${d.state}"]`).style("display", "block");
+  d3.selectAll(`.state[data-state="${d.state}"]`).attr("font-size", 18);
+}
+
+mouseleave = () => {
+  d3.selectAll(`[data-state]`).attr("opacity", 1);
+  d3.selectAll(".title").style("display", "none");
+  d3.selectAll(".state").attr("font-size", 10);
+}
+
+height = Math.min(width, 1000)
+margin = ({top: 20, right: 20, bottom: 130, left: 20})
+
+data = d3.csvParse(await FileAttachment("unemployment.csv").text(), d3.autoType)
+    .sort(function(a,b) {
+      return d3.ascending(a[options.order], b[options.order]) 
+    })
+
+
+    html`<style>
+
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+label {
+  margin-top: 20px;
+  padding: 10px;
+  padding-right:15px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+	color: #7d7d7d;
+}
+
+.btn {
+  border: 1px solid #7d7d7d;
+  color: #7d7d7d;
+}
+
+.active {
+  background-color: #7d7d7d;
+  border: 1px solid #7d7d7d;
+  color: #fff;
+}
+
+.btn-wrapper {
+   display: block;
+   text-align: center;
+   margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 500px) {
+  .btn-wrapper {
+    display: grid;
+  }
+}
+
+</style>`
+
+function activateBtn(x) {
+  d3.selectAll("label").style("background-color", "#fff").style("color", "#7d7d7d")
+  d3.select(x).style("background-color", "#7d7d7d").style("color", "#fff")
+  }
+
+  form(html`
+<form> 
+<div class="btn-wrapper">
+
+<label id="census_pop" class="btn active">
+   <input value="census_pop" name="order" type="radio" checked required>
+	 Population
+   </label>
+
+<label id="sept2020" class="btn">
+   <input value="sept2020" name="order" type="radio" required>
+	 % unemployment
+   </label>
+
+<label id="change" class="btn" >
+   <input value="change" name="order" type="radio" required>
+	 change
+   </label>
+</div>
+<br>
+</form>
+`)

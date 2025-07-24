@@ -1,0 +1,10 @@
+<select #demoSelect (change)="animateSelect(demoSelect)">
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+    <option value="3">Option 3</option>
+</select>
+<single-card [loading]="areaLoading">
+    <div class="panel-body">
+        <div #chartContainer style="width: 100%; height: 100%;"></div>
+    </div>
+</single-card>

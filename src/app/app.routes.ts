@@ -22,6 +22,12 @@ import { AnimatedBubbleComponent } from './home/components/dashboards/animated-b
 import { BubbleRealtimeDashboardComponent } from './home/components/dashboards/bubble-realtime-dashboard/bubble-realtime-dashboard.component';
 import { DonutRealtimeDashboardComponent } from './home/components/charts/donut-realtime-dashboard/donut-realtime-dashboard.component';
 import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attack-tree.component2';
+import { MatrixComponent } from './home/components/charts/matrix/matrix.component';
+import { AnimatedAreaComponent } from './home/components/charts/animated-area/animated-area.component';
+import { DivergingRadialBarComponent } from './home/components/charts/diverging-radial-bar/diverging-radial-bar.component';
+import { StackedBarComponent } from './home/components/charts/stacked-bar/stacked-bar.component';
+import { HorizontalDivergingBarComponent } from './home/components/charts/horizontal-diverging-bar/horizontal-diverging-bar.component';
+import { AdvertiserDashboardComponent } from './home/components/charts/horizontal-diverging-bar/advertiser-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -42,10 +48,16 @@ export const routes: Routes = [
     { path: 'diverging', component: DivergingBarsComponent },
     { path: 'linechart', component: LineChartComponent },
     { path: 'finance', component: FinanceDashboardComponent },
-    { path: 'sample', component: SampleComponent },
+    // { path: 'sample', component: SampleComponent },
     { path: 'crypto', component: AnimatedBubbleComponent },
     { path: 'bubble-monitor', component: BubbleRealtimeDashboardComponent },
     { path: 'donut-monitor', component: DonutRealtimeDashboardComponent },
+    { path: 'area', component: AnimatedAreaComponent },
+    { path: 'matrix', component: MatrixComponent },
+    { path: 'advertiser', component: StackedBarComponent },
+    { path: 'labour', component: DivergingRadialBarComponent },
+    { path: 'states', component: HorizontalDivergingBarComponent },
+    { path: 'advertiser-dashboard', component: AdvertiserDashboardComponent },
     { path: '**', redirectTo: '/' }
 ];
 

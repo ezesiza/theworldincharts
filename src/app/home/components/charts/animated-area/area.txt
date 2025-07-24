@@ -1,0 +1,140 @@
+chart = {
+  const gradient = DOM.uid();
+  let chart = d3.create('svg').attr('viewBox', [0, 0, width, height]),
+      xG = chart.append('g').attr('transform', `translate(0, ${height - margin})`);
+
+  chart.append("linearGradient")
+      .attr("id", gradient.id)
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("x1", 0)
+      .attr("y1", '100%')
+      .attr("x2", 0)
+      .attr("y2", '40%')
+    .selectAll("stop")
+      .data(d3.ticks(0, 1, 10))
+    .join("stop")
+      .attr("offset", d => d)
+      .attr("stop-opacity", d => d)
+      .attr("stop-color", color.interpolator());
+  
+  let path = chart.append('path').attr('stroke', fill).style('fill', gradient),
+      yG = chart.append('g');
+
+  return Object.assign(chart.node(), {
+    update(data, area, x, xAxis, yAxis, tickInterval, margin) {
+      path = path.datum(data)
+        .attr('transform', 'translate(0)')
+        .attr('d', area);
+      yG.call(yAxis);
+      if (animation) {
+        path.call(t, g => g.attr('transform', `translate(${x(data[0].date - tickInterval) - 2 * margin})`));
+        xG.call(t, xAxis);
+      } else {
+        path.attr('transform', `translate(${x(data[0].date - tickInterval) - 2 * margin})`);
+        xG.call(xAxis);
+      };
+
+      return 'Updating the chart...';
+    }
+  })
+}
+
+
+// Variables
+var height = 125
+var margin = 25
+var tickInterval = 500
+var timeWindow = 60000
+var animation = 1
+var n = 120
+var fill = "#6D83F2"
+
+animateSelect = select => {
+  d3.select(select)
+    .style('font-size', '0px')
+    .interrupt()
+    .transition()
+      .ease(d3.easePoly)
+      .duration(200)
+      .style('width', '20px')
+    .transition()
+      .ease(d3.easeBounce)
+      .duration(300)
+      .style('font-size', '12px')
+      .style('width', '100px');
+
+      t = function(g, action) {
+  g.interrupt().transition().ease(d3.easeLinear).duration(tickInterval).call(action);
+}
+
+area = d3.area()
+  .curve(d3.curveLinear)
+  .x(d => x(d.date))
+  .y0(y(0))
+  .y1(d => y(d.value))
+  chart.update(data, area, x, xAxis, yAxis, tickInterval, margin)
+
+
+  x = d3.scaleTime()
+  .domain(d3.extent(data.map(d => d.date)))
+  .range([margin * 2, width + margin])
+
+  xAxis = g => g.attr('transform', `translate(0, ${y.range()[0]})`)
+  .call(d3.axisBottom(x).tickSizeOuter(0))
+
+  y = d3.scaleLinear()
+  .domain([0, 1])
+  .range([height - margin, margin * 0.5])
+
+
+  yAxis = g => g.attr('transform', `translate(${x.range()[0]})`)
+  .call(d3.axisLeft(y).ticks(3).tickSizeOuter(margin))
+  .call(g => g.style('fill', 'white'))
+  .call(g => g.select('.domain').style('stroke', 'white'))
+  .call(g => g.selectAll('.tick > text').attr('dx', -margin * 0.2))
+  .call(g => g.selectAll('.tick > line').attr('x1', -margin * 0.2).attr('x2', -margin * 0.4))
+
+  color = d3.scaleSequential(d3.interpolate('white', '#6D83F2'))
+
+  refreshData = () => {
+  let lastTime = Math.round(mutable data[n - 1].date / tickInterval) * tickInterval,
+      currentTime = Math.round(Date.now() / tickInterval) * tickInterval,
+      howManyTimes = Math.round((currentTime - lastTime) / tickInterval) > 1
+                   ? Math.round((currentTime - lastTime) / tickInterval)
+                   : 1,
+      currentValue = mutable data[n - 1].value;
+
+  for (let i = 0; i < howManyTimes; i++) {
+    mutable data = mutable data.slice(1, n);
+    let rand = (Math.random() - 0.5) * 0.2;
+    currentValue = currentValue + rand >= 0.2
+                 ? currentValue + rand > 0.8 ? currentValue - rand : currentValue + rand
+                 : currentValue - rand;
+
+    mutable data.push({
+      date: currentTime - (howManyTimes - i - 1) * tickInterval,
+      value: currentValue
+    });
+  };
+  return 'Refreshing the data...';
+}
+
+mutable data = {
+  let currentValue = 0.5;
+  let data = d3.range(n).map((d, i) => {
+    let rand = (Math.random() - 0.5) * 0.2;
+    currentValue = currentValue + rand < 0.2 || currentValue + rand > 0.8
+                 ? currentValue - rand
+                 : currentValue + rand;
+
+    return {
+      date: Math.round(Date.now() / tickInterval) * tickInterval - (n - d) * tickInterval,
+      value: currentValue
+    };
+  })
+  return data;
+}
+
+{
+  while(true) yield Promises.tick(tickInterval, refreshData())
+}

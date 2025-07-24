@@ -74,8 +74,9 @@
   .chart-wrapper svg {
     g text {
       font-size: 1.2rem;
-    }  
-    & > text {
+    }
+
+    &>text {
       font-size: 1.6rem;
     }
   }
@@ -87,10 +88,10 @@
 }
 
 .time-series-icon-container {
-    display: inline-block;
-    right: 0;
-    top: 0;
-    font-size: 1rem;
+  display: inline-block;
+  right: 0;
+  top: 0;
+  font-size: 1rem;
 }
 
 .view-events-button {
@@ -99,43 +100,43 @@
 }
 
 .time-series-icon-label {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #0072B2;
-    text-transform: uppercase;
-    display: inline-block;
-    vertical-align: middle;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0072B2;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .checkmark {
-    vertical-align: middle;
-    cursor: pointer;
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-    -ms-transform: rotate(45deg);
-    /* IE 9 */
-    -webkit-transform: rotate(45deg);
-    /* Chrome, Safari, Opera */
-    transform: rotate(45deg);
+  vertical-align: middle;
+  cursor: pointer;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  -ms-transform: rotate(45deg);
+  /* IE 9 */
+  -webkit-transform: rotate(45deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
 }
 
 .checkmark_stem {
-    position: absolute;
-    width: 3px;
-    height: 13px;
-    background-color: #0072B2;
-    left: 6px;
-    top: 2px;
+  position: absolute;
+  width: 3px;
+  height: 13px;
+  background-color: #0072B2;
+  left: 6px;
+  top: 2px;
 }
 
 .checkmark_kick {
-    position: absolute;
-    width: 6px;
-    height: 3px;
-    background-color: #0072B2;
-    left: 2px;
-    top: 12px;
+  position: absolute;
+  width: 6px;
+  height: 3px;
+  background-color: #0072B2;
+  left: 2px;
+  top: 12px;
 }
 
 time-series-bar-chart {
@@ -150,7 +151,7 @@ time-series-bar-chart {
   .legend {
     font-weight: bold;
     font-size: 1.2rem;
-    user-select : none;
+    user-select: none;
 
     .title {
       cursor: pointer;
@@ -182,7 +183,7 @@ time-series-bar-chart {
     .apply-filter {
       cursor: pointer;
       text-decoration: underline;
-      color:  #0072B2;
+      color: #0072B2;
       font-size: 1.4rem;
       font-weight: normal;
     }
@@ -474,28 +475,31 @@ time-series-bar-chart {
     background-color: @impact;
   }
 
-} 
+}
 
 // =====================================================================
 // LARGE FORM FACTOR STYLES
 // =====================================================================
 
 @media (min-width: 10rem) {
-    time-series-bar-chart {
-        .legend {
-            float: right;
-            margin: 1rem 0;
-            ul {
-                max-height: 31rem;
-                width: 15.2rem;
-                margin: 1rem 0;
-            }
-            li {
-                width: 11.8rem;
-            }
-            label {
-                max-width: 9.8rem;
-            }
-        }
+  time-series-bar-chart {
+    .legend {
+      float: right;
+      margin: 1rem 0;
+
+      ul {
+        max-height: 31rem;
+        width: 15.2rem;
+        margin: 1rem 0;
+      }
+
+      li {
+        width: 11.8rem;
+      }
+
+      label {
+        max-width: 9.8rem;
+      }
     }
+  }
 }

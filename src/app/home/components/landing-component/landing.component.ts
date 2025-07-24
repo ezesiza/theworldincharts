@@ -20,6 +20,7 @@ export class LandingComponent implements OnInit {
   constructor(private router: Router) { }
   // Categorized list of searchable options
   private allOptions: SearchOption[] = [
+    // { name: 'Sample', route: '/sample', category: 'Components' }
     { name: 'GDP Population', route: '/voronoi-gdp', category: 'Visualizations' },
     { name: 'Companies Valuation', route: '/compvaluation', category: 'Visualizations' },
     { name: 'Energy Data', route: '/sankey', category: 'Visualizations' },
@@ -39,9 +40,13 @@ export class LandingComponent implements OnInit {
     { name: 'Funnel Chart', route: '/funnel', category: 'Charts' },
     { name: 'Diverging Bars', route: '/diverging', category: 'Charts' },
     { name: 'Radial Bars', route: '/stacked', category: 'Charts' },
-
+    { name: 'US States Population', route: '/states', category: 'Charts' },
     { name: 'Tabs', route: '/tabs', category: 'Components' },
-    { name: 'Sample', route: '/sample', category: 'Components' }
+    { name: 'Matrix', route: '/matrix', category: 'Components' },
+    { name: 'Area', route: '/area', category: 'Components' },
+    { name: 'Cyber Incidents', route: '/labour', category: 'Components' },
+    { name: 'Advertiser Data', route: '/advertiser', category: 'Components' },
+    { name: 'Advertiser Traffic Source', route: '/advertiser-dashboard', category: 'Components' },
   ];
 
   searchControl = new FormControl('');

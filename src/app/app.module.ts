@@ -57,6 +57,12 @@ import { AttackTreeComponent } from './home/components/charts/attack-tree/attack
 import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attack-tree.component2';
 import { SparklineChartComponent } from './home/components/charts/sparkline-chart/sparkline-chart.component';
 import { RadialChartComponent2 } from './home/components/charts/radial-chart/radial-chart.component';
+import { MatrixComponent } from './home/components/charts/matrix/matrix.component';
+import { AnimatedAreaComponent } from './home/components/charts/animated-area/animated-area.component';
+import { DivergingRadialBarComponent } from './home/components/charts/diverging-radial-bar/diverging-radial-bar.component';
+import { StackedBarComponent } from './home/components/charts/stacked-bar/stacked-bar.component';
+import { HorizontalDivergingBarComponent } from './home/components/charts/horizontal-diverging-bar/horizontal-diverging-bar.component';
+import { AdvertiserDashboardComponent } from './home/components/charts/horizontal-diverging-bar/advertiser-dashboard.component';
 
 
 @NgModule({
@@ -65,6 +71,12 @@ import { RadialChartComponent2 } from './home/components/charts/radial-chart/rad
     FormSelectComponent,
     RadialChartComponent,
     RadialChartComponent2,
+    MatrixComponent,
+    AnimatedAreaComponent,
+    DivergingRadialBarComponent,
+    StackedBarComponent,
+    HorizontalDivergingBarComponent,
+    AdvertiserDashboardComponent,
     SankeyComponent,
     RadialStackedBarChartComponent,
     GlobeComponent,

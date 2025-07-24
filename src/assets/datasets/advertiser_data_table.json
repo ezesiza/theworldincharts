@@ -1,0 +1,377 @@
+{
+    "advertisers": [
+        {
+            "name": "ADVERTISER 1",
+            "data": [
+                {
+                    "UTM_SOURCE": "direct traffic",
+                    "total": "87%",
+                    "valid-clicked:1": "809,944",
+                    "mousemove-exists:1": "65%",
+                    "valid-scrolling:1": "59%",
+                    "touch-exists:1": "23%",
+                    "mobile:1": "73%",
+                    "bots": "32%",
+                    "humans": "19%",
+                    "unknown": "67%"
+                },
+                {
+                    "UTM_SOURCE": "google search",
+                    "total": "7%",
+                    "valid-clicked:1": "64,082",
+                    "mousemove-exists:1": "50%",
+                    "valid-scrolling:1": "51%",
+                    "touch-exists:1": "56%",
+                    "mobile:1": "73%",
+                    "bots": "79%",
+                    "humans": "8%",
+                    "unknown": "85%"
+                },
+                {
+                    "UTM_SOURCE": "google display",
+                    "total": "3%",
+                    "valid-clicked:1": "25,006",
+                    "mousemove-exists:1": "29%",
+                    "valid-scrolling:1": "36%",
+                    "touch-exists:1": "43%",
+                    "mobile:1": "65%",
+                    "bots": "70%",
+                    "humans": "16%",
+                    "unknown": "63%"
+                },
+                {
+                    "UTM_SOURCE": "bing search",
+                    "total": "2%",
+                    "valid-clicked:1": "15,313",
+                    "mousemove-exists:1": "45%",
+                    "valid-scrolling:1": "61%",
+                    "touch-exists:1": "36%",
+                    "mobile:1": "63%",
+                    "bots": "8%",
+                    "humans": "16%",
+                    "unknown": "64%"
+                },
+                {
+                    "UTM_SOURCE": "facebook",
+                    "total": "2%",
+                    "valid-clicked:1": "15,146",
+                    "mousemove-exists:1": "10%",
+                    "valid-scrolling:1": "14%",
+                    "touch-exists:1": "83%",
+                    "mobile:1": "87%",
+                    "bots": "90%",
+                    "humans": "2%",
+                    "unknown": "96%"
+                }
+            ]
+        },
+        {
+            "name": "ADVERTISER 2",
+            "data": [
+                {
+                    "UTM_SOURCE": "direct traffic",
+                    "total": "51%",
+                    "valid-clicked:1": "482,878",
+                    "mousemove-exists:1": "54%",
+                    "valid-scrolling:1": "52%",
+                    "touch-exists:1": "50%",
+                    "mobile:1": "76%",
+                    "bots": "48%",
+                    "humans": "21%",
+                    "unknown": "76%"
+                },
+                {
+                    "UTM_SOURCE": "google search",
+                    "total": "23%",
+                    "valid-clicked:1": "216,594",
+                    "mousemove-exists:1": "41%",
+                    "valid-scrolling:1": "43%",
+                    "touch-exists:1": "72%",
+                    "mobile:1": "82%",
+                    "bots": "80%",
+                    "humans": "6%",
+                    "unknown": "86%"
+                },
+                {
+                    "UTM_SOURCE": "instagram",
+                    "total": "17%",
+                    "valid-clicked:1": "161,523",
+                    "mousemove-exists:1": "34%",
+                    "valid-scrolling:1": "36%",
+                    "touch-exists:1": "68%",
+                    "mobile:1": "78%",
+                    "bots": "84%",
+                    "humans": "2%",
+                    "unknown": "91%"
+                },
+                {
+                    "UTM_SOURCE": "bing search",
+                    "total": "2%",
+                    "valid-clicked:1": "15,363",
+                    "mousemove-exists:1": "37%",
+                    "valid-scrolling:1": "55%",
+                    "touch-exists:1": "63%",
+                    "mobile:1": "67%",
+                    "bots": "45%",
+                    "humans": "17%",
+                    "unknown": "73%"
+                },
+                {
+                    "UTM_SOURCE": "facebook",
+                    "total": "0%",
+                    "valid-clicked:1": "4,161",
+                    "mousemove-exists:1": "80%",
+                    "valid-scrolling:1": "81%",
+                    "touch-exists:1": "88%",
+                    "mobile:1": "95%",
+                    "bots": "89%",
+                    "humans": "3%",
+                    "unknown": "94%"
+                },
+                {
+                    "UTM_SOURCE": "tiktok",
+                    "total": "0%",
+                    "valid-clicked:1": "2,296",
+                    "mousemove-exists:1": "40%",
+                    "valid-scrolling:1": "41%",
+                    "touch-exists:1": "64%",
+                    "mobile:1": "70%",
+                    "bots": "91%",
+                    "humans": "4%",
+                    "unknown": "85%"
+                }
+            ]
+        },
+        {
+            "name": "ADVERTISER 3",
+            "data": [
+                {
+                    "UTM_SOURCE": "direct traffic",
+                    "total": "98%",
+                    "valid-clicked:1": "599,734",
+                    "mousemove-exists:1": "59%",
+                    "valid-scrolling:1": "66%",
+                    "touch-exists:1": "34%",
+                    "mobile:1": "75%",
+                    "bots": "4%",
+                    "humans": "14%",
+                    "unknown": "63%"
+                },
+                {
+                    "UTM_SOURCE": "google search",
+                    "total": "1%",
+                    "valid-clicked:1": "7,776",
+                    "mousemove-exists:1": "63%",
+                    "valid-scrolling:1": "70%",
+                    "touch-exists:1": "51%",
+                    "mobile:1": "84%",
+                    "bots": "36%",
+                    "humans": "14%",
+                    "unknown": "81%"
+                },
+                {
+                    "UTM_SOURCE": "bing search",
+                    "total": "0%",
+                    "valid-clicked:1": "2,535",
+                    "mousemove-exists:1": "49%",
+                    "valid-scrolling:1": "61%",
+                    "touch-exists:1": "40%",
+                    "mobile:1": "60%",
+                    "bots": "6%",
+                    "humans": "22%",
+                    "unknown": "63%"
+                },
+                {
+                    "UTM_SOURCE": "google display",
+                    "total": "0%",
+                    "valid-clicked:1": "254",
+                    "mousemove-exists:1": "54%",
+                    "valid-scrolling:1": "53%",
+                    "touch-exists:1": "14%",
+                    "mobile:1": "43%",
+                    "bots": "3%",
+                    "humans": "34%",
+                    "unknown": "53%"
+                }
+            ]
+        },
+        {
+            "name": "ADVERTISER 4",
+            "data": [
+                {
+                    "UTM_SOURCE": "direct traffic",
+                    "total": "71%",
+                    "valid-clicked:1": "293,903",
+                    "mousemove-exists:1": "56%",
+                    "valid-scrolling:1": "51%",
+                    "touch-exists:1": "56%",
+                    "mobile:1": "78%",
+                    "bots": "47%",
+                    "humans": "20%",
+                    "unknown": "68%"
+                },
+                {
+                    "UTM_SOURCE": "google search",
+                    "total": "8%",
+                    "valid-clicked:1": "34,440",
+                    "mousemove-exists:1": "51%",
+                    "valid-scrolling:1": "50%",
+                    "touch-exists:1": "74%",
+                    "mobile:1": "87%",
+                    "bots": "78%",
+                    "humans": "7%",
+                    "unknown": "91%"
+                },
+                {
+                    "UTM_SOURCE": "facebook",
+                    "total": "7%",
+                    "valid-clicked:1": "29,623",
+                    "mousemove-exists:1": "31%",
+                    "valid-scrolling:1": "32%",
+                    "touch-exists:1": "46%",
+                    "mobile:1": "77%",
+                    "bots": "74%",
+                    "humans": "1%",
+                    "unknown": "95%"
+                },
+                {
+                    "UTM_SOURCE": "(v)360 display",
+                    "total": "4%",
+                    "valid-clicked:1": "18,500",
+                    "mousemove-exists:1": "17%",
+                    "valid-scrolling:1": "17%",
+                    "touch-exists:1": "14%",
+                    "mobile:1": "36%",
+                    "bots": "83%",
+                    "humans": "14%",
+                    "unknown": "51%"
+                },
+                {
+                    "UTM_SOURCE": "bing search",
+                    "total": "2%",
+                    "valid-clicked:1": "6,649",
+                    "mousemove-exists:1": "61%",
+                    "valid-scrolling:1": "76%",
+                    "touch-exists:1": "66%",
+                    "mobile:1": "79%",
+                    "bots": "7%",
+                    "humans": "14%",
+                    "unknown": "81%"
+                },
+                {
+                    "UTM_SOURCE": "email",
+                    "total": "1%",
+                    "valid-clicked:1": "4,650",
+                    "mousemove-exists:1": "59%",
+                    "valid-scrolling:1": "55%",
+                    "touch-exists:1": "68%",
+                    "mobile:1": "86%",
+                    "bots": "64%",
+                    "humans": "16%",
+                    "unknown": "80%"
+                },
+                {
+                    "UTM_SOURCE": "pardot",
+                    "total": "0%",
+                    "valid-clicked:1": "1,086",
+                    "mousemove-exists:1": "62%",
+                    "valid-scrolling:1": "60%",
+                    "touch-exists:1": "57%",
+                    "mobile:1": "87%",
+                    "bots": "63%",
+                    "humans": "14%",
+                    "unknown": "80%"
+                }
+            ]
+        },
+        {
+            "name": "ADVERTISER 5",
+            "data": [
+                {
+                    "UTM_SOURCE": "direct traffic",
+                    "total": "89%",
+                    "valid-clicked:1": "425,039",
+                    "mousemove-exists:1": "45%",
+                    "valid-scrolling:1": "45%",
+                    "touch-exists:1": "27%",
+                    "mobile:1": "68%",
+                    "bots": "24%",
+                    "humans": "30%",
+                    "unknown": "54%"
+                },
+                {
+                    "UTM_SOURCE": "google search",
+                    "total": "7%",
+                    "valid-clicked:1": "32,472",
+                    "mousemove-exists:1": "22%",
+                    "valid-scrolling:1": "28%",
+                    "touch-exists:1": "38%",
+                    "mobile:1": "54%",
+                    "bots": "71%",
+                    "humans": "19%",
+                    "unknown": "65%"
+                },
+                {
+                    "UTM_SOURCE": "bing search",
+                    "total": "2%",
+                    "valid-clicked:1": "7,596",
+                    "mousemove-exists:1": "27%",
+                    "valid-scrolling:1": "60%",
+                    "touch-exists:1": "36%",
+                    "mobile:1": "43%",
+                    "bots": "3%",
+                    "humans": "22%",
+                    "unknown": "62%"
+                },
+                {
+                    "UTM_SOURCE": "facebook",
+                    "total": "1%",
+                    "valid-clicked:1": "3,723",
+                    "mousemove-exists:1": "27%",
+                    "valid-scrolling:1": "28%",
+                    "touch-exists:1": "50%",
+                    "mobile:1": "67%",
+                    "bots": "75%",
+                    "humans": "4%",
+                    "unknown": "88%"
+                },
+                {
+                    "UTM_SOURCE": "PMAX",
+                    "total": "1%",
+                    "valid-clicked:1": "2,905",
+                    "mousemove-exists:1": "13%",
+                    "valid-scrolling:1": "21%",
+                    "touch-exists:1": "28%",
+                    "mobile:1": "39%",
+                    "bots": "61%",
+                    "humans": "17%",
+                    "unknown": "62%"
+                },
+                {
+                    "UTM_SOURCE": "linkedin",
+                    "total": "0%",
+                    "valid-clicked:1": "1,821",
+                    "mousemove-exists:1": "16%",
+                    "valid-scrolling:1": "24%",
+                    "touch-exists:1": "26%",
+                    "mobile:1": "35%",
+                    "bots": "60%",
+                    "humans": "14%",
+                    "unknown": "68%"
+                },
+                {
+                    "UTM_SOURCE": "demandbase",
+                    "total": "0%",
+                    "valid-clicked:1": "393",
+                    "mousemove-exists:1": "3%",
+                    "valid-scrolling:1": "3%",
+                    "touch-exists:1": "5%",
+                    "mobile:1": "9%",
+                    "bots": "37%",
+                    "humans": "82%",
+                    "unknown": "10%"
+                }
+            ]
+        }
+    ]
+}

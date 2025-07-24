@@ -1,0 +1,21 @@
+<div class="chart-container">
+
+    <div class="controls">
+        <label>
+            <input type="radio" name="metric" value="absolute" [(ngModel)]="metric" (change)="updateChart()">
+            Absolute Change
+        </label>
+        <label>
+            <input type="radio" name="metric" value="relative" [(ngModel)]="metric" (change)="updateChart()">
+            Relative Change (%)
+        </label>
+    </div>
+    <div class="header-section">
+        <button class="home-button" (click)="goHome()" title="Go to Home">
+            <span class="home-icon">🏠</span>
+            Home
+        </button>
+        <h2>US States Population</h2>
+    </div>
+    <div #chartContainer class="chart"></div>
+</div>

@@ -1,0 +1,53 @@
+<single-card [loading]="isLoading">
+    <div class="panel-body">
+        <div class="chart-wrapper" id="svg_container">
+            <label for="advertiser-select">Select Advertiser:</label>
+            <select id="advertiser-select" (change)="onAdvertiserChange($event)">
+                <option *ngFor="let adv of advertisers" [value]="adv.name" [selected]="adv === selectedAdvertiser">
+                    {{adv.name}}
+                </option>
+            </select>
+
+            <label for="field-select">Select Field:</label>
+            <select id="field-select" (change)="onFieldChange($event)" [disabled]="showStacked">
+                <option *ngFor="let key of keys" [value]="key" [selected]="key === selectedField">{{key}}</option>
+            </select>
+
+            <label style="margin-left: 1rem;">
+                <input type="checkbox" [(ngModel)]="showStacked" (change)="onStackedChange($event)"> Show all fields
+                stacked
+            </label>
+
+            <div style="margin-top: 1rem;">
+                <label><input type="radio" name="stackMode" value="count" [(ngModel)]="stackMode"
+                        (change)="onStackModeChange($event)"> Count</label>
+                <label style="margin-left: 1rem;"><input type="radio" name="stackMode" value="percent"
+                        [(ngModel)]="stackMode" (change)="onStackModeChange($event)"> Percent</label>
+            </div>
+
+            <svg shape-rendering="crispEdges" width="1" height="1"></svg>
+
+            <div class="legend" *ngIf="showStacked">
+                <span class="title" (click)="toggleAllLegendItems()"
+                    title="Click here to turn all filters on/off at once">
+                    Legend
+                </span>
+                <ul>
+                    <li *ngFor="let key of keys" (click)="toggleLegendItem(key)">
+                        <div class="bullet {{legend[key] && legend[key].className}}"
+                            [style.background-color]="legend[key] && legend[key].color"></div>
+                        <label [ngClass]="{'disabled': legend[key] && !legend[key].visible}">{{key}}</label>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="bar-tooltip" class="bar-tooltip" style="display:none;"></div>
+        </div>
+    </div>
+</single-card>
+
+<single-card [loading]="isLoading">
+    <div class="panel-body">
+        <advertiser-dashboard></advertiser-dashboard>
+    </div>
+</single-card>

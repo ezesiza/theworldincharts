@@ -1,0 +1,63 @@
+<!-- <div style="margin-bottom: 1.5rem; text-align: left;">
+    <button routerLink="/"
+        style="padding: 0.5rem 1.2rem; font-size: 1rem; background: #1976d2; color: #fff; border: none; border-radius: 4px; cursor: pointer;">←
+        Back to Home</button>
+</div> -->
+
+<div class="button-group" id="incident" *ngIf="activatedRoute==='labour'">
+    <header>
+        <div class="header">
+            <h1>Incident Tracking Chart</h1>
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button2" routerLink="/browser">Next &raquo;</button>
+            </div>
+        </div>
+    </header>
+</div>
+<single-card [loading]="chartLoading">
+    <div class="panel-body" style="position: relative;">
+        <div class="slider-wrapper" style="margin-bottom: 1rem; text-align: center;">
+            <label for="legendCheckbox" style="margin-right: 1rem;">
+                <input #legendCheckbox id="legendCheckbox" type="checkbox" [checked]="showLegend"
+                    (change)="onLegendToggle(legendCheckbox.checked)">
+                Show Legend
+            </label>
+            <label for="zoomCheckbox" style="margin-right: 1rem;">
+                <input #zoomCheckbox id="zoomCheckbox" type="checkbox" [checked]="enableZoom"
+                    (change)="onZoomToggle(zoomCheckbox.checked)">
+                Enable Zoom
+            </label>
+            <label for="scaleSlider">Chart Size: </label>
+            <input id="scaleSlider" type="range" min="0.5" max="2" step="0.05" [(ngModel)]="chartScale"
+                (input)="onScaleChange(chartScale)">
+            <span>{{ chartScale | number: '1.2-2' }}x</span>
+        </div>
+        <div class="slider-wrapper" style="margin-bottom: 1rem; text-align: center;">
+            <label for="circleScaleSlider">Circle Size: </label>
+            <input id="circleScaleSlider" type="range" min="0.5" max="2" step="0.05" [(ngModel)]="circleScale"
+                (input)="onCircleScaleChange(circleScale)">
+            <span>{{ circleScale | number: '1.2-2' }}x</span>
+        </div>
+        <div class="btn-wrapper">
+            <label id="employees" class="btn" [class.active]="order === 'employees'">
+                <input value="employees" name="order" type="radio" [checked]="order === 'employees'"
+                    (change)="onOrderChange('employees')">
+                Companies
+            </label>
+            <label id="incidents2020" class="btn" [class.active]="order === 'incidents2020'">
+                <input value="incidents2020" name="order" type="radio" [checked]="order === 'incidents2020'"
+                    (change)="onOrderChange('incidents2020')">
+                2020 Incidents
+            </label>
+            <label id="change" class="btn" [class.active]="order === 'change'">
+                <input value="change" name="order" type="radio" [checked]="order === 'change'"
+                    (change)="onOrderChange('change')">
+                Change
+            </label>
+        </div>
+        <div class="legend-container" #legendContainer></div>
+        <div #chartContainer class="chart-container"></div>
+        <div *ngIf="isLoading" class="loading">Loading...</div>
+    </div>
+</single-card>
