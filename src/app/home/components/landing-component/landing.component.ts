@@ -42,7 +42,7 @@ export class LandingComponent implements OnInit {
     { name: 'Radial Bars', route: '/stacked', category: 'Charts' },
     { name: 'US States Population', route: '/states', category: 'Charts' },
     { name: 'Tabs', route: '/tabs', category: 'Components' },
-    { name: 'Matrix', route: '/matrix', category: 'Components' },
+    { name: 'Matrix', route: '/matrix', category: 'CyberSec' },
     { name: 'Area', route: '/area', category: 'Components' },
     { name: 'Cyber Incidents', route: '/labour', category: 'Components' },
     { name: 'Advertiser Data', route: '/advertiser', category: 'Components' },
