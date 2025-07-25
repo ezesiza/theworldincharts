@@ -1,0 +1,31 @@
+<div class="chart-container">
+  <div class="chart-header">
+    <h3>Interactive Scatter Plot: Price vs Transaction %</h3>
+    <div class="controls">
+      <label>
+        Region:
+        <select (change)="onRegionChange($event)" [value]="selectedRegion">
+          <option *ngFor="let region of regions" [value]="region">{{ region }}</option>
+        </select>
+      </label>
+      <label>
+        Channel:
+        <select (change)="onChannelChange($event)" [value]="selectedChannel">
+          <option *ngFor="let channel of channels" [value]="channel">{{ channel }}</option>
+        </select>
+      </label>
+    </div>
+    <p class="chart-description">
+      Circle size represents price range. Zoom and pan with mouse wheel and drag.
+      Click points to highlight related data. Brush to select multiple points.
+    </p>
+  </div>
+
+  <!-- <div class="chart-content" *ngIf="!isLoading"> -->
+  <svg></svg>
+  <!-- </div> -->
+
+  <div class="loading" *ngIf="isLoading">
+    Loading scatter plot data...
+  </div>
+</div>

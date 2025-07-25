@@ -12,6 +12,7 @@ import { PresentationService } from 'app/services/presentation.service';
 })
 export class StackedBarComponent implements OnInit, OnDestroy {
   advertisers: any[] = [];
+  donutData: any = []
   selectedAdvertiser: any = null;
   legend: any = {};
   keys: string[] = [];
@@ -37,6 +38,7 @@ export class StackedBarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.http.get<any>('assets/datasets/advertiser_data_table.json').subscribe(data => {
       this.advertisers = data.advertisers;
+      this.donutData = data.advertisers;
       this.isLoading = false;
       if (this.advertisers.length > 0) {
         this.selectedAdvertiser = this.advertisers[0];

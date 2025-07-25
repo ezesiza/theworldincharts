@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
@@ -10,7 +10,8 @@ import { LoggerService } from 'app/services/logger.service';
 @Component({
   selector: 'metrics-dashboard',
   templateUrl: './metrics-dashboard.component.html',
-  styleUrls: ['./metrics-dashboard.component.less']
+  styleUrls: ['./metrics-dashboard.component.less'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MetricsDashboardComponent implements OnInit {
 

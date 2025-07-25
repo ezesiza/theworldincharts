@@ -13,7 +13,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
 
-import { RadialChartComponent } from './home/components/charts/radial-chart/radial-chart.component1';
 import { SingleCardComponent } from './home/components/shared/single-card/single-card.component';
 import { DonutChartComponent } from './home/components/charts/donut-chart/donut-chart.component';
 import { RaceBarComponent } from './home/components/charts/race-bar/race-bar.component';
@@ -56,22 +55,33 @@ import { DonutRealtimeDashboardComponent } from './home/components/charts/donut-
 import { AttackTreeComponent } from './home/components/charts/attack-tree/attack-tree.component';
 import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attack-tree.component2';
 import { SparklineChartComponent } from './home/components/charts/sparkline-chart/sparkline-chart.component';
-import { RadialChartComponent2 } from './home/components/charts/radial-chart/radial-chart.component';
 import { MatrixComponent } from './home/components/charts/matrix/matrix.component';
 import { AnimatedAreaComponent } from './home/components/charts/animated-area/animated-area.component';
 import { DivergingRadialBarComponent } from './home/components/charts/diverging-radial-bar/diverging-radial-bar.component';
 import { StackedBarComponent } from './home/components/charts/stacked-bar/stacked-bar.component';
 import { HorizontalDivergingBarComponent } from './home/components/charts/horizontal-diverging-bar/horizontal-diverging-bar.component';
 import { AdvertiserDashboardComponent } from './home/components/charts/horizontal-diverging-bar/advertiser-dashboard.component';
+import { RegionStackedBarComponent } from './home/components/charts/region-stacked-bar/region-stacked-bar.component';
+import { RadialChartComponent } from './home/components/charts/radial-chart/radial-chart.component';
+import { RadialDonutChartComponent } from './home/components/charts/radial-donut-chart/radial-donut-chart.component';
+import { FacetedLineChartComponent } from './home/components/charts/faceted-line-chart/faceted-line-chart.component';
+import { PriceHeatmapComponent } from './home/components/charts/price-heatmap/price-heatmap.component';
+import { ParallelCoordinatesComponent } from './home/components/charts/parallel-coordinates/parallel-coordinates.component';
+import { InteractiveScatterComponent } from './home/components/charts/interactive-scatter/interactive-scatter.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     FormSelectComponent,
+    PriceHeatmapComponent,
+    ParallelCoordinatesComponent,
+    InteractiveScatterComponent,
     RadialChartComponent,
-    RadialChartComponent2,
+    RadialDonutChartComponent,
+    FacetedLineChartComponent,
     MatrixComponent,
+    RegionStackedBarComponent,
     AnimatedAreaComponent,
     DivergingRadialBarComponent,
     StackedBarComponent,

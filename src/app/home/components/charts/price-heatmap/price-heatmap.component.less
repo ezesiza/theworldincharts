@@ -1,0 +1,89 @@
+.chart-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 20px 0;
+
+  .chart-header {
+    text-align: center;
+    margin-bottom: 30px;
+    
+    h3 {
+      margin: 0 0 8px 0;
+      color: #333;
+      font-size: 24px;
+    }
+    
+    .chart-description {
+      margin: 0;
+      color: #666;
+      font-style: italic;
+    }
+  }
+
+  .chart-content {
+    svg {
+      display: block;
+      margin: 0 auto;
+      border: 1px solid #eee;
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+    font-style: italic;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  text-align: left;
+  padding: 10px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  border-radius: 4px;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.heatmap-cell {
+  cursor: pointer;
+  
+  &:hover {
+    stroke: #333 !important;
+    stroke-width: 2 !important;
+  }
+}
+
+.x-axis, .y-axis {
+  .domain {
+    stroke: #333;
+  }
+  
+  .tick {
+    line {
+      stroke: #333;
+    }
+    
+    text {
+      fill: #333;
+      font-size: 12px;
+    }
+  }
+}
+
+.cell-label {
+  pointer-events: none;
+}
+
+.legend {
+  .tick {
+    text {
+      font-size: 10px;
+    }
+  }
+}

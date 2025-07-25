@@ -68,16 +68,18 @@ export class DonutChartComponent implements OnInit, OnDestroy {
     for (const propName in changes) {
       this.logData = changes['logData'].currentValue;
       if (this.logData && Array.isArray(this.logData) && this.logData.length > 0) {
+        const transformedData = this.transformData(this.logData);
         this.initializeOptions()
-        this.drawSlices(this.logData)
+        this.drawSlices(transformedData)
       }
     }
   }
 
   ngOnInit() {
     if (this.logData && Array.isArray(this.logData) && this.logData.length > 0) {
+      const transformedData = this.transformData(this.logData);
       this.initializeOptions();
-      this.drawSlices(this.logData);
+      this.drawSlices(transformedData);
     }
     this.subscription = this.presentationService.windowSize.subscribe(
       (value) => {
@@ -194,12 +196,116 @@ export class DonutChartComponent implements OnInit, OnDestroy {
     return count;
   }
 
+  private transformData(data: any[]): any[] {
+    if (!data || !Array.isArray(data)) return [];
+    
+    // Detect data format and transform accordingly
+    const dataFormat = this.detectDataFormat(data);
+    
+    switch (dataFormat) {
+      case 'category-count-percent':
+        return this.transformCategoryCountPercentData(data);
+      case 'advertiser':
+        return this.transformAdvertiserData(data);
+      case 'utm-source':
+        return this.transformUtmSourceData(data);
+      default:
+        return this.transformGenericData(data);
+    }
+  }
+
+  private detectDataFormat(data: any[]): string {
+    if (!data.length) return 'unknown';
+    
+    const firstItem = data[0];
+    
+    // Check if it's already in the expected format (category, count, percent)
+    if (firstItem.hasOwnProperty('category') && firstItem.hasOwnProperty('count')) {
+      return 'category-count-percent';
+    }
+    
+    // Check if it's advertiser format (has name and data properties)
+    if (firstItem.hasOwnProperty('name') && firstItem.hasOwnProperty('data')) {
+      return 'advertiser';
+    }
+    
+    // Check if it's UTM_SOURCE format (has UTM_SOURCE property)
+    if (firstItem.hasOwnProperty('UTM_SOURCE')) {
+      return 'utm-source';
+    }
+    
+    return 'generic';
+  }
+
+  private transformCategoryCountPercentData(data: any[]): any[] {
+    // Data is already in the correct format, just ensure it has all required properties
+    return data.map(item => ({
+      category: item.category || item.name || 'Unknown',
+      count: item.count || 0,
+      percent: item.percent || 0
+    }));
+  }
+
+  private transformAdvertiserData(data: any[]): any[] {
+    // Transform advertiser data to donut chart format
+    const totalDataPoints = data.reduce((sum, adv) => sum + (adv.data ? adv.data.length : 0), 0);
+    
+    return data.map((advertiser, index) => {
+      const count = advertiser.data ? advertiser.data.length : 0;
+      return {
+        category: advertiser.name || `Advertiser ${index + 1}`,
+        count: count,
+        percent: totalDataPoints > 0 ? Math.round((count / totalDataPoints) * 100) : 0
+      };
+    }).filter(item => item.count > 0);
+  }
+
+  private transformUtmSourceData(data: any[]): any[] {
+    // Transform UTM_SOURCE data - use the 'total' field for visualization
+    return data.map(item => {
+      const totalStr = item.total || '0%';
+      const percent = parseFloat(totalStr.replace('%', '')) || 0;
+      const count = Math.round(percent * 100); // Convert percentage to a count-like value
+      
+      return {
+        category: item.UTM_SOURCE || 'Unknown Source',
+        count: isNaN(count) ? 0 : count,
+        percent: isNaN(percent) ? 0 : percent
+      };
+    }).filter(item => item.percent > 0 && !isNaN(item.percent));
+  }
+
+  private transformGenericData(data: any[]): any[] {
+    // Try to extract meaningful data from generic objects
+    return data.map((item, index) => {
+      // Look for common property names that might represent categories
+      const category = item.category || item.name || item.label || item.key || `Item ${index + 1}`;
+      
+      // Look for numeric values that might represent counts or values
+      const rawCount = item.count || item.value || item.total || item.amount || 1;
+      const count = isNaN(Number(rawCount)) ? 1 : Number(rawCount);
+      
+      // Calculate percentage if not provided
+      const totalCount = data.reduce((sum, d) => {
+        const val = d.count || d.value || d.total || d.amount || 1;
+        return sum + (isNaN(Number(val)) ? 1 : Number(val));
+      }, 0);
+      const percent = totalCount > 0 ? Math.round((count / totalCount) * 100) : 0;
+      
+      return {
+        category: String(category),
+        count: isNaN(count) ? 1 : count,
+        percent: isNaN(percent) ? 0 : percent
+      };
+    });
+  }
+
   private getLegendKeys(): any {
     if (this.logData && this.logData.length >= 0) {
-
-      return this.logData.map((d: any) => d.category);
+      const transformedData = this.transformData(this.logData);
+      return transformedData.map((d: any) => d.category);
     } else {
-      return this.logData[0]
+      return []
     }
   }
 
@@ -241,7 +347,8 @@ export class DonutChartComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let data: any = JSON.parse(JSON.stringify(this.logData));
+    let transformedData = this.transformData(this.logData);
+    let data: any = JSON.parse(JSON.stringify(transformedData));
 
     let disabledItems: any = [];
 

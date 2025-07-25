@@ -1,0 +1,23 @@
+<div class="chart-container">
+  <div class="chart-header">
+    <h3>Parallel Coordinates Plot - Multi-Variable Comparison</h3>
+    <div class="controls">
+      <label>
+        Region:
+        <select (change)="onRegionChange($event)" [value]="selectedRegion">
+          <option *ngFor="let region of regions" [value]="region">{{ region }}</option>
+        </select>
+      </label>
+    </div>
+    <p class="chart-description">Drag along axes to filter data. Each line represents a data point across multiple
+      dimensions.</p>
+  </div>
+
+  <!-- <div class="chart-content" *ngIf="!isLoading"> -->
+  <svg></svg>
+  <!-- </div> -->
+
+  <div class="loading" *ngIf="isLoading">
+    Loading parallel coordinates data...
+  </div>
+</div>

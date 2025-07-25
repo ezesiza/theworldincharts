@@ -1,0 +1,80 @@
+.chart-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 20px 0;
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    
+    h3 {
+      margin: 0;
+      color: #333;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      
+      label {
+        font-weight: 500;
+        color: #555;
+        
+        select {
+          margin-left: 8px;
+          padding: 5px 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          background: white;
+        }
+      }
+    }
+  }
+
+  .chart-content {
+    svg {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+    font-style: italic;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 8px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.x-axis, .y-axis {
+  .domain {
+    stroke: #333;
+  }
+  
+  .tick {
+    line {
+      stroke: #333;
+    }
+    
+    text {
+      fill: #333;
+      font-size: 12px;
+    }
+  }
+}

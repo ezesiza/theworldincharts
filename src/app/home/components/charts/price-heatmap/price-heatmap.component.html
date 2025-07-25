@@ -1,0 +1,15 @@
+<div class="chart-container">
+  <div class="chart-header">
+    <h3>Price Range vs Channel Heatmap</h3>
+    <p class="chart-description">Intensity represents average percentage values across price ranges and channels</p>
+  </div>
+
+  <!-- <div class="chart-content" *ngIf="!isLoading">
+    <svg></svg>
+  </div> -->
+  <svg width="1" height="1"></svg>
+
+  <div class="loading" *ngIf="isLoading">
+    Loading heatmap data...
+  </div>
+</div>

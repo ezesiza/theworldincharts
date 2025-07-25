@@ -1,0 +1,21 @@
+<div class="chart-container">
+  <div class="chart-header">
+    <h3>Regional Channel Performance - Stacked Bar Chart</h3>
+    <div class="controls">
+      <label>
+        Region:
+        <select (change)="onRegionChange($event)" [value]="selectedRegion">
+          <option *ngFor="let region of regions" [value]="region">{{ region }}</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <!-- <div class="chart-content" *ngIf="!isLoading"> -->
+  <svg></svg>
+  <!-- </div> -->
+
+  <div class="loading" *ngIf="isLoading">
+    Loading chart data...
+  </div>
+</div>
