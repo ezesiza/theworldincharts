@@ -101,27 +101,27 @@ export class MarketCapitalizationComponent implements OnInit, AfterViewInit {
   async loadAllDatasets() {
     try {
       const datasets = await Promise.all([
-        this.loadDataset('Zoom', '/assets/datasets/zoom.csv'),
-        this.loadDataset('Amazon', '/assets/datasets/amazon.csv'),
-        this.loadDataset('Apple', '/assets/datasets/apple.csv'),
-        this.loadDataset('Tesla', '/assets/datasets/tesla.csv'),
-        this.loadDataset('Financials', '/assets/datasets/financials.csv'),
-        this.loadDataset('Airlines', '/assets/datasets/airlines.csv'),
-        this.loadDataset('Healthcare', '/assets/datasets/healthcare.csv'),
-        this.loadDataset('Energies', '/assets/datasets/energies.csv'),
-        this.loadDataset('Retail', '/assets/datasets/retail.csv'),
-        this.loadDataset('Tech Companies', '/assets/datasets/tech_companies.csv'),
-        this.loadDataset('Semi-Conductors', '/assets/datasets/semiconductor.csv'),
-        this.loadDataset('E-Commerce', '/assets/datasets/ecommerce.csv'),
-        this.loadDataset('Telecoms & Network', '/assets/datasets/telecoms.csv'),
-        this.loadDataset('Biotechnology', '/assets/datasets/biotech.csv'),
-        this.loadDataset('Renewable Energy', '/assets/datasets/renewable.csv'),
-        this.loadDataset('Entertainment & Streaming', '/assets/datasets/entertainment.csv'),
-        this.loadDataset('Cybersecurity', '/assets/datasets/cybersecurity.csv'),
-        this.loadDataset('Space', '/assets/datasets/space.csv'),
-        this.loadDataset('Fintech', '/assets/datasets/fintech.csv'),
-        this.loadDataset('Food', '/assets/datasets/food.csv'),
-        this.loadDataset('Automotive', '/assets/datasets/automotive.csv')
+        this.loadDataset('Zoom', 'assets/datasets/zoom.csv'),
+        this.loadDataset('Amazon', 'assets/datasets/amazon.csv'),
+        this.loadDataset('Apple', 'assets/datasets/apple.csv'),
+        this.loadDataset('Tesla', 'assets/datasets/tesla.csv'),
+        this.loadDataset('Financials', 'assets/datasets/financials.csv'),
+        this.loadDataset('Airlines', 'assets/datasets/airlines.csv'),
+        this.loadDataset('Healthcare', 'assets/datasets/healthcare.csv'),
+        this.loadDataset('Energies', 'assets/datasets/energies.csv'),
+        this.loadDataset('Retail', 'assets/datasets/retail.csv'),
+        this.loadDataset('Tech Companies', 'assets/datasets/tech_companies.csv'),
+        this.loadDataset('Semi-Conductors', 'assets/datasets/semiconductor.csv'),
+        this.loadDataset('E-Commerce', 'assets/datasets/ecommerce.csv'),
+        this.loadDataset('Telecoms & Network', 'assets/datasets/telecoms.csv'),
+        this.loadDataset('Biotechnology', 'assets/datasets/biotech.csv'),
+        this.loadDataset('Renewable Energy', 'assets/datasets/renewable.csv'),
+        this.loadDataset('Entertainment & Streaming', 'assets/datasets/entertainment.csv'),
+        this.loadDataset('Cybersecurity', 'assets/datasets/cybersecurity.csv'),
+        this.loadDataset('Space', 'assets/datasets/space.csv'),
+        this.loadDataset('Fintech', 'assets/datasets/fintech.csv'),
+        this.loadDataset('Food', 'assets/datasets/food.csv'),
+        this.loadDataset('Automotive', 'assets/datasets/automotive.csv')
       ]);
 
       this.datasets = datasets.filter(d => d !== null) as CompanyDataset[];
