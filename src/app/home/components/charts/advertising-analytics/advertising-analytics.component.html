@@ -1,0 +1,60 @@
+<div>
+    <div class="metric-box">
+        <h1>Network Analysis Dashboard</h1>
+        <span class="button" routerLink="">&laquo; Home</span>
+    </div>
+    <div class="metric-box">
+        <span class="button button2" routerLink="/analytics">Next &raquo;</span>
+    </div>
+</div>
+
+<div class="dashboard-container">
+    <!-- Metrics Header -->
+    <div class="metric-header">
+        <div class="metric-box">
+            <span class="metric-value">{{ metrics.totalRequests }}</span>
+            <span class="metric-label">Total Requests</span>
+        </div>
+        <div class="metric-box">
+            <span class="metric-value">{{ metrics.avgBidFloor }}</span>
+            <span class="metric-label">Avg. Bid Floor</span>
+        </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard">
+        <div class="card">
+            <div class="card-title">Top Apps/Sites by Requests</div>
+            <div #appsChart class="chart-content"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Device Type Distribution</div>
+            <div #devicePieChart class="chart-content"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Ad Position Performance</div>
+            <div #positionChart class="chart-content"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Browser Distribution</div>
+            <!-- <div #browserChart class="chart-content"></div> -->
+            <donut [chartData]="browserData"></donut>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Bid Floor Analysis</div>
+            <div #bidfloorChart class="chart-content"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Publisher Performance</div>
+            <div #publisherChart class="chart-content"></div>
+        </div>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" #tooltip></div>
+</div>

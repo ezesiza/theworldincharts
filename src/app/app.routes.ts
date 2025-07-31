@@ -28,6 +28,12 @@ import { DivergingRadialBarComponent } from './home/components/charts/diverging-
 import { StackedBarComponent } from './home/components/charts/stacked-bar/stacked-bar.component';
 import { HorizontalDivergingBarComponent } from './home/components/charts/horizontal-diverging-bar/horizontal-diverging-bar.component';
 import { AdvertiserDashboardComponent } from './home/components/charts/horizontal-diverging-bar/advertiser-dashboard.component';
+import { MarketCapitalizationComponent } from './home/components/charts/market-capitalization/market-capitalization.component';
+import { PerformanceMetricsComponent } from './home/components/charts/performance-metrics/performance-metrics.component';
+import { NetworkDataVizComponent } from './home/components/charts/network-data-viz/network-data-viz.component';
+import { CveTimeLineComponent } from './home/components/dashboards/cve-timeline/cve-timeline.component';
+import { CveTimeLineDashboardComponent } from './home/components/dashboards/cve-dashboard/cve-timeline-dashboard.component';
+import { DataBreachImpactComponent } from './home/components/charts/data-breach-impact/data-breach-impact.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -40,7 +46,7 @@ export const routes: Routes = [
     { path: 'browser', component: DonutRaceComponent },
     { path: 'sankey', component: SankeyComponent },
     { path: 'analytics', component: AnalyticsDashboardComponent },
-    { path: 'tabs', component: TabsComponent },
+    // { path: 'tabs', component: TabsComponent },
     { path: 'radial', component: RadialDonutChartComponent },
     { path: 'funnel', component: FunnelChartComponent },
     { path: 'attack-tree', component: AttackTreeComponent2 },
@@ -48,6 +54,13 @@ export const routes: Routes = [
     { path: 'diverging', component: DivergingBarsComponent },
     { path: 'linechart', component: LineChartComponent },
     { path: 'finance', component: FinanceDashboardComponent },
+    { path: 'market', component: MarketCapitalizationComponent },
+    { path: 'founalytics', component: PerformanceMetricsComponent },
+    // { path: '', component: NetworkDataVizComponent },
+    { path: 'cvet', component: CveTimeLineComponent },
+    { path: 'cved', component: CveTimeLineDashboardComponent },
+    { path: 'breach', component: DataBreachImpactComponent },
+    // advertising-analytics
     // { path: 'sample', component: SampleComponent },
     { path: 'crypto', component: AnimatedBubbleComponent },
     { path: 'bubble-monitor', component: BubbleRealtimeDashboardComponent },
@@ -55,9 +68,8 @@ export const routes: Routes = [
     { path: 'area', component: AnimatedAreaComponent },
     { path: 'matrix', component: MatrixComponent },
     { path: 'advertiser', component: StackedBarComponent },
-    { path: 'labour', component: DivergingRadialBarComponent },
+    { path: 'incidents', component: DivergingRadialBarComponent },
     { path: 'states', component: HorizontalDivergingBarComponent },
-    { path: 'advertiser-dashboard', component: AdvertiserDashboardComponent },
     { path: '**', redirectTo: '/' }
 ];
 

@@ -1,0 +1,91 @@
+<!-- <div class="chart-container">
+    <h1>Security Posture vs. Impact Level Analysis</h1>
+    <div #chartContainer class="chart-wrapper"></div>
+    <div #legend class="legend-container"></div>
+    <div #tooltip class="tooltip"></div>
+</div> -->
+
+<!-- <h1>Better Ways to Visualize Clustered Security Data</h1> -->
+
+<div class="button-group" id="voronoi">
+    <header>
+        <div class="header">
+            <h1 class="title">Visualizing Security Data Breach</h1>
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button2" routerLink="/voronoi-gdp">Next &raquo;</button>
+            </div>
+        </div>
+    </header>
+</div>
+<div class="chart-container">
+    <div class="buttons">
+        <button (click)="showVisualization('heatmap')" [class.active]="activeViz === 'heatmap'">Heatmap</button>
+        <button (click)="showVisualization('force')" [class.active]="activeViz === 'force'">Force Layout</button>
+        <button (click)="showVisualization('jitter')" [class.active]="activeViz === 'jitter'">Jittered Scatter</button>
+        <button (click)="showVisualization('sunburst')" [class.active]="activeViz === 'sunburst'">Sunburst</button>
+        <button (click)="showVisualization('violin')" [class.active]="activeViz === 'violin'">Violin Plot</button>
+        <button (click)="showVisualization('treemap')" [class.active]="activeViz === 'treemap'">Treemap</button>
+    </div>
+    <!-- Heatmap -->
+    <div id="heatmap-viz" class="viz-container" *ngIf="activeViz === 'heatmap'">
+        <div class="viz-title">1. Heatmap Visualization</div>
+        <div class="viz-description">
+            Shows density/count of incidents in each security posture vs impact level combination.
+            Color intensity represents the number of incidents.
+        </div>
+        <div #heatmap id="heatmap"></div>
+    </div>
+
+    <!-- Force Layout -->
+    <div id="force-viz" class="viz-container" *ngIf="activeViz === 'force'">
+        <div class="viz-title">2. Force-Directed Layout</div>
+        <div class="viz-description">
+            Uses physics simulation to separate overlapping points while maintaining relative positioning.
+            Similar points cluster together naturally.
+        </div>
+        <div #forceLayout id="force-layout"></div>
+    </div>
+
+    <!-- Jittered Scatter -->
+    <div id="jitter-viz" class="viz-container" *ngIf="activeViz === 'jitter'">
+        <div class="viz-title">3. Enhanced Jittered Scatter Plot</div>
+        <div class="viz-description">
+            Strategic jittering with collision detection to ensure all points are visible while maintaining data
+            integrity.
+        </div>
+        <div #jitteredScatter id="jittered-scatter"></div>
+    </div>
+
+    <!-- Sunburst -->
+    <div id="sunburst-viz" class="viz-container" *ngIf="activeViz === 'sunburst'">
+        <div class="viz-title">4. Sunburst Chart</div>
+        <div class="viz-description">
+            Hierarchical view showing Security Posture → Impact Level → Breach Type relationships.
+        </div>
+        <div #sunburst id="sunburst"></div>
+    </div>
+
+    <!-- Violin Plot -->
+    <div id="violin-viz" class="viz-container" *ngIf="activeViz === 'violin'">
+        <div class="viz-title">5. Violin Plot Distribution</div>
+        <div class="viz-description">
+            Shows distribution of records affected across different security postures and impact levels.
+        </div>
+        <div #violinPlot id="violin-plot"></div>
+    </div>
+    <!-- Treemap Plot -->
+    <div id="treemap-viz" class="viz-container" *ngIf="activeViz === 'treemap'">
+        <div class="viz-title">5. Treemap Distribution</div>
+        <div class="viz-description">
+            Shows distribution of records affected across different security postures and impact levels.
+        </div>
+        <div #treemapContainer id="treemap"></div>
+        <div #legendContainer></div>
+    </div>
+</div>
+
+<!-- <h1>Treemap: Companies by Industry & Impact</h1>
+<div #treemapContainer></div>
+<div #legendContainer></div> -->
+<div class="tooltip" #tooltip id="tooltip"></div>

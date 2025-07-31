@@ -1,0 +1,146 @@
+.dashboard-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #f3f4f6 0%, #f5f3f7 100%);
+    min-height: 100vh;
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    background: linear-gradient(45deg, #0a0e8d, #0a0e8d);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    max-width: 1600px;
+    margin: 0 auto 30px auto;
+}
+
+.metric-box {
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 32px;
+    font-weight: bold;
+    display: block;
+}
+
+.metric-label {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    // transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    text-align: center;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.chart-content {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tooltip {
+    position: absolute;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 8px;
+    font-size: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    border: 1px solid #3498db;
+    z-index: 1000;
+}
+
+:host ::ng-deep .axis text {
+    font-size: 11px;
+    fill: #34495e;
+}
+
+:host ::ng-deep .axis path,
+:host ::ng-deep .axis line {
+    fill: none;
+    stroke: #bdc3c7;
+    shape-rendering: crispEdges;
+}
+
+:host ::ng-deep .bar {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+:host ::ng-deep .bar:hover {
+    opacity: 0.8;
+    stroke: #2c3e50;
+    stroke-width: 2;
+}
+
+:host ::ng-deep .pie-slice {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+:host ::ng-deep .pie-slice:hover {
+    opacity: 0.8;
+    stroke: #fff;
+    stroke-width: 3;
+}
+
+:host ::ng-deep .legend {
+    font-size: 12px;
+}
+
+:host ::ng-deep .legend-item {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+:host ::ng-deep .legend-item:hover {
+    opacity: 0.7;
+}
+
+:host ::ng-deep .bubble {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+:host ::ng-deep .bubble:hover {
+    stroke: #2c3e50;
+    stroke-width: 2;
+}

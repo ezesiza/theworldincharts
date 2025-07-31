@@ -1,0 +1,288 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 2.2em;
+    font-weight: 300;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.controls label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.controls select {
+    padding: 8px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.controls select:hover {
+    border-color: #17becf;
+}
+
+.controls select:focus {
+    outline: none;
+    border-color: #17becf;
+    box-shadow: 0 0 0 3px rgba(23, 190, 207, 0.1);
+}
+
+.chart-container {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #fff;
+}
+
+.treemap-rect {
+    cursor: pointer;
+    transition: fill-opacity 0.2s ease;
+}
+
+.treemap-rect:hover {
+    fill-opacity: 1 !important;
+    stroke: #2c3e50;
+    stroke-width: 2px;
+}
+
+.treemap-text {
+    pointer-events: none;
+    user-select: none;
+}
+
+.stats {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.stat-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #17becf;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+
+    .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top: 4px solid #17becf;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+/* Legend Container */
+.legend-container {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.legend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+
+    h3 {
+        color: #2c3e50;
+        margin: 0;
+        font-weight: 600;
+    }
+}
+
+.legend-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: #f1f1f1;
+    }
+
+    mat-icon {
+        font-size: 18px;
+        height: 18px;
+        width: 18px;
+    }
+}
+
+/* Legend Items - Grid (Default) */
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 12px;
+
+    &.vertical {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* Legend Item */
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+        margin-right: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+    }
+
+    .legend-label {
+        flex: 1;
+        font-size: 13px;
+        color: #495057;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .legend-value {
+        font-size: 12px;
+        color: #6c757d;
+        font-family: monospace;
+        margin-left: 8px;
+        flex-shrink: 0;
+    }
+}
+
+.legend-item {
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &.highlighted {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        background-color: #f0f8ff;
+    }
+}
+
+/* Vertical Layout Specific Styles */
+.legend-items.vertical {
+    .legend-item {
+        padding: 6px 10px;
+    }
+
+    .legend-label {
+        white-space: normal;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .legend-items:not(.vertical) {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .legend-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .legend-items:not(.vertical) {
+        grid-template-columns: 1fr;
+    }
+}

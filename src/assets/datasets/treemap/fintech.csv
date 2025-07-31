@@ -1,0 +1,11 @@
+name,value,color
+Visa,5.432E+11,#1A1F71
+Mastercard,4.018E+11,#EB001B
+PayPal,1.234E+11,#003087
+Block (Square),9.876E+10,#003A4B
+Stripe,9.543E+10,#00A1E0
+Adyen,8.765E+10,#00AEEF
+Coinbase,7.654E+10,#0052FF
+Robinhood,6.543E+10,#00C805
+SoFi,5.432E+10,#00BB4F
+Revolut,4.321E+10,#0033CC

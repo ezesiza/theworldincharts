@@ -28,12 +28,14 @@ export class LandingComponent implements OnInit {
     { name: 'Browser Realtime Monitor', route: '/donut-monitor', category: 'Visualizations' },
 
     { name: 'Aid Data', route: '/earth', category: 'Dashboards' },
+    { name: 'RealTime Monitor', route: '/bubble-monitor', category: 'Dashboards' },
     { name: 'Global Companies by Market Cap', route: '/voronoi', category: 'Dashboards' },
     { name: 'Analytics Dashboard', route: '/analytics', category: 'CyberSec' },
     { name: 'Metrics Dashboard', route: '/metrics', category: 'CyberSec' },
     { name: 'Mitre Dashboard', route: '/attack-tree', category: 'CyberSec' },
     { name: 'Finance Dashboard', route: '/finance', category: 'Dashboards' },
-    { name: 'RealTime Monitor', route: '/bubble-monitor', category: 'Dashboards' },
+    { name: 'Cyber Incidents', route: '/incidents', category: 'CyberSec' },
+    { name: 'Matrix', route: '/matrix', category: 'CyberSec' },
 
     { name: 'Browser Market Share', route: '/browser', category: 'Charts' },
     { name: 'Line Chart', route: '/linechart', category: 'Charts' },
@@ -41,12 +43,13 @@ export class LandingComponent implements OnInit {
     { name: 'Diverging Bars', route: '/diverging', category: 'Charts' },
     { name: 'Radial Bars', route: '/stacked', category: 'Charts' },
     { name: 'US States Population', route: '/states', category: 'Charts' },
-    { name: 'Tabs', route: '/tabs', category: 'Components' },
-    { name: 'Matrix', route: '/matrix', category: 'CyberSec' },
-    { name: 'Area', route: '/area', category: 'Components' },
-    { name: 'Cyber Incidents', route: '/labour', category: 'Components' },
-    { name: 'Advertiser Data', route: '/advertiser', category: 'Components' },
-    { name: 'Advertiser Traffic Source', route: '/advertiser-dashboard', category: 'Components' },
+    // { name: 'Tabs', route: '/tabs', category: 'Components' },
+    { name: 'Area', route: '/area', category: 'Finance, Ads & Market' },
+    { name: 'Market Cap', route: '/market', category: 'Finance, Ads & Market' },
+    { name: 'Advertiser Data', route: '/advertiser', category: 'Finance, Ads & Market' },
+    { name: 'Ad-Nalytics', route: '/founalytics', category: 'Finance, Ads & Market' },
+    { name: 'Vulnerability Dashboard', route: '/cved', category: 'CyberSec' },
+    { name: 'Security & Data Breach', route: '/breach', category: 'CyberSec' },
   ];
 
   searchControl = new FormControl('');

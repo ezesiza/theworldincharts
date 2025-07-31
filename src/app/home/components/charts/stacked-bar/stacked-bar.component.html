@@ -1,15 +1,14 @@
-<div class="button-group" id="funnel">
+<div class="button-group">
     <header>
         <div class="header">
             <h1>Advertising Campaign</h1>
             <div class="button-group">
                 <button class="button" routerLink="">&laquo; Home</button>
-                <button class="button button2" routerLink="/browser">Next &raquo;</button>
+                <button class="button button2" routerLink="/analytics">Next &raquo;</button>
             </div>
         </div>
     </header>
 </div>
-
 <div>
     <single-card [loading]="isLoading">
         <div class="panel-body">
@@ -54,10 +53,10 @@
                     </ul>
                 </div>
 
-                <div id="bar-tooltip" class="bar-tooltip" style="display:none;"></div>
             </div>
         </div>
     </single-card>
+    <div id="bar-tooltip" class="bar-tooltip" style="display:none;"></div>
 </div>
 
 <div class="row">
@@ -71,14 +70,14 @@
     <div class="column">
         <single-card [loading]="isLoading">
             <div class="panel-body">
-                <donut [logData]="donutData"></donut>
+                <donut [chartData]="donutData"></donut>
             </div>
         </single-card>
     </div>
     <div class="column">
         <single-card [loading]="isLoading">
             <div class="panel-body">
-                <donut [logData]="donutData"></donut>
+                <donut [chartData]="donutData"></donut>
             </div>
         </single-card>
     </div>

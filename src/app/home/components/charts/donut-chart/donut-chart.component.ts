@@ -14,7 +14,7 @@ import { LoadDataService } from '../../../services/load.data.service';
 })
 export class DonutChartComponent implements OnInit, OnDestroy {
 
-  @Input() logData: any | undefined;
+  @Input() chartData: any | undefined;
   @Input() colorScale: any;
   @Input() isDynamicColors: boolean = false;
   @Input() unit: any;
@@ -66,9 +66,9 @@ export class DonutChartComponent implements OnInit, OnDestroy {
 
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     for (const propName in changes) {
-      this.logData = changes['logData'].currentValue;
-      if (this.logData && Array.isArray(this.logData) && this.logData.length > 0) {
-        const transformedData = this.transformData(this.logData);
+      this.chartData = changes['chartData'].currentValue;
+      if (this.chartData && Array.isArray(this.chartData) && this.chartData.length > 0) {
+        const transformedData = this.transformData(this.chartData);
         this.initializeOptions()
         this.drawSlices(transformedData)
       }
@@ -76,8 +76,8 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.logData && Array.isArray(this.logData) && this.logData.length > 0) {
-      const transformedData = this.transformData(this.logData);
+    if (this.chartData && Array.isArray(this.chartData) && this.chartData.length > 0) {
+      const transformedData = this.transformData(this.chartData);
       this.initializeOptions();
       this.drawSlices(transformedData);
     }
@@ -87,15 +87,15 @@ export class DonutChartComponent implements OnInit, OnDestroy {
           this.renderedWidth = value.width;
         } else if (this.renderedWidth !== value.width) {
           this.renderedWidth = value.width;
-          // this.onResize(value);
-          // this.renderFilteredChart();
+          this.onResize();
+          this.renderFilteredChart();
         }
       }
     );
   }
 
   private onResize() {
-    if (this.logData && this.logData.length) {
+    if (this.chartData && this.chartData.length) {
       this.renderFilteredChart();
     }
   }
@@ -198,10 +198,9 @@ export class DonutChartComponent implements OnInit, OnDestroy {
 
   private transformData(data: any[]): any[] {
     if (!data || !Array.isArray(data)) return [];
-    
+
     // Detect data format and transform accordingly
     const dataFormat = this.detectDataFormat(data);
-    
     switch (dataFormat) {
       case 'category-count-percent':
         return this.transformCategoryCountPercentData(data);
@@ -216,24 +215,24 @@ export class DonutChartComponent implements OnInit, OnDestroy {
 
   private detectDataFormat(data: any[]): string {
     if (!data.length) return 'unknown';
-    
+
     const firstItem = data[0];
-    
+
     // Check if it's already in the expected format (category, count, percent)
     if (firstItem.hasOwnProperty('category') && firstItem.hasOwnProperty('count')) {
       return 'category-count-percent';
     }
-    
+
     // Check if it's advertiser format (has name and data properties)
     if (firstItem.hasOwnProperty('name') && firstItem.hasOwnProperty('data')) {
       return 'advertiser';
     }
-    
+
     // Check if it's UTM_SOURCE format (has UTM_SOURCE property)
     if (firstItem.hasOwnProperty('UTM_SOURCE')) {
       return 'utm-source';
     }
-    
+
     return 'generic';
   }
 
@@ -249,7 +248,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   private transformAdvertiserData(data: any[]): any[] {
     // Transform advertiser data to donut chart format
     const totalDataPoints = data.reduce((sum, adv) => sum + (adv.data ? adv.data.length : 0), 0);
-    
+
     return data.map((advertiser, index) => {
       const count = advertiser.data ? advertiser.data.length : 0;
       return {
@@ -266,7 +265,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
       const totalStr = item.total || '0%';
       const percent = parseFloat(totalStr.replace('%', '')) || 0;
       const count = Math.round(percent * 100); // Convert percentage to a count-like value
-      
+
       return {
         category: item.UTM_SOURCE || 'Unknown Source',
         count: isNaN(count) ? 0 : count,
@@ -280,18 +279,18 @@ export class DonutChartComponent implements OnInit, OnDestroy {
     return data.map((item, index) => {
       // Look for common property names that might represent categories
       const category = item.category || item.name || item.label || item.key || `Item ${index + 1}`;
-      
+
       // Look for numeric values that might represent counts or values
       const rawCount = item.count || item.value || item.total || item.amount || 1;
       const count = isNaN(Number(rawCount)) ? 1 : Number(rawCount);
-      
+
       // Calculate percentage if not provided
       const totalCount = data.reduce((sum, d) => {
         const val = d.count || d.value || d.total || d.amount || 1;
         return sum + (isNaN(Number(val)) ? 1 : Number(val));
       }, 0);
       const percent = totalCount > 0 ? Math.round((count / totalCount) * 100) : 0;
-      
+
       return {
         category: String(category),
         count: isNaN(count) ? 1 : count,
@@ -301,8 +300,8 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   }
 
   private getLegendKeys(): any {
-    if (this.logData && this.logData.length >= 0) {
-      const transformedData = this.transformData(this.logData);
+    if (this.chartData && this.chartData.length >= 0) {
+      const transformedData = this.transformData(this.chartData);
       return transformedData.map((d: any) => d.category);
     } else {
       return []
@@ -317,7 +316,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   private initializeOptions() {
     this.legendItem = {};
 
-    if (!this.logData || !this.logData.length) {
+    if (!this.chartData || !this.chartData.length) {
       return;
     }
 
@@ -341,13 +340,13 @@ export class DonutChartComponent implements OnInit, OnDestroy {
   }
 
   private renderFilteredChart() {
-    if (!this.logData || !Array.isArray(this.logData) || this.logData.length === 0) {
+    if (!this.chartData || !Array.isArray(this.chartData) || this.chartData.length === 0) {
       // Handle case when no valid data is available
       this.drawSlices(this.backData);
       return;
     }
 
-    let transformedData = this.transformData(this.logData);
+    let transformedData = this.transformData(this.chartData);
     let data: any = JSON.parse(JSON.stringify(transformedData));
 
     let disabledItems: any = [];
@@ -470,7 +469,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
         return;
       }
 
-      if (this.parentElement == null || !this.logData) {
+      if (this.parentElement == null || !this.chartData) {
         try {
           if (this.svg && !this.svg.empty()) {
             this.svg
@@ -542,7 +541,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
     if (num >= 1000) {
       return (Math.trunc(num / 1000).toFixed(1).replace(/\.0$/, "") + "K");
     }
-    return num;
+    return num.toFixed(2);
   }
 
   private d3Format(d: number | { valueOf(): number; }) {
@@ -553,6 +552,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
 
 
   private drawSlices(data: any) {
+
     try {
       if (!data) {
         data = this.backData;
@@ -576,6 +576,7 @@ export class DonutChartComponent implements OnInit, OnDestroy {
       let total = 0;
       data.map((item: any) => {
         total = total + item.count;
+        console.log(total);
       });
       this.totalCount = this.numberFormat(total);
 

@@ -75,7 +75,7 @@
   <div class="column">
     <single-card [loading]="loadingState">
       <div class="panel-body">
-        <donut [id]="chartConfigs[1].id" [logData]="getChartData(chartConfigs[1].id)"
+        <donut [id]="chartConfigs[1].id" [chartData]="getChartData(chartConfigs[1].id)"
           (onRandomizeClick)="randomizeDataForCharts($event)">
         </donut>
       </div>
@@ -94,7 +94,7 @@
   <div class="column">
     <single-card [loading]="loadingState">
       <div class="panel-body">
-        <donut [id]="chartConfigs[3].id" [logData]="getChartData(chartConfigs[3].id)"
+        <donut [id]="chartConfigs[3].id" [chartData]="getChartData(chartConfigs[3].id)"
           (onRandomizeClick)="randomizeDataForCharts($event)">
         </donut>
       </div>
@@ -111,7 +111,7 @@
   <div class="column">
     <single-card [loading]="loadingState">
       <div class="panel-body">
-        <donut [id]="chartConfigs[5].id" [logData]="getChartData(chartConfigs[5].id)"
+        <donut [id]="chartConfigs[5].id" [chartData]="getChartData(chartConfigs[5].id)"
           (onRandomizeClick)="randomizeDataForCharts($event)">
         </donut>
       </div>

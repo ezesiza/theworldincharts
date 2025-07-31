@@ -1,0 +1,83 @@
+<div class="container">
+    <div class="header">
+        <h1>Market Capitalization Treemap</h1>
+        <div class="subtitle" *ngIf="currentDataset?.name">{{currentDataset.name}} Companies by Market Cap</div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading data...</p>
+    </div>
+
+    <div *ngIf="!isLoading" class="content">
+        <div *ngIf="datasets.length > 0; else noData" class="content">
+            <div class="controls">
+                <label for="dataset-selector">Company Group:</label>
+                <select id="dataset-selector" (change)="onDatasetChange($event)">
+                    <option *ngFor="let dataset of datasets" [value]="dataset.name">
+                        {{dataset.name}}
+                    </option>
+                </select>
+
+                <label for="tile-selector">Tiling Algorithm:</label>
+                <select id="tile-selector" (change)="onTileTypeChange($event)">
+                    <option value="squarify">Squarify (Default)</option>
+                    <option value="binary">Binary</option>
+                    <option value="dice">Dice</option>
+                    <option value="slice">Slice</option>
+                    <option value="sliceDice">Slice & Dice</option>
+                </select>
+            </div>
+        </div>
+        <ng-template #noData>
+            <div class="no-data">
+                <p>No company data available</p>
+            </div>
+        </ng-template>
+        <div class="chart-container" id="chart"></div>
+        <div class="controls">
+            <label>Sort by:</label>
+            <select (change)="sortLegend($event)">
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="value-asc">Market Cap (Low-High)</option>
+                <option value="value-desc">Market Cap (High-Low)</option>
+            </select>
+        </div>
+        <div class="legend-container" *ngIf="currentDataset?.data?.length">
+            <div class="legend-header">
+                <h3>{{currentDataset.name}} Companies</h3>
+                <button class="legend-toggle" (click)="toggleLegendLayout()">
+                    <!-- <mat-icon>{{showVerticalLegend ? 'grid_on' : 'view_list'}}</mat-icon> -->
+                    <span class="material-icons">{{showVerticalLegend ? 'grid_on' : 'view_list'}}</span>
+                    {{showVerticalLegend ? 'Grid View' : 'List View'}}
+                </button>
+            </div>
+
+            <div class="legend-items" [class.vertical]="showVerticalLegend">
+                <div class="legend-item" *ngFor="let company of currentDataset.data"
+                    (mouseenter)="highlightCompany(company.name)" (mouseleave)="resetHighlight()"
+                    [class.highlighted]="highlightedCompany === company.name">
+                    <div class="legend-color" [style.background-color]="company.color"></div>
+                    <span class="legend-label">{{company.name}}</span>
+                    <span class="legend-value">${{format(company.value)}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value">{{ totalCompanies }}</div>
+                <div class="stat-label">Total Companies</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ totalValue }}</div>
+                <div class="stat-label">Combined Market Cap</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ largestCompany }}</div>
+                <div class="stat-label">Largest Company</div>
+            </div>
+        </div>
+    </div>
+</div>

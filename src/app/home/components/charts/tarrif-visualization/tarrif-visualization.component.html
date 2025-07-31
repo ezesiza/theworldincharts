@@ -1,0 +1,10 @@
+<div class="tariff-visualization-container">
+    <svg #svgRef class="svg-chart"></svg>
+
+    <div class="legend-controls">
+        <button *ngFor="let item of legendItems" [class]="getButtonClass(item.label)"
+            (click)="toggleLegendItem(item.label)">
+            {{ item.label }}
+        </button>
+    </div>
+</div>

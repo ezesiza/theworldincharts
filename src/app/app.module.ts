@@ -68,6 +68,15 @@ import { FacetedLineChartComponent } from './home/components/charts/faceted-line
 import { PriceHeatmapComponent } from './home/components/charts/price-heatmap/price-heatmap.component';
 import { ParallelCoordinatesComponent } from './home/components/charts/parallel-coordinates/parallel-coordinates.component';
 import { InteractiveScatterComponent } from './home/components/charts/interactive-scatter/interactive-scatter.component';
+import { TariffVisualizationComponent } from './home/components/charts/tarrif-visualization/tarrif-visualization.component';
+import { TariffVisualizationComponent2 } from './home/components/charts/tarrif-visualization/tarrif-visualization.component2';
+import { MarketCapitalizationComponent } from './home/components/charts/market-capitalization/market-capitalization.component';
+import { PerformanceMetricsComponent } from './home/components/charts/performance-metrics/performance-metrics.component';
+import { NetworkDataVizComponent } from './home/components/charts/network-data-viz/network-data-viz.component';
+import { AdvertisingAnalyticsComponent } from './home/components/charts/advertising-analytics/advertising-analytics.component';
+import { CveTimeLineComponent } from './home/components/dashboards/cve-timeline/cve-timeline.component';
+import { CveTimeLineDashboardComponent } from './home/components/dashboards/cve-dashboard/cve-timeline-dashboard.component';
+import { DataBreachImpactComponent } from './home/components/charts/data-breach-impact/data-breach-impact.component';
 
 
 @NgModule({
@@ -77,6 +86,15 @@ import { InteractiveScatterComponent } from './home/components/charts/interactiv
     PriceHeatmapComponent,
     ParallelCoordinatesComponent,
     InteractiveScatterComponent,
+    TariffVisualizationComponent,
+    TariffVisualizationComponent2,
+    MarketCapitalizationComponent,
+    PerformanceMetricsComponent,
+    NetworkDataVizComponent,
+    AdvertisingAnalyticsComponent,
+    CveTimeLineComponent,
+    CveTimeLineDashboardComponent,
+    DataBreachImpactComponent,
     RadialChartComponent,
     RadialDonutChartComponent,
     FacetedLineChartComponent,
