@@ -118,6 +118,7 @@ export class PriceHeatmapComponent implements OnInit {
 
     this.svg = d3.select(this.parentElement)
       .select('svg')
+      .attr('viewBox', [0, 10, this.width, this.height].join(' '))
       .attr('width', this.width)
       .attr('height', this.height);
 
@@ -211,7 +212,7 @@ export class PriceHeatmapComponent implements OnInit {
       .text('Channel');
 
     g.append('text')
-      .attr('transform', `translate(${width / 2}, ${height + margin.bottom - 10})`)
+      .attr('transform', `translate(${width / 2}, ${height + margin.bottom - 0})`)
       .style('text-anchor', 'middle')
       .style('font-size', '14px')
       .style('font-weight', 'bold')
@@ -219,9 +220,9 @@ export class PriceHeatmapComponent implements OnInit {
 
     // Add title
     this.svg.append('text')
-      .attr('x', this.width / 2)
+      .attr('x', 0)
       .attr('y', 30)
-      .attr('text-anchor', 'middle')
+      .attr('text-anchor', 'start')
       .style('font-size', '18px')
       .style('font-weight', 'bold')
       .text('Price Range vs Channel Heatmap');

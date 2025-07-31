@@ -33,7 +33,6 @@ export class FacetedLineChartComponent implements OnInit {
 
   private loadData() {
     this.http.get('assets/datasets/Region,Channel,Percent_1,Price_From.txt', { responseType: 'text' }).subscribe(data => {
-      // console.log(data);
       this.parseCSVData(data);
       this.isLoading = false;
       if (this.data.length > 0) {
@@ -98,8 +97,8 @@ export class FacetedLineChartComponent implements OnInit {
 
   private createFacetedLineChart(data: any[]) {
     const margin = this.margins;
-    const facetWidth = 300;
-    const facetHeight = 200;
+    const facetWidth = 500;
+    const facetHeight = 300;
     const cols = 2;
 
     // Calculate total dimensions
@@ -117,7 +116,7 @@ export class FacetedLineChartComponent implements OnInit {
     const xExtent = d3.extent(allValues, d => d.x);
     const yExtent = d3.extent(allValues, d => d.y);
 
-    const xScale = d3.scaleLinear()
+    const xScale = d3.scaleTime()
       .domain(xExtent)
       .range([0, facetWidth - margin.left - margin.right]);
 
@@ -160,7 +159,7 @@ export class FacetedLineChartComponent implements OnInit {
 
       g.append('g')
         .attr('class', 'y-axis')
-        .call(d3.axisLeft(yScale).ticks(5));
+        .call(d3.axisLeft(yScale).ticks(10));
 
       // Add line
       g.append('path')
