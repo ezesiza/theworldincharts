@@ -174,6 +174,10 @@ export class PerformanceMetricsComponent implements OnInit, OnDestroy, OnChanges
   }
 
   private createBars(g: any, xScale: any, yScale: any): void {
+
+    const colorScheme3 = d3.scaleSequential((t) =>
+      d3.interpolateViridis(t * 1 + 0.1)).domain([0, this.data.length]);
+
     g.selectAll('.bar')
       .data(this.data)
       .enter()
@@ -183,7 +187,7 @@ export class PerformanceMetricsComponent implements OnInit, OnDestroy, OnChanges
       .attr('width', xScale.bandwidth())
       .attr('y', (d: ChartDataPoint) => d.value >= 0 ? yScale(d.value) : yScale(0))
       .attr('height', (d: ChartDataPoint) => Math.abs(yScale(d.value) - yScale(0)))
-      .attr('fill', '#8e7cc3')
+      .attr('fill', (d: any, i: number) => colorScheme3(i))
       .attr('opacity', 0.8)
       .style('cursor', 'pointer')
       .on('mouseover', (event: MouseEvent, d: ChartDataPoint) => this.showTooltip(event, d))
@@ -204,7 +208,7 @@ export class PerformanceMetricsComponent implements OnInit, OnDestroy, OnChanges
       .attr('x2', (d: ChartDataPoint) => xScale(d.name) + xScale.bandwidth() / 2)
       .attr('y1', (d: ChartDataPoint) => yScale(d.upper))
       .attr('y2', (d: ChartDataPoint) => yScale(d.lower))
-      .style('stroke', '#8e44ad')
+      .style('stroke', 'orange')
       .style('stroke-width', 2);
 
     // Add arrows and dots
@@ -223,8 +227,8 @@ export class PerformanceMetricsComponent implements OnInit, OnDestroy, OnChanges
         const y = yScale(d.upper);
         return `${x - 4},${y + 8} ${x},${y} ${x + 4},${y + 8}`;
       })
-      .style('fill', '#8e44ad')
-      .style('stroke', '#8e44ad')
+      .style('fill', 'orange')
+      .style('stroke', 'orange')
       .style('stroke-width', 2);
 
     // Lower arrows
@@ -238,8 +242,8 @@ export class PerformanceMetricsComponent implements OnInit, OnDestroy, OnChanges
         const y = yScale(d.lower);
         return `${x - 4},${y - 8} ${x},${y} ${x + 4},${y - 8}`;
       })
-      .style('fill', '#8e44ad')
-      .style('stroke', '#8e44ad')
+      .style('fill', 'orange')
+      .style('stroke', 'orange')
       .style('stroke-width', 2);
 
     // Upper dots
@@ -250,7 +254,7 @@ export class PerformanceMetricsComponent implements OnInit, OnDestroy, OnChanges
       .attr('cx', (d: ChartDataPoint) => xScale(d.name) + xScale.bandwidth() / 2)
       .attr('cy', (d: ChartDataPoint) => yScale(d.upper))
       .attr('r', 4)
-      .attr('fill', '#8e44ad');
+      .attr('fill', 'orange');
 
     // Lower dots
     g.selectAll('.dot-lower')
@@ -260,7 +264,7 @@ export class PerformanceMetricsComponent implements OnInit, OnDestroy, OnChanges
       .attr('cx', (d: ChartDataPoint) => xScale(d.name) + xScale.bandwidth() / 2)
       .attr('cy', (d: ChartDataPoint) => yScale(d.lower))
       .attr('r', 4)
-      .attr('fill', '#8e44ad');
+      .attr('fill', 'orange');
   }
 
   private addValueLabels(g: any, xScale: any, yScale: any): void {

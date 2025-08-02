@@ -77,6 +77,7 @@ import { AdvertisingAnalyticsComponent } from './home/components/charts/advertis
 import { CveTimeLineComponent } from './home/components/dashboards/cve-timeline/cve-timeline.component';
 import { CveTimeLineDashboardComponent } from './home/components/dashboards/cve-dashboard/cve-timeline-dashboard.component';
 import { DataBreachImpactComponent } from './home/components/charts/data-breach-impact/data-breach-impact.component';
+import { WorldVizualizerComponent } from './home/components/charts/world-vizualizer/world-vizualizer.component';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { DataBreachImpactComponent } from './home/components/charts/data-breach-
     InteractiveScatterComponent,
     TariffVisualizationComponent,
     TariffVisualizationComponent2,
+
     MarketCapitalizationComponent,
     PerformanceMetricsComponent,
     NetworkDataVizComponent,
@@ -95,6 +97,7 @@ import { DataBreachImpactComponent } from './home/components/charts/data-breach-
     CveTimeLineComponent,
     CveTimeLineDashboardComponent,
     DataBreachImpactComponent,
+    WorldVizualizerComponent,
     RadialChartComponent,
     RadialDonutChartComponent,
     FacetedLineChartComponent,

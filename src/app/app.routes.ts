@@ -34,6 +34,7 @@ import { NetworkDataVizComponent } from './home/components/charts/network-data-v
 import { CveTimeLineComponent } from './home/components/dashboards/cve-timeline/cve-timeline.component';
 import { CveTimeLineDashboardComponent } from './home/components/dashboards/cve-dashboard/cve-timeline-dashboard.component';
 import { DataBreachImpactComponent } from './home/components/charts/data-breach-impact/data-breach-impact.component';
+import { WorldVizualizerComponent } from './home/components/charts/world-vizualizer/world-vizualizer.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -60,6 +61,8 @@ export const routes: Routes = [
     { path: 'cvet', component: CveTimeLineComponent },
     { path: 'cved', component: CveTimeLineDashboardComponent },
     { path: 'breach', component: DataBreachImpactComponent },
+    // { path: 'social', component: WorldVizualizerComponent },
+    { path: 'social', component: WorldVizualizerComponent },
     // advertising-analytics
     // { path: 'sample', component: SampleComponent },
     { path: 'crypto', component: AnimatedBubbleComponent },

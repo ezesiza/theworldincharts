@@ -1,0 +1,26 @@
+<div class="button-group" id="voronoi">
+    <header>
+        <div class="header">
+            <h1 class="title">World Vizualizer</h1>
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button2" routerLink="/cved">Next &raquo;</button>
+            </div>
+        </div>
+    </header>
+</div>
+<div class="visualization-container">
+    <div class="controls">
+        <label class="metric-selector">
+            Toggle chart metric:
+            <select [(ngModel)]="selectedMetric" (change)="onMetricChange()">
+                <option value="totalDisplacements">Total Displacements</option>
+                <option value="populationShift">Population Change</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="chart-container">
+        <svg #chartSvg></svg>
+    </div>
+</div>

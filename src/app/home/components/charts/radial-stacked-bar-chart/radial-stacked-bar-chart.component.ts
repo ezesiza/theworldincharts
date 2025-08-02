@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
   selector: 'app-radial-stacked-bar-chart',
   templateUrl: './radial-stacked-bar-chart.component.html',
-  styleUrls: ['./radial-stacked-bar-chart.component.less']
+  styleUrls: ['./radial-stacked-bar-chart.component.less'],
+  encapsulation: ViewEncapsulation.None
 })
 export class RadialStackedBarChartComponent implements OnInit {
   @ViewChild('chartContainer') private chartContainer!: ElementRef;
@@ -48,16 +49,15 @@ export class RadialStackedBarChartComponent implements OnInit {
     // Create the SVG container
     this.svg = d3.select(this.chartContainer.nativeElement)
       .append('svg')
+      .attr('viewBox', [-this.width / 1.2, -this.height / 2, this.width * 1.5, this.height * 1.5])
       .attr('width', this.width)
       .attr('height', this.height)
-      .attr('viewBox', [-this.width / 1.2, -this.height / 2, this.width * 2, this.height * 2])
-      .attr('style', 'width: 100%; height: auto; font: 10px sans-serif;');
+      .attr('style', 'width: 100%; height: 100%; font: 10px sans-serif;');
 
 
 
     const series = d3.stack()
       .keys(d3.union(this.data.map(d => d.age))) // distinct series keys, in input order
-      // .value(([, D], key) => D.get(key).population) 
       .value((d: any, key: any) => d[1].get(key).population)
       (d3.index(this.data, d => d.state, d => d.age) as any);
 
@@ -161,11 +161,11 @@ export class RadialStackedBarChartComponent implements OnInit {
       .join('g')
       .attr('transform', (d: any, i: number, nodes: any) =>
         `translate(-40,${(nodes.length / 2 - i - 1) * 20})`)
-      .call((g: { append: (arg0: string) => { (): any; new(): any; attr: { (arg0: string, arg1: number): { (): any; new(): any; attr: { (arg0: string, arg1: number): { (): any; new(): any; attr: { (arg0: string, arg1: any): any; new(): any; }; }; new(): any; }; }; new(): any; }; }; }) => g.append('rect')
+      .call((g: any) => g.append('rect')
         .attr('width', 18)
         .attr('height', 18)
         .attr('fill', color))
-      .call((g: { append: (arg0: string) => { (): any; new(): any; attr: { (arg0: string, arg1: number): { (): any; new(): any; attr: { (arg0: string, arg1: number): { (): any; new(): any; attr: { (arg0: string, arg1: any): any; new(): any; }; }; new(): any; }; }; new(): any; }; }; }) => g.append('text')
+      .call((g: any) => g.append('text')
         .attr('x', 24)
         .attr('y', 9)
         .attr('dy', '0.35em')

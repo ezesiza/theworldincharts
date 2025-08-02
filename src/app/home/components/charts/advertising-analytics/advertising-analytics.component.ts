@@ -394,6 +394,7 @@ export class AdvertisingAnalyticsComponent implements AfterViewInit, OnDestroy {
   private createBidFloorChart(): void {
     const svg = d3.select(this.bidfloorChartRef.nativeElement)
       .append("svg")
+      .attr('viewBox', [0, -10, this.width * 1.4, this.height * 1.4].join(' '))
       .attr("width", this.width + this.margin.left + this.margin.right)
       .attr("height", this.height + this.margin.top + this.margin.bottom);
 
@@ -446,8 +447,9 @@ export class AdvertisingAnalyticsComponent implements AfterViewInit, OnDestroy {
   private createPublisherChart(): void {
     const svg = d3.select(this.publisherChartRef.nativeElement)
       .append("svg")
-      .attr("width", this.width + this.margin.left + this.margin.right)
-      .attr("height", this.height + this.margin.top + this.margin.bottom);
+      // .attr('viewBox', [0, 0, this.width, this.height].join(' '))
+      .attr("width", this.width + this.margin.left + this.margin.right + 80)
+      .attr("height", this.height + this.margin.top + this.margin.bottom + 30);
 
     this.svgElements.push(svg);
 
@@ -456,8 +458,9 @@ export class AdvertisingAnalyticsComponent implements AfterViewInit, OnDestroy {
       .sort((a, b) => (b.value || 0) - (a.value || 0));
 
     d3.treemap()
-      .size([this.width + this.margin.left + this.margin.right, this.height + this.margin.top + this.margin.bottom])
-      .padding(2)
+      .tile(d3.treemapBinary)
+      .size([this.width + this.margin.left + this.margin.right + 60, this.height + this.margin.top + this.margin.bottom])
+      .padding(1)
       (root);
 
     const leaf = svg.selectAll("g")
@@ -470,6 +473,8 @@ export class AdvertisingAnalyticsComponent implements AfterViewInit, OnDestroy {
       .attr("width", (d: any) => d.x1 - d.x0)
       .attr("height", (d: any) => d.y1 - d.y0)
       .attr("opacity", 0.8)
+      .attr("cursor", "pointer")
+      .on("mousemove", (event, d) => this.showTooltip(event, d.data))
       .on("mouseover", (event, d) => this.showTooltip(event, d.data))
       .on("mouseout", () => this.hideTooltip());
 
@@ -486,8 +491,8 @@ export class AdvertisingAnalyticsComponent implements AfterViewInit, OnDestroy {
     leaf.append("text")
       .attr("x", 4)
       .attr("y", 30)
-      .style("font-size", "9px")
-      .style("fill", "#666")
+      .style("font-size", "12px")
+      .style("fill", "white")
       .text(d => `${(d.data as PublisherData).requests}%`);
   }
 }

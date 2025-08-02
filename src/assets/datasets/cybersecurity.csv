@@ -1,11 +1,11 @@
 name,value,color
 Palo Alto Networks,9.876E+10,#FF6600
-CrowdStrike,8.765E+10,#FF6A00
-Fortinet,7.654E+10,#EE3124
-Zscaler,6.543E+10,#039BE5
-Cloudflare,5.432E+10,#F38020
-Check Point,4.321E+10,#00AEEF
-Rapid7,3.456E+10,#FF5C35
-Tenable,2.345E+10,#00A1E0
-Okta,1.234E+10,#007DC1
-CyberArk,9.876E+09,#00AEEF
+CrowdStrike,8.765E+10,#bbbbbb
+Fortinet,7.654E+10,#bbbbbb
+Zscaler,6.543E+10,#bbbbbb
+Cloudflare,5.432E+10,#bbbbbb
+Check Point,4.321E+10,#bbbbbb
+Rapid7,3.456E+10,#bbbbbb
+Tenable,2.345E+10,#bbbbbb
+Okta,1.234E+10,#bbbbbb
+CyberArk,9.876E+09,#bbbbbb

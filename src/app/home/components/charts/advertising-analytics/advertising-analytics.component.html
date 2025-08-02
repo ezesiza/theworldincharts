@@ -1,11 +1,23 @@
-<div>
+<!-- <div>
     <div class="metric-box">
-        <h1>Network Analysis Dashboard</h1>
+        <h1>Network & Device Analysis Dashboard</h1>
         <span class="button" routerLink="">&laquo; Home</span>
     </div>
     <div class="metric-box">
         <span class="button button2" routerLink="/analytics">Next &raquo;</span>
     </div>
+</div> -->
+
+<div class="button-group" id="funnel">
+    <header>
+        <div class="header">
+            <h1>Network & Device Analysis Dashboard</h1>
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button2" routerLink="/analytics">Next &raquo;</button>
+            </div>
+        </div>
+    </header>
 </div>
 
 <div class="dashboard-container">
@@ -45,13 +57,13 @@
         </div>
 
         <div class="card">
-            <div class="card-title">Bid Floor Analysis</div>
-            <div #bidfloorChart class="chart-content"></div>
+            <div class="card-title">Publisher Performance</div>
+            <div #publisherChart class="chart-content"></div>
         </div>
 
         <div class="card">
-            <div class="card-title">Publisher Performance</div>
-            <div #publisherChart class="chart-content"></div>
+            <div class="card-title">Bid Floor Analysis</div>
+            <div #bidfloorChart class="chart-content"></div>
         </div>
     </div>
 

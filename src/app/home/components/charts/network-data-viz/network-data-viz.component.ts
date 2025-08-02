@@ -107,6 +107,9 @@ export class NetworkDataVizComponent implements AfterViewInit, OnDestroy {
     const g = this.botFlagsSvg.append("g")
       .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
+    const colorScheme3 = d3.scaleSequential((t) =>
+      d3.interpolateViridis(t * 1 + 0.1)).domain([0, this.botFlagsData.length]);
+
     const xScale = d3.scaleBand()
       .domain(this.botFlagsData.map((d, i) => i.toString()))
       .range([0, this.width])
@@ -126,7 +129,8 @@ export class NetworkDataVizComponent implements AfterViewInit, OnDestroy {
       .attr("y", (d: { value: d3.NumberValue; }) => yScale(d.value))
       .attr("width", xScale.bandwidth())
       .attr("height", (d: { value: d3.NumberValue; }) => this.height - yScale(d.value))
-      .attr("fill", (d: { color: any; }) => d.color)
+      // .attr("fill", (d: { color: any; }) => d.color)
+      .attr("fill", (d: any, i: any) => colorScheme3(i))
       .on("mouseover", (event: MouseEvent, d: any) => this.showTooltip(event, d))
       .on("mouseout", () => this.hideTooltip());
 

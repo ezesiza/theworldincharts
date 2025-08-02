@@ -4,16 +4,16 @@
         Back to Home</button>
 </div> -->
 
-<div class="button-group" id="incident" *ngIf="activatedRoute==='labour'">
-    <header>
-        <div class="header">
-            <h1>Incident Tracking Chart</h1>
-            <div class="button-group">
-                <button class="button" routerLink="">&laquo; Home</button>
-                <button class="button button2" routerLink="/browser">Next &raquo;</button>
-            </div>
+<header>
+    <div class="header">
+        <h1>Incident Tracking Chart</h1>
+        <div class="button-group">
+            <button class="button" routerLink="">&laquo; Home</button>
+            <button class="button button2" routerLink="/matrix">Next &raquo;</button>
         </div>
-    </header>
+    </div>
+</header>
+<div class="button-group" id="incident" *ngIf="activatedRoute==='labour'">
 </div>
 <single-card [loading]="chartLoading">
     <div class="panel-body" style="position: relative;">

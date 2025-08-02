@@ -50,6 +50,7 @@ export class LandingComponent implements OnInit {
     { name: 'Ad-Nalytics', route: '/founalytics', category: 'Finance, Ads & Market' },
     { name: 'Vulnerability Dashboard', route: '/cved', category: 'CyberSec' },
     { name: 'Security & Data Breach', route: '/breach', category: 'CyberSec' },
+    { name: 'World Vizualizer', route: '/social', category: 'Dashboards' },
   ];
 
   searchControl = new FormControl('');

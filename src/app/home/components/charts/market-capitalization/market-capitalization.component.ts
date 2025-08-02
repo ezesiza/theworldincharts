@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { map } from 'rxjs';
 
@@ -18,7 +18,8 @@ interface CompanyDataset {
 @Component({
   selector: 'app-market-cap-treemap',
   templateUrl: './market-capitalization.component.html',
-  styleUrls: ['./market-capitalization.component.less']
+  styleUrls: ['./market-capitalization.component.less'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MarketCapitalizationComponent implements OnInit, AfterViewInit {
   datasets: CompanyDataset[] = [];
@@ -274,7 +275,7 @@ export class MarketCapitalizationComponent implements OnInit, AfterViewInit {
     leaf.append("text")
       .attr("class", "treemap-text")
       .attr("clip-path", (d: any) => `url(${d.clipUid.href})`)
-      .style("fill", "#2c3e50")
+      // .style("fill", "#2c3e50")
       .style("font-weight", "600")
       .selectAll("tspan")
       .data((d: any) => {
