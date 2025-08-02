@@ -1,11 +1,11 @@
 name,value,color
 Nestlé,3.456E+11,#0033A0
-PepsiCo,2.589E+11,#2151A1
-Coca-Cola,2.734E+11,#ED1C16
-Kraft Heinz,1.987E+11,#0066CC
-Mondelez,1.876E+11,#0033A0
-Danone,1.654E+11,#00A1E0
-Unilever,1.543E+11,#1C3F94
-Kellogg's,1.432E+11,#0033A0
-General Mills,1.321E+11,#0033A0
-Hershey's,1.234E+11,#1A1A1A
+PepsiCo,2.589E+11,#bbbbbb
+Coca-Cola,2.734E+11,#bbbbbb
+Kraft Heinz,1.987E+11,#bbbbbb
+Mondelez,1.876E+11,#bbbbbb
+Danone,1.654E+11,#bbbbbb
+Unilever,1.543E+11,#bbbbbb
+Kellogg's,1.432E+11,#bbbbbb
+General Mills,1.321E+11,#bbbbbb
+Hershey's,1.234E+11,#bbbbbb

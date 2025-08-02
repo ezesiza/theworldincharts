@@ -1,11 +1,11 @@
 name,value,color
-Moderna,5.432E+10,#046C9E
-BioNTech,4.321E+10,#32A6E5
-Regeneron,3.456E+10,#0038A8
-Vertex,2.345E+10,#4C2274
-Gilead Sciences,1.234E+11,#D62F27
-Amgen,1.442E+11,#0033A0
-Biogen,9.876E+10,#0033CC
-Illumina,8.765E+10,#0072CE
-CRISPR,7.654E+09,#00B0A1
-Editas Medicine,6.543E+09,#0066CC
+Moderna,5.432E+10,#bbbbbb
+BioNTech,4.321E+10,#bbbbbb
+Regeneron,3.456E+10,#bbbbbb
+Vertex,2.345E+10,#bbbbbb
+Gilead Sciences,1.234E+11,#bbbbbb
+Amgen,1.442E+11,#046C9E
+Biogen,9.876E+10,#bbbbbb
+Illumina,8.765E+10,#bbbbbb
+CRISPR,7.654E+09,#bbbbbb
+Editas Medicine,6.543E+09,#bbbbbb
