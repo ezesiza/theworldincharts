@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Unique Creatives vs. Total Ads per Advertiser (Top 100)</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .axis-label {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .dot {
+            opacity: 0.7;
+        }
+
+        .dot:hover {
+            opacity: 1;
+            stroke: #333;
+            stroke-width: 1px;
+        }
+
+        .dot.selected {
+            opacity: 1;
+            stroke: #333;
+            stroke-width: 2px;
+            fill: #ff7f0e;
+        }
+
+        .tooltip {
+            position: absolute;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 4px;
+            pointer-events: none;
+            font-size: 12px;
+        }
+
+        .brush .selection {
+            fill: #4682b4;
+            fill-opacity: 0.2;
+            stroke: #fff;
+            stroke-width: 1px;
+            stroke-dasharray: 3, 3;
+        }
+
+        .reset-btn {
+            margin-top: 10px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .brush-rect {
+            pointer-events: all !important;
+        }
+
+        .overlay {
+            fill: none;
+            pointer-events: all;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chart"></div>
+    <button id="resetBtn" class="reset-btn">Reset Zoom</button>
+    <script>
+        // Set up dimensions
+        const margin = { top: 40, right: 40, bottom: 60, left: 60 };
+        const width = 800 - margin.left - margin.right;
+        const height = 600 - margin.top - margin.bottom;
+
+        // Create SVG
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Add title
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", -10)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("font-weight", "bold")
+            .text("Unique Creatives vs. Total Ads per Advertiser (Top 100)");
+
+        // Initialize scales
+        let xScale = d3.scaleLinear().range([0, width]);
+        let yScale = d3.scaleLinear().range([height, 0]);
+
+        // Initialize axes
+        const xAxis = svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0,${height})`);
+
+        const yAxis = svg.append("g")
+            .attr("class", "y-axis");
+
+        // Add axis labels
+        xAxis.append("text")
+            .attr("class", "axis-label")
+            .attr("x", width / 2)
+            .attr("y", 40)
+            .attr("text-anchor", "middle")
+            .text("Unique Creatives");
+
+        yAxis.append("text")
+            .attr("class", "axis-label")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -height / 2)
+            .attr("y", -40)
+            .attr("text-anchor", "middle")
+            .text("Total Ads");
+
+        // Create a tooltip
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        // Create a clipPath to prevent dots from appearing outside the chart area
+        svg.append("defs").append("clipPath")
+            .attr("id", "clip")
+            .append("rect")
+            .attr("width", width)
+            .attr("height", height);
+
+        // Create a group for the dots
+        const dotsGroup = svg.append("g")
+            .attr("clip-path", "url(#clip)");
+
+        // Reference line group
+        const refLineGroup = svg.append("g");
+
+        // Load data
+        d3.csv("scatter_unique_vs_total.csv").then(function (data) {
+            // Convert strings to numbers
+            data.forEach(d => {
+                d.unique_creatives = +d.unique_creatives;
+                d.total_ads = +d.total_ads;
+            });
+
+            // Store the original data
+            const originalData = data.slice();
+
+            // Initialize scales with full data range
+            updateScales(data);
+
+            // Draw the initial chart
+            updateChart(data);
+
+            // Add reference line (y = x)
+            refLineGroup.append("line")
+                .attr("class", "ref-line")
+                .attr("x1", 0)
+                .attr("y1", yScale(0))
+                .attr("x2", xScale(d3.max(data, d => d.unique_creatives)))
+                .attr("y2", yScale(d3.max(data, d => d.unique_creatives)))
+                .attr("stroke", "#999")
+                .attr("stroke-dasharray", "3,3");
+
+            // Add brushing
+            const brush = d3.brush()
+                .extent([[0, 0], [width, height]])
+                .on("start brush end", brushed);
+
+            // Create a separate overlay for the brush to prevent interference
+            const brushGroup = svg.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            // Style the brush selection rectangle
+            brushGroup.selectAll("rect.selection")
+                .attr("class", "brush-rect");
+
+            // Reset button
+            d3.select("#resetBtn")
+                .on("click", function () {
+                    updateScales(originalData);
+                    updateChart(originalData);
+                    brushGroup.call(brush.move, null);
+                });
+
+            // Function to update scales based on data
+            function updateScales(data) {
+                xScale.domain([0, d3.max(data, d => d.unique_creatives) * 1.05]);
+                yScale.domain([0, d3.max(data, d => d.total_ads) * 1.05]);
+            }
+
+            // Function to update the chart
+            function updateChart(data) {
+                // Update axes
+                xAxis.transition().call(d3.axisBottom(xScale).ticks(6));
+                yAxis.transition().call(d3.axisLeft(yScale).ticks(6));
+
+                // Update dots
+                const dots = dotsGroup.selectAll(".dot")
+                    .data(data, d => d.advertiser_id);
+
+                // Remove old dots
+                dots.exit().remove();
+
+                // Add new dots
+                dots.enter()
+                    .append("circle")
+                    .attr("class", "dot")
+                    .attr("r", 5)
+                    .style("fill", "#4682b4")
+                    .on("mouseover", showTooltip)
+                    .on("mouseout", hideTooltip)
+                    .merge(dots)
+                    .attr("cx", d => xScale(d.unique_creatives))
+                    .attr("cy", d => yScale(d.total_ads));
+
+                // Update reference line
+                refLineGroup.select(".ref-line")
+                    .attr("x2", xScale(d3.max(data, d => d.unique_creatives)))
+                    .attr("y2", yScale(d3.max(data, d => d.unique_creatives)));
+            }
+
+            // Tooltip functions
+            function showTooltip(event, d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html(`${d.display_name}<br>Unique Creatives: ${d3.format(",")(d.unique_creatives)}<br>Total Ads: ${d3.format(",")(d.total_ads)}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            }
+
+            function hideTooltip() {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            }
+
+            // Brush function
+            function brushed({ selection }) {
+                if (!selection) {
+                    // If no selection, reset to original view
+                    updateScales(originalData);
+                    updateChart(originalData);
+                    return;
+                }
+
+                const [[x0, y0], [x1, y1]] = selection;
+
+                // Highlight selected dots
+                dotsGroup.selectAll(".dot")
+                    .classed("selected", d =>
+                        x0 <= xScale(d.unique_creatives) &&
+                        xScale(d.unique_creatives) <= x1 &&
+                        y0 <= yScale(d.total_ads) &&
+                        yScale(d.total_ads) <= y1
+                    );
+
+                // Filter data to selected region
+                const selectedData = data.filter(d =>
+                    x0 <= xScale(d.unique_creatives) &&
+                    xScale(d.unique_creatives) <= x1 &&
+                    y0 <= yScale(d.total_ads) &&
+                    yScale(d.total_ads) <= y1
+                );
+
+                if (selectedData.length > 0) {
+                    updateScales(selectedData);
+                    updateChart(selectedData);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

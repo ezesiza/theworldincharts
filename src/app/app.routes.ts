@@ -35,6 +35,7 @@ import { CveTimeLineComponent } from './home/components/dashboards/cve-timeline/
 import { CveTimeLineDashboardComponent } from './home/components/dashboards/cve-dashboard/cve-timeline-dashboard.component';
 import { DataBreachImpactComponent } from './home/components/charts/data-breach-impact/data-breach-impact.component';
 import { WorldVizualizerComponent } from './home/components/charts/world-vizualizer/world-vizualizer.component';
+import { ComplianceDashboardComponent } from './home/components/dashboards/compliance-dashboard/compliance-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -73,6 +74,7 @@ export const routes: Routes = [
     { path: 'advertiser', component: StackedBarComponent },
     { path: 'incidents', component: DivergingRadialBarComponent },
     { path: 'states', component: HorizontalDivergingBarComponent },
+    { path: 'compliance', component: ComplianceDashboardComponent },
     { path: '**', redirectTo: '/' }
 ];
 

@@ -18,6 +18,7 @@ export class SankeyComponent implements OnInit {
   private energyData: any = null;
   private currentSelected: string = 'target';
   imageSource: string = ' EnergyData.png';
+  chartLoading: boolean = true;
   showDownload: boolean = false;
   edgeColor: 'path' | 'input' | 'output' | 'none' = 'path';
   private nodeWidth: number = 15;
@@ -43,6 +44,7 @@ export class SankeyComponent implements OnInit {
   ngOnInit(): void {
     this.service.getEnergyNodes().pipe().subscribe(res => {
       this.energyData = res;
+      this.chartLoading = false;
       this.renderChart();
     })
   }

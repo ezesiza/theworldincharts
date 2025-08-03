@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, HostListener, ViewChild, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, HostListener, ViewChild, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 
 // chart-data.interface.ts
@@ -23,7 +23,8 @@ export interface ChartDimensions {
 @Component({
   selector: 'performance-metrics',
   templateUrl: './performance-metrics.component.html',
-  styleUrl: './performance-metrics.component.less'
+  styleUrl: './performance-metrics.component.less',
+  encapsulation: ViewEncapsulation.None
 })
 export class PerformanceMetricsComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('chartContainer', { static: true }) private chartContainer!: ElementRef;
