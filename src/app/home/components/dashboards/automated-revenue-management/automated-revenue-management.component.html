@@ -1,0 +1,45 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Automated Revenue Management - Dashboard</h1>
+        <div class="filters">
+            Previous 3 Weeks | revenue.org | Assets | Profile | Avatar
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title">Daily Performance Metrics</div>
+        <div #dailyChart class="chart-content"></div>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title">Fill Rate vs Revenue Performance</div>
+        <div #scatterChart class="chart-content"></div>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title">Hourly Impressions Heatmap by Floor Price and Arm Level</div>
+        <div class="heatmap-container">
+            <div class="heatmap-section">
+                <h4>Low Arm (0)</h4>
+                <div #heatmapLow class="chart-content"></div>
+            </div>
+            <div class="heatmap-section">
+                <h4>Mid Arm (1)</h4>
+                <div #heatmapMid class="chart-content"></div>
+            </div>
+            <div class="heatmap-section">
+                <h4>High Arm (2)</h4>
+                <div #heatmapHigh class="chart-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <div class="chart-title">ARM Performance Comparison</div>
+        <div #armComparisonChart class="chart-content"></div>
+    </div>
+
+    <div class="tooltip" [style.display]="tooltipVisible ? 'block' : 'none'" [style.left.px]="tooltipX"
+        [style.top.px]="tooltipY" [innerHTML]="tooltipContent">
+    </div>
+</div>

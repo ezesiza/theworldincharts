@@ -263,6 +263,7 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
   }
 
   private initializeScatterChart(): void {
+    d3.select(this.scatterChartContainer.nativeElement).selectAll('*').remove();
     this.createScatterChart();
     this.createScales();
     this.createGridLines();
@@ -293,9 +294,10 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
         this.createDiversityChart();
       }
     });
-
-    this.initializeScatterChart();
-    this.setupKeyboardListeners();
+    setTimeout(() => {
+      this.initializeScatterChart();
+      this.setupKeyboardListeners();
+    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -847,9 +849,9 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
       .extent([[0, 0], [this.width, this.height]])
       .on('end', (event: any) => this.onBrushed(event));
 
-    // this.brushG = this.scattersg.append('g')
-    //   .attr('class', 'brush')
-    //   .call(this.brush);
+    this.brushG = this.scattersg.append('g')
+      .attr('class', 'brush')
+      .call(this.brush);
   }
 
   private onDotMouseOver(event: any, d: AdvertiserScatterData): void {
@@ -930,7 +932,6 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
     );
 
     this.selectedCount = selectedData.length;
-
     this.zoomToSelection();
     // this.brushG.call(this.brush.move, null);
     // Clear the brush and remove overlay after zooming
@@ -1010,9 +1011,17 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
       if (event.key === 'Shift' && !this.brushMode) {
         this.brushMode = true;
 
+        // Remove any existing brush first
+        if (this.brushG) {
+          this.brushG.remove();
+        }
+
         this.brushG = this.scattersg.append('g')
           .attr('class', 'brush')
           .call(this.brush);
+
+        // Ensure brush is on top
+        this.brushG.node()?.parentNode?.appendChild(this.brushG.node());
       }
     };
 
@@ -1027,16 +1036,17 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
       }
     };
 
-    document.addEventListener('keydown', this.keydownListener);
-    document.addEventListener('keyup', this.keyupListener);
+    // Use window instead of document to ensure we catch events
+    window.addEventListener('keydown', this.keydownListener);
+    window.addEventListener('keyup', this.keyupListener);
   }
 
   private removeKeyboardListeners(): void {
     if (this.keydownListener) {
-      document.removeEventListener('keydown', this.keydownListener);
+      window.removeEventListener('keydown', this.keydownListener);
     }
     if (this.keyupListener) {
-      document.removeEventListener('keyup', this.keyupListener);
+      window.removeEventListener('keyup', this.keyupListener);
     }
   }
 

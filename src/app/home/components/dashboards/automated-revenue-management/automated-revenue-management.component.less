@@ -1,0 +1,98 @@
+.dashboard-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f8f9fa;
+    color: #333;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 2.5em;
+}
+
+.filters {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+}
+
+.chart-container {
+    background: white;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+.chart-content {
+    min-height: 200px;
+}
+
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.heatmap-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.heatmap-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.heatmap-section h4 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+:host ::ng-deep .axis text {
+    font-size: 11px;
+}
+
+:host ::ng-deep .axis path,
+:host ::ng-deep .axis line {
+    fill: none;
+    stroke: #666;
+    shape-rendering: crispEdges;
+}
+
+:host ::ng-deep .grid line {
+    stroke: #e0e0e0;
+    stroke-dasharray: 1, 1;
+}
+
+:host ::ng-deep .grid path {
+    stroke-width: 0;
+}

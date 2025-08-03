@@ -36,6 +36,7 @@ import { CveTimeLineDashboardComponent } from './home/components/dashboards/cve-
 import { DataBreachImpactComponent } from './home/components/charts/data-breach-impact/data-breach-impact.component';
 import { WorldVizualizerComponent } from './home/components/charts/world-vizualizer/world-vizualizer.component';
 import { ComplianceDashboardComponent } from './home/components/dashboards/compliance-dashboard/compliance-dashboard.component';
+import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -56,6 +57,7 @@ export const routes: Routes = [
     { path: 'diverging', component: DivergingBarsComponent },
     { path: 'linechart', component: LineChartComponent },
     { path: 'finance', component: FinanceDashboardComponent },
+    { path: 'revenue', component: AutomatedRevenueManagement },
     { path: 'market', component: MarketCapitalizationComponent },
     { path: 'founalytics', component: PerformanceMetricsComponent },
     // { path: '', component: NetworkDataVizComponent },

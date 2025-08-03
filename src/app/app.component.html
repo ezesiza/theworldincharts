@@ -8,7 +8,7 @@
   </div>
 </div> -->
 <div [class.dark-mode]="isDarkMode">
-  <button class="dark-mode-toggle" (click)="toggleDarkMode()">
+  <!-- <button class="dark-mode-toggle" (click)="toggleDarkMode()">
     <span class="toggle-icon" [ngStyle]="{ filter: isDarkMode ? 'invert(1) hue-rotate(180deg)' : 'none' }">
       <svg viewBox="0 0 24 24" width="24" height="24">
         <path
@@ -17,6 +17,6 @@
       </svg>
     </span>
     {{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}
-  </button>
+  </button> -->
   <router-outlet></router-outlet>
 </div>
