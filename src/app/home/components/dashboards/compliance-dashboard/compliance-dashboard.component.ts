@@ -307,7 +307,7 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
   private async loadData(): Promise<void> {
     try {
       // Load the CSV data
-      const csvData = await d3.csv('/assets/datasets/advertiser_location_summary.csv');
+      const csvData = await d3.csv('assets/datasets/advertiser_location_summary.csv');
       // const scatterData = await d3.csv('/assets/datasets/scatter_unique_vs_total.csv');
       // Transform the data
       this.data = csvData.map((d: any) => ({
@@ -334,7 +334,7 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
   private async loadDiversityData(): Promise<void> {
     try {
       // Load the CSV data
-      const csvData = await d3.csv('/assets/datasets/advertiser_creative_diversity.csv');
+      const csvData = await d3.csv('assets/datasets/advertiser_creative_diversity.csv');
       // Transform the data
       this.diversityData = csvData.map((d: any) => ({
         advertiser_disclosed_name: d.advertiser_disclosed_name,
