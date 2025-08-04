@@ -49,6 +49,7 @@ export class LandingComponent implements OnInit {
     { name: 'Market Cap', route: '/market', category: 'Finance, Ads & Market' },
     { name: 'Advertiser Data', route: '/advertiser', category: 'Finance, Ads & Market' },
     { name: 'Ad-Nalytics', route: '/founalytics', category: 'Finance, Ads & Market' },
+    { name: 'Cost Pricing', route: '/cpm', category: 'Finance, Ads & Market' },
     { name: 'Compliance Dashboard', route: '/compliance', category: 'Dashboards' },
     { name: 'Vulnerability Dashboard', route: '/cved', category: 'CyberSec' },
     { name: 'Security & Data Breach', route: '/breach', category: 'CyberSec' },

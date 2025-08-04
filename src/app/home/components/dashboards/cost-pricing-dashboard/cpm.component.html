@@ -1,0 +1,113 @@
+<div class="button-group" id="funnel">
+    <header>
+        <div class="header">
+            <h1>Cost Pricing (per Mile) Dashboard</h1>
+            <div class="button-group">
+                <button class="button" routerLink="">&laquo; Home</button>
+                <button class="button button2" routerLink="/compliance">Next &raquo;</button>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div class="container">
+    <h2>CPM Metrics Dashboard</h2>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="viewSelect">Chart View:</label>
+            <select id="viewSelect" [(ngModel)]="viewType" (ngModelChange)="updateChart()">
+                <option value="all">All Metrics (Bar Chart)</option>
+                <option value="single">Single Metric</option>
+                <option value="comparison">Metric Comparison</option>
+                <option value="sorted">Sorted by Value</option>
+                <option value="scatter">Scatter Plot</option>
+                <option value="line">Line Chart</option>
+                <option value="pie">Pie Chart Distribution</option>
+                <option value="heatmap">Heatmap Matrix</option>
+                <option value="box">Box Plot Summary</option>
+                <option value="radar">Radar Chart</option>
+                <option value="grid">Grid View</option>
+            </select>
+        </div>
+
+        <!-- Grid controls (only shown in grid mode) -->
+        <div class="control-group" *ngIf="viewType === 'grid'">
+            <label>
+                <input type="checkbox" [(ngModel)]="gridMode" (ngModelChange)="updateChart()">
+                Enable Grid Mode
+            </label>
+        </div>
+
+        <div class="control-group" *ngIf="gridMode ">
+            <label>Grid Columns:</label>
+            <select [(ngModel)]="gridColumns" (ngModelChange)="updateChart()">
+                <option value="1">1 Column</option>
+                <option value="2">2 Columns</option>
+                <option value="3">3 Columns</option>
+            </select>
+        </div>
+
+        <!-- Chart selection for grid mode -->
+        <div class="control-group" *ngIf="gridMode && viewType === 'grid'">
+            <label>Charts to Display:</label>
+            <div class="chart-selection">
+                <label *ngFor="let chart of ['scatter', 'line', 'pie', 'heatmap', 'box', 'radar']">
+                    <input type="checkbox" [checked]="gridCharts.includes(chart)"
+                        (change)="toggleChartSelection(chart)">
+                    {{ getChartTitle(chart) }}
+                </label>
+            </div>
+        </div>
+
+        <!-- Original control groups (hidden in grid mode) -->
+        <div class="control-group" *ngIf="!gridMode && (viewType === 'single' || viewType === 'pie')">
+            <label for="metricSelect">Select Metric:</label>
+            <select id="metricSelect" [(ngModel)]="selectedMetric" (ngModelChange)="updateChart()">
+                <option value="minCPM">Min CPM</option>
+                <option value="maxCPM">Max CPM</option>
+                <option value="clearingPrice">Clearing Price</option>
+                <option value="hCPM">Header CPM</option>
+            </select>
+        </div>
+
+        <div class="control-group" *ngIf="!gridMode && viewType === 'comparison'">
+            <label for="comparisonSelect">Compare Metrics:</label>
+            <select id="comparisonSelect" [(ngModel)]="comparisonType" (ngModelChange)="updateChart()">
+                <option value="minmax">Min vs Max CPM</option>
+                <option value="clearingh">Clearing Price vs Header CPM</option>
+                <option value="maxh">Max CPM vs Header CPM</option>
+            </select>
+        </div>
+
+        <div class="control-group" *ngIf="!gridMode && viewType === 'sorted'">
+            <label for="sortSelect">Sort by:</label>
+            <select id="sortSelect" [(ngModel)]="sortType" (ngModelChange)="updateChart()">
+                <option value="minCPM">Min CPM</option>
+                <option value="maxCPM">Max CPM</option>
+                <option value="clearingPrice">Clearing Price</option>
+                <option value="hCPM">Header CPM</option>
+            </select>
+        </div>
+
+        <div class="control-group" *ngIf="!gridMode && viewType === 'scatter'">
+            <label for="scatterXSelect">X-Axis:</label>
+            <select id="scatterXSelect" [(ngModel)]="scatterX" (ngModelChange)="updateChart()">
+                <option value="minCPM">Min CPM</option>
+                <option value="maxCPM">Max CPM</option>
+                <option value="clearingPrice">Clearing Price</option>
+                <option value="hCPM">Header CPM</option>
+            </select>
+            <label for="scatterYSelect">Y-Axis:</label>
+            <select id="scatterYSelect" [(ngModel)]="scatterY" (ngModelChange)="updateChart()">
+                <option value="maxCPM">Max CPM</option>
+                <option value="hCPM">Header CPM</option>
+                <option value="clearingPrice">Clearing Price</option>
+                <option value="minCPM">Min CPM</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="chart"></div>
+    <div id="legend" class="legend"></div>
+</div>

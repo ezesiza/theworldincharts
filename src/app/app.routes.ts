@@ -37,6 +37,8 @@ import { DataBreachImpactComponent } from './home/components/charts/data-breach-
 import { WorldVizualizerComponent } from './home/components/charts/world-vizualizer/world-vizualizer.component';
 import { ComplianceDashboardComponent } from './home/components/dashboards/compliance-dashboard/compliance-dashboard.component';
 import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
+import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
+import { CpmDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cpm.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -60,6 +62,8 @@ export const routes: Routes = [
     { path: 'revenue', component: AutomatedRevenueManagement },
     { path: 'market', component: MarketCapitalizationComponent },
     { path: 'founalytics', component: PerformanceMetricsComponent },
+    { path: 'pricing', component: CostPricingDashboardComponent },
+    { path: 'cpm', component: CpmDashboardComponent },
     // { path: '', component: NetworkDataVizComponent },
     { path: 'cvet', component: CveTimeLineComponent },
     { path: 'cved', component: CveTimeLineDashboardComponent },

@@ -78,6 +78,10 @@ import { CveTimeLineComponent } from './home/components/dashboards/cve-timeline/
 import { CveTimeLineDashboardComponent } from './home/components/dashboards/cve-dashboard/cve-timeline-dashboard.component';
 import { DataBreachImpactComponent } from './home/components/charts/data-breach-impact/data-breach-impact.component';
 import { WorldVizualizerComponent } from './home/components/charts/world-vizualizer/world-vizualizer.component';
+import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
+import { CpmDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cpm.component';
+import { ComplianceDashboardComponent } from './home/components/dashboards/compliance-dashboard/compliance-dashboard.component';
+import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
 
 
 @NgModule({
@@ -89,7 +93,10 @@ import { WorldVizualizerComponent } from './home/components/charts/world-vizuali
     InteractiveScatterComponent,
     TariffVisualizationComponent,
     TariffVisualizationComponent2,
-
+    CostPricingDashboardComponent,
+    CpmDashboardComponent,
+    AutomatedRevenueManagement,
+    ComplianceDashboardComponent,
     MarketCapitalizationComponent,
     PerformanceMetricsComponent,
     NetworkDataVizComponent,

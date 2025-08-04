@@ -1,6 +1,4 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import * as d3 from 'd3';
 
 interface AdvertiserLocation {
@@ -163,9 +161,7 @@ const COUNTRY_NAMES: { [key: string]: string } = {
 };
 
 @Component({
-  selector: 'app-compliance-dashboard',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  selector: 'compliance-dashboard',
   templateUrl: './compliance-dashboard.component.html',
   styleUrl: './compliance-dashboard.component.less'
 })
@@ -996,6 +992,7 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
     this.yScale.domain(this.originalYScale.domain());
     this.zoomToSelection();
     this.selectedCount = this.scatterData.length;
+    this.initializeScatterChart()
     // this.ngZone.runOutsideAngular(() => {
     //   this.xScale.domain(this.originalXScale.domain());
     //   this.yScale.domain(this.originalYScale.domain());
