@@ -565,7 +565,7 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
       .attr('fill', '#69b3a2')
       .attr('stroke', '#fff')
       .attr('stroke-width', 1)
-      .on('mouseover', (event: any, d: AdvertiserLocation) => this.handleMouseOver(event, d, x, y))
+      // .on('mouseover', (event: any, d: AdvertiserLocation) => this.handleMouseOver(event, d, x, y))
       .on('mousemove', (event: any, d: AdvertiserLocation) => this.handleMouseOver(event, d, x, y))
       .on('mouseout', (event: any) => {
         d3.select(event.target)
@@ -582,10 +582,10 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
       .append('text')
       .attr('class', 'bar-label')
       .attr('x', (d: AdvertiserLocation) => (x(d.location) || 0) + x.bandwidth() / 2)
-      .attr('y', (d: AdvertiserLocation) => y(d.advertiser_count) - 5)
+      .attr('y', (d: AdvertiserLocation) => y(d.advertiser_count) + 15)
       .attr('text-anchor', 'middle')
       .style('font-size', '10px')
-      .style('fill', '#333')
+      .style('fill', 'white')
       .text((d: AdvertiserLocation) => d.advertiser_count > 100 ? d.advertiser_count : '');
   }
 
@@ -601,7 +601,7 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
     // Create SVG
     this.diversitySvg = d3.select(this.diversityChartContainer.nativeElement)
       .append('svg')
-      .attr("viewBox", [-100, 10, this.width * 1.1, this.height * 1.1])
+      .attr("viewBox", [-100, 10, this.width * 1.4, this.height * 1.4])
       .attr('width', this.width + this.margin.left + this.margin.right + 300)
       .attr('height', this.height + this.margin.top + this.margin.bottom + 200)
       .append('g')
@@ -672,7 +672,7 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
       .attr('fill', '#2E8B57')
       .attr('stroke', '#fff')
       .attr('stroke-width', 1)
-      .on('mouseover', (event: any, d: AdvertiserDiversity) => this.handleDiversityMouseOver(event, d, x, y))
+      // .on('mouseover', (event: any, d: AdvertiserDiversity) => this.handleDiversityMouseOver(event, d, x, y))
       .on('mousemove', (event: any, d: AdvertiserDiversity) => this.handleDiversityMouseOver(event, d, x, y))
       .on('mouseout', (event: any) => {
         d3.select(event.target)
@@ -687,8 +687,9 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
       .data(this.filteredDiversityData)
       .enter()
       .append('text')
+      .style('text-anchor', 'start')
       .attr('class', 'bar-label')
-      .attr('x', (d: AdvertiserDiversity) => x(d.unique_creatives) + 5)
+      .attr('x', (d: AdvertiserDiversity) => x(d.unique_creatives) - 55)
       .attr('y', (d: AdvertiserDiversity) => (y(d.advertiser_disclosed_name) || 0) + y.bandwidth() / 2)
       .attr('dy', '0.35em')
       .style('font-size', '10px')
@@ -708,8 +709,8 @@ export class ComplianceDashboardComponent implements OnInit, AfterViewInit, OnDe
       .attr('y', (y(d.advertiser_disclosed_name) || 0) + y.bandwidth() / 2)
       .attr('dy', '0.35em')
       .style('font-size', '12px')
-      .style('font-weight', 'bold')
-      .style('fill', '#333')
+      // .style('font-weight', 'bold')
+      // .style('fill', '#333')
       .text(`${d3.format(',')(d.unique_creatives)} unique creatives`);
   }
 

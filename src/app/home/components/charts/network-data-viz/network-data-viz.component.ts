@@ -35,16 +35,16 @@ export class NetworkDataVizComponent implements AfterViewInit, OnDestroy {
 
   // Data
   private botFlagsData: BotFlagData[] = [
-    { label: "80.7%", value: 80.7, color: "#ff9999" },
-    { label: "56.5%", value: 56.5, color: "#99ccff" },
-    { label: "16.4%", value: 16.4, color: "#cccccc" },
-    { label: "16.4%", value: 16.4, color: "#ff6666" },
+    { label: "bot11", value: 80.7, color: "#ff9999" },
+    { label: "bot12", value: 56.5, color: "#99ccff" },
+    { label: "bot13", value: 16.4, color: "#cccccc" },
+    { label: "bot14", value: 16.4, color: "#ff6666" },
     { label: "embed.ctv.wireless1 (15.4%)", value: 15.4, color: "#66cc66" },
-    { label: "8%", value: 8, color: "#ffcccc" },
-    { label: "6.9%", value: 6.9, color: "#ccddff" },
-    { label: "6.9%", value: 6.9, color: "#ffddcc" },
-    { label: "3.8%", value: 3.8, color: "#ddccff" },
-    { label: "2%", value: 2, color: "#ccffcc" }
+    { label: "bot15", value: 8, color: "#ffcccc" },
+    { label: "bot16", value: 6.9, color: "#ccddff" },
+    { label: "bot17", value: 6.9, color: "#ffddcc" },
+    { label: "bot18", value: 3.8, color: "#ddccff" },
+    { label: "bot19", value: 2, color: "#ccffcc" }
   ];
 
   private geoAsnData: GeoAsnData[] = [
@@ -111,7 +111,7 @@ export class NetworkDataVizComponent implements AfterViewInit, OnDestroy {
       d3.interpolateViridis(t * 1 + 0.1)).domain([0, this.botFlagsData.length]);
 
     const xScale = d3.scaleBand()
-      .domain(this.botFlagsData.map((d, i) => i.toString()))
+      .domain(this.botFlagsData.map((d, i) => d.label))
       .range([0, this.width])
       .padding(0.1);
 
@@ -125,7 +125,7 @@ export class NetworkDataVizComponent implements AfterViewInit, OnDestroy {
       .enter()
       .append("rect")
       .attr("class", "bar")
-      .attr("x", (d: any, i: { toString: () => string; }) => xScale(i.toString()) || 0)
+      .attr("x", (d: any, i: { toString: () => string; }) => xScale(d.label) || 0)
       .attr("y", (d: { value: d3.NumberValue; }) => yScale(d.value))
       .attr("width", xScale.bandwidth())
       .attr("height", (d: { value: d3.NumberValue; }) => this.height - yScale(d.value))
@@ -138,7 +138,13 @@ export class NetworkDataVizComponent implements AfterViewInit, OnDestroy {
     g.append("g")
       .attr("class", "axis")
       .attr("transform", `translate(0,${this.height})`)
-      .call(d3.axisBottom(xScale).tickFormat((d, i) => `${i + 1}`));
+      .call(d3.axisBottom(xScale))
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", ".15em")
+      .attr("transform", "rotate(-45)");
+    // .tickFormat((d, i) => `${i + 1}`));
 
     g.append("g")
       .attr("class", "axis")
