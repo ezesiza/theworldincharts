@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StackedBarComponent } from './stacked-bar.component';
+import { StackedBarComponent } from './ad-fraud.component';
 
 describe('StackedBarComponent', () => {
   let component: StackedBarComponent;
@@ -10,8 +10,8 @@ describe('StackedBarComponent', () => {
     await TestBed.configureTestingModule({
       imports: [StackedBarComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(StackedBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

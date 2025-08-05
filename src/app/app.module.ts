@@ -58,7 +58,7 @@ import { SparklineChartComponent } from './home/components/charts/sparkline-char
 import { MatrixComponent } from './home/components/charts/matrix/matrix.component';
 import { AnimatedAreaComponent } from './home/components/charts/animated-area/animated-area.component';
 import { DivergingRadialBarComponent } from './home/components/charts/diverging-radial-bar/diverging-radial-bar.component';
-import { StackedBarComponent } from './home/components/charts/stacked-bar/stacked-bar.component';
+import { AdFraudComponent } from './home/components/charts/stacked-bar/ad-fraud.component';
 import { HorizontalDivergingBarComponent } from './home/components/charts/horizontal-diverging-bar/horizontal-diverging-bar.component';
 import { AdvertiserDashboardComponent } from './home/components/charts/horizontal-diverging-bar/advertiser-dashboard.component';
 import { RegionStackedBarComponent } from './home/components/charts/region-stacked-bar/region-stacked-bar.component';
@@ -78,7 +78,6 @@ import { CveTimeLineComponent } from './home/components/dashboards/cve-timeline/
 import { CveTimeLineDashboardComponent } from './home/components/dashboards/cve-dashboard/cve-timeline-dashboard.component';
 import { DataBreachImpactComponent } from './home/components/charts/data-breach-impact/data-breach-impact.component';
 import { WorldVizualizerComponent } from './home/components/charts/world-vizualizer/world-vizualizer.component';
-import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
 import { CpmDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cpm.component';
 import { ComplianceDashboardComponent } from './home/components/dashboards/compliance-dashboard/compliance-dashboard.component';
 import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
@@ -93,7 +92,6 @@ import { AutomatedRevenueManagement } from './home/components/dashboards/automat
     InteractiveScatterComponent,
     TariffVisualizationComponent,
     TariffVisualizationComponent2,
-    CostPricingDashboardComponent,
     CpmDashboardComponent,
     AutomatedRevenueManagement,
     ComplianceDashboardComponent,
@@ -112,7 +110,7 @@ import { AutomatedRevenueManagement } from './home/components/dashboards/automat
     RegionStackedBarComponent,
     AnimatedAreaComponent,
     DivergingRadialBarComponent,
-    StackedBarComponent,
+    AdFraudComponent,
     HorizontalDivergingBarComponent,
     AdvertiserDashboardComponent,
     SankeyComponent,

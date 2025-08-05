@@ -25,7 +25,7 @@ import { AttackTreeComponent2 } from './home/components/charts/attack-tree/attac
 import { MatrixComponent } from './home/components/charts/matrix/matrix.component';
 import { AnimatedAreaComponent } from './home/components/charts/animated-area/animated-area.component';
 import { DivergingRadialBarComponent } from './home/components/charts/diverging-radial-bar/diverging-radial-bar.component';
-import { StackedBarComponent } from './home/components/charts/stacked-bar/stacked-bar.component';
+import { AdFraudComponent } from './home/components/charts/stacked-bar/ad-fraud.component';
 import { HorizontalDivergingBarComponent } from './home/components/charts/horizontal-diverging-bar/horizontal-diverging-bar.component';
 import { AdvertiserDashboardComponent } from './home/components/charts/horizontal-diverging-bar/advertiser-dashboard.component';
 import { MarketCapitalizationComponent } from './home/components/charts/market-capitalization/market-capitalization.component';
@@ -37,7 +37,6 @@ import { DataBreachImpactComponent } from './home/components/charts/data-breach-
 import { WorldVizualizerComponent } from './home/components/charts/world-vizualizer/world-vizualizer.component';
 import { ComplianceDashboardComponent } from './home/components/dashboards/compliance-dashboard/compliance-dashboard.component';
 import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
-import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
 import { CpmDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cpm.component';
 
 export const routes: Routes = [
@@ -62,7 +61,6 @@ export const routes: Routes = [
     { path: 'revenue', component: AutomatedRevenueManagement },
     { path: 'market', component: MarketCapitalizationComponent },
     { path: 'founalytics', component: PerformanceMetricsComponent },
-    { path: 'pricing', component: CostPricingDashboardComponent },
     { path: 'cpm', component: CpmDashboardComponent },
     // { path: '', component: NetworkDataVizComponent },
     { path: 'cvet', component: CveTimeLineComponent },
@@ -77,7 +75,7 @@ export const routes: Routes = [
     { path: 'donut-monitor', component: DonutRealtimeDashboardComponent },
     { path: 'area', component: AnimatedAreaComponent },
     { path: 'matrix', component: MatrixComponent },
-    { path: 'advertiser', component: StackedBarComponent },
+    { path: 'adfraud', component: AdFraudComponent },
     { path: 'incidents', component: DivergingRadialBarComponent },
     { path: 'states', component: HorizontalDivergingBarComponent },
     { path: 'compliance', component: ComplianceDashboardComponent },

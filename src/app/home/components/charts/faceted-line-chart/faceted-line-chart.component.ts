@@ -111,6 +111,12 @@ export class FacetedLineChartComponent implements OnInit {
       .attr('width', totalWidth)
       .attr('height', totalHeight);
 
+    // d3.select(this.parentElement)
+    //   .call(d3.zoom()
+    //     .extent([[-4, -1], [this.width / 12, this.height / 12]])
+    //     .scaleExtent([1, 1.2])
+    //     .on("zoom", (d: any) => this.zoomed(d, this.svg)) as any);
+
     // Global scales
     const allValues = data.flatMap(d => d.values);
     const xExtent = d3.extent(allValues, d => d.x);
@@ -214,5 +220,9 @@ export class FacetedLineChartComponent implements OnInit {
     if (this.svg) {
       this.svg.selectAll('*').remove();
     }
+  }
+
+  zoomed({ transform }: any, svg: any) {
+    svg.attr("transform", transform);
   }
 }

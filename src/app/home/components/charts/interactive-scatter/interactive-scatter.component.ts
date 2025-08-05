@@ -207,7 +207,7 @@ export class InteractiveScatterComponent implements OnInit {
       .attr('stroke-width', 0.5)
       .style('opacity', 0.7)
       .style('cursor', 'pointer')
-      .on('mouseover', (event: { pageX: number; pageY: number; }, d: { Region: any; Channel: any; Price: number; TransactionPercent: any; PriceRange: number; }) => {
+      .on('mousemove', (event: { pageX: number; pageY: number; }, d: { Region: any; Channel: any; Price: number; TransactionPercent: any; PriceRange: number; }) => {
         // Highlight point
         d3.select(this as any)
           .attr('stroke-width', 2)
