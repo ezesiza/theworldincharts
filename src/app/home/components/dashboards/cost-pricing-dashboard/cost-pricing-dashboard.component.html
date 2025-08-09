@@ -1,0 +1,67 @@
+<div class="container">
+    <h1>📊 CPM Analytics Dashboard</h1>
+
+    <!-- Summary Statistics -->
+    <div class="viz-section">
+        <div class="viz-title">📈 Key Metrics Summary</div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">$9.82</div>
+                <div class="stat-label">Avg Advertiser CPM</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$1.20</div>
+                <div class="stat-label">Avg Publisher CPM</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8.2x</div>
+                <div class="stat-label">CPM Gap Ratio</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$17.71</div>
+                <div class="stat-label">Highest CPM</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Visualization 1: Comparative Bar Chart -->
+    <div class="viz-section">
+        <div class="viz-title">💰 Average CPM Comparison: Advertisers vs Publishers</div>
+        <div id="comparison-chart"></div>
+    </div>
+
+    <!-- Visualization 2: Scatter Plot -->
+    <div class="viz-section">
+        <div class="viz-title">🎯 Average vs Median CPM Correlation</div>
+        <div id="scatter-plot"></div>
+    </div>
+
+    <!-- Visualization 3: Donut Charts -->
+    <div class="viz-section">
+        <div class="viz-title">🍩 CPM Distribution Breakdown</div>
+        <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+            <div id="advertiser-donut"></div>
+            <div id="publisher-donut"></div>
+        </div>
+    </div>
+
+    <!-- Visualization 4: Line Chart -->
+    <div class="viz-section">
+        <div class="viz-title">📈 CPM Trends by Ranking</div>
+        <div id="line-chart"></div>
+    </div>
+
+    <!-- Visualization 5: Area Chart -->
+    <div class="viz-section">
+        <div class="viz-title">🌊 Cumulative CPM Distribution</div>
+        <div id="area-chart"></div>
+    </div>
+
+    <!-- Visualization 6: Heatmap -->
+    <div class="viz-section">
+        <div class="viz-title">🔥 Top Performers Heatmap</div>
+        <div id="heatmap"></div>
+    </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>

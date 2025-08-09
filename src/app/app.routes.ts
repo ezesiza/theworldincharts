@@ -38,6 +38,7 @@ import { WorldVizualizerComponent } from './home/components/charts/world-vizuali
 import { ComplianceDashboardComponent } from './home/components/dashboards/compliance-dashboard/compliance-dashboard.component';
 import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
 import { CpmDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cpm.component';
+import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -62,6 +63,7 @@ export const routes: Routes = [
     { path: 'market', component: MarketCapitalizationComponent },
     { path: 'founalytics', component: PerformanceMetricsComponent },
     { path: 'cpm', component: CpmDashboardComponent },
+    { path: 'pricing', component: CostPricingDashboardComponent },
     // { path: '', component: NetworkDataVizComponent },
     { path: 'cvet', component: CveTimeLineComponent },
     { path: 'cved', component: CveTimeLineDashboardComponent },
