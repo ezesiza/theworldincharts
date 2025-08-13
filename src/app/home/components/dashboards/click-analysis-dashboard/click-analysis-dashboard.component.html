@@ -51,26 +51,29 @@
             <div #sequenceChart id="sequence-chart"></div>
         </div>
 
-        <!-- <div class="chart-container">
+        <div class="chart-container">
             <div class="chart-title">Radial Distribution of Clicks</div>
             <div #radialChart id="radial-chart"></div>
             <label>Radial Chart Size:</label>
             <input type="range" id="radialSize" min="50" max="200" value="120" (input)="onRadialSizeChange($event)">
+            <button class="reset-btn" (click)="resetRadialSize()" title="Reset to default size">
+                <i class="reset-icon">↺</i>
+            </button>
             <span id="radialSizeValue">120px</span>
-        </div> -->
+        </div>
 
         <!-- <div class="control-group"> -->
-        <div class="chart-container">
-            <div #radialChart id="radial-chart"></div>
-            <label>Radial Chart Size:</label>
-            <div class="slider-container">
-                <input type="range" id="radialSize" min="50" max="200" value="120" (input)="onRadialSizeChange($event)">
-                <button class="reset-btn" (click)="resetRadialSize()" title="Reset to default size">
-                    <i class="reset-icon">↺</i>
-                </button>
-                <span id="radialSizeValue">120px</span>
-            </div>
-        </div>
+        <!-- <div class="chart-container"> -->
+        <!-- <div #radialChart id="radial-chart"></div>
+        <label>Radial Chart Size:</label>
+        <div class="slider-container">
+            <input type="range" id="radialSize" min="50" max="200" value="120" (input)="onRadialSizeChange($event)">
+            <button class="reset-btn" (click)="resetRadialSize()" title="Reset to default size">
+                <i class="reset-icon">↺</i>
+            </button>
+            <span id="radialSizeValue">120px</span>
+        </div> -->
+        <!-- </div> -->
     </div>
 
     <!-- Interactive Controls -->
