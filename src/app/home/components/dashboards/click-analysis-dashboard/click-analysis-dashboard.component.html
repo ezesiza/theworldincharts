@@ -1,0 +1,126 @@
+<div class="container">
+    <div class="dashboard-title">Click Heatmap Analysis Dashboard</div>
+    <div class="subtitle">360x800 Canvas • {{clickData.length}} Total Clicks • Interactive Data Visualization</div>
+
+    <div class="visualization-grid">
+        <!-- Main Scatter Plot -->
+        <div class="chart-container">
+            <div class="chart-title">Click Distribution Scatter Plot</div>
+            <div #scatterChart id="scatter-chart"></div>
+        </div>
+
+        <!-- Density Heatmap -->
+        <div class="chart-container">
+            <div class="chart-title">2D Density Heatmap</div>
+            <div #densityChart id="density-chart"></div>
+        </div>
+
+        <!-- X-axis Distribution -->
+        <div class="chart-container">
+            <div class="chart-title">Horizontal Distribution (X-axis)</div>
+            <div #xHistogram id="x-histogram"></div>
+        </div>
+
+        <!-- Y-axis Distribution -->
+        <div class="chart-container">
+            <div class="chart-title">Vertical Distribution (Y-axis)</div>
+            <div #yHistogram id="y-histogram"></div>
+        </div>
+    </div>
+
+    <!-- Combined View -->
+    <div class="chart-container single-chart">
+        <div class="chart-title">Combined Analysis: Clicks + Density Contours + Marginal Distributions</div>
+        <div #combinedChart id="combined-chart"></div>
+    </div>
+
+    <!-- Advanced Analysis Section -->
+    <div class="visualization-grid">
+        <div class="chart-container">
+            <div class="chart-title">Click Clustering Analysis</div>
+            <div #clusterChart id="cluster-chart"></div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Distance from Center Analysis</div>
+            <div #distanceChart id="distance-chart"></div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Click Sequence Heatmap</div>
+            <div #sequenceChart id="sequence-chart"></div>
+        </div>
+
+        <!-- <div class="chart-container">
+            <div class="chart-title">Radial Distribution of Clicks</div>
+            <div #radialChart id="radial-chart"></div>
+            <label>Radial Chart Size:</label>
+            <input type="range" id="radialSize" min="50" max="200" value="120" (input)="onRadialSizeChange($event)">
+            <span id="radialSizeValue">120px</span>
+        </div> -->
+
+        <!-- <div class="control-group"> -->
+        <div class="chart-container">
+            <div #radialChart id="radial-chart"></div>
+            <label>Radial Chart Size:</label>
+            <div class="slider-container">
+                <input type="range" id="radialSize" min="50" max="200" value="120" (input)="onRadialSizeChange($event)">
+                <button class="reset-btn" (click)="resetRadialSize()" title="Reset to default size">
+                    <i class="reset-icon">↺</i>
+                </button>
+                <span id="radialSizeValue">120px</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Controls -->
+    <div class="chart-container single-chart">
+        <div class="chart-title">Interactive Analysis Controls</div>
+        <div class="controls-panel">
+            <div class="control-group">
+                <label>Density Grid Size:</label>
+                <input class="input-range" type="range" id="gridSize" min="10" max="50" value="20"
+                    (input)="onGridSizeChange($event)">
+                <span id="gridSizeValue">20px</span>
+            </div>
+            <div class="control-group">
+                <label>Cluster Radius:</label>
+                <input class="input-range" type="range" id="clusterRadius" min="20" max="100" value="50"
+                    (input)="onClusterRadiusChange($event)">
+                <span id="clusterRadiusValue">50px</span>
+            </div>
+            <div class="control-group">
+                <button id="exportData" class="export-btn" (click)="exportData()">📊 Export Analysis Data</button>
+                <button id="generateReport" class="export-btn" (click)="generateReport()">📋 Generate Report</button>
+            </div>
+        </div>
+        <div id="dynamic-analysis"></div>
+    </div>
+
+    <div class="stats">
+        <div class="stat-item">
+            <h3>📊 Basic Statistics</h3>
+            <div id="basic-stats"></div>
+        </div>
+        <div class="stat-item">
+            <h3>🎯 Click Patterns</h3>
+            <div id="pattern-stats"></div>
+        </div>
+        <div class="stat-item">
+            <h3>📍 Hotspot Analysis</h3>
+            <div id="hotspot-stats"></div>
+        </div>
+        <div class="stat-item">
+            <h3>📈 Distribution Metrics</h3>
+            <div id="distribution-stats"></div>
+        </div>
+        <div class="stat-item">
+            <h3>🔗 Clustering Results</h3>
+            <div id="cluster-stats"></div>
+        </div>
+        <div class="stat-item">
+            <h3>⭕ Spatial Analysis</h3>
+            <div id="spatial-stats"></div>
+        </div>
+    </div>
+</div>

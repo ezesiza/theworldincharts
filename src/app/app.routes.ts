@@ -39,6 +39,7 @@ import { ComplianceDashboardComponent } from './home/components/dashboards/compl
 import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
 import { CpmDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cpm.component';
 import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
+import { ClickAnalysisDashboardComponent } from './home/components/dashboards/click-analysis-dashboard/click-analysis-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -68,6 +69,7 @@ export const routes: Routes = [
     { path: 'cvet', component: CveTimeLineComponent },
     { path: 'cved', component: CveTimeLineDashboardComponent },
     { path: 'breach', component: DataBreachImpactComponent },
+    { path: 'click', component: ClickAnalysisDashboardComponent },
     // { path: 'social', component: WorldVizualizerComponent },
     { path: 'social', component: WorldVizualizerComponent },
     // advertising-analytics

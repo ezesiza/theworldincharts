@@ -82,6 +82,7 @@ import { CpmDashboardComponent } from './home/components/dashboards/cost-pricing
 import { ComplianceDashboardComponent } from './home/components/dashboards/compliance-dashboard/compliance-dashboard.component';
 import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
 import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
+import { ClickAnalysisDashboardComponent } from './home/components/dashboards/click-analysis-dashboard/click-analysis-dashboard.component';
 
 
 @NgModule({
@@ -113,6 +114,7 @@ import { CostPricingDashboardComponent } from './home/components/dashboards/cost
     DivergingRadialBarComponent,
     AdFraudComponent,
     CostPricingDashboardComponent,
+    ClickAnalysisDashboardComponent,
     HorizontalDivergingBarComponent,
     AdvertiserDashboardComponent,
     SankeyComponent,

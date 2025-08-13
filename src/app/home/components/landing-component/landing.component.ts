@@ -51,8 +51,8 @@ export class LandingComponent implements OnInit {
     { name: 'US States Population', route: '/states', category: 'Charts' },
     { name: 'Area', route: '/area', category: 'Charts' },
 
+    { name: 'Click Analysis', route: '/click', category: 'Finance, Ads & Market' },
     { name: 'Revenue Management', route: '/revenue', category: 'Finance, Ads & Market' },
-    { name: 'Pricing Dashboard', route: '/pricing', category: 'Finance, Ads & Market' },
     { name: 'Market Cap', route: '/market', category: 'Finance, Ads & Market' },
     { name: 'Advertiser Data', route: '/adfraud', category: 'Finance, Ads & Market' },
     { name: 'Ad-Nalytics', route: '/founalytics', category: 'Finance, Ads & Market' },

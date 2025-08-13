@@ -1,0 +1,352 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 20px;
+    background: #c3c9c818;
+    // background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dashboard-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+}
+
+.visualization-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+    margin-bottom: 30px;
+}
+
+.chart-container {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #34495e;
+}
+
+.single-chart {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+}
+
+.grid-line {
+    stroke: #e0e0e0;
+    stroke-width: 1;
+}
+
+.axis {
+    font-size: 11px;
+}
+
+.axis text {
+    fill: #666;
+}
+
+.axis path,
+.axis line {
+    stroke: #666;
+}
+
+.click-point {
+    fill: #3498db;
+    fill-opacity: 0.7;
+    stroke: #2980b9;
+    stroke-width: 1;
+    cursor: pointer;
+}
+
+.click-point:hover {
+    fill-opacity: 1;
+    stroke-width: 2;
+    r: 6;
+}
+
+.density-path {
+    fill: none;
+    stroke-width: 2;
+}
+
+.histogram-bar {
+    fill: #e74c3c;
+    stroke: #c0392b;
+    stroke-width: 1;
+}
+
+.histogram-bar:hover {
+    fill: #c0392b;
+}
+
+/* click-heatmap.component.scss */
+
+/* Radial chart specific styles */
+.polar-point {
+    stroke: #d35400;
+    stroke-width: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        stroke-width: 2;
+        r: 5;
+        fill: #e74c3c;
+    }
+}
+
+/* Tooltip styling (if not already defined) */
+.tooltip {
+    position: absolute;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 12px;
+    line-height: 1.4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    max-width: 200px;
+    z-index: 10;
+
+    strong {
+        color: #f1c40f;
+    }
+}
+
+/* Add to your component's styles */
+.control-group {
+    input[type="range"]#radialSize {
+        background: linear-gradient(to right, #3498db, #e74c3c);
+
+        &::-webkit-slider-thumb {
+            background: #2c3e50;
+        }
+
+        &::-moz-range-thumb {
+            background: #2c3e50;
+        }
+    }
+
+    #radialSizeValue {
+        font-weight: bold;
+        color: #2c3e50;
+        margin-left: 8px;
+    }
+}
+
+/* Add to your component's styles */
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+
+    input[type="range"] {
+        flex-grow: 1;
+        margin: 5px 0;
+    }
+
+    .reset-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: #f0f0f0;
+            transform: rotate(-45deg);
+        }
+
+        .reset-icon {
+            display: block;
+            font-size: 16px;
+            line-height: 1;
+        }
+    }
+
+    #radialSizeValue {
+        min-width: 50px;
+        text-align: right;
+        font-family: monospace;
+    }
+}
+
+.stats {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f3f4f5f9;
+    // background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    border-radius: 8px;
+    color: white;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.stats h3 {
+    margin-top: 0;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.stat-item {
+    // background: rgba(255, 255, 255, 0.1);
+    background: #0574b9f9;
+    padding: 15px;
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+}
+
+.tooltip {
+    position: absolute;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 0;
+    font-size: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.legend {
+    font-size: 12px;
+    fill: #666;
+}
+
+.density-legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.controls-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+
+    // background-color: rgb(203, 197, 197);
+    // height: 0.5rem;
+}
+
+/* For Firefox */
+input[type="range"]::-moz-range-track {
+    // height: 0.5rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-group label {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.control-group input[type="range"] {
+    width: 100%;
+    margin: 5px 0;
+}
+
+
+.export-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 184, 148, 0.3);
+}
+
+.cluster-point {
+    stroke-width: 2;
+    cursor: pointer;
+}
+
+.cluster-0 {
+    fill: #ff6b6b;
+    stroke: #ee5a52;
+}
+
+.cluster-1 {
+    fill: #4ecdc4;
+    stroke: #45b7aa;
+}
+
+.cluster-2 {
+    fill: #45b7d1;
+    stroke: #3a9bc1;
+}
+
+.cluster-3 {
+    fill: #f9ca24;
+    stroke: #f0b90b;
+}
+
+.cluster-4 {
+    fill: #ea5e5e;
+    stroke: #d05454;
+}
+
+.distance-bar {
+    fill: #5c9be7;
+    stroke: #3d83c4;
+    stroke-width: 1;
+}
+
+.sequence-rect {
+    stroke: #2d3436;
+    stroke-width: 0.5;
+}
