@@ -569,15 +569,15 @@ export class ClickAnalysisDashboardComponent implements AfterViewInit {
         .attr('stroke-width', 1);
 
       // Add angle labels
-      if (i % 2 === 0) { // Only show every other label for clarity
-        g.append('text')
-          .attr('x', 130 * Math.cos(angle))
-          .attr('y', 130 * Math.sin(angle))
-          .attr('text-anchor', 'middle')
-          .style('font-size', '10px')
-          .style('fill', '#666')
-          .text(angleLabels[i]);
-      }
+      // if (i % 2 === 0) { // Only show every other label for clarity
+      g.append('text')
+        .attr('x', 130 * Math.cos(angle))
+        .attr('y', 130 * Math.sin(angle))
+        .attr('text-anchor', 'middle')
+        .style('font-size', '10px')
+        .style('fill', '#666')
+        .text(angleLabels[i]);
+      // }
     }
 
     // Add center label
