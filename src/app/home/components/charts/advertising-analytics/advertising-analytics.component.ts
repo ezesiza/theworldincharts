@@ -164,9 +164,7 @@ export class AdvertisingAnalyticsComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     // Clean up D3 elements
-    this.svgElements.forEach(svg => {
-      if (svg) svg.remove();
-    });
+    this.svgElements.forEach(svg => { if (svg) svg.remove(); });
   }
 
   private initializeCharts(): void {

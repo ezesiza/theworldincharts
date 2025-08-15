@@ -1,0 +1,146 @@
+<div class="container">
+    <h1>DV360 Ad Distribution Analysis</h1>
+    <p class="subtitle">Interactive visualization of advertising domain market share and distribution patterns</p>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ processedData?.length || 20 }}</div>
+            <div class="stat-label">Unique Domains</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">86.5%</div>
+            <div class="stat-label">Google Average Share</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">13.5%</div>
+            <div class="stat-label">Other Providers</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Data Columns</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <label>
+            Layout:
+            <select [(ngModel)]="layoutMode">
+                <option value="single">Single</option>
+                <option value="grid">Grid</option>
+            </select>
+        </label>
+        <label *ngIf="layoutMode === 'grid'">
+            Columns:
+            <input type="number" [(ngModel)]="gridColumns" min="1" max="4" />
+        </label>
+    </div>
+
+    <div class="viz-wrapper"
+        [style.gridTemplateColumns]="layoutMode === 'grid' ? 'repeat(' + gridColumns + ', 1fr)' : 'repeat(1, 1fr)'">
+        <!-- grid wrapper -->
+        <!-- Add fullscreen icons to each viz-container -->
+        <div class="viz-container">
+            <button class="fullscreen-btn" (click)="toggleFullscreen($event)" title="Toggle Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"></path>
+                    <path d="M3 16.2V21m0 0h4.8M3 21l6-6"></path>
+                    <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"></path>
+                    <path d="M3 7.8V3m0 0h4.8M3 3l6 6"></path>
+                </svg>
+            </button>
+            <div class="viz-title">Top 10 Ad Providers Market Share</div>
+            <div id="pie-chart"></div>
+        </div>
+
+        <div class="viz-container">
+            <button class="fullscreen-btn" (click)="toggleFullscreen($event)" title="Toggle Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"></path>
+                    <path d="M3 16.2V21m0 0h4.8M3 21l6-6"></path>
+                    <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"></path>
+                    <path d="M3 7.8V3m0 0h4.8M3 3l6 6"></path>
+                </svg>
+            </button>
+            <div class="viz-title">Top 15 Ad Providers by Combined Market Share</div>
+            <div id="bar-chart"></div>
+        </div>
+
+        <div class="viz-container">
+            <button class="fullscreen-btn" (click)="toggleFullscreen($event)" title="Toggle Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"></path>
+                    <path d="M3 16.2V21m0 0h4.8M3 21l6-6"></path>
+                    <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"></path>
+                    <path d="M3 7.8V3m0 0h4.8M3 3l6 6"></path>
+                </svg>
+            </button>
+            <div class="viz-title">Cumulative Market Distribution Bubble Chart</div>
+            <div id="bubble-chart"></div>
+        </div>
+
+        <div class="viz-container">
+            <button class="fullscreen-btn" (click)="toggleFullscreen($event)" title="Toggle Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"></path>
+                    <path d="M3 16.2V21m0 0h4.8M3 21l6-6"></path>
+                    <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"></path>
+                    <path d="M3 7.8V3m0 0h4.8M3 3l6 6"></path>
+                </svg>
+            </button>
+            <div class="viz-title">Stacked Distribution Across Three Data Columns</div>
+            <div id="column-comparison"></div>
+        </div>
+
+        <div class="viz-container">
+            <button class="fullscreen-btn" (click)="toggleFullscreen($event)" title="Toggle Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"></path>
+                    <path d="M3 16.2V21m0 0h4.8M3 21l6-6"></path>
+                    <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"></path>
+                    <path d="M3 7.8V3m0 0h4.8M3 3l6 6"></path>
+                </svg>
+            </button>
+            <div class="viz-title">Cumulative Market Concentration Analysis</div>
+            <div id="concentration-chart"></div>
+        </div>
+
+        <div class="viz-container">
+            <button class="fullscreen-btn" (click)="toggleFullscreen($event)" title="Toggle Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"></path>
+                    <path d="M3 16.2V21m0 0h4.8M3 21l6-6"></path>
+                    <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"></path>
+                    <path d="M3 7.8V3m0 0h4.8M3 3l6 6"></path>
+                </svg>
+            </button>
+            <div class="viz-title">Market Consistency Analysis</div>
+            <div id="consistency-chart"></div>
+        </div>
+
+        <div class="viz-container">
+            <button class="fullscreen-btn" (click)="toggleFullscreen($event)" title="Toggle Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"></path>
+                    <path d="M3 16.2V21m0 0h4.8M3 21l6-6"></path>
+                    <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"></path>
+                    <path d="M3 7.8V3m0 0h4.8M3 3l6 6"></path>
+                </svg>
+            </button>
+            <div class="viz-title">Ad Tech Market Share (Treemap)</div>
+            <div id="treemap-chart"></div>
+        </div>
+
+        <div class="viz-container">
+            <button class="fullscreen-btn" (click)="toggleFullscreen($event)" title="Toggle Fullscreen">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"></path>
+                    <path d="M3 16.2V21m0 0h4.8M3 21l6-6"></path>
+                    <path d="M21 7.8V3m0 0h-4.8M21 3l-6 6"></path>
+                    <path d="M3 7.8V3m0 0h4.8M3 3l6 6"></path>
+                </svg>
+            </button>
+            <div class="viz-title">Ad Tech Market Share (Circle Pack)</div>
+            <div id="circle-pack"></div>
+        </div>
+    </div>
+</div>

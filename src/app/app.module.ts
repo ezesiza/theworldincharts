@@ -83,6 +83,8 @@ import { ComplianceDashboardComponent } from './home/components/dashboards/compl
 import { AutomatedRevenueManagement } from './home/components/dashboards/automated-revenue-management/automated-revenue-management.component';
 import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
 import { ClickAnalysisDashboardComponent } from './home/components/dashboards/click-analysis-dashboard/click-analysis-dashboard.component';
+import { AdTechMarketShareComponent } from './home/components/dashboards/ad-market-share-dashboard/ad-market-share-dashboard.component';
+import { AdDistributionComponent } from './home/components/dashboards/ad-market-share-dashboard/ad-distribution.component';
 
 
 @NgModule({
@@ -115,6 +117,8 @@ import { ClickAnalysisDashboardComponent } from './home/components/dashboards/cl
     AdFraudComponent,
     CostPricingDashboardComponent,
     ClickAnalysisDashboardComponent,
+    AdTechMarketShareComponent,
+    AdDistributionComponent,
     HorizontalDivergingBarComponent,
     AdvertiserDashboardComponent,
     SankeyComponent,
