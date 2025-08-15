@@ -1,4 +1,5 @@
 # Theworldincharts
+![HitCount](https://hits.dwyl.com/ezesiza/theworldincharts.svg?style=flat-square)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
 
