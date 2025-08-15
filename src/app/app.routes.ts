@@ -41,6 +41,7 @@ import { CpmDashboardComponent } from './home/components/dashboards/cost-pricing
 import { CostPricingDashboardComponent } from './home/components/dashboards/cost-pricing-dashboard/cost-pricing-dashboard.component';
 import { ClickAnalysisDashboardComponent } from './home/components/dashboards/click-analysis-dashboard/click-analysis-dashboard.component';
 import { AdTechMarketShareComponent } from './home/components/dashboards/ad-market-share-dashboard/ad-market-share-dashboard.component';
+import { AdDistributionComponent } from './home/components/dashboards/ad-market-share-dashboard/ad-distribution.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -62,7 +63,7 @@ export const routes: Routes = [
     { path: 'linechart', component: LineChartComponent },
     { path: 'finance', component: FinanceDashboardComponent },
     { path: 'revenue', component: AutomatedRevenueManagement },
-    { path: 'adshare', component: AdTechMarketShareComponent },
+    { path: 'adshare', component: AdDistributionComponent },
     { path: 'market', component: MarketCapitalizationComponent },
     { path: 'founalytics', component: PerformanceMetricsComponent },
     { path: 'cpm', component: CpmDashboardComponent },

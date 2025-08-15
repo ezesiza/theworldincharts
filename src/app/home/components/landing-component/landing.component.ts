@@ -53,6 +53,7 @@ export class LandingComponent implements OnInit {
 
     { name: 'Click Analysis', route: '/click', category: 'Finance, Ads & Market' },
     { name: 'Revenue Management', route: '/revenue', category: 'Finance, Ads & Market' },
+    { name: 'Ad Market Share', route: '/adshare', category: 'Finance, Ads & Market' },
     { name: 'Market Cap', route: '/market', category: 'Finance, Ads & Market' },
     { name: 'Advertiser Data', route: '/adfraud', category: 'Finance, Ads & Market' },
     { name: 'Ad-Nalytics', route: '/founalytics', category: 'Finance, Ads & Market' },

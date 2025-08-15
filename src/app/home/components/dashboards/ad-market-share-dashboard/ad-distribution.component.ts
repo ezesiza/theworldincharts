@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, AfterViewInit, ViewEncapsulation, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -60,8 +60,6 @@ export class AdDistributionComponent implements AfterViewInit {
     private color = d3.scaleSequential((t) =>
         d3.interpolateViridis(t * 2 + 0.5)).domain([0, this.rawData.length]);
 
-
-
     processedData: any[] = [];
 
     private colors = {
@@ -75,6 +73,8 @@ export class AdDistributionComponent implements AfterViewInit {
     ngAfterViewInit() {
         this.initializeCharts();
     }
+
+    constructor(private elementRef: ElementRef) { }
 
     initializeCharts() {
         this.processData();
@@ -1210,19 +1210,21 @@ export class AdDistributionComponent implements AfterViewInit {
     }
 
     private drawTreemap() {
+        const container = this.elementRef.nativeElement.querySelector('#treemap-chart');
+        container.innerHTML = '';
 
         const width = 780;
-        const height = 400;
+        const height = 600;
+
         const margin = { top: 30, right: 30, bottom: 70, left: 70 };
 
-        const svg = d3.select('#treemap-chart')
+        const svg = d3.select(container)
             .append("svg")
             .attr("width", width)
             .attr("height", height)
+            .attr('viewBox', `1 0 ${(width + 50)} ${height + margin.top + margin.bottom - 150}`)
             .append("g")
-            .attr("transform", `translate(${margin.left - 200},${margin.top})`);
-
-        // this.svgElements.push(svg);
+        // .attr("transform", `translate(${margin.left},${margin.top})`);
 
         // Color scale
         const color = d3.scaleOrdinal()
@@ -1230,7 +1232,7 @@ export class AdDistributionComponent implements AfterViewInit {
             .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), this.processedData.length).reverse());
 
         // Hierarchical data structure for treemap
-        const root = d3.hierarchy({ children: this.processedData })
+        const root = d3.hierarchy({ children: this.processedData.slice(0, 10) })
             .sum((d: any) => d.totalPercent)
             .sort((a, b) => b.value - a.value);
 
@@ -1251,7 +1253,7 @@ export class AdDistributionComponent implements AfterViewInit {
             .attr("width", (d: any) => d.x1 - d.x0)
             .attr("height", (d: any) => d.y1 - d.y0)
             .attr("fill", (d: any) => color(d.data.domain) as any)
-            .on("mouseover", (event: any, d: any) => {
+            .on("mousemove", (event: any, d: any) => {
                 this.tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
@@ -1259,7 +1261,7 @@ export class AdDistributionComponent implements AfterViewInit {
                     .style("left", (event.pageX + 10) + "px")
                     .style("top", (event.pageY - 28) + "px");
 
-                d3.select(this as any).attr("stroke", "#000").attr("stroke-width", 2);
+                // d3.select(this as any).attr("stroke", "#000").attr("stroke-width", 2);
             })
             .on("mouseout", () => {
                 this.tooltip.transition()
@@ -1273,20 +1275,15 @@ export class AdDistributionComponent implements AfterViewInit {
         cell.append("text")
             .attr("class", "treemap-label")
             .selectAll("tspan")
-            .data((d: any) => [d.data.domain.replace('.com', ''), `${d.data.totalPercent.toFixed(1)}%`])
+            // .data((d: any) => [d.data.domain.replace('.com', ''), `${d.data.totalPercent.toFixed(1)}%`])
+            .data((d: any) => [d.data.domain.replace('.com', '')])
             .enter().append("tspan")
+            .attr("font-size", "12px")
             .attr("x", 4)
             .attr("y", (d: any, i: number) => 12 + i * 10)
             .text((d: any) => d);
 
-        // Add title
-        // svg.append("text")
-        //     .attr("x", (width - margin.left - margin.right) / 2)
-        //     .attr("y", -10)
-        //     .attr("text-anchor", "middle")
-        //     .style("font-size", "16px")
-        //     .style("font-weight", "bold")
-        //     .text("Ad Tech Market Share (Treemap)");
+
 
         // Track selected legend items
         let selectedItems = new Set<string>();
@@ -1329,7 +1326,7 @@ export class AdDistributionComponent implements AfterViewInit {
 
 
         // ADD LEGEND - Show only in fullscreen mode or when space permits
-        // if (this.isFullscreen || width > 700) {
+
         const legendData = this.processedData.slice(0, 10).map((d: any) => ({
             domain: d.domain.replace('.com', ''),
             color: color(d.domain),
@@ -1381,7 +1378,6 @@ export class AdDistributionComponent implements AfterViewInit {
             .style("font-weight", "500")
             .style("fill", "#333")
             .text((d: any) => d.domain);
-        // .text((d: any) => `${d.domain} (${d.percent.toFixed(1)}%)`);
 
         // Legend title
         legendContainer.append("text")
@@ -1393,7 +1389,7 @@ export class AdDistributionComponent implements AfterViewInit {
             .text("Top 10 Providers");
 
         // ADD ANNOTATION for fullscreen mode
-        // if (this.isFullscreen) {
+
         svg.append("text")
             .attr("class", "fullscreen-annotation")
             .attr("x", width - margin.right - 50)
@@ -1402,9 +1398,8 @@ export class AdDistributionComponent implements AfterViewInit {
             .style("fill", "#666")
             .style("font-style", "italic")
             .style("text-anchor", "end")
-            .text("💡 Legend visible in fullscreen mode");
-        // }
-        // }
+            .text("💡 Click on Legend to interact with the chart");
+
 
         // Add reset button for better UX
         const resetButton = legendContainer.append("g")
@@ -1425,26 +1420,7 @@ export class AdDistributionComponent implements AfterViewInit {
                 d3.select(this).select("rect").attr("fill", "#f8f9fa");
             });
 
-        // resetButton.append("rect")
-        //     .attr("width", 35)
-        //     .attr("height", 20)
-        //     .attr("x", 1)
-        //     .attr("y", -25)
-        //     .attr("dy", "0.55em")
-        //     .attr("fill", "#f8f9fa")
-        //     .attr("stroke", "#2196f3")
-        //     .attr("stroke-width", 1)
-        //     .attr("rx", 4);
 
-        // resetButton.append("text")
-        //     .attr("x", 42.5)
-        //     .attr("y", 11)
-        //     .attr("dy", "0.35em")
-        //     .style("font-size", "12px")
-        //     .style("font-weight", "600")
-        //     .style("fill", "#2196f3")
-        //     .style("text-anchor", "middle")
-        // .text("Reset Filter");
 
         // Add reset icon
         resetButton.append("text")
@@ -1456,5 +1432,271 @@ export class AdDistributionComponent implements AfterViewInit {
             .style("fill", "#10181f")
             .text("⟲")
             .text("Reset");
+    }
+
+    private drawTreemap2(): void {
+
+        const width = 780;
+        const height = 500;
+        const margin = { top: 30, right: 30, bottom: 70, left: 70 };
+
+        const svg = d3.select('#treemap-chart')
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr('viewBox', `0 0 ${(width + margin.left + margin.right)} ${height + margin.top + margin.bottom}`)
+            .append("g")
+            .attr("transform", `translate(${margin.left - 200},${margin.top})`);
+
+        this.svgElements.push(svg);
+
+        // Color scale
+        const color = d3.scaleOrdinal()
+            .domain(this.processedData.map((d: any) => d.domain.replace('.com', '')))
+            .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), this.processedData.length).reverse());
+
+        // Hierarchical data structure for treemap
+        const root = d3.hierarchy({ children: this.processedData })
+            .sum((d: any) => d.totalPercent)
+            .sort((a, b) => b.value - a.value);
+
+        // Treemap layout
+        d3.treemap()
+            .size([width - margin.left - margin.right, height - margin.top - margin.bottom])
+            .padding(1)
+            (root as any);
+
+        // Create cells
+        const cell = svg.selectAll("g")
+            .data(root.leaves())
+            .enter().append("g")
+            .attr("class", "treemap-cell")
+            .attr("transform", (d: any) => `translate(${d.x0},${d.y0})`);
+
+        // Add rectangles
+        cell.append("rect")
+            .attr("width", (d: any) => d.x1 - d.x0)
+            .attr("height", (d: any) => d.y1 - d.y0)
+            .attr("fill", (d: any) => color(d.data.domain) as any)
+            .attr("data-domain", (d: any) => d.data.domain.replace('.com', ''))
+            .on("mouseover", (event: any, d: any) => {
+                this.tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                this.tooltip.html(`<strong>${d.data.domain.replace('.com', '')}</strong><br/>${d.data.totalPercent.toFixed(1)}% market share`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+
+                d3.select(this as any).attr("stroke", "#000").attr("stroke-width", 2);
+            })
+            .on("mouseout", () => {
+                this.tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+
+                d3.select(this as any).attr("stroke", null);
+            });
+
+        // Add labels
+        cell.append("text")
+            .attr("class", "treemap-label")
+            .attr("data-domain", (d: any) => d.data.domain.replace('.com', ''))
+            .selectAll("tspan")
+            .data((d: any) => [d.data.domain.replace('.com', ''), `${d.data.totalPercent.toFixed(1)}%`])
+            .enter().append("tspan")
+            .attr("x", 4)
+            .attr("y", (d: any, i: number) => 12 + i * 10)
+            .text((d: any) => d);
+
+        // Add title
+        svg.append("text")
+            .attr("x", (width - margin.left - margin.right) / 2)
+            .attr("y", -10)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("font-weight", "bold")
+            .text("Ad Tech Market Share (Treemap)");
+
+        // Track selected legend items
+        let selectedItems = new Set<string>();
+        let legendItems: any; // Declare variable to hold legend items
+
+        // ADD LEGEND - Show only in fullscreen mode or when space permits
+        if (this.isFullscreen || width > 700) {
+            const legendData = this.processedData.slice(0, 10).map((d: any) => ({
+                domain: d.domain.replace('.com', ''),
+                color: color(d.domain),
+                percent: d.totalPercent
+            }));
+
+            const legendContainer = svg.append("g")
+                .attr("class", "treemap-legend")
+                .attr("transform", `translate(${width - margin.right - 35}, 50)`);
+
+            legendItems = legendContainer.selectAll(".legend-item")
+                .data(legendData)
+                .enter().append("g")
+                .attr("class", "legend-item")
+                .attr("transform", (d: any, i: number) => `translate(0, ${i * 25})`)
+                .style("cursor", "pointer")
+                .on("click", function (event: any, d: any) {
+                    event.preventDefault();
+
+                    if (selectedItems.has(d.domain)) {
+                        selectedItems.delete(d.domain);
+                    } else {
+                        selectedItems.add(d.domain);
+                    }
+
+                    // If all items are now selected, reset to show all
+                    if (selectedItems.size === legendData.length) {
+                        selectedItems.clear();
+                    }
+
+                    updateVisibility();
+                })
+                .on("mouseover", function () {
+                    d3.select(this).style("transform", d3.select(this).attr("transform") + " scale(1.05)");
+                })
+                .on("mouseout", function () {
+                    const currentTransform = d3.select(this).attr("transform").replace(" scale(1.05)", "");
+                    d3.select(this).style("transform", currentTransform);
+                });
+
+            // Helper function to update visibility
+            const updateVisibility = () => {
+                const isAllSelected = selectedItems.size === 0 || selectedItems.size === this.processedData.slice(0, 10).length;
+
+                // Update treemap cells
+                cell.style("opacity", (d: any) => {
+                    const domain = d.data.domain.replace('.com', '');
+                    return isAllSelected ? 1 : (selectedItems.has(domain) ? 1 : 0.1);
+                });
+
+                // Update treemap labels
+                cell.selectAll(".treemap-label")
+                    .style("opacity", (d: any) => {
+                        const domain = d.data.domain.replace('.com', '');
+                        return isAllSelected ? 1 : (selectedItems.has(domain) ? 1 : 0.1);
+                    });
+
+                // Update legend items
+                legendItems.style("opacity", (d: any) => {
+                    return isAllSelected ? 1 : (selectedItems.has(d.domain) ? 1 : 0.3);
+                });
+
+                // Update legend item styling
+                legendItems.selectAll("rect")
+                    .attr("stroke-width", (d: any) => {
+                        return isAllSelected ? 0.5 : (selectedItems.has(d.domain) ? 2 : 0.5);
+                    })
+                    .attr("stroke", (d: any) => {
+                        return isAllSelected ? "#333" : (selectedItems.has(d.domain) ? "#000" : "#999");
+                    });
+
+                legendItems.selectAll("text")
+                    .style("font-weight", (d: any) => {
+                        return isAllSelected ? "500" : (selectedItems.has(d.domain) ? "bold" : "normal");
+                    });
+            };
+
+            // Legend rectangles
+            legendItems.append("rect")
+                .attr("width", 18)
+                .attr("height", 18)
+                .attr("fill", (d: any) => d.color)
+                .attr("stroke", "#333")
+                .attr("stroke-width", 0.5)
+                .attr("rx", 2);
+
+            // Legend text
+            legendItems.append("text")
+                .attr("x", 25)
+                .attr("y", 9)
+                .attr("dy", "0.35em")
+                .style("font-size", this.isFullscreen ? "14px" : "12px")
+                .style("font-weight", "500")
+                .style("fill", "#333")
+                .text((d: any) => `${d.domain} (${d.percent.toFixed(1)}%)`);
+
+            // Legend title
+            legendContainer.append("text")
+                .attr("x", 0)
+                .attr("y", -10)
+                .style("font-size", this.isFullscreen ? "16px" : "14px")
+                .style("font-weight", "bold")
+                .style("fill", "#2c3e50")
+                .text("Top Providers");
+
+            // ADD ANNOTATION for fullscreen mode
+            if (this.isFullscreen) {
+                svg.append("text")
+                    .attr("class", "fullscreen-annotation")
+                    .attr("x", width - margin.right - 50)
+                    .attr("y", height - margin.bottom + 40)
+                    .style("font-size", "12px")
+                    .style("fill", "#666")
+                    .style("font-style", "italic")
+                    .style("text-anchor", "end")
+                    .text("💡 Click legend items to filter • Legend visible in fullscreen mode");
+            } else {
+                // Add instruction for non-fullscreen mode if legend is visible
+                svg.append("text")
+                    .attr("class", "legend-instruction")
+                    .attr("x", width - margin.right - 50)
+                    .attr("y", height - margin.bottom + 20)
+                    .style("font-size", "11px")
+                    .style("fill", "#666")
+                    .style("font-style", "italic")
+                    .style("text-anchor", "end")
+                    .text("💡 Click legend items to filter");
+            }
+
+            // Add reset button for better UX
+            const resetButton = legendContainer.append("g")
+                .attr("class", "reset-button")
+                .attr("transform", `translate(0, ${legendData.length * 25 + 20})`)
+                .style("cursor", "pointer")
+                .style("opacity", 0.8)
+                .on("click", () => {
+                    selectedItems.clear();
+                    updateVisibility();
+                })
+                .on("mouseover", function () {
+                    d3.select(this).style("opacity", 1);
+                    d3.select(this).select("rect").attr("fill", "#e3f2fd");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).style("opacity", 0.8);
+                    d3.select(this).select("rect").attr("fill", "#f8f9fa");
+                });
+
+            resetButton.append("rect")
+                .attr("width", 85)
+                .attr("height", 22)
+                .attr("fill", "#f8f9fa")
+                .attr("stroke", "#2196f3")
+                .attr("stroke-width", 1)
+                .attr("rx", 4);
+
+            resetButton.append("text")
+                .attr("x", 42.5)
+                .attr("y", 11)
+                .attr("dy", "0.35em")
+                .style("font-size", "12px")
+                .style("font-weight", "600")
+                .style("fill", "#2196f3")
+                .style("text-anchor", "middle")
+                .text("Reset Filter");
+
+            // Add reset icon
+            resetButton.append("text")
+                .attr("x", 8)
+                .attr("y", 11)
+                .attr("dy", "0.35em")
+                .style("font-size", "12px")
+                .style("fill", "#2196f3")
+                .text("⟲");
+        }
     }
 }

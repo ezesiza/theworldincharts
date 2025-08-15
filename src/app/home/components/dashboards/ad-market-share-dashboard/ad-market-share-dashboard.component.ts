@@ -199,7 +199,10 @@ export class AdTechMarketShareComponent implements AfterViewInit {
     cell.append("text")
       .attr("class", "treemap-label")
       .selectAll("tspan")
-      .data((d: any) => [d.data.domain, `${d.data.totalPercent.toFixed(1)}%`])
+      .data((d: any) => {
+        console.log(d);
+        return [d.data.domain, `${d.data.totalPercent.toFixed(1)}%`]
+      })
       .enter().append("tspan")
       .attr("x", 4)
       .attr("y", (d: any, i: number) => 12 + i * 10)
