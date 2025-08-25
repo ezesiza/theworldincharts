@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routes';
+import { LucideAngularModule, icons } from 'lucide-angular';
 
 import { SingleCardComponent } from './home/components/shared/single-card/single-card.component';
 import { DonutChartComponent } from './home/components/charts/donut-chart/donut-chart.component';
@@ -85,6 +86,10 @@ import { CostPricingDashboardComponent } from './home/components/dashboards/cost
 import { ClickAnalysisDashboardComponent } from './home/components/dashboards/click-analysis-dashboard/click-analysis-dashboard.component';
 import { AdTechMarketShareComponent } from './home/components/dashboards/ad-market-share-dashboard/ad-market-share-dashboard.component';
 import { AdDistributionComponent } from './home/components/dashboards/ad-market-share-dashboard/ad-distribution.component';
+import { RedditDataDashboardComponent } from './home/components/dashboards/reddit-data-dashboard/reddit-data-dashboard.component';
+import { AttributionPlatformDashboardComponent } from './home/components/dashboards/attribution-platform-dashboard/attribution-platform-dashboard.component';
+import { AttributionModelDashboardComponent } from './home/components/dashboards/attribution-model-dashboard/attribution-model-dashboard.component';
+import { DataVizServicesComponent } from './home/components/data-viz-services/data-viz-services.component';
 
 
 @NgModule({
@@ -119,6 +124,10 @@ import { AdDistributionComponent } from './home/components/dashboards/ad-market-
     ClickAnalysisDashboardComponent,
     AdTechMarketShareComponent,
     AdDistributionComponent,
+    RedditDataDashboardComponent,
+    AttributionPlatformDashboardComponent,
+    AttributionModelDashboardComponent,
+    DataVizServicesComponent,
     HorizontalDivergingBarComponent,
     AdvertiserDashboardComponent,
     SankeyComponent,
@@ -169,6 +178,7 @@ import { AdDistributionComponent } from './home/components/dashboards/ad-market-
     StoreModule.forRoot(reducers),
     StoreModule.forFeature('voronoi', voronoiReducer),
     EffectsModule.forFeature([VoronoiEffects]),
+    LucideAngularModule.pick(icons),
   ],
   providers: [VoronoiStateService],
   bootstrap: [AppComponent],

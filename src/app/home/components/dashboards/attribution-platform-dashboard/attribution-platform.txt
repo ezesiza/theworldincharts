@@ -1,0 +1,501 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import * as d3 from 'd3';
+import { Settings, TrendingUp, Users, Eye, MousePointer, ShoppingCart, Mail, Calendar, Smartphone, Monitor, Tablet } from 'lucide-react';
+
+const AttributionPlatform = () => {
+  const [selectedModel, setSelectedModel] = useState('linear');
+  const [timeWindow, setTimeWindow] = useState(30);
+  const [selectedJourney, setSelectedJourney] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
+  const svgRef = useRef();
+
+  // Sample user journey data
+  const userJourneys = [
+    {
+      id: 'user_001',
+      device: 'mobile',
+      touchpoints: [
+        { channel: 'Facebook Ad', timestamp: new Date('2025-01-15'), cost: 2.5, device: 'mobile' },
+        { channel: 'Google Search', timestamp: new Date('2025-01-17'), cost: 3.2, device: 'desktop' },
+        { channel: 'Email', timestamp: new Date('2025-01-20'), cost: 0.1, device: 'mobile' },
+        { channel: 'Direct', timestamp: new Date('2025-01-22'), cost: 0, device: 'desktop' }
+      ],
+      conversion: { value: 89.99, timestamp: new Date('2025-01-22') }
+    },
+    {
+      id: 'user_002',
+      device: 'desktop',
+      touchpoints: [
+        { channel: 'Display Ad', timestamp: new Date('2025-01-14'), cost: 1.8, device: 'desktop' },
+        { channel: 'YouTube Ad', timestamp: new Date('2025-01-16'), cost: 4.1, device: 'mobile' },
+        { channel: 'Google Search', timestamp: new Date('2025-01-18'), cost: 2.9, device: 'desktop' },
+        { channel: 'Retargeting', timestamp: new Date('2025-01-19'), cost: 3.5, device: 'tablet' }
+      ],
+      conversion: { value: 149.99, timestamp: new Date('2025-01-19') }
+    },
+    {
+      id: 'user_003',
+      device: 'tablet',
+      touchpoints: [
+        { channel: 'Instagram Ad', timestamp: new Date('2025-01-10'), cost: 2.1, device: 'mobile' },
+        { channel: 'Email', timestamp: new Date('2025-01-12'), cost: 0.1, device: 'desktop' },
+        { channel: 'Google Search', timestamp: new Date('2025-01-14'), cost: 2.7, device: 'tablet' }
+      ],
+      conversion: { value: 67.50, timestamp: new Date('2025-01-14') }
+    }
+  ];
+
+  // Attribution model calculations
+  const calculateAttribution = (journey, model) => {
+    const touchpoints = journey.touchpoints;
+    const totalValue = journey.conversion.value;
+    
+    switch (model) {
+      case 'first-click':
+        return touchpoints.map((tp, idx) => ({
+          ...tp,
+          attribution: idx === 0 ? totalValue : 0
+        }));
+      
+      case 'last-click':
+        return touchpoints.map((tp, idx) => ({
+          ...tp,
+          attribution: idx === touchpoints.length - 1 ? totalValue : 0
+        }));
+      
+      case 'linear':
+        const linearValue = totalValue / touchpoints.length;
+        return touchpoints.map(tp => ({
+          ...tp,
+          attribution: linearValue
+        }));
+      
+      case 'time-decay':
+        const decayFactor = 0.7;
+        const weights = touchpoints.map((_, idx) => 
+          Math.pow(decayFactor, touchpoints.length - 1 - idx)
+        );
+        const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+        return touchpoints.map((tp, idx) => ({
+          ...tp,
+          attribution: (weights[idx] / totalWeight) * totalValue
+        }));
+      
+      case 'position-based':
+        const firstLastWeight = 0.4;
+        const middleWeight = 0.2 / Math.max(1, touchpoints.length - 2);
+        return touchpoints.map((tp, idx) => {
+          let weight;
+          if (idx === 0 || idx === touchpoints.length - 1) {
+            weight = firstLastWeight;
+          } else {
+            weight = middleWeight;
+          }
+          return {
+            ...tp,
+            attribution: weight * totalValue
+          };
+        });
+      
+      default:
+        return touchpoints.map(tp => ({ ...tp, attribution: 0 }));
+    }
+  };
+
+  // Aggregate attribution data
+  const aggregateAttribution = () => {
+    const channelData = {};
+    
+    userJourneys.forEach(journey => {
+      const attributedTouchpoints = calculateAttribution(journey, selectedModel);
+      attributedTouchpoints.forEach(tp => {
+        if (!channelData[tp.channel]) {
+          channelData[tp.channel] = {
+            channel: tp.channel,
+            attribution: 0,
+            cost: 0,
+            conversions: 0,
+            roas: 0
+          };
+        }
+        channelData[tp.channel].attribution += tp.attribution;
+        channelData[tp.channel].cost += tp.cost;
+        if (tp.attribution > 0) {
+          channelData[tp.channel].conversions += 1;
+        }
+      });
+    });
+
+    Object.values(channelData).forEach(channel => {
+      channel.roas = channel.cost > 0 ? channel.attribution / channel.cost : 0;
+    });
+
+    return Object.values(channelData);
+  };
+
+  // Device distribution data
+  const deviceData = [
+    { name: 'Mobile', value: 45, color: '#8884d8' },
+    { name: 'Desktop', value: 35, color: '#82ca9d' },
+    { name: 'Tablet', value: 20, color: '#ffc658' }
+  ];
+
+  // D3.js Journey Visualization
+  useEffect(() => {
+    if (!selectedJourney) return;
+
+    const svg = d3.select(svgRef.current);
+    svg.selectAll('*').remove();
+
+    const width = 800;
+    const height = 300;
+    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+
+    const journey = userJourneys.find(j => j.id === selectedJourney);
+    if (!journey) return;
+
+    const attributedTouchpoints = calculateAttribution(journey, selectedModel);
+
+    const xScale = d3.scaleTime()
+      .domain(d3.extent(attributedTouchpoints, d => d.timestamp))
+      .range([margin.left, width - margin.right]);
+
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(attributedTouchpoints, d => d.attribution)])
+      .range([height - margin.bottom, margin.top]);
+
+    const colorScale = d3.scaleOrdinal()
+      .domain(['mobile', 'desktop', 'tablet'])
+      .range(['#8884d8', '#82ca9d', '#ffc658']);
+
+    // Add axes
+    svg.append('g')
+      .attr('transform', `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat('%m/%d')));
+
+    svg.append('g')
+      .attr('transform', `translate(${margin.left},0)`)
+      .call(d3.axisLeft(yScale).tickFormat(d => `$${d.toFixed(0)}`));
+
+    // Add line
+    const line = d3.line()
+      .x(d => xScale(d.timestamp))
+      .y(d => yScale(d.attribution))
+      .curve(d3.curveMonotoneX);
+
+    svg.append('path')
+      .datum(attributedTouchpoints)
+      .attr('fill', 'none')
+      .attr('stroke', '#4f46e5')
+      .attr('stroke-width', 2)
+      .attr('d', line);
+
+    // Add circles for touchpoints
+    svg.selectAll('.touchpoint')
+      .data(attributedTouchpoints)
+      .enter()
+      .append('circle')
+      .attr('class', 'touchpoint')
+      .attr('cx', d => xScale(d.timestamp))
+      .attr('cy', d => yScale(d.attribution))
+      .attr('r', 6)
+      .attr('fill', d => colorScale(d.device))
+      .attr('stroke', '#fff')
+      .attr('stroke-width', 2);
+
+    // Add labels
+    svg.selectAll('.label')
+      .data(attributedTouchpoints)
+      .enter()
+      .append('text')
+      .attr('class', 'label')
+      .attr('x', d => xScale(d.timestamp))
+      .attr('y', d => yScale(d.attribution) - 10)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '12px')
+      .attr('fill', '#374151')
+      .text(d => d.channel);
+
+  }, [selectedJourney, selectedModel]);
+
+  const attributionData = aggregateAttribution();
+
+  const getDeviceIcon = (device) => {
+    switch (device) {
+      case 'mobile': return <Smartphone className="h-4 w-4" />;
+      case 'desktop': return <Monitor className="h-4 w-4" />;
+      case 'tablet': return <Tablet className="h-4 w-4" />;
+      default: return <Monitor className="h-4 w-4" />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Attribution Modeling Platform</h1>
+              <p className="text-gray-600 mt-1">Privacy-compliant multi-touch attribution analysis</p>
+            </div>
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <Settings className="h-4 w-4" />
+              Settings
+            </button>
+          </div>
+        </div>
+
+        {/* Settings Panel */}
+        {showSettings && (
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <h3 className="text-lg font-semibold mb-4">Attribution Settings</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Attribution Model
+                </label>
+                <select
+                  value={selectedModel}
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="linear">Linear</option>
+                  <option value="first-click">First Click</option>
+                  <option value="last-click">Last Click</option>
+                  <option value="time-decay">Time Decay</option>
+                  <option value="position-based">Position Based</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Lookback Window (Days)
+                </label>
+                <input
+                  type="number"
+                  value={timeWindow}
+                  onChange={(e) => setTimeWindow(Number(e.target.value))}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  min="1"
+                  max="90"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Journey to Visualize
+                </label>
+                <select
+                  value={selectedJourney || ''}
+                  onChange={(e) => setSelectedJourney(e.target.value || null)}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Journey</option>
+                  {userJourneys.map(journey => (
+                    <option key={journey.id} value={journey.id}>
+                      User {journey.id.slice(-3)} ({journey.touchpoints.length} touchpoints)
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Revenue</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  ${userJourneys.reduce((sum, j) => sum + j.conversion.value, 0).toFixed(2)}
+                </p>
+              </div>
+              <TrendingUp className="h-8 w-8 text-green-500" />
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Conversions</p>
+                <p className="text-2xl font-bold text-gray-900">{userJourneys.length}</p>
+              </div>
+              <ShoppingCart className="h-8 w-8 text-blue-500" />
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Avg Journey Length</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {(userJourneys.reduce((sum, j) => sum + j.touchpoints.length, 0) / userJourneys.length).toFixed(1)}
+                </p>
+              </div>
+              <Eye className="h-8 w-8 text-purple-500" />
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Cross-Device Rate</p>
+                <p className="text-2xl font-bold text-gray-900">67%</p>
+              </div>
+              <Users className="h-8 w-8 text-orange-500" />
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Attribution Results */}
+          <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 className="text-lg font-semibold mb-4">Channel Attribution ({selectedModel.replace('-', ' ')})</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={attributionData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="channel" />
+                <YAxis />
+                <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, 'Attribution']} />
+                <Bar dataKey="attribution" fill="#4f46e5" />
+              </BarChart>
+            </ResponsiveContainer>
+            
+            <div className="mt-6">
+              <h4 className="font-medium mb-3">Channel Performance</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="text-left p-2 font-medium">Channel</th>
+                      <th className="text-right p-2 font-medium">Attribution</th>
+                      <th className="text-right p-2 font-medium">Cost</th>
+                      <th className="text-right p-2 font-medium">ROAS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {attributionData.map((channel, idx) => (
+                      <tr key={idx} className="border-t border-gray-100">
+                        <td className="p-2 font-medium">{channel.channel}</td>
+                        <td className="p-2 text-right">${channel.attribution.toFixed(2)}</td>
+                        <td className="p-2 text-right">${channel.cost.toFixed(2)}</td>
+                        <td className="p-2 text-right">
+                          <span className={`px-2 py-1 rounded text-xs ${
+                            channel.roas > 3 ? 'bg-green-100 text-green-800' :
+                            channel.roas > 1 ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-red-100 text-red-800'
+                          }`}>
+                            {channel.roas.toFixed(2)}x
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* Device Distribution */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 className="text-lg font-semibold mb-4">Device Distribution</h3>
+            <ResponsiveContainer width="100%" height={200}>
+              <PieChart>
+                <Pie
+                  data={deviceData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({name, value}) => `${name}: ${value}%`}
+                >
+                  {deviceData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+            
+            <div className="mt-4 space-y-2">
+              {deviceData.map((device, idx) => (
+                <div key={idx} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {getDeviceIcon(device.name.toLowerCase())}
+                    <span className="text-sm">{device.name}</span>
+                  </div>
+                  <span className="text-sm font-medium">{device.value}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Journey Visualization */}
+        {selectedJourney && (
+          <div className="mt-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 className="text-lg font-semibold mb-4">
+              Customer Journey Visualization - {selectedJourney}
+            </h3>
+            <div className="overflow-x-auto">
+              <svg ref={svgRef} width="800" height="300" className="border border-gray-200 rounded"></svg>
+            </div>
+            
+            {/* Journey Details */}
+            <div className="mt-4">
+              <h4 className="font-medium mb-2">Journey Details</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {userJourneys.find(j => j.id === selectedJourney)?.touchpoints.map((tp, idx) => {
+                  const attributed = calculateAttribution(userJourneys.find(j => j.id === selectedJourney), selectedModel)[idx];
+                  return (
+                    <div key={idx} className="bg-gray-50 rounded-lg p-3">
+                      <div className="flex items-center gap-2 mb-2">
+                        {getDeviceIcon(tp.device)}
+                        <span className="font-medium text-sm">{tp.channel}</span>
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        <p>Cost: ${tp.cost.toFixed(2)}</p>
+                        <p>Attribution: ${attributed.attribution.toFixed(2)}</p>
+                        <p>Date: {tp.timestamp.toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Privacy & Compliance */}
+        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-blue-900 mb-2">Privacy-Compliant Tracking</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-blue-800">
+            <div>
+              <h4 className="font-medium mb-1">✓ Cookieless Solutions</h4>
+              <p>Server-side tracking with first-party data collection</p>
+            </div>
+            <div>
+              <h4 className="font-medium mb-1">✓ GDPR Compliant</h4>
+              <p>Consent management and data anonymization</p>
+            </div>
+            <div>
+              <h4 className="font-medium mb-1">✓ Cross-Device Identity</h4>
+              <p>Probabilistic matching with privacy preservation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AttributionPlatform;

@@ -42,6 +42,10 @@ import { CostPricingDashboardComponent } from './home/components/dashboards/cost
 import { ClickAnalysisDashboardComponent } from './home/components/dashboards/click-analysis-dashboard/click-analysis-dashboard.component';
 import { AdTechMarketShareComponent } from './home/components/dashboards/ad-market-share-dashboard/ad-market-share-dashboard.component';
 import { AdDistributionComponent } from './home/components/dashboards/ad-market-share-dashboard/ad-distribution.component';
+import { RedditDataDashboardComponent } from './home/components/dashboards/reddit-data-dashboard/reddit-data-dashboard.component';
+import { AttributionPlatformDashboardComponent } from './home/components/dashboards/attribution-platform-dashboard/attribution-platform-dashboard.component';
+import { AttributionModelDashboardComponent } from './home/components/dashboards/attribution-model-dashboard/attribution-model-dashboard.component';
+import { DataVizServicesComponent } from './home/components/data-viz-services/data-viz-services.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -64,6 +68,10 @@ export const routes: Routes = [
     { path: 'finance', component: FinanceDashboardComponent },
     { path: 'revenue', component: AutomatedRevenueManagement },
     { path: 'adshare', component: AdDistributionComponent },
+    { path: 'reddit', component: RedditDataDashboardComponent },
+    { path: 'attribution', component: AttributionPlatformDashboardComponent },
+    { path: 'atrrmodel', component: AttributionModelDashboardComponent },
+    { path: 'service', component: DataVizServicesComponent },
     { path: 'market', component: MarketCapitalizationComponent },
     { path: 'founalytics', component: PerformanceMetricsComponent },
     { path: 'cpm', component: CpmDashboardComponent },

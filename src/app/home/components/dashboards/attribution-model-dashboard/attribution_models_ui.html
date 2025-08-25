@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Attribution Models</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .model-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .model-title {
+            font-size: 1.5rem;
+            color: #4a5568;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .model-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .data-driven .model-icon { background: #4299e1; }
+        .shapley .model-icon { background: #48bb78; }
+        .markov .model-icon { background: #ed8936; }
+        .custom .model-icon { background: #9f7aea; }
+
+        .model-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .chart-container {
+            min-height: 300px;
+            position: relative;
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            background: #f8fafc;
+        }
+
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .slider {
+            flex: 1;
+            height: 5px;
+            border-radius: 5px;
+            background: #e2e8f0;
+            outline: none;
+            appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .tooltip {
+            position: absolute;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 1000;
+        }
+
+        .legend {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .stats-panel {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            color: #4a5568;
+        }
+
+        .journey-visualization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            padding: 10px;
+        }
+
+        .touchpoint {
+            min-width: 80px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+        }
+
+        .arrow {
+            font-size: 20px;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .models-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced Attribution Models</h1>
+        
+        <div class="models-grid">
+            <!-- Data-Driven Attribution -->
+            <div class="model-card data-driven">
+                <div class="model-title">
+                    <div class="model-icon">ML</div>
+                    Data-Driven Attribution
+                </div>
+                <div class="model-description">
+                    Uses machine learning algorithms to automatically determine optimal attribution weights based on historical conversion data and customer behavior patterns.
+                </div>
+                <div class="chart-container" id="data-driven-chart"></div>
+                <div class="controls">
+                    <button class="btn" onclick="generateMLModel()">Generate ML Model</button>
+                    <button class="btn" onclick="trainModel()">Train Model</button>
+                </div>
+                <div class="stats-panel">
+                    <div class="stat-item">
+                        <span>Model Accuracy:</span>
+                        <span id="ml-accuracy">87.3%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Training Epochs:</span>
+                        <span id="ml-epochs">150</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shapley Value Attribution -->
+            <div class="model-card shapley">
+                <div class="model-title">
+                    <div class="model-icon">Φ</div>
+                    Shapley Value Attribution
+                </div>
+                <div class="model-description">
+                    Game theory-based approach that fairly distributes attribution credit by calculating each touchpoint's marginal contribution across all possible combinations.
+                </div>
+                <div class="chart-container" id="shapley-chart"></div>
+                <div class="controls">
+                    <button class="btn" onclick="calculateShapley()">Calculate Shapley Values</button>
+                    <button class="btn" onclick="showCoalitions()">Show Coalitions</button>
+                </div>
+                <div class="stats-panel">
+                    <div class="stat-item">
+                        <span>Coalition Count:</span>
+                        <span id="coalition-count">32</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Fairness Index:</span>
+                        <span id="fairness-index">0.94</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Markov Chain Attribution -->
+            <div class="model-card markov">
+                <div class="model-title">
+                    <div class="model-icon">⟶</div>
+                    Markov Chain Attribution
+                </div>
+                <div class="model-description">
+                    Models customer journey as probabilistic state transitions, calculating attribution based on transition probabilities and removal effects.
+                </div>
+                <div class="chart-container" id="markov-chart"></div>
+                <div class="controls">
+                    <button class="btn" onclick="buildMarkovChain()">Build Chain</button>
+                    <button class="btn" onclick="simulateJourneys()">Simulate Journeys</button>
+                </div>
+                <div class="journey-visualization" id="markov-journey"></div>
+                <div class="stats-panel">
+                    <div class="stat-item">
+                        <span>Transition Matrix Size:</span>
+                        <span id="matrix-size">8x8</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Convergence Rate:</span>
+                        <span id="convergence-rate">0.89</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Model Builder -->
+            <div class="model-card custom">
+                <div class="model-title">
+                    <div class="model-icon">⚙</div>
+                    Custom Model Builder
+                </div>
+                <div class="model-description">
+                    Create custom attribution rules with weighted touchpoints, position-based models, and time-decay functions tailored to your business logic.
+                </div>
+                <div class="chart-container" id="custom-chart"></div>
+                <div class="controls">
+                    <div class="slider-container">
+                        <label>First Touch:</label>
+                        <input type="range" class="slider" id="first-touch" min="0" max="100" value="40" oninput="updateCustomModel()">
+                        <span id="first-value">40%</span>
+                    </div>
+                    <div class="slider-container">
+                        <label>Middle Touch:</label>
+                        <input type="range" class="slider" id="middle-touch" min="0" max="100" value="20" oninput="updateCustomModel()">
+                        <span id="middle-value">20%</span>
+                    </div>
+                    <div class="slider-container">
+                        <label>Last Touch:</label>
+                        <input type="range" class="slider" id="last-touch" min="0" max="100" value="40" oninput="updateCustomModel()">
+                        <span id="last-value">40%</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="btn" onclick="applyTimeDecay()">Apply Time Decay</button>
+                    <button class="btn" onclick="saveCustomModel()">Save Model</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Global variables
+        const tooltip = d3.select("#tooltip");
+        let mlData = [];
+        let shapleyData = [];
+        let markovData = [];
+        let customData = [];
+
+        // Initialize all visualizations
+        function initializeVisualizations() {
+            generateMLModel();
+            calculateShapley();
+            buildMarkovChain();
+            updateCustomModel();
+        }
+
+        // Data-Driven Attribution ML Model
+        function generateMLModel() {
+            const channels = ['Email', 'Social', 'Search', 'Display', 'Direct', 'Referral'];
+            mlData = channels.map(channel => ({
+                channel: channel,
+                importance: Math.random() * 0.8 + 0.1,
+                confidence: Math.random() * 0.3 + 0.7
+            }));
+
+            const container = d3.select("#data-driven-chart");
+            container.selectAll("*").remove();
+
+            const margin = { top: 20, right: 30, bottom: 60, left: 80 };
+            const width = 500 - margin.left - margin.right;
+            const height = 250 - margin.bottom - margin.top;
+
+            const svg = container.append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+
+            const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleLinear()
+                .domain([0, 1])
+                .range([0, width]);
+
+            const y = d3.scaleBand()
+                .domain(mlData.map(d => d.channel))
+                .range([0, height])
+                .padding(0.2);
+
+            // Create bars
+            g.selectAll(".bar")
+                .data(mlData)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", 0)
+                .attr("y", d => y(d.channel))
+                .attr("width", 0)
+                .attr("height", y.bandwidth())
+                .attr("fill", "#4299e1")
+                .attr("opacity", 0.8)
+                .transition()
+                .duration(1000)
+                .attr("width", d => x(d.importance));
+
+            // Add axes
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x).tickFormat(d3.format(".0%")));
+
+            g.append("g")
+                .call(d3.axisLeft(y));
+
+            // Add labels
+            g.selectAll(".label")
+                .data(mlData)
+                .enter().append("text")
+                .attr("class", "label")
+                .attr("x", d => x(d.importance) + 5)
+                .attr("y", d => y(d.channel) + y.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .style("font-size", "12px")
+                .style("fill", "#4a5568")
+                .text(d => `${(d.importance * 100).toFixed(1)}%`);
+        }
+
+        function trainModel() {
+            let epochs = 0;
+            const maxEpochs = 200;
+            const interval = setInterval(() => {
+                epochs += 5;
+                document.getElementById('ml-epochs').textContent = epochs;
+                
+                const accuracy = Math.min(95, 75 + (epochs / maxEpochs) * 20);
+                document.getElementById('ml-accuracy').textContent = accuracy.toFixed(1) + '%';
+                
+                if (epochs >= maxEpochs) {
+                    clearInterval(interval);
+                    generateMLModel(); // Refresh visualization
+                }
+            }, 100);
+        }
+
+        // Shapley Value Attribution
+        function calculateShapley() {
+            const channels = ['Email', 'Social', 'Search', 'Display', 'Direct'];
+            shapleyData = channels.map(channel => ({
+                channel: channel,
+                shapley: Math.random() * 0.4 + 0.1,
+                marginal: Math.random() * 0.3 + 0.05
+            }));
+
+            const container = d3.select("#shapley-chart");
+            container.selectAll("*").remove();
+
+            const margin = { top: 20, right: 30, bottom: 40, left: 80 };
+            const width = 500 - margin.left - margin.right;
+            const height = 250 - margin.top - margin.bottom;
+
+            const svg = container.append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+
+            const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleLinear()
+                .domain([0, d3.max(shapleyData, d => d.shapley)])
+                .range([0, width]);
+
+            const y = d3.scaleBand()
+                .domain(shapleyData.map(d => d.channel))
+                .range([0, height])
+                .padding(0.1);
+
+            // Create Shapley bars
+            g.selectAll(".shapley-bar")
+                .data(shapleyData)
+                .enter().append("rect")
+                .attr("class", "shapley-bar")
+                .attr("x", 0)
+                .attr("y", d => y(d.channel))
+                .attr("width", 0)
+                .attr("height", y.bandwidth() / 2)
+                .attr("fill", "#48bb78")
+                .transition()
+                .duration(1000)
+                .delay((d, i) => i * 100)
+                .attr("width", d => x(d.shapley));
+
+            // Create marginal contribution bars
+            g.selectAll(".marginal-bar")
+                .data(shapleyData)
+                .enter().append("rect")
+                .attr("class", "marginal-bar")
+                .attr("x", 0)
+                .attr("y", d => y(d.channel) + y.bandwidth() / 2)
+                .attr("width", 0)
+                .attr("height", y.bandwidth() / 2)
+                .attr("fill", "#68d391")
+                .attr("opacity", 0.7)
+                .transition()
+                .duration(1000)
+                .delay((d, i) => i * 100)
+                .attr("width", d => x(d.marginal));
+
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x));
+
+            g.append("g")
+                .call(d3.axisLeft(y));
+        }
+
+        function showCoalitions() {
+            document.getElementById('coalition-count').textContent = Math.floor(Math.random() * 20) + 20;
+            document.getElementById('fairness-index').textContent = (Math.random() * 0.1 + 0.9).toFixed(2);
+            calculateShapley(); // Refresh with new data
+        }
+
+        // Markov Chain Attribution
+        function buildMarkovChain() {
+            const states = ['Start', 'Email', 'Social', 'Search', 'Display', 'Conversion'];
+            markovData = [];
+
+            // Create sample transition data
+            for (let i = 0; i < states.length; i++) {
+                for (let j = 0; j < states.length; j++) {
+                    if (i !== j) {
+                        markovData.push({
+                            source: states[i],
+                            target: states[j],
+                            probability: Math.random() * 0.3 + 0.05
+                        });
+                    }
+                }
+            }
+
+            visualizeMarkovChain();
+            updateMarkovJourney();
+        }
+
+        function visualizeMarkovChain() {
+            const container = d3.select("#markov-chart");
+            container.selectAll("*").remove();
+
+            const width = 500;
+            const height = 250;
+
+            const svg = container.append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const states = ['Start', 'Email', 'Social', 'Search', 'Display', 'Conversion'];
+            const nodeData = states.map((state, i) => ({
+                id: state,
+                x: (width / (states.length + 1)) * (i + 1),
+                y: height / 2 + (i % 2 === 0 ? -30 : 30)
+            }));
+
+            // Create force simulation
+            const simulation = d3.forceSimulation(nodeData)
+                .force("charge", d3.forceManyBody().strength(-300))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collision", d3.forceCollide().radius(30));
+
+            // Add links
+            const links = svg.selectAll(".link")
+                .data(markovData.filter(d => d.probability > 0.15))
+                .enter().append("line")
+                .attr("class", "link")
+                .attr("stroke", "#999")
+                .attr("stroke-width", d => d.probability * 10)
+                .attr("opacity", 0.6);
+
+            // Add nodes
+            const nodes = svg.selectAll(".node")
+                .data(nodeData)
+                .enter().append("circle")
+                .attr("class", "node")
+                .attr("r", 20)
+                .attr("fill", (d, i) => d3.schemeCategory10[i])
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 2);
+
+            // Add labels
+            const labels = svg.selectAll(".node-label")
+                .data(nodeData)
+                .enter().append("text")
+                .attr("class", "node-label")
+                .attr("text-anchor", "middle")
+                .attr("dy", 4)
+                .style("font-size", "10px")
+                .style("font-weight", "bold")
+                .style("fill", "white")
+                .text(d => d.id.substr(0, 4));
+
+            simulation.on("tick", () => {
+                links
+                    .attr("x1", d => nodeData.find(n => n.id === d.source).x)
+                    .attr("y1", d => nodeData.find(n => n.id === d.source).y)
+                    .attr("x2", d => nodeData.find(n => n.id === d.target).x)
+                    .attr("y2", d => nodeData.find(n => n.id === d.target).y);
+
+                nodes
+                    .attr("cx", d => d.x)
+                    .attr("cy", d => d.y);
+
+                labels
+                    .attr("x", d => d.x)
+                    .attr("y", d => d.y);
+            });
+        }
+
+        function updateMarkovJourney() {
+            const journeyContainer = d3.select("#markov-journey");
+            journeyContainer.selectAll("*").remove();
+
+            const journey = ['Email', 'Social', 'Search', 'Display', 'Conversion'];
+            const colors = ['#e53e3e', '#dd6b20', '#d69e2e', '#38a169', '#3182ce'];
+
+            journey.forEach((step, i) => {
+                if (i > 0) {
+                    journeyContainer.append("div")
+                        .attr("class", "arrow")
+                        .html("→");
+                }
+
+                journeyContainer.append("div")
+                    .attr("class", "touchpoint")
+                    .style("background", colors[i])
+                    .text(step);
+            });
+        }
+
+        function simulateJourneys() {
+            document.getElementById('matrix-size').textContent = 
+                Math.floor(Math.random() * 5 + 6) + 'x' + Math.floor(Math.random() * 5 + 6);
+            document.getElementById('convergence-rate').textContent = 
+                (Math.random() * 0.2 + 0.8).toFixed(2);
+            buildMarkovChain();
+        }
+
+        // Custom Model Builder
+        function updateCustomModel() {
+            const firstTouch = document.getElementById('first-touch').value;
+            const middleTouch = document.getElementById('middle-touch').value;
+            const lastTouch = document.getElementById('last-touch').value;
+
+            document.getElementById('first-value').textContent = firstTouch + '%';
+            document.getElementById('middle-value').textContent = middleTouch + '%';
+            document.getElementById('last-value').textContent = lastTouch + '%';
+
+            customData = [
+                { position: 'First Touch', weight: +firstTouch / 100 },
+                { position: 'Middle Touch', weight: +middleTouch / 100 },
+                { position: 'Last Touch', weight: +lastTouch / 100 }
+            ];
+
+            visualizeCustomModel();
+        }
+
+        function visualizeCustomModel() {
+            const container = d3.select("#custom-chart");
+            container.selectAll("*").remove();
+
+            const margin = { top: 20, right: 30, bottom: 40, left: 100 };
+            const width = 500 - margin.left - margin.right;
+            const height = 200 - margin.top - margin.bottom;
+
+            const svg = container.append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+
+            const g = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const x = d3.scaleLinear()
+                .domain([0, 1])
+                .range([0, width]);
+
+            const y = d3.scaleBand()
+                .domain(customData.map(d => d.position))
+                .range([0, height])
+                .padding(0.3);
+
+            const colors = ['#9f7aea', '#805ad5', '#6b46c1'];
+
+            g.selectAll(".custom-bar")
+                .data(customData)
+                .enter().append("rect")
+                .attr("class", "custom-bar")
+                .attr("x", 0)
+                .attr("y", d => y(d.position))
+                .attr("width", 0)
+                .attr("height", y.bandwidth())
+                .attr("fill", (d, i) => colors[i])
+                .attr("rx", 5)
+                .transition()
+                .duration(500)
+                .attr("width", d => x(d.weight));
+
+            g.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x).tickFormat(d3.format(".0%")));
+
+            g.append("g")
+                .call(d3.axisLeft(y));
+        }
+
+        function applyTimeDecay() {
+            // Simulate time decay effect
+            const decay = Math.random() * 0.3 + 0.5;
+            document.getElementById('middle-touch').value = Math.floor(
+                document.getElementById('middle-touch').value * decay
+            );
+            updateCustomModel();
+        }
+
+        function saveCustomModel() {
+            const model = {
+                firstTouch: document.getElementById('first-touch').value,
+                middleTouch: document.getElementById('middle-touch').value,
+                lastTouch: document.getElementById('last-touch').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Simulate saving (in real app, would send to backend)
+            alert('Custom attribution model saved successfully!');
+        }
+
+        // Initialize all visualizations when page loads
+        window.addEventListener('load', initializeVisualizations);
+    </script>
+</body>
+</html>

@@ -50,6 +50,7 @@ export class LandingComponent implements OnInit {
     { name: 'Cyber Incidents', route: '/incidents', category: 'Charts' },
     { name: 'US States Population', route: '/states', category: 'Charts' },
     { name: 'Area', route: '/area', category: 'Charts' },
+    { name: 'Rates & Billing', route: '/service', category: 'Services' },
 
     { name: 'Click Analysis', route: '/click', category: 'Finance, Ads & Market' },
     { name: 'Revenue Management', route: '/revenue', category: 'Finance, Ads & Market' },

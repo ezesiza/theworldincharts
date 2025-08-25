@@ -1,0 +1,214 @@
+<div class="min-h-screen bg-gray-50 p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Attribution Modeling Platform</h1>
+                    <p class="text-gray-600 mt-1">Privacy-compliant multi-touch attribution analysis</p>
+                </div>
+                <button (click)="toggleSettings()"
+                    class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <lucide-icon name="settings" class="h-4 w-4"></lucide-icon>
+                    Settings
+                </button>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div *ngIf="showSettings" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">Attribution Settings</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Attribution Model
+                    </label>
+                    <select [(ngModel)]="selectedModel" (change)="updateCharts()"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="linear">Linear</option>
+                        <option value="first-click">First Click</option>
+                        <option value="last-click">Last Click</option>
+                        <option value="time-decay">Time Decay</option>
+                        <option value="position-based">Position Based</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Lookback Window (Days)
+                    </label>
+                    <input type="number" [(ngModel)]="timeWindow"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        min="1" max="90" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Journey to Visualize
+                    </label>
+                    <select [(ngModel)]="selectedJourney" (change)="updateJourneyVisualization()"
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Select Journey</option>
+                        <option *ngFor="let journey of userJourneys" [value]="journey.id">
+                            User {{journey.id.slice(-3)}} ({{journey.touchpoints.length}} touchpoints)
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Revenue</p>
+                        <p class="text-2xl font-bold text-gray-900">
+                            ${{getTotalRevenue().toFixed(2)}}
+                        </p>
+                    </div>
+                    <lucide-icon name="trending-up" class="h-8 w-8 text-green-500"></lucide-icon>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Conversions</p>
+                        <p class="text-2xl font-bold text-gray-900">{{userJourneys.length}}</p>
+                    </div>
+                    <lucide-icon name="shopping-cart" class="h-8 w-8 text-blue-500"></lucide-icon>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Avg Journey Length</p>
+                        <p class="text-2xl font-bold text-gray-900">
+                            {{getAverageJourneyLength().toFixed(1)}}
+                        </p>
+                    </div>
+                    <lucide-icon name="eye" class="h-8 w-8 text-purple-500"></lucide-icon>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Cross-Device Rate</p>
+                        <p class="text-2xl font-bold text-gray-900">67%</p>
+                    </div>
+                    <lucide-icon name="users" class="h-8 w-8 text-orange-500"></lucide-icon>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Attribution Results -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 class="text-lg font-semibold mb-4">Channel Attribution ({{getModelDisplayName()}})</h3>
+                <div #barChart class="w-full h-80 mb-6"></div>
+
+                <div class="mt-6">
+                    <h4 class="font-medium mb-3">Channel Performance</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="text-left p-2 font-medium">Channel</th>
+                                    <th class="text-right p-2 font-medium">Attribution</th>
+                                    <th class="text-right p-2 font-medium">Cost</th>
+                                    <th class="text-right p-2 font-medium">ROAS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let channel of attributionData" class="border-t border-gray-100">
+                                    <td class="p-2 font-medium">{{channel.channel}}</td>
+                                    <td class="p-2 text-right">\${{channel.attribution.toFixed(2)}}</td>
+                                    <td class="p-2 text-right">\${{channel.cost.toFixed(2)}}</td>
+                                    <td class="p-2 text-right">
+                                        <span [ngClass]="{
+                          'bg-green-100 text-green-800': channel.roas > 3,
+                          'bg-yellow-100 text-yellow-800': channel.roas > 1 && channel.roas <= 3,
+                          'bg-red-100 text-red-800': channel.roas <= 1
+                        }" class="px-2 py-1 rounded text-xs">
+                                            {{channel.roas.toFixed(2)}}x
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Device Distribution -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h3 class="text-lg font-semibold mb-4">Device Distribution</h3>
+                <div #pieChart class="w-full h-52 mb-4"></div>
+
+                <div class="mt-4 space-y-2">
+                    <div *ngFor="let device of deviceData" class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <lucide-icon [name]="getDeviceIconName(device.name)" class="h-4 w-4">
+                            </lucide-icon>
+                            <span class="text-sm">{{device.name}}</span>
+                        </div>
+                        <span class="text-sm font-medium">{{device.value}}%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Journey Visualization -->
+        <div *ngIf="selectedJourney" class="mt-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold mb-4">
+                Customer Journey Visualization - {{selectedJourney}}
+            </h3>
+            <div class="overflow-x-auto">
+                <div #journeyChart class="w-full h-80 border border-gray-200 rounded"></div>
+            </div>
+
+            <!-- Journey Details -->
+            <div class="mt-4">
+                <h4 class="font-medium mb-2">Journey Details</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div *ngFor="let tp of getSelectedJourneyTouchpoints(); let idx = index"
+                        class="bg-gray-50 rounded-lg p-3">
+                        <div class="flex items-center gap-2 mb-2">
+                            <lucide-icon [name]="getDeviceIconName(tp.device)" class="h-4 w-4">
+                            </lucide-icon>
+                            <span class="font-medium text-sm">{{tp.channel}}</span>
+                        </div>
+                        <div class="text-xs text-gray-600">
+                            <p>Cost: \${{tp.cost.toFixed(2)}}</p>
+                            <p>Attribution: \${{(tp.attribution || 0).toFixed(2)}}</p>
+                            <p>Date: {{tp.timestamp.toLocaleDateString()}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy & Compliance -->
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-blue-900 mb-2">Privacy-Compliant Tracking</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-blue-800">
+                <div>
+                    <h4 class="font-medium mb-1">✓ Cookieless Solutions</h4>
+                    <p>Server-side tracking with first-party data collection</p>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-1">✓ GDPR Compliant</h4>
+                    <p>Consent management and data anonymization</p>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-1">✓ Cross-Device Identity</h4>
+                    <p>Probabilistic matching with privacy preservation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

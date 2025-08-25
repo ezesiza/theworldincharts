@@ -1,0 +1,235 @@
+<div class="container">
+    <h1>Advanced Attribution Models</h1>
+
+    <div class="models-grid">
+        <!-- Data-Driven Attribution -->
+        <div class="model-card data-driven">
+            <div class="model-title">
+                <div class="model-icon">ML</div>
+                Data-Driven Attribution
+            </div>
+            <div class="model-description">
+                Uses machine learning algorithms to automatically determine optimal attribution weights based on
+                historical conversion data and customer behavior patterns.
+            </div>
+            <div class="chart-container" id="data-driven-chart"></div>
+            <div class="controls">
+                <button class="btn" (click)="generateMLModel()">Generate ML Model</button>
+                <button class="btn" (click)="trainModel()">Train Model</button>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span>Model Accuracy:</span>
+                    <span>{{ mlAccuracy }}</span>
+                </div>
+                <div class="stat-item">
+                    <span>Training Epochs:</span>
+                    <span>{{ mlEpochs }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shapley Value Attribution -->
+        <div class="model-card shapley">
+            <div class="model-title">
+                <div class="model-icon">Φ</div>
+                Shapley Value Attribution
+            </div>
+            <div class="model-description">
+                Game theory-based approach that fairly distributes attribution credit by calculating each touchpoint's
+                marginal contribution across all possible combinations.
+            </div>
+            <div class="chart-container" id="shapley-chart"></div>
+            <div class="controls">
+                <button class="btn" (click)="calculateShapley()">Calculate Shapley Values</button>
+                <button class="btn" (click)="showCoalitions()">Show Coalitions</button>
+            </div>
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span>Coalition Count:</span>
+                    <span>{{ coalitionCount }}</span>
+                </div>
+                <div class="stat-item">
+                    <span>Fairness Index:</span>
+                    <span>{{ fairnessIndex }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Markov Chain Attribution -->
+        <div class="model-card markov">
+            <div class="model-title">
+                <div class="model-icon">⟶</div>
+                Markov Chain Attribution
+            </div>
+            <div class="model-description">
+                Models customer journey as probabilistic state transitions, calculating attribution based on transition
+                probabilities and removal effects.
+            </div>
+            <button class="fullscreen-btn" (click)="toggleMarkovFullscreen()" title="Toggle Fullscreen">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                </svg>
+            </button>
+            <div class="chart-container" id="markov-chart">
+            </div>
+            <div class="controls">
+                <button class="btn" (click)="buildMarkovChain()">Build Chain</button>
+                <button class="btn" (click)="simulateJourneys()">Simulate Journeys</button>
+            </div>
+            <div class="journey-visualization" id="markov-journey"></div>
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span>Transition Matrix Size:</span>
+                    <span>{{ matrixSize }}</span>
+                </div>
+                <div class="stat-item">
+                    <span>Convergence Rate:</span>
+                    <span>{{ convergenceRate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Model Builder -->
+        <div class="model-card custom">
+            <div class="model-title">
+                <div class="model-icon">⚙</div>
+                Custom Model Builder
+            </div>
+            <div class="model-description">
+                Create custom attribution rules with weighted touchpoints, position-based models, and time-decay
+                functions tailored to your business logic.
+            </div>
+            <div class="chart-container" id="custom-chart"></div>
+            <div class="controls">
+                <div class="slider-container">
+                    <label>First Touch:</label>
+                    <input type="range" class="slider" [value]="firstTouchWeight" (input)="onFirstTouchChange($event)"
+                        min="0" max="100">
+                    <span>{{ firstTouchWeight }}%</span>
+                </div>
+                <div class="slider-container">
+                    <label>Middle Touch:</label>
+                    <input type="range" class="slider" [value]="middleTouchWeight" (input)="onMiddleTouchChange($event)"
+                        min="0" max="100">
+                    <span>{{ middleTouchWeight }}%</span>
+                </div>
+                <div class="slider-container">
+                    <label>Last Touch:</label>
+                    <input type="range" class="slider" [value]="lastTouchWeight" (input)="onLastTouchChange($event)"
+                        min="0" max="100">
+                    <span>{{ lastTouchWeight }}%</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn" (click)="applyTimeDecay()">Apply Time Decay</button>
+                <button class="btn" (click)="saveCustomModel()">Save Model</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<!-- Fullscreen overlay for Markov chart -->
+<div class="fullscreen-overlay" id="markov-fullscreen-overlay" [class.active]="isMarkovFullscreen">
+    <div class="fullscreen-header">
+        <h2>Markov Chain Attribution - Fullscreen View</h2>
+        <button class="close-btn" (click)="toggleMarkovFullscreen()" title="Exit Fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    <div class="fullscreen-chart-container" id="markov-fullscreen-chart"></div>
+    <div class="fullscreen-controls">
+        <button class="btn" (click)="buildMarkovChainFullscreen()">Rebuild Chain</button>
+        <button class="btn" (click)="simulateJourneys()">Simulate Journeys</button>
+    </div>
+</div>
+
+<!-- Modal overlay for drill-down insights -->
+<div class="modal-overlay" [class.active]="selectedChannel" (click)="closeDrillDown()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>{{ selectedChannel }} - Detailed Analysis</h2>
+            <button class="modal-close-btn" (click)="closeDrillDown()" title="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="insight-grid">
+                <div class="insight-card">
+                    <h4>Performance Metrics</h4>
+                    <div class="metric-item">
+                        <span>Conversion Rate:</span>
+                        <span class="metric-value">{{ selectedChannelData?.conversionRate | percent:'1.1-1' }}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>Click-Through Rate:</span>
+                        <span class="metric-value">{{ selectedChannelData?.ctr | percent:'1.1-1' }}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>Cost per Acquisition:</span>
+                        <span class="metric-value">${{ selectedChannelData?.cpa | number:'1.0-0' }}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>Revenue per Click:</span>
+                        <span class="metric-value">${{ selectedChannelData?.rpc | number:'1.2-2' }}</span>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Customer Journey Insights</h4>
+                    <div class="journey-metrics">
+                        <div class="journey-item">
+                            <span>First Touch Rate:</span>
+                            <span>{{ selectedChannelData?.firstTouchRate | percent:'1.1-1' }}</span>
+                        </div>
+                        <div class="journey-item">
+                            <span>Last Touch Rate:</span>
+                            <span>{{ selectedChannelData?.lastTouchRate | percent:'1.1-1' }}</span>
+                        </div>
+                        <div class="journey-item">
+                            <span>Assisted Conversions:</span>
+                            <span>{{ selectedChannelData?.assistedConversions | number:'1.0-0' }}</span>
+                        </div>
+                        <div class="journey-item">
+                            <span>Time to Conversion:</span>
+                            <span>{{ selectedChannelData?.timeToConversion | number:'1.0-0' }} days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Audience Demographics</h4>
+                    <div class="demographics-chart" id="demographics-chart-{{ selectedChannel }}"></div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Seasonal Patterns</h4>
+                    <div class="seasonal-chart" id="seasonal-chart-{{ selectedChannel }}"></div>
+                </div>
+            </div>
+
+            <div class="recommendations-panel">
+                <h4>AI Recommendations</h4>
+                <div class="recommendation-list">
+                    <div class="recommendation-item" *ngFor="let rec of selectedChannelData?.recommendations">
+                        <div class="rec-icon">💡</div>
+                        <div class="rec-content">
+                            <div class="rec-title">{{ rec.title }}</div>
+                            <div class="rec-description">{{ rec.description }}</div>
+                            <div class="rec-impact">Expected Impact: {{ rec.impact }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

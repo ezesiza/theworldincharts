@@ -1,0 +1,414 @@
+<!-- reddit-data-dashboard.component.html - FIXED VERSION -->
+<div class="dashboard-container">
+    <div class="dashboard-content">
+        <!-- Header Section -->
+        <div class="header-section">
+            <h1 class="dashboard-title">
+                Reddit Data Dashboard
+            </h1>
+            <p class="dashboard-subtitle">Analyzing trending data from Reddit API with interactive
+                visualizations</p>
+            <div class="status-panel">
+                <div class="status-indicators">
+                    <div class="status-item">
+                        <div class="status-dot status-dot-live"></div>
+                        <span class="status-text">Live Data</span>
+                    </div>
+                    <div class="status-divider"></div>
+                    <div class="status-item">
+                        <div class="status-dot status-dot-api"></div>
+                        <span class="status-text">JSON API Structure</span>
+                    </div>
+                    <div class="status-divider"></div>
+                    <div class="status-item">
+                        <div class="status-dot status-dot-charts"></div>
+                        <span class="status-text">Interactive Charts</span>
+                    </div>
+                </div>
+                <div class="status-actions">
+                    <button class="refresh-button" (click)="refreshData()" [disabled]="loading">
+                        <svg class="refresh-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        {{ loading ? 'Loading...' : 'Refresh Data' }}
+                    </button>
+                </div>
+                <p class="status-description">
+                    Reddit uses a nested JSON structure with "kind" and "data" fields, where posts are type "t3"
+                </p>
+                <p class="status-note">
+                    Note: Due to CORS restrictions, we're using proxy services to access Reddit's API. If all proxies
+                    fail, mock data will be displayed.
+                </p>
+                <div class="cache-info">
+                    <p class="cache-status">
+                        Cache: <span class="cache-indicator" [class.cached]="hasCachedData()">{{ hasCachedData() ?
+                            'Available' : 'None' }}</span>
+                        <span *ngIf="hasCachedData()" class="cache-time">({{ getCacheAge() }})</span>
+                    </p>
+                    <div class="cache-actions">
+                        <button class="cache-btn cache-clear" (click)="clearCache()" title="Clear all cached data">
+                            <svg class="cache-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Clear Cache
+                        </button>
+                        <button class="cache-btn cache-info" (click)="showCacheInfo()" title="Show cache information">
+                            <svg class="cache-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Cache Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="loading" class="loading-container">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-title">{{ loadingMessage }}</div>
+                <div class="loading-subtitle">Fetching the latest trending posts</div>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="error && !loading" class="error-container">
+            <div class="error-content">
+                <div class="error-icon">⚠️</div>
+                <div class="error-title">Failed to Load Data</div>
+                <div class="error-message">{{ errorMessage }}</div>
+                <button class="retry-button" (click)="refreshData()">
+                    <svg class="retry-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    Try Again
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div *ngIf="!loading" class="dashboard-main">
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stats-card">
+                    <div class="stats-content">
+                        <div class="stats-info">
+                            <p class="stats-label">Total Posts</p>
+                            <p class="stats-value">{{ posts.length }}</p>
+                        </div>
+                        <div class="stats-icon stats-icon-posts">
+                            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <div class="stats-content">
+                        <div class="stats-info">
+                            <p class="stats-label">Avg Score</p>
+                            <p class="stats-value">{{ averageScore }}</p>
+                        </div>
+                        <div class="stats-icon stats-icon-score">
+                            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <div class="stats-content">
+                        <div class="stats-info">
+                            <p class="stats-label">Total Comments</p>
+                            <p class="stats-value">{{ totalComments }}</p>
+                        </div>
+                        <div class="stats-icon stats-icon-comments">
+                            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <div class="stats-content">
+                        <div class="stats-info">
+                            <p class="stats-label">Subreddits</p>
+                            <p class="stats-value">{{ subredditChartData.length }}</p>
+                        </div>
+                        <div class="stats-icon stats-icon-subreddits">
+                            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- Post Scores Bar Chart -->
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Post Scores</h2>
+                        <div class="chart-badge chart-badge-trending">
+                            <span class="badge-text">Trending</span>
+                        </div>
+                    </div>
+                    <div id="bar-chart" class="chart-container"></div>
+                </div>
+
+                <!-- Subreddit Distribution Pie Chart -->
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Subreddit Distribution</h2>
+                        <div class="chart-badge chart-badge-popular">
+                            <span class="badge-text">Popular</span>
+                        </div>
+                    </div>
+                    <div id="pie-chart" class="chart-container"></div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <!-- Score vs Comments Scatter Plot -->
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Score vs Comments</h2>
+                        <div class="chart-badge chart-badge-correlation">
+                            <span class="badge-text">Correlation</span>
+                        </div>
+                    </div>
+                    <div id="scatter-plot" class="chart-container"></div>
+                </div>
+
+                <!-- Comments Line Chart -->
+                <div class="chart-panel">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Comment Activity</h2>
+                        <div class="chart-badge chart-badge-timeline">
+                            <span class="badge-text">Timeline</span>
+                        </div>
+                    </div>
+                    <div id="line-chart" class="chart-container"></div>
+                </div>
+            </div>
+
+            <!-- Enhanced Data Table -->
+            <div class="data-table-container">
+                <div class="table-header">
+                    <div class="table-header-content">
+                        <h2 class="table-title">Detailed Post Data</h2>
+                        <div class="table-badges">
+                            <div class="table-badge table-badge-posts">
+                                <span class="badge-text">{{ posts.length }} Posts</span>
+                            </div>
+                            <div class="table-badge table-badge-live">
+                                <span class="badge-text">Live Data</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr class="table-header-row">
+                                <th class="table-header-cell">
+                                    <div class="header-content">
+                                        <span>Title</span>
+                                        <svg class="header-icon" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 16a1 1 0 011-1h4a1 1 0 110 2H4a1 1 0 01-1-1z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th class="table-header-cell">
+                                    <div class="header-content">
+                                        <span>Community</span>
+                                        <svg class="header-icon" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th class="table-header-cell">
+                                    <div class="header-content">
+                                        <span>Author</span>
+                                        <svg class="header-icon" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th class="table-header-cell">
+                                    <div class="header-content">
+                                        <span>Score</span>
+                                        <svg class="header-icon" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th class="table-header-cell">
+                                    <div class="header-content">
+                                        <span>Comments</span>
+                                        <svg class="header-icon" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                                <th class="table-header-cell">
+                                    <div class="header-content">
+                                        <span>Posted</span>
+                                        <svg class="header-icon" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body">
+                            <tr *ngFor="let post of posts; let i = index" class="table-row">
+                                <td class="table-cell">
+                                    <div class="post-content">
+                                        <div class="post-indicator">
+                                            <div class="post-dot"
+                                                [style.background-color]="getSubredditColor(post.subreddit)">
+                                            </div>
+                                        </div>
+                                        <div class="post-details">
+                                            <p class="post-title" [title]="post.title">
+                                                {{ post.title }}
+                                            </p>
+                                            <p class="post-text" *ngIf="post.selftext">
+                                                {{ post.selftext.substring(0, 80) }}{{ post.selftext.length > 80 ? '...'
+                                                : '' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="table-cell">
+                                    <span class="subreddit-badge"
+                                        [style.background-color]="getSubredditColor(post.subreddit) + '20'"
+                                        [style.color]="getSubredditColor(post.subreddit)">
+                                        <svg class="badge-icon" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm5 3a1 1 0 000 2h2a1 1 0 100-2H9zm-3 6a1 1 0 100-2 1 1 0 000 2zm7-2a1 1 0 11-2 0 1 1 0 012 0z">
+                                            </path>
+                                        </svg>
+                                        r/{{ post.subreddit }}
+                                    </span>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="author-content">
+                                        <div class="author-avatar">
+                                            <span class="author-initial">{{
+                                                post.author.charAt(0).toUpperCase() }}</span>
+                                        </div>
+                                        <span class="author-name">
+                                            u/{{ post.author }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="score-content">
+                                        <span class="score-value">{{ formatNumber(post.score) }}</span>
+                                        <div class="score-indicator">
+                                            <svg class="score-icon" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                    d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span class="score-ups">{{ post.ups }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="comments-content">
+                                        <span class="comments-value">{{ formatNumber(post.num_comments) }}</span>
+                                        <div class="comments-badge">
+                                            <span class="comments-count">{{ post.num_comments }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="table-cell">
+                                    <div class="time-content">
+                                        <span class="time-ago">{{ getTimeAgo(post.created_utc) }}</span>
+                                        <div class="time-indicator"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Footer Section -->
+            <div class="footer-section">
+                <div class="insights-panel">
+                    <h3 class="insights-title">Data Insights</h3>
+                    <div class="insights-grid">
+                        <div class="insight-item">
+                            <div class="insight-icon insight-icon-discussed">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <p class="insight-label">Most Discussed</p>
+                            <p class="insight-value">{{ mostDiscussed }}</p>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon insight-icon-engagement">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <p class="insight-label">Engagement Ratio</p>
+                            <p class="insight-value">{{ averageEngRatio }}</p>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-icon insight-icon-interactions">
+                                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <p class="insight-label">Total Interactions</p>
+                            <p class="insight-value">{{ totalInteractions }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
