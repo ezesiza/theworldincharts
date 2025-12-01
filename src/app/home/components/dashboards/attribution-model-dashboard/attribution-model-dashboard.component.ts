@@ -48,6 +48,40 @@ interface Recommendation {
   impact: string;
 }
 
+interface ShapleyInsights {
+  efficiencyScore: number;
+  stabilityIndex: number;
+  coreStability: number;
+  nucleolusDistance: number;
+  bargainingPower: number;
+  coalitionEfficiency: number;
+  gameTheoryInsights: GameTheoryInsight[];
+}
+
+interface GameTheoryInsight {
+  title: string;
+  description: string;
+  impact: string;
+}
+
+interface CustomModelInsights {
+  accuracy: number;
+  predictionError: number;
+  rSquared: number;
+  crossValidationScore: number;
+  vsLastTouch: number;
+  vsFirstTouch: number;
+  vsLinear: number;
+  vsDataDriven: number;
+  optimizationSuggestions: OptimizationSuggestion[];
+}
+
+interface OptimizationSuggestion {
+  title: string;
+  description: string;
+  improvement: string;
+}
+
 @Component({
   selector: 'app-attribution-model-dashboard',
   templateUrl: './attribution-model-dashboard.component.html',
@@ -80,6 +114,14 @@ export class AttributionModelDashboardComponent implements OnInit, OnDestroy {
   // Drill-down state
   selectedChannel: string | null = null;
   selectedChannelData: ChannelInsights | null = null;
+
+  // Shapley drill-down state
+  showShapleyModal = false;
+  shapleyInsights: ShapleyInsights | null = null;
+
+  // Custom Model drill-down state
+  showCustomModal = false;
+  customModelData: CustomModelInsights | null = null;
 
   // Training interval
   private trainingInterval: any;
@@ -795,5 +837,361 @@ export class AttributionModelDashboardComponent implements OnInit, OnDestroy {
       .attr("fill", "#48bb78")
       .attr("stroke", "white")
       .attr("stroke-width", 2);
+  }
+
+  // Shapley Value drill-down methods
+  showShapleyDrillDown(): void {
+    this.showShapleyModal = true;
+    this.shapleyInsights = null;
+
+    // Simulate data loading
+    setTimeout(() => {
+      this.shapleyInsights = {
+        efficiencyScore: Math.random() * 0.3 + 0.7,
+        stabilityIndex: Math.random() * 0.5 + 0.5,
+        coreStability: Math.random() * 0.4 + 0.6,
+        nucleolusDistance: Math.random() * 0.2,
+        bargainingPower: Math.random() * 0.8 + 0.2,
+        coalitionEfficiency: Math.random() * 0.3 + 0.7,
+        gameTheoryInsights: [
+          {
+            title: 'Coalition Stability Analysis',
+            description: 'The current coalition structure shows high stability with minimal defection incentives.',
+            impact: 'High Stability'
+          },
+          {
+            title: 'Marginal Contribution Optimization',
+            description: 'Optimizing marginal contributions can improve fairness by 15-20%.',
+            impact: 'Medium Improvement'
+          },
+          {
+            title: 'Core Solution Feasibility',
+            description: 'The core solution exists and is computationally feasible for this game.',
+            impact: 'Theoretical Confirmation'
+          }
+        ]
+      };
+
+      // Render charts
+      setTimeout(() => {
+        this.renderMarginalContributionsChart();
+        this.renderCoalitionPowerChart();
+      }, 100);
+    }, 500);
+  }
+
+  closeShapleyDrillDown(): void {
+    this.showShapleyModal = false;
+    this.shapleyInsights = null;
+  }
+
+  // Custom Model drill-down methods
+  showCustomModelDrillDown(): void {
+    this.showCustomModal = true;
+    this.customModelData = null;
+
+    // Simulate data loading
+    setTimeout(() => {
+      this.customModelData = {
+        accuracy: Math.random() * 0.2 + 0.8,
+        predictionError: Math.random() * 0.1,
+        rSquared: Math.random() * 0.3 + 0.7,
+        crossValidationScore: Math.random() * 0.2 + 0.8,
+        vsLastTouch: (Math.random() - 0.5) * 0.2,
+        vsFirstTouch: (Math.random() - 0.5) * 0.2,
+        vsLinear: (Math.random() - 0.5) * 0.15,
+        vsDataDriven: (Math.random() - 0.5) * 0.1,
+        optimizationSuggestions: [
+          {
+            title: 'Adjust First Touch Weight',
+            description: 'Consider increasing first touch weight to 45% for better customer acquisition attribution.',
+            improvement: '+8.5% Accuracy'
+          },
+          {
+            title: 'Implement Time Decay',
+            description: 'Add exponential time decay function to reduce impact of older touchpoints.',
+            improvement: '+12.3% Precision'
+          },
+          {
+            title: 'Optimize Middle Touch',
+            description: 'Fine-tune middle touch attribution based on customer journey analysis.',
+            improvement: '+5.7% Recall'
+          }
+        ]
+      };
+
+      // Render charts
+      setTimeout(() => {
+        this.renderWeightAnalysisChart();
+        this.renderTimeDecayChart();
+      }, 100);
+    }, 500);
+  }
+
+  closeCustomDrillDown(): void {
+    this.showCustomModal = false;
+    this.customModelData = null;
+  }
+
+  // Chart rendering methods for Shapley drill-down
+  private renderMarginalContributionsChart(): void {
+    const container = d3.select("#marginal-contributions-chart");
+    container.selectAll("*").remove();
+
+    const width = 280;
+    const height = 180;
+
+    const svg = container.append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const data = this.shapleyData.map((d: any, i: number) => ({
+      channel: d.channel,
+      marginal: d.marginal,
+      shapley: d.shapley
+    }));
+
+    const x = d3.scaleBand()
+      .domain(data.map((d: any) => d.channel))
+      .range([0, width])
+      .padding(0.1);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, (d: any) => Math.max(d.marginal, d.shapley)) || 0])
+      .range([height, 0]);
+
+    // Add axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Add marginal contribution bars
+    svg.selectAll(".marginal-bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "marginal-bar")
+      .attr("x", (d: any) => x(d.channel) || 0)
+      .attr("y", (d: any) => y(d.marginal))
+      .attr("width", x.bandwidth() / 2)
+      .attr("height", (d: any) => height - y(d.marginal))
+      .attr("fill", "#68d391")
+      .attr("opacity", 0.7);
+
+    // Add Shapley value bars
+    svg.selectAll(".shapley-bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "shapley-bar")
+      .attr("x", (d: any) => (x(d.channel) || 0) + x.bandwidth() / 2)
+      .attr("y", (d: any) => y(d.shapley))
+      .attr("width", x.bandwidth() / 2)
+      .attr("height", (d: any) => height - y(d.shapley))
+      .attr("fill", "#48bb78")
+      .attr("opacity", 0.8);
+  }
+
+  private renderCoalitionPowerChart(): void {
+    const container = d3.select("#coalition-power-chart");
+    container.selectAll("*").remove();
+
+    const width = 280;
+    const height = 180;
+
+    const svg = container.append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const data = [
+      { size: 1, power: Math.random() * 0.3 + 0.1 },
+      { size: 2, power: Math.random() * 0.4 + 0.2 },
+      { size: 3, power: Math.random() * 0.5 + 0.3 },
+      { size: 4, power: Math.random() * 0.6 + 0.4 },
+      { size: 5, power: Math.random() * 0.7 + 0.5 }
+    ];
+
+    const x = d3.scaleLinear()
+      .domain([1, 5])
+      .range([0, width]);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, (d: any) => d.power) || 0])
+      .range([height, 0]);
+
+    // Add axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x).ticks(5));
+
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Create line generator
+    const line = d3.line()
+      .x((d: any) => x(d.size))
+      .y((d: any) => y(d.power))
+      .curve(d3.curveMonotoneX);
+
+    // Add line
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "#ed8936")
+      .attr("stroke-width", 3)
+      .attr("d", line as any);
+
+    // Add points
+    svg.selectAll(".power-point")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "power-point")
+      .attr("cx", (d: any) => x(d.size))
+      .attr("cy", (d: any) => y(d.power))
+      .attr("r", 5)
+      .attr("fill", "#ed8936")
+      .attr("stroke", "white")
+      .attr("stroke-width", 2);
+  }
+
+  // Chart rendering methods for Custom Model drill-down
+  private renderWeightAnalysisChart(): void {
+    const container = d3.select("#weight-analysis-chart");
+    container.selectAll("*").remove();
+
+    const width = 280;
+    const height = 180;
+
+    const svg = container.append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const data = [
+      { position: 'First Touch', weight: this.firstTouchWeight / 100, optimal: 0.45 },
+      { position: 'Middle Touch', weight: this.middleTouchWeight / 100, optimal: 0.25 },
+      { position: 'Last Touch', weight: this.lastTouchWeight / 100, optimal: 0.30 }
+    ];
+
+    const x = d3.scaleBand()
+      .domain(data.map((d: any) => d.position))
+      .range([0, width])
+      .padding(0.2);
+
+    const y = d3.scaleLinear()
+      .domain([0, 1])
+      .range([height, 0]);
+
+    // Add axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g")
+      .call(d3.axisLeft(y).tickFormat(d3.format(".0%") as any));
+
+    // Add current weight bars
+    svg.selectAll(".current-bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "current-bar")
+      .attr("x", (d: any) => x(d.position) || 0)
+      .attr("y", (d: any) => y(d.weight))
+      .attr("width", x.bandwidth() / 2)
+      .attr("height", (d: any) => height - y(d.weight))
+      .attr("fill", "#9f7aea")
+      .attr("opacity", 0.8);
+
+    // Add optimal weight bars
+    svg.selectAll(".optimal-bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "optimal-bar")
+      .attr("x", (d: any) => (x(d.position) || 0) + x.bandwidth() / 2)
+      .attr("y", (d: any) => y(d.optimal))
+      .attr("width", x.bandwidth() / 2)
+      .attr("height", (d: any) => height - y(d.optimal))
+      .attr("fill", "#805ad5")
+      .attr("opacity", 0.6);
+  }
+
+  private renderTimeDecayChart(): void {
+    const container = d3.select("#time-decay-chart");
+    container.selectAll("*").remove();
+
+    const width = 280;
+    const height = 180;
+
+    const svg = container.append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const data = Array.from({ length: 30 }, (_, i) => ({
+      day: i + 1,
+      impact: Math.exp(-0.1 * (i + 1)) * (0.8 + Math.random() * 0.4)
+    }));
+
+    const x = d3.scaleLinear()
+      .domain([1, 30])
+      .range([0, width]);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, (d: any) => d.impact) || 0])
+      .range([height, 0]);
+
+    // Add axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x).ticks(6));
+
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Create line generator
+    const line = d3.line()
+      .x((d: any) => x(d.day))
+      .y((d: any) => y(d.impact))
+      .curve(d3.curveMonotoneX);
+
+    // Add line
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "#6b46c1")
+      .attr("stroke-width", 3)
+      .attr("d", line as any);
+
+    // Add area under the line
+    const area = d3.area()
+      .x((d: any) => x(d.day))
+      .y0(height)
+      .y1((d: any) => y(d.impact))
+      .curve(d3.curveMonotoneX);
+
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "url(#timeDecayGradient)")
+      .attr("opacity", 0.3)
+      .attr("d", area as any);
+
+    // Add gradient
+    const defs = svg.append("defs");
+    const gradient = defs.append("linearGradient")
+      .attr("id", "timeDecayGradient")
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", 0)
+      .attr("y2", height);
+
+    gradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#6b46c1")
+      .attr("stop-opacity", 0.8);
+
+    gradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#6b46c1")
+      .attr("stop-opacity", 0.1);
   }
 }

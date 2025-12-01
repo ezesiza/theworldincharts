@@ -1,0 +1,113 @@
+<div class="football-pitch-container">
+    <div class="pitch-title">Interactive Football Pitch</div>
+    <div class="controls">
+        <button class="control-btn" (click)="toggle3DView()">
+            {{ is3DView ? '2D View' : '3D View' }}
+        </button>
+        <button class="control-btn" (click)="toggleAnimation()">
+            {{ isAnimating ? 'Stop Animation' : 'Start Animation' }}
+        </button>
+        <button class="control-btn pause-btn" (click)="togglePause()" [disabled]="!isAnimating"
+            [class.disabled]="!isAnimating">
+            {{ isPaused ? 'Resume' : 'Pause' }}
+        </button>
+        <button class="control-btn" (click)="toggleHeatmap()">
+            {{ showHeatmap ? 'Hide Heatmap' : 'Show Heatmap' }}
+        </button>
+        <button class="control-btn" (click)="toggleLegend()">
+            {{ showLegend ? 'Hide Legend' : 'Show Legend' }}
+        </button>
+    </div>
+
+    <div class="pitch-and-legend">
+        <div #pitchContainer class="pitch-svg-container"></div>
+
+        <!-- Legend Panel -->
+        <div class="legend-panel" [class.hidden]="!showLegend">
+            <div class="legend-header">
+                <h3>Match Legend</h3>
+                <button class="legend-close" (click)="toggleLegend()">×</button>
+            </div>
+
+            <!-- Team 1 Legend -->
+            <div class="team-legend team1-legend">
+                <h4 class="team-title team1-title">Team 1 (Red)</h4>
+                <div class="legend-items">
+                    <div class="legend-item" (click)="highlightPlayers('team1', 'fwd')">
+                        <div class="legend-icon attack-icon"></div>
+                        <span>Attack (Forwards)</span>
+                    </div>
+                    <div class="legend-item" (click)="highlightPlayers('team1', 'def')">
+                        <div class="legend-icon defend-icon"></div>
+                        <span>Defend (Defenders)</span>
+                    </div>
+                    <div class="legend-item" (click)="highlightPlayers('team1', 'mid')">
+                        <div class="legend-icon midfield-icon"></div>
+                        <span>Midfield</span>
+                    </div>
+                    <div class="legend-item" (click)="highlightPlayers('team1', 'gk')">
+                        <div class="legend-icon goalkeeper-icon"></div>
+                        <span>Goalkeeper</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team 2 Legend -->
+            <div class="team-legend team2-legend">
+                <h4 class="team-title team2-title">Team 2 (Blue)</h4>
+                <div class="legend-items">
+                    <div class="legend-item" (click)="highlightPlayers('team2', 'fwd')">
+                        <div class="legend-icon attack-icon"></div>
+                        <span>Attack (Forwards)</span>
+                    </div>
+                    <div class="legend-item" (click)="highlightPlayers('team2', 'def')">
+                        <div class="legend-icon defend-icon"></div>
+                        <span>Defend (Defenders)</span>
+                    </div>
+                    <div class="legend-item" (click)="highlightPlayers('team2', 'mid')">
+                        <div class="legend-icon midfield-icon"></div>
+                        <span>Midfield</span>
+                    </div>
+                    <div class="legend-item" (click)="highlightPlayers('team2', 'gk')">
+                        <div class="legend-icon goalkeeper-icon"></div>
+                        <span>Goalkeeper</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Events Legend -->
+            <div class="events-legend">
+                <h4 class="events-title">Match Events</h4>
+                <div class="legend-items">
+                    <div class="legend-item" (click)="simulateCorner()">
+                        <div class="legend-icon corner-icon"></div>
+                        <span>Corner Kick</span>
+                    </div>
+                    <div class="legend-item" (click)="simulatePenalty()">
+                        <div class="legend-icon penalty-icon"></div>
+                        <span>Penalty</span>
+                    </div>
+                    <div class="legend-item" (click)="simulateFreeKick()">
+                        <div class="legend-icon freekick-icon"></div>
+                        <span>Free Kick</span>
+                    </div>
+                    <div class="legend-item" (click)="resetHighlights()">
+                        <div class="legend-icon ball-icon"></div>
+                        <span>Ball Position</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tactical Instructions -->
+            <div class="tactical-info">
+                <h4>Tactical Instructions</h4>
+                <ul>
+                    <li>Click on legend items to highlight players</li>
+                    <li>Drag players to reposition them</li>
+                    <li>Use animation to see tactical movements</li>
+                    <li>Toggle heatmap to see player activity</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

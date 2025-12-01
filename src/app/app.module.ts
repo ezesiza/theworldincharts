@@ -90,6 +90,7 @@ import { RedditDataDashboardComponent } from './home/components/dashboards/reddi
 import { AttributionPlatformDashboardComponent } from './home/components/dashboards/attribution-platform-dashboard/attribution-platform-dashboard.component';
 import { AttributionModelDashboardComponent } from './home/components/dashboards/attribution-model-dashboard/attribution-model-dashboard.component';
 import { DataVizServicesComponent } from './home/components/data-viz-services/data-viz-services.component';
+import { FootballPitchComponent } from './home/components/charts/football-pitch/football-pitch.component';
 
 
 @NgModule({
@@ -128,6 +129,7 @@ import { DataVizServicesComponent } from './home/components/data-viz-services/da
     AttributionPlatformDashboardComponent,
     AttributionModelDashboardComponent,
     DataVizServicesComponent,
+    FootballPitchComponent,
     HorizontalDivergingBarComponent,
     AdvertiserDashboardComponent,
     SankeyComponent,

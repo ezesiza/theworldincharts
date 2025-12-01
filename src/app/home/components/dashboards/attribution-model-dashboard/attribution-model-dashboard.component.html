@@ -43,6 +43,7 @@
             <div class="controls">
                 <button class="btn" (click)="calculateShapley()">Calculate Shapley Values</button>
                 <button class="btn" (click)="showCoalitions()">Show Coalitions</button>
+                <button class="btn" (click)="showShapleyDrillDown()">View Detailed Analysis</button>
             </div>
             <div class="stats-panel">
                 <div class="stat-item">
@@ -125,6 +126,7 @@
             <div class="controls">
                 <button class="btn" (click)="applyTimeDecay()">Apply Time Decay</button>
                 <button class="btn" (click)="saveCustomModel()">Save Model</button>
+                <button class="btn" (click)="showCustomModelDrillDown()">Model Analysis</button>
             </div>
         </div>
     </div>
@@ -226,6 +228,197 @@
                             <div class="rec-title">{{ rec.title }}</div>
                             <div class="rec-description">{{ rec.description }}</div>
                             <div class="rec-impact">Expected Impact: {{ rec.impact }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal overlay for Shapley Value drill-down -->
+<div class="modal-overlay" [class.active]="showShapleyModal" (click)="closeShapleyDrillDown()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Shapley Value Attribution - Detailed Analysis</h2>
+            <button class="modal-close-btn" (click)="closeShapleyDrillDown()" title="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="insight-grid">
+                <div class="insight-card">
+                    <h4>Coalition Analysis</h4>
+                    <div class="coalition-metrics">
+                        <div class="metric-item">
+                            <span>Total Coalitions:</span>
+                            <span class="metric-value">{{ coalitionCount }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Fairness Index:</span>
+                            <span class="metric-value">{{ fairnessIndex }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Efficiency Score:</span>
+                            <span class="metric-value">{{ shapleyInsights?.efficiencyScore | percent:'1.1-1' }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Stability Index:</span>
+                            <span class="metric-value">{{ shapleyInsights?.stabilityIndex | number:'1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Marginal Contributions</h4>
+                    <div class="marginal-chart" id="marginal-contributions-chart"></div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Coalition Power Distribution</h4>
+                    <div class="coalition-power-chart" id="coalition-power-chart"></div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Game Theory Metrics</h4>
+                    <div class="game-theory-metrics">
+                        <div class="metric-item">
+                            <span>Core Stability:</span>
+                            <span class="metric-value">{{ shapleyInsights?.coreStability | percent:'1.1-1' }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Nucleolus Distance:</span>
+                            <span class="metric-value">{{ shapleyInsights?.nucleolusDistance | number:'1.3-3' }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Bargaining Power:</span>
+                            <span class="metric-value">{{ shapleyInsights?.bargainingPower | number:'1.2-2' }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Coalition Efficiency:</span>
+                            <span class="metric-value">{{ shapleyInsights?.coalitionEfficiency | percent:'1.1-1'
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations-panel">
+                <h4>Game Theory Insights</h4>
+                <div class="recommendation-list">
+                    <div class="recommendation-item" *ngFor="let insight of shapleyInsights?.gameTheoryInsights">
+                        <div class="rec-icon">🎯</div>
+                        <div class="rec-content">
+                            <div class="rec-title">{{ insight.title }}</div>
+                            <div class="rec-description">{{ insight.description }}</div>
+                            <div class="rec-impact">Theoretical Impact: {{ insight.impact }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal overlay for Custom Model drill-down -->
+<div class="modal-overlay" [class.active]="showCustomModal" (click)="closeCustomDrillDown()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Custom Model Analysis</h2>
+            <button class="modal-close-btn" (click)="closeCustomDrillDown()" title="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="insight-grid">
+                <div class="insight-card">
+                    <h4>Model Performance</h4>
+                    <div class="model-metrics">
+                        <div class="metric-item">
+                            <span>Model Accuracy:</span>
+                            <span class="metric-value">{{ customModelData?.accuracy | percent:'1.1-1' }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Prediction Error:</span>
+                            <span class="metric-value">{{ customModelData?.predictionError | number:'1.2-2' }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>R² Score:</span>
+                            <span class="metric-value">{{ customModelData?.rSquared | number:'1.3-3' }}</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Cross-Validation Score:</span>
+                            <span class="metric-value">{{ customModelData?.crossValidationScore | percent:'1.1-1'
+                                }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Weight Distribution Analysis</h4>
+                    <div class="weight-analysis-chart" id="weight-analysis-chart"></div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Time Decay Impact</h4>
+                    <div class="time-decay-chart" id="time-decay-chart"></div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Model Comparison</h4>
+                    <div class="model-comparison-metrics">
+                        <div class="metric-item">
+                            <span>vs Last Touch:</span>
+                            <span class="metric-value" [class.positive]="customModelData?.vsLastTouch > 0"
+                                [class.negative]="customModelData?.vsLastTouch < 0">
+                                {{ customModelData?.vsLastTouch > 0 ? '+' : '' }}{{ customModelData?.vsLastTouch |
+                                percent:'1.1-1' }}
+                            </span>
+                        </div>
+                        <div class="metric-item">
+                            <span>vs First Touch:</span>
+                            <span class="metric-value" [class.positive]="customModelData?.vsFirstTouch > 0"
+                                [class.negative]="customModelData?.vsFirstTouch < 0">
+                                {{ customModelData?.vsFirstTouch > 0 ? '+' : '' }}{{ customModelData?.vsFirstTouch |
+                                percent:'1.1-1' }}
+                            </span>
+                        </div>
+                        <div class="metric-item">
+                            <span>vs Linear:</span>
+                            <span class="metric-value" [class.positive]="customModelData?.vsLinear > 0"
+                                [class.negative]="customModelData?.vsLinear < 0">
+                                {{ customModelData?.vsLinear > 0 ? '+' : '' }}{{ customModelData?.vsLinear |
+                                percent:'1.1-1' }}
+                            </span>
+                        </div>
+                        <div class="metric-item">
+                            <span>vs Data-Driven:</span>
+                            <span class="metric-value" [class.positive]="customModelData?.vsDataDriven > 0"
+                                [class.negative]="customModelData?.vsDataDriven < 0">
+                                {{ customModelData?.vsDataDriven > 0 ? '+' : '' }}{{ customModelData?.vsDataDriven |
+                                percent:'1.1-1' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendations-panel">
+                <h4>Model Optimization Suggestions</h4>
+                <div class="recommendation-list">
+                    <div class="recommendation-item"
+                        *ngFor="let suggestion of customModelData?.optimizationSuggestions">
+                        <div class="rec-icon">⚙️</div>
+                        <div class="rec-content">
+                            <div class="rec-title">{{ suggestion.title }}</div>
+                            <div class="rec-description">{{ suggestion.description }}</div>
+                            <div class="rec-impact">Expected Improvement: {{ suggestion.improvement }}</div>
                         </div>
                     </div>
                 </div>

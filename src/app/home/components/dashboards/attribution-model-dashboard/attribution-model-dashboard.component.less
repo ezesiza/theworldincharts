@@ -492,6 +492,14 @@ h1 {
     font-weight: 600;
     color: #4299e1;
     font-size: 1.1rem;
+
+    &.positive {
+        color: #48bb78;
+    }
+
+    &.negative {
+        color: #e53e3e;
+    }
 }
 
 .journey-metrics {
@@ -503,6 +511,20 @@ h1 {
 
 .demographics-chart,
 .seasonal-chart {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    margin-top: 10px;
+}
+
+.marginal-chart,
+.coalition-power-chart,
+.weight-analysis-chart,
+.time-decay-chart {
     height: 200px;
     display: flex;
     align-items: center;

@@ -40,6 +40,7 @@ export class LandingComponent implements OnInit {
     { name: 'Matrix', route: '/matrix', category: 'CyberSec' },
     { name: 'Vulnerability Dashboard', route: '/cved', category: 'CyberSec' },
     { name: 'Security & Data Breach', route: '/breach', category: 'CyberSec' },
+    { name: 'Reddit Analytics', route: '/reddit', category: 'Visualization' },
 
     // { name: 'Browser Market Share', route: '/browser', category: 'Charts' },
     // { name: 'Line Chart', route: '/linechart', category: 'Charts' },
@@ -51,6 +52,7 @@ export class LandingComponent implements OnInit {
     { name: 'US States Population', route: '/states', category: 'Charts' },
     { name: 'Area', route: '/area', category: 'Charts' },
     { name: 'Rates & Billing', route: '/service', category: 'Services' },
+    { name: 'Football Pitch', route: '/football-pitch', category: 'Visualizations' },
 
     { name: 'Click Analysis', route: '/click', category: 'Finance, Ads & Market' },
     { name: 'Revenue Management', route: '/revenue', category: 'Finance, Ads & Market' },
