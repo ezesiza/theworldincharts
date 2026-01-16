@@ -6,7 +6,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    // background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background:  #e7eaeb;
     min-height: 100vh;
     color: #333;
     overflow-x: auto;
@@ -18,11 +19,56 @@ body {
     padding: 20px;
 }
 
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.page-title {
+    font-size: 3.5rem;
+    color: rgb(21, 21, 21);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.btn-nav {
+    background: #2ba2d9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+
+    &:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+}
+
 h1 {
     text-align: center;
-    color: white;
+    color: rgb(21, 21, 21);
     margin-bottom: 30px;
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -42,7 +88,7 @@ h1 {
     backdrop-filter: blur(10px);
 
     &:hover {
-        transform: translateY(-5px);
+        // transform: translateY(-5px);
         box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     }
 }
@@ -80,7 +126,7 @@ h1 {
 }
 
 .custom .model-icon {
-    background: #9f7aea;
+    background: #3b89b1;
 }
 
 .model-description {
@@ -105,7 +151,8 @@ h1 {
 }
 
 .btn {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    // background: linear-gradient(135deg, #667eea, #764ba2);
+    background:  #2ba2d9;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -116,7 +163,7 @@ h1 {
     font-weight: 500;
 
     &:hover {
-        transform: scale(1.05);
+        // transform: scale(1.05);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 }
@@ -223,6 +270,22 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .header-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
     .models-grid {
         grid-template-columns: 1fr;
     }
@@ -256,7 +319,7 @@ h1 {
 
     &:hover {
         background: rgba(255, 255, 255, 1);
-        transform: scale(1.1);
+        // transform: scale(1.1);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 }
@@ -308,7 +371,7 @@ h1 {
 
     &:hover {
         background: rgba(255, 255, 255, 0.2);
-        transform: scale(1.1);
+        // transform: scale(1.1);
     }
 }
 
@@ -331,7 +394,8 @@ h1 {
     justify-content: center;
 
     .btn {
-        background: linear-gradient(135deg, #667eea, #764ba2);
+        // background: linear-gradient(135deg, #667eea, #764ba2);
+        background:  #2ba2d9;
         color: white;
         border: none;
         padding: 12px 24px;
@@ -342,7 +406,7 @@ h1 {
         font-weight: 500;
 
         &:hover {
-            transform: scale(1.05);
+            // transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
     }
@@ -441,7 +505,7 @@ h1 {
 
     &:hover {
         background: rgba(255, 255, 255, 0.3);
-        transform: scale(1.1);
+        // transform: scale(1.1);
     }
 }
 
@@ -551,7 +615,7 @@ h1 {
         gap: 10px;
 
         &::before {
-            content: "🤖";
+            // content: "🤖";
             font-size: 1.3rem;
         }
     }
@@ -574,7 +638,7 @@ h1 {
     transition: all 0.3s ease;
 
     &:hover {
-        transform: translateX(8px);
+        // transform: translateX(8px);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     }
 }
@@ -607,9 +671,9 @@ h1 {
     color: #718096;
     font-weight: 500;
 
-    &::before {
-        content: "📈 ";
-    }
+    // &::before {
+    //     content: "📈 ";
+    // }
 }
 
 // Responsive adjustments for modal

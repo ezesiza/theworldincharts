@@ -61,6 +61,9 @@ export class LandingComponent implements OnInit {
     { name: 'Advertiser Data', route: '/adfraud', category: 'Finance, Ads & Market' },
     { name: 'Ad-Nalytics', route: '/founalytics', category: 'Finance, Ads & Market' },
     { name: 'Cost Pricing', route: '/cpm', category: 'Finance, Ads & Market' },
+    { name: 'CPM Analytics', route: '/pricing', category: 'Services' },
+    { name: 'Advanced Attribution Models', route: '/atrrmodel', category: 'Services' },
+    { name: 'Ad Market Supply', route: '/supply', category: 'Services' },
   ];
 
   searchControl = new FormControl('');

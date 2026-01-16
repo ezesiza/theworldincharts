@@ -1,5 +1,12 @@
 <div class="container">
-    <h1>Advanced Attribution Models</h1>
+    <div class="page-header">
+        <!-- <h1 class="page-title">Cyber Kill Chain Report</h1> -->
+        <h1>Advanced Attribution Models</h1>
+        <div class="header-buttons">
+            <button class="btn btn-nav" routerLink="">&laquo; Home</button>
+            <button class="btn btn-nav" routerLink="/supply">Next &raquo;</button>
+        </div>
+    </div>
 
     <div class="models-grid">
         <!-- Data-Driven Attribution -->
@@ -310,7 +317,7 @@
                 <h4>Game Theory Insights</h4>
                 <div class="recommendation-list">
                     <div class="recommendation-item" *ngFor="let insight of shapleyInsights?.gameTheoryInsights">
-                        <div class="rec-icon">🎯</div>
+                        <!-- <div class="rec-icon">🎯</div> -->
                         <div class="rec-content">
                             <div class="rec-title">{{ insight.title }}</div>
                             <div class="rec-description">{{ insight.description }}</div>

@@ -1,0 +1,163 @@
+   .dashboard-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 40px 20px;
+      font-family: Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    .page-header {
+      max-width: 1400px;
+      margin: 0 auto 30px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: white !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      padding: 10px 20px !important;
+      border-radius: 8px !important;
+      font-size: 14px !important;
+      cursor: pointer;
+      transition: all 0.3s ease !important;
+      text-decoration: none !important;
+      display: inline-block !important;
+    }
+
+    .btn-nav:hover {
+      background: rgba(255, 255, 255, 0.2) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .header-card {
+      max-width: 1400px;
+      margin: 0 auto 30px;
+      background: rgba(255, 255, 255, 0.05) !important;
+      color: white !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .main-title {
+      font-size: 36px !important;
+      font-weight: 300 !important;
+      letter-spacing: 2px;
+      text-align: center;
+      color: white !important;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6) !important;
+      font-size: 14px;
+    }
+
+    .chart-buttons-grid {
+      max-width: 1400px;
+      margin: 0 auto 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
+
+    .chart-button {
+      padding: 16px 12px !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: white !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 4px;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .chart-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .chart-button.active {
+      background: linear-gradient(135deg, #E91E63 0%, #FF6B6B 100%) !important;
+      box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3) !important;
+      transform: translateY(-2px);
+    }
+
+    .button-icon {
+      font-size: 20px;
+    }
+
+    .button-label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .button-desc {
+      font-size: 10px;
+      opacity: 0.7;
+      font-weight: 400;
+    }
+
+    .chart-card {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      min-height: 600px;
+    }
+
+    .stats-grid {
+      max-width: 1400px;
+      margin: 40px auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white !important;
+    }
+
+    .stat-title {
+      color: white !important;
+      font-size: 18px !important;
+      font-weight: 400 !important;
+    }
+
+    .supplier-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .supplier-name {
+      font-size: 14px;
+    }
+
+    .supplier-percent {
+      font-weight: bold;
+    }
+
+    ::ng-deep .mat-mdc-card {
+      background-color: transparent !important;
+    }
+
+    ::ng-deep .mat-mdc-button {
+      text-transform: none !important;
+    }

@@ -1,0 +1,58 @@
+<div class="dashboard-container">
+    <div class="page-header">
+        <div class="header-buttons">
+            <button class="btn-nav" routerLink="">&laquo; Home</button>
+            <button class="btn-nav" routerLink="/earth">Next &raquo;</button>
+        </div>
+    </div>
+    <mat-card class="header-card">
+        <mat-card-header>
+            <mat-card-title class="main-title">
+                Ad Supply Analytics Dashboard
+            </mat-card-title>
+            <!--    <mat-card-subtitle class="subtitle">
+                8 unique D3.js visualizations • Interactive • Material Design
+            </mat-card-subtitle> -->
+        </mat-card-header>
+    </mat-card>
+
+    <div class="chart-buttons-grid">
+        <button mat-raised-button *ngFor="let view of chartButtons" [class.active]="activeView === view.id"
+            (click)="setActiveView(view.id)" class="chart-button" [matTooltip]="view.desc">
+            <span class="button-icon">{{ view.icon }}</span>
+            <span class="button-label">{{ view.label }}</span>
+            <span class="button-desc">{{ view.desc }}</span>
+        </button>
+    </div>
+
+    <mat-card class="chart-card">
+        <mat-card-content>
+            <div #sunburst [style.display]="activeView === 'sunburst' ? 'block' : 'none'"></div>
+            <div #force [style.display]="activeView === 'force' ? 'block' : 'none'"></div>
+            <div #radial [style.display]="activeView === 'radial' ? 'block' : 'none'"></div>
+            <div #chord [style.display]="activeView === 'chord' ? 'block' : 'none'"></div>
+            <div #treemap [style.display]="activeView === 'treemap' ? 'block' : 'none'"></div>
+            <div #sankey [style.display]="activeView === 'sankey' ? 'block' : 'none'"></div>
+            <div #spiral [style.display]="activeView === 'spiral' ? 'block' : 'none'"></div>
+            <div #voronoi [style.display]="activeView === 'voronoi' ? 'block' : 'none'"></div>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="stats-grid">
+        <mat-card *ngFor="let chartNum of [1, 2, 3]" class="stat-card">
+            <mat-card-header>
+                <mat-card-title class="stat-title">
+                    Dataset {{ chartNum }} - Top 5
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngFor="let supplier of getTopSuppliers(chartNum); let i = index" class="supplier-row">
+                    <span class="supplier-name">{{ supplier.supplier }}</span>
+                    <span class="supplier-percent" [style.color]="getSupplierColor(i)">
+                        {{ supplier.percent }}%
+                    </span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

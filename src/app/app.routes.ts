@@ -47,6 +47,7 @@ import { AttributionPlatformDashboardComponent } from './home/components/dashboa
 import { AttributionModelDashboardComponent } from './home/components/dashboards/attribution-model-dashboard/attribution-model-dashboard.component';
 import { DataVizServicesComponent } from './home/components/data-viz-services/data-viz-services.component';
 import { FootballPitchComponent } from './home/components/charts/football-pitch/football-pitch.component';
+import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-market/ad-supply-market.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -68,6 +69,7 @@ export const routes: Routes = [
     { path: 'linechart', component: LineChartComponent },
     { path: 'finance', component: FinanceDashboardComponent },
     { path: 'revenue', component: AutomatedRevenueManagement },
+    { path: 'supply', component: AdSupplyMarketComponent },
     { path: 'adshare', component: AdDistributionComponent },
     { path: 'reddit', component: RedditDataDashboardComponent },
     { path: 'attribution', component: AttributionPlatformDashboardComponent },

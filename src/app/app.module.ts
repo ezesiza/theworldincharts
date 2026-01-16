@@ -91,6 +91,8 @@ import { AttributionPlatformDashboardComponent } from './home/components/dashboa
 import { AttributionModelDashboardComponent } from './home/components/dashboards/attribution-model-dashboard/attribution-model-dashboard.component';
 import { DataVizServicesComponent } from './home/components/data-viz-services/data-viz-services.component';
 import { FootballPitchComponent } from './home/components/charts/football-pitch/football-pitch.component';
+import { MaterialModule } from './modules/material.modules';
+import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-market/ad-supply-market.component';
 
 
 @NgModule({
@@ -166,7 +168,9 @@ import { FootballPitchComponent } from './home/components/charts/football-pitch/
     FinanceDashboardComponent,
     BubbleChartComponent,
     SingleCardComponent,
-    DonutChartComponent],
+    DonutChartComponent,
+    AdSupplyMarketComponent
+  ],
   imports: [
     NgClass,
     CommonModule,
@@ -176,6 +180,7 @@ import { FootballPitchComponent } from './home/components/charts/football-pitch/
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    MaterialModule,
     EffectsModule.forRoot([CompanyFilterEffects]),
     StoreModule.forRoot(reducers),
     StoreModule.forFeature('voronoi', voronoiReducer),

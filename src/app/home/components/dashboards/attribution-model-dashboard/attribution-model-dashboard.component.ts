@@ -490,7 +490,9 @@ export class AttributionModelDashboardComponent implements OnInit, OnDestroy {
       .range([0, height])
       .padding(0.3);
 
-    const colors = ['#9f7aea', '#805ad5', '#6b46c1'];
+    const colors = ['#2ba2d9', '#143443', '#4c5322'];
+
+    // background:#4c5322;
 
     g.selectAll(".custom-bar")
       .data(this.customData)
