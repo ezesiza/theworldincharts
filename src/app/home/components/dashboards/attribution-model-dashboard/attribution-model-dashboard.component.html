@@ -433,3 +433,103 @@
         </div>
     </div>
 </div>
+
+<!-- Modal overlay for Position drill-down -->
+<div class="modal-overlay" [class.active]="showPositionModal" (click)="closePositionDrillDown()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>{{ selectedPosition }} - Detailed Insights</h2>
+            <button class="modal-close-btn" (click)="closePositionDrillDown()" title="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="positionInsights">
+            <div class="insight-grid">
+                <div class="insight-card">
+                    <h4>Position Metrics</h4>
+                    <div class="metric-item">
+                        <span>Current Weight:</span>
+                        <span class="metric-value">{{ positionInsights.currentWeight | percent:'1.1-1' }}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>Optimal Weight:</span>
+                        <span class="metric-value">{{ positionInsights.optimalWeight | percent:'1.1-1' }}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>Conversion Attribution:</span>
+                        <span class="metric-value">{{ positionInsights.conversionAttribution | percent:'1.1-1' }}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>Touchpoint Count:</span>
+                        <span class="metric-value">{{ positionInsights.touchpointCount | number:'1.0-0' }}</span>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Performance Metrics</h4>
+                    <div class="metric-item">
+                        <span>Average Position:</span>
+                        <span class="metric-value">{{ positionInsights.averagePosition | number:'1.1-1' }}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>Time to Conversion:</span>
+                        <span class="metric-value">{{ positionInsights.timeToConversion | number:'1.1-1' }} days</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>Efficiency Score:</span>
+                        <span class="metric-value">{{ positionInsights.comparisonMetrics.efficiencyScore |
+                            percent:'1.1-1' }}</span>
+                    </div>
+                    <div class="metric-item">
+                        <span>ROI Impact:</span>
+                        <span class="metric-value" [class.positive]="positionInsights.comparisonMetrics.roiImpact > 0"
+                            [class.negative]="positionInsights.comparisonMetrics.roiImpact < 0">
+                            {{ positionInsights.comparisonMetrics.roiImpact > 0 ? '+' : '' }}{{
+                            positionInsights.comparisonMetrics.roiImpact | percent:'1.1-1' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Channel Contribution</h4>
+                    <div class="position-channel-chart" id="position-channel-chart-{{ sanitizedPositionId }}"></div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Performance Over Time</h4>
+                    <div class="position-performance-chart" id="position-performance-chart-{{ sanitizedPositionId }}">
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Position Comparison</h4>
+                    <div class="position-comparison-chart" id="position-comparison-chart-{{ sanitizedPositionId }}">
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h4>Weight Analysis</h4>
+                    <div class="position-weight-analysis-chart"
+                        id="position-weight-analysis-chart-{{ sanitizedPositionId }}"></div>
+                </div>
+            </div>
+
+            <div class="recommendations-panel">
+                <h4>Position Optimization Recommendations</h4>
+                <div class="recommendation-list">
+                    <div class="recommendation-item" *ngFor="let rec of positionInsights.recommendations">
+                        <div class="rec-icon">💡</div>
+                        <div class="rec-content">
+                            <div class="rec-title">{{ rec.title }}</div>
+                            <div class="rec-description">{{ rec.description }}</div>
+                            <div class="rec-impact">Expected Impact: {{ rec.impact }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

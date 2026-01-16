@@ -82,6 +82,24 @@ interface OptimizationSuggestion {
   improvement: string;
 }
 
+interface PositionInsights {
+  position: string;
+  currentWeight: number;
+  optimalWeight: number;
+  conversionAttribution: number;
+  touchpointCount: number;
+  averagePosition: number;
+  timeToConversion: number;
+  contributionByChannel: { channel: string; value: number }[];
+  performanceOverTime: { date: string; value: number }[];
+  comparisonMetrics: {
+    vsOtherPositions: { position: string; difference: number }[];
+    efficiencyScore: number;
+    roiImpact: number;
+  };
+  recommendations: Recommendation[];
+}
+
 @Component({
   selector: 'app-attribution-model-dashboard',
   templateUrl: './attribution-model-dashboard.component.html',
@@ -122,6 +140,11 @@ export class AttributionModelDashboardComponent implements OnInit, OnDestroy {
   // Custom Model drill-down state
   showCustomModal = false;
   customModelData: CustomModelInsights | null = null;
+
+  // Position-specific drill-down state
+  showPositionModal = false;
+  selectedPosition: string | null = null;
+  positionInsights: PositionInsights | null = null;
 
   // Training interval
   private trainingInterval: any;
@@ -504,6 +527,14 @@ export class AttributionModelDashboardComponent implements OnInit, OnDestroy {
       .attr("height", y.bandwidth())
       .attr("fill", (d: any, i: number) => colors[i])
       .attr("rx", 5)
+      .style("cursor", "pointer")
+      .on("click", (event: any, d: any) => this.showPositionDrillDown(d.position))
+      .on("mouseover", function (event: any, d: any) {
+        d3.select(this).attr("opacity", 0.8);
+      })
+      .on("mouseout", function (event: any, d: any) {
+        d3.select(this).attr("opacity", 1);
+      })
       .transition()
       .duration(500)
       .attr("width", (d: any) => x(d.weight));
@@ -935,6 +966,91 @@ export class AttributionModelDashboardComponent implements OnInit, OnDestroy {
     this.customModelData = null;
   }
 
+  // Helper method to sanitize position names for use in IDs
+  private sanitizePositionId(position: string): string {
+    return position.replace(/\s+/g, '-').toLowerCase();
+  }
+
+  // Position-specific drill-down methods
+  showPositionDrillDown(position: string): void {
+    this.selectedPosition = position;
+    this.showPositionModal = true;
+    this.positionInsights = null;
+
+    // Simulate data loading
+    setTimeout(() => {
+      const positionData = this.customData.find(d => d.position === position);
+      const baseWeight = positionData ? positionData.weight : 0;
+
+      this.positionInsights = {
+        position: position,
+        currentWeight: baseWeight,
+        optimalWeight: position === 'First Touch' ? 0.45 : position === 'Middle Touch' ? 0.25 : 0.30,
+        conversionAttribution: Math.random() * 0.3 + 0.4,
+        touchpointCount: Math.floor(Math.random() * 5000 + 1000),
+        averagePosition: position === 'First Touch' ? 1 : position === 'Middle Touch' ? 2.5 : 4.2,
+        timeToConversion: Math.random() * 10 + 5,
+        contributionByChannel: [
+          { channel: 'Email', value: Math.random() * 0.3 + 0.1 },
+          { channel: 'Social', value: Math.random() * 0.3 + 0.1 },
+          { channel: 'Search', value: Math.random() * 0.3 + 0.1 },
+          { channel: 'Display', value: Math.random() * 0.3 + 0.1 },
+          { channel: 'Direct', value: Math.random() * 0.3 + 0.1 }
+        ],
+        performanceOverTime: Array.from({ length: 12 }, (_, i) => ({
+          date: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][i],
+          value: Math.random() * 20 + 10
+        })),
+        comparisonMetrics: {
+          vsOtherPositions: [
+            { position: 'First Touch', difference: position === 'First Touch' ? 0 : (Math.random() - 0.5) * 0.2 },
+            { position: 'Middle Touch', difference: position === 'Middle Touch' ? 0 : (Math.random() - 0.5) * 0.2 },
+            { position: 'Last Touch', difference: position === 'Last Touch' ? 0 : (Math.random() - 0.5) * 0.2 }
+          ],
+          efficiencyScore: Math.random() * 0.2 + 0.75,
+          roiImpact: (Math.random() - 0.5) * 0.3
+        },
+        recommendations: [
+          {
+            title: `Optimize ${position} Weight`,
+            description: `Adjusting the ${position.toLowerCase()} weight can improve overall attribution accuracy by 8-12%.`,
+            impact: 'High Impact'
+          },
+          {
+            title: 'Channel Distribution Analysis',
+            description: `${position} shows strong performance in specific channels. Consider reallocating budget.`,
+            impact: 'Medium Impact'
+          },
+          {
+            title: 'Time-based Optimization',
+            description: `Implement time decay for ${position.toLowerCase()} to better reflect customer journey dynamics.`,
+            impact: 'Medium Impact'
+          }
+        ]
+      };
+
+      // Render charts
+      setTimeout(() => {
+        const sanitizedId = this.sanitizePositionId(position);
+        this.renderPositionChannelChart(position, sanitizedId);
+        this.renderPositionPerformanceChart(position, sanitizedId);
+        this.renderPositionComparisonChart(position, sanitizedId);
+        this.renderPositionWeightAnalysisChart(position, sanitizedId);
+      }, 100);
+    }, 500);
+  }
+
+  closePositionDrillDown(): void {
+    this.showPositionModal = false;
+    this.selectedPosition = null;
+    this.positionInsights = null;
+  }
+
+  // Getter for sanitized position ID (used in template)
+  get sanitizedPositionId(): string {
+    return this.selectedPosition ? this.sanitizePositionId(this.selectedPosition) : '';
+  }
+
   // Chart rendering methods for Shapley drill-down
   private renderMarginalContributionsChart(): void {
     const container = d3.select("#marginal-contributions-chart");
@@ -1195,5 +1311,314 @@ export class AttributionModelDashboardComponent implements OnInit, OnDestroy {
       .attr("offset", "100%")
       .attr("stop-color", "#6b46c1")
       .attr("stop-opacity", 0.1);
+  }
+
+  // Chart rendering methods for Position drill-down
+  private renderPositionChannelChart(position: string, sanitizedId: string): void {
+    const container = d3.select(`#position-channel-chart-${sanitizedId}`);
+    container.selectAll("*").remove();
+
+    if (!this.positionInsights) return;
+
+    const width = 350;
+    const height = 220;
+
+    const svg = container.append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const data = this.positionInsights.contributionByChannel;
+    const margin = { top: 20, right: 20, bottom: 40, left: 60 };
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.channel))
+      .range([margin.left, width - margin.right])
+      .padding(0.2);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.value) || 0])
+      .range([height - margin.bottom, margin.top]);
+
+    // Add axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).tickFormat(d3.format(".0%") as any));
+
+    // Add bars
+    svg.selectAll(".channel-bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "channel-bar")
+      .attr("x", (d: any) => x(d.channel) || 0)
+      .attr("y", (d: any) => y(d.value))
+      .attr("width", x.bandwidth())
+      .attr("height", (d: any) => height - margin.bottom - y(d.value))
+      .attr("fill", "#2ba2d9")
+      .attr("opacity", 0.8)
+      .attr("rx", 3);
+
+    // Add labels
+    svg.selectAll(".channel-label")
+      .data(data)
+      .enter().append("text")
+      .attr("class", "channel-label")
+      .attr("x", (d: any) => (x(d.channel) || 0) + x.bandwidth() / 2)
+      .attr("y", (d: any) => y(d.value) - 5)
+      .attr("text-anchor", "middle")
+      .style("font-size", "11px")
+      .style("fill", "#4a5568")
+      .style("font-weight", "500")
+      .text((d: any) => `${(d.value * 100).toFixed(1)}%`);
+  }
+
+  private renderPositionPerformanceChart(position: string, sanitizedId: string): void {
+    const container = d3.select(`#position-performance-chart-${sanitizedId}`);
+    container.selectAll("*").remove();
+
+    if (!this.positionInsights) return;
+
+    const width = 350;
+    const height = 220;
+
+    const svg = container.append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const data = this.positionInsights.performanceOverTime;
+    const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.date))
+      .range([margin.left, width - margin.right])
+      .padding(0.1);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.value) || 0])
+      .range([height - margin.bottom, margin.top]);
+
+    // Add axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x).tickSize(0));
+
+    svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).ticks(5).tickSize(0));
+
+    // Create line generator
+    const line = d3.line()
+      .x((d: any) => (x(d.date) || 0) + x.bandwidth() / 2)
+      .y((d: any) => y(d.value))
+      .curve(d3.curveMonotoneX);
+
+    // Add area under the line
+    const area = d3.area()
+      .x((d: any) => (x(d.date) || 0) + x.bandwidth() / 2)
+      .y0(height - margin.bottom)
+      .y1((d: any) => y(d.value))
+      .curve(d3.curveMonotoneX);
+
+    // Add gradient
+    const defs = svg.append("defs");
+    const gradient = defs.append("linearGradient")
+      .attr("id", `positionGradient-${sanitizedId}`)
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("x1", 0)
+      .attr("y1", 0)
+      .attr("x2", 0)
+      .attr("y2", height);
+
+    gradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#48bb78")
+      .attr("stop-opacity", 0.8);
+
+    gradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#48bb78")
+      .attr("stop-opacity", 0.1);
+
+    // Add area
+    svg.append("path")
+      .datum(data)
+      .attr("fill", `url(#positionGradient-${sanitizedId})`)
+      .attr("opacity", 0.3)
+      .attr("d", area as any);
+
+    // Add line
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "#48bb78")
+      .attr("stroke-width", 3)
+      .attr("d", line as any);
+
+    // Add points
+    svg.selectAll(".performance-point")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "performance-point")
+      .attr("cx", (d: any) => (x(d.date) || 0) + x.bandwidth() / 2)
+      .attr("cy", (d: any) => y(d.value))
+      .attr("r", 4)
+      .attr("fill", "#48bb78")
+      .attr("stroke", "white")
+      .attr("stroke-width", 2);
+  }
+
+  private renderPositionComparisonChart(position: string, sanitizedId: string): void {
+    const container = d3.select(`#position-comparison-chart-${sanitizedId}`);
+    container.selectAll("*").remove();
+
+    if (!this.positionInsights) return;
+
+    const width = 350;
+    const height = 220;
+
+    const svg = container.append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const data = this.positionInsights.comparisonMetrics.vsOtherPositions.filter(
+      d => d.position !== position
+    );
+    const margin = { top: 20, right: 20, bottom: 40, left: 80 };
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.position))
+      .range([margin.left, width - margin.right])
+      .padding(0.3);
+
+    const y = d3.scaleLinear()
+      .domain([d3.min(data, d => d.difference) || 0, d3.max(data, d => d.difference) || 0])
+      .nice()
+      .range([height - margin.bottom, margin.top]);
+
+    // Add axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).tickFormat(d3.format(".0%") as any));
+
+    // Add zero line
+    svg.append("line")
+      .attr("x1", margin.left)
+      .attr("x2", width - margin.right)
+      .attr("y1", y(0))
+      .attr("y2", y(0))
+      .attr("stroke", "#e2e8f0")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "5,5");
+
+    // Add bars
+    svg.selectAll(".comparison-bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "comparison-bar")
+      .attr("x", (d: any) => x(d.position) || 0)
+      .attr("y", (d: any) => d.difference > 0 ? y(d.difference) : y(0))
+      .attr("width", x.bandwidth())
+      .attr("height", (d: any) => Math.abs(y(d.difference) - y(0)))
+      .attr("fill", (d: any) => d.difference > 0 ? "#48bb78" : "#e53e3e")
+      .attr("opacity", 0.8)
+      .attr("rx", 3);
+
+    // Add labels
+    svg.selectAll(".comparison-label")
+      .data(data)
+      .enter().append("text")
+      .attr("class", "comparison-label")
+      .attr("x", (d: any) => (x(d.position) || 0) + x.bandwidth() / 2)
+      .attr("y", (d: any) => d.difference > 0 ? y(d.difference) - 5 : y(d.difference) + 15)
+      .attr("text-anchor", "middle")
+      .style("font-size", "11px")
+      .style("fill", "#4a5568")
+      .style("font-weight", "500")
+      .text((d: any) => `${d.difference > 0 ? '+' : ''}${(d.difference * 100).toFixed(1)}%`);
+  }
+
+  private renderPositionWeightAnalysisChart(position: string, sanitizedId: string): void {
+    const container = d3.select(`#position-weight-analysis-chart-${sanitizedId}`);
+    container.selectAll("*").remove();
+
+    if (!this.positionInsights) return;
+
+    const width = 350;
+    const height = 220;
+
+    const svg = container.append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    const margin = { top: 20, right: 20, bottom: 40, left: 60 };
+
+    const data = [
+      { label: 'Current', value: this.positionInsights.currentWeight },
+      { label: 'Optimal', value: this.positionInsights.optimalWeight }
+    ];
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.label))
+      .range([margin.left, width - margin.right])
+      .padding(0.3);
+
+    const y = d3.scaleLinear()
+      .domain([0, 1])
+      .range([height - margin.bottom, margin.top]);
+
+    // Add axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x));
+
+    svg.append("g")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y).tickFormat(d3.format(".0%") as any));
+
+    // Add bars
+    svg.selectAll(".weight-bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "weight-bar")
+      .attr("x", (d: any) => x(d.label) || 0)
+      .attr("y", (d: any) => y(d.value))
+      .attr("width", x.bandwidth())
+      .attr("height", (d: any) => height - margin.bottom - y(d.value))
+      .attr("fill", (d: any, i: number) => i === 0 ? "#2ba2d9" : "#48bb78")
+      .attr("opacity", 0.8)
+      .attr("rx", 3);
+
+    // Add labels
+    svg.selectAll(".weight-label")
+      .data(data)
+      .enter().append("text")
+      .attr("class", "weight-label")
+      .attr("x", (d: any) => (x(d.label) || 0) + x.bandwidth() / 2)
+      .attr("y", (d: any) => y(d.value) - 5)
+      .attr("text-anchor", "middle")
+      .style("font-size", "12px")
+      .style("fill", "#4a5568")
+      .style("font-weight", "600")
+      .text((d: any) => `${(d.value * 100).toFixed(1)}%`);
+
+    // Add difference indicator
+    const difference = this.positionInsights.optimalWeight - this.positionInsights.currentWeight;
+    if (Math.abs(difference) > 0.01) {
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height - 10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "11px")
+        .style("fill", difference > 0 ? "#48bb78" : "#e53e3e")
+        .style("font-weight", "600")
+        .text(`Recommended adjustment: ${difference > 0 ? '+' : ''}${(difference * 100).toFixed(1)}%`);
+    }
   }
 }
