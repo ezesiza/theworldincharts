@@ -48,6 +48,7 @@ import { AttributionModelDashboardComponent } from './home/components/dashboards
 import { DataVizServicesComponent } from './home/components/data-viz-services/data-viz-services.component';
 import { FootballPitchComponent } from './home/components/charts/football-pitch/football-pitch.component';
 import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-market/ad-supply-market.component';
+import { ResumeComponent } from './home/components/resume/resume.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -98,6 +99,7 @@ export const routes: Routes = [
     { path: 'incidents', component: DivergingRadialBarComponent },
     { path: 'states', component: HorizontalDivergingBarComponent },
     { path: 'compliance', component: ComplianceDashboardComponent },
+    { path: 'resume', component: ResumeComponent },
     { path: '**', redirectTo: '/' }
 ];
 

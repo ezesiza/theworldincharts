@@ -93,6 +93,7 @@ import { DataVizServicesComponent } from './home/components/data-viz-services/da
 import { FootballPitchComponent } from './home/components/charts/football-pitch/football-pitch.component';
 import { MaterialModule } from './modules/material.modules';
 import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-market/ad-supply-market.component';
+import { ResumeComponent } from './home/components/resume/resume.component';
 
 
 @NgModule({
@@ -169,7 +170,8 @@ import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-mark
     BubbleChartComponent,
     SingleCardComponent,
     DonutChartComponent,
-    AdSupplyMarketComponent
+    AdSupplyMarketComponent,
+    ResumeComponent
   ],
   imports: [
     NgClass,

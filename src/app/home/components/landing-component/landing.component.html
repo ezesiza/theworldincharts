@@ -1,4 +1,9 @@
 <div class="search-container">
+  <div class="resume-link">
+    <a routerLink="/resume">
+      View Resume
+    </a>
+  </div>
   <div class="search-input">
     <input type="text" placeholder="Search" autocomplete="off" autofocus [formControl]="searchControl"
       (input)="onSearch()" (keydown.arrowdown)="onArrowDown()" (keydown.arrowup)="onArrowUp()"
