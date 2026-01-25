@@ -94,6 +94,8 @@ import { FootballPitchComponent } from './home/components/charts/football-pitch/
 import { MaterialModule } from './modules/material.modules';
 import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-market/ad-supply-market.component';
 import { ResumeComponent } from './home/components/resume/resume.component';
+import { TopAdsShareComponent } from './home/components/charts/top-ads-share/top-ads-share.component';
+import { TopAdsDetailComponent } from './home/components/charts/top-ads-share/top-ads-detail.component';
 
 
 @NgModule({
@@ -168,6 +170,8 @@ import { ResumeComponent } from './home/components/resume/resume.component';
     LineChartComponent,
     FinanceDashboardComponent,
     BubbleChartComponent,
+    TopAdsShareComponent,
+    TopAdsDetailComponent,
     SingleCardComponent,
     DonutChartComponent,
     AdSupplyMarketComponent,

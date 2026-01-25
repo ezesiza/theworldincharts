@@ -1,0 +1,102 @@
+<!-- top-ads-detail.component.html -->
+<div class="detail-container">
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-nav">
+        <button class="back-button" (click)="goBack()">
+            <i class="fa fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </button>
+        <div class="breadcrumbs">
+            <span *ngFor="let crumb of breadcrumbs; let last = last" class="crumb">
+                <a *ngIf="crumb.path" (click)="navigateTo(crumb.path)" class="crumb-link">
+                    <i class="fa fa-home" *ngIf="crumb.label === 'Dashboard'"></i>
+                    {{ crumb.label }}
+                </a>
+                <span *ngIf="!crumb.path" class="crumb-current">{{ crumb.label }}</span>
+                <i *ngIf="!last" class="fa fa-chevron-right separator"></i>
+            </span>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="title-area">
+            <h1 class="main-title">
+                <i class="fa fa-analytics"></i>
+                {{ name }}
+            </h1>
+            <span class="type-badge">{{ type | uppercase }}</span>
+        </div>
+        <p class="subtitle">Detailed performance analytics and drill-down insights</p>
+    </div>
+
+    <!-- Metrics Cards -->
+    <div class="metrics-grid">
+        <div *ngFor="let metric of metrics" class="metric-card mat-elevation-z1" [style.borderLeftColor]="metric.color">
+            <div class="metric-header">
+                <span class="metric-label">{{ metric.label }}</span>
+                <span *ngIf="metric.change" class="metric-change" 
+                      [class.positive]="metric.change > 0" 
+                      [class.negative]="metric.change < 0">
+                    <i class="fa" [class.fa-arrow-up]="metric.change > 0" [class.fa-arrow-down]="metric.change < 0"></i>
+                    {{ metric.change > 0 ? '+' : '' }}{{ metric.change }}%
+                </span>
+            </div>
+            <div class="metric-value" [style.color]="metric.color">{{ metric.value }}</div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+        <div class="chart-row">
+            <div class="chart-container main-chart mat-elevation-z1">
+                <svg #mainChart></svg>
+            </div>
+            <div class="chart-container secondary-chart mat-elevation-z1">
+                <svg #secondaryChart></svg>
+            </div>
+        </div>
+        <div class="chart-row single">
+            <div class="chart-container tertiary-chart mat-elevation-z1">
+                <svg #tertiaryChart></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Insights -->
+    <div class="insights-section">
+        <div class="insight-card mat-elevation-z1">
+            <h3><i class="fa fa-bullseye"></i> Key Insights</h3>
+            <ul>
+                <li><i class="fa fa-check-circle"></i> Performance is <strong>12% above</strong> benchmark for this category</li>
+                <li><i class="fa fa-chart-line"></i> Conversion rate has <strong>improved 15%</strong> over last period</li>
+                <li><i class="fa fa-trending-up"></i> Cost efficiency metrics are <strong>trending positive</strong></li>
+            </ul>
+        </div>
+        <div class="insight-card mat-elevation-z1">
+            <h3><i class="fa fa-lightbulb"></i> Recommendations</h3>
+            <ul>
+                <li><i class="fa fa-arrow-circle-up"></i> Increase budget allocation to top-performing segments</li>
+                <li><i class="fa fa-flask"></i> Test new creative variations for underperforming groups</li>
+                <li><i class="fa fa-expand-arrows-alt"></i> Consider expanding to similar audience segments</li>
+            </ul>
+        </div>
+        <div class="insight-card mat-elevation-z1">
+            <h3><i class="fa fa-cogs"></i> Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="action-btn primary" (click)="goBack()">
+                    <i class="fa fa-th-large"></i> View All Channels
+                </button>
+                <button class="action-btn secondary">
+                    <i class="fa fa-download"></i> Export Report
+                </button>
+                <button class="action-btn secondary">
+                    <i class="fa fa-share-alt"></i> Share Insights
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip -->
+    <div #tooltip class="tooltip"></div>
+</div>

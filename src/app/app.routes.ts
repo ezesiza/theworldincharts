@@ -49,6 +49,8 @@ import { DataVizServicesComponent } from './home/components/data-viz-services/da
 import { FootballPitchComponent } from './home/components/charts/football-pitch/football-pitch.component';
 import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-market/ad-supply-market.component';
 import { ResumeComponent } from './home/components/resume/resume.component';
+import { TopAdsShareComponent } from './home/components/charts/top-ads-share/top-ads-share.component';
+import { TopAdsDetailComponent } from './home/components/charts/top-ads-share/top-ads-detail.component';
 
 export const routes: Routes = [
     { path: '', component: LandingComponent, pathMatch: 'full' },
@@ -72,6 +74,8 @@ export const routes: Routes = [
     { path: 'revenue', component: AutomatedRevenueManagement },
     { path: 'supply', component: AdSupplyMarketComponent },
     { path: 'adshare', component: AdDistributionComponent },
+    { path: 'topads', component: TopAdsShareComponent },
+    { path: 'topads-detail', component: TopAdsDetailComponent },
     { path: 'reddit', component: RedditDataDashboardComponent },
     { path: 'attribution', component: AttributionPlatformDashboardComponent },
     { path: 'atrrmodel', component: AttributionModelDashboardComponent },

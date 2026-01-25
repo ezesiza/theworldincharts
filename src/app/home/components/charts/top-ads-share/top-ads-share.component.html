@@ -1,0 +1,63 @@
+<!-- top-ads-share.component.html -->
+<div class="advertising-viz-container">
+    <div class="header-section">
+        <h1 class="header">
+            <i class="fa fa-chart-bar"></i>
+            Advanced Advertising Analytics Dashboard
+        </h1>
+        <p class="subheader">Click on any chart element to drill down into detailed analytics</p>
+    </div>
+
+    <div class="viz-controls">
+        <button (click)="setActiveViz('overview')" [class.active]="activeViz === 'overview'" class="viz-button">
+            <i class="fa fa-tachometer-alt icon"></i>
+            <span class="label">Overview Dashboard</span>
+        </button>
+        <button (click)="setActiveViz('channels')" [class.active]="activeViz === 'channels'" class="viz-button">
+            <i class="fa fa-th-large icon"></i>
+            <span class="label">Channel Treemap</span>
+        </button>
+        <button (click)="setActiveViz('funnel')" [class.active]="activeViz === 'funnel'" class="viz-button">
+            <i class="fa fa-filter icon"></i>
+            <span class="label">Conversion Funnel</span>
+        </button>
+        <button (click)="setActiveViz('performance')" [class.active]="activeViz === 'performance'" class="viz-button">
+            <i class="fa fa-chart-line icon"></i>
+            <span class="label">Performance Matrix</span>
+        </button>
+        <button (click)="setActiveViz('audience')" [class.active]="activeViz === 'audience'" class="viz-button">
+            <i class="fa fa-users icon"></i>
+            <span class="label">Audience Segments</span>
+        </button>
+        <button (click)="setActiveViz('timeline')" [class.active]="activeViz === 'timeline'" class="viz-button">
+            <i class="fa fa-calendar-alt icon"></i>
+            <span class="label">Timeline Analysis</span>
+        </button>
+    </div>
+
+    <div class="viz-container mat-elevation-z2">
+        <svg #svgContainer></svg>
+    </div>
+
+    <div #tooltip class="tooltip"></div>
+
+    <div class="info-section">
+        <div class="info-card mat-elevation-z1">
+            <h3><i class="fa fa-lightbulb"></i> Interactive Features</h3>
+            <ul>
+                <li><strong>Click any element</strong> to navigate to detailed analytics page</li>
+                <li><strong>Hover</strong> for quick insights and metrics</li>
+                <li><strong>Drill down</strong> from channels → campaigns → ad groups → creatives</li>
+            </ul>
+        </div>
+        <div class="info-card mat-elevation-z1">
+            <h3><i class="fa fa-chart-pie"></i> Available Drill-Downs</h3>
+            <ul>
+                <li><strong>Channel Analysis:</strong> Deep dive into Google, Meta, TikTok, LinkedIn</li>
+                <li><strong>Campaign Details:</strong> Ad group performance and creative breakdown</li>
+                <li><strong>Audience Insights:</strong> Segment behavior and LTV analysis</li>
+                <li><strong>Geographic Data:</strong> Regional performance metrics</li>
+            </ul>
+        </div>
+    </div>
+</div>
