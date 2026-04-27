@@ -21,7 +21,7 @@ export class LandingComponent implements OnInit {
   // Categorized list of searchable options
   private allOptions: SearchOption[] = [
     // { name: 'Sample', route: '/sample', category: 'Components' }
-    { name: 'Back to Home', route: '/', category: 'Navigation' },
+    // { name: 'Back to Home', route: '/', category: 'Navigation' },
     { name: 'GDP Population', route: '/voronoi-gdp', category: 'Visualizations' },
     { name: 'Companies Valuation', route: '/compvaluation', category: 'Visualizations' },
     { name: 'Energy Data', route: '/sankey', category: 'Visualizations' },
