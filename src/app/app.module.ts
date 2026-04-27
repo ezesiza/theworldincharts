@@ -96,6 +96,8 @@ import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-mark
 import { ResumeComponent } from './home/components/resume/resume.component';
 import { TopAdsShareComponent } from './home/components/charts/top-ads-share/top-ads-share.component';
 import { TopAdsDetailComponent } from './home/components/charts/top-ads-share/top-ads-detail.component';
+import { Landing3dComponent } from './home/components/landing-3d-component/landing-3d.component';
+import { HomePageComponent } from './home/components/home-page/home-page.component';
 
 
 @NgModule({
@@ -175,7 +177,9 @@ import { TopAdsDetailComponent } from './home/components/charts/top-ads-share/to
     SingleCardComponent,
     DonutChartComponent,
     AdSupplyMarketComponent,
-    ResumeComponent
+    ResumeComponent,
+    Landing3dComponent,
+    HomePageComponent
   ],
   imports: [
     NgClass,

@@ -21,6 +21,7 @@ export class LandingComponent implements OnInit {
   // Categorized list of searchable options
   private allOptions: SearchOption[] = [
     // { name: 'Sample', route: '/sample', category: 'Components' }
+    { name: 'Back to Home', route: '/', category: 'Navigation' },
     { name: 'GDP Population', route: '/voronoi-gdp', category: 'Visualizations' },
     { name: 'Companies Valuation', route: '/compvaluation', category: 'Visualizations' },
     { name: 'Energy Data', route: '/sankey', category: 'Visualizations' },
@@ -53,6 +54,7 @@ export class LandingComponent implements OnInit {
     { name: 'Area', route: '/area', category: 'Charts' },
     { name: 'Rates & Billing', route: '/service', category: 'Services' },
     { name: 'Football Pitch', route: '/football-pitch', category: 'Visualizations' },
+    { name: '3D Views Landing', route: '/3d-views', category: 'Visualizations' },
 
     { name: 'Click Analysis', route: '/click', category: 'Finance, Ads & Market' },
     { name: 'Revenue Management', route: '/revenue', category: 'Finance, Ads & Market' },
@@ -64,7 +66,7 @@ export class LandingComponent implements OnInit {
     { name: 'CPM Analytics', route: '/pricing', category: 'Services' },
     { name: 'Advanced Attribution Models', route: '/atrrmodel', category: 'Services' },
     { name: 'Ad Market Supply', route: '/supply', category: 'Services' },
-    { name: 'Top Ads Market', route: '/topads', category: 'Services' },
+    { name: 'Ads Market Analysis', route: '/topads', category: 'Services' },
   ];
 
   searchControl = new FormControl('');

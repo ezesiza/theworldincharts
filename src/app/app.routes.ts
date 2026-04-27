@@ -51,9 +51,13 @@ import { AdSupplyMarketComponent } from './home/components/charts/ad-supply-mark
 import { ResumeComponent } from './home/components/resume/resume.component';
 import { TopAdsShareComponent } from './home/components/charts/top-ads-share/top-ads-share.component';
 import { TopAdsDetailComponent } from './home/components/charts/top-ads-share/top-ads-detail.component';
+import { Landing3dComponent } from './home/components/landing-3d-component/landing-3d.component';
+import { HomePageComponent } from './home/components/home-page/home-page.component';
+import { GlobeComponent } from './home/components/charts/globe/globe.component';
 
 export const routes: Routes = [
-    { path: '', component: LandingComponent, pathMatch: 'full' },
+    { path: '', component: HomePageComponent, pathMatch: 'full' },
+    { path: 'landing', component: LandingComponent },
     { path: 'voronoi', data: { animate: false }, component: VoronoiComponent },
     { path: 'voronoi-gdp', data: { animate: false }, component: VoronoiOriginalComponent },
     { path: 'earth', component: FlatEarthComponent },
@@ -73,6 +77,7 @@ export const routes: Routes = [
     { path: 'finance', component: FinanceDashboardComponent },
     { path: 'revenue', component: AutomatedRevenueManagement },
     { path: 'supply', component: AdSupplyMarketComponent },
+    { path: 'globe', component: GlobeComponent },
     { path: 'adshare', component: AdDistributionComponent },
     { path: 'topads', component: TopAdsShareComponent },
     { path: 'topads-detail', component: TopAdsDetailComponent },
@@ -104,6 +109,7 @@ export const routes: Routes = [
     { path: 'states', component: HorizontalDivergingBarComponent },
     { path: 'compliance', component: ComplianceDashboardComponent },
     { path: 'resume', component: ResumeComponent },
+    { path: '3d-views', component: Landing3dComponent },
     { path: '**', redirectTo: '/' }
 ];
 

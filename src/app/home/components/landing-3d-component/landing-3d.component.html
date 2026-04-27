@@ -1,0 +1,23 @@
+<div class="search-container">
+  <div class="resume-link">
+    <a routerLink="/">
+      Back to Home
+    </a>
+  </div>
+  <div class="search-input">
+    <input type="text" placeholder="Search 3D views" autocomplete="off" autofocus [formControl]="searchControl"
+      (input)="onSearch()" (keydown.arrowdown)="onArrowDown()" (keydown.arrowup)="onArrowUp()"
+      (keydown.enter)="onEnter()">
+  </div>
+
+  <div class="grid-container">
+    <div *ngFor="let category of landingItems | keyvalue">
+      <ng-container>
+        <h3>{{ category.key }}</h3>
+        <button *ngFor="let option of category.value" class="button button2" (click)="selectOption(option)">
+          {{ option.name }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>

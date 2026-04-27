@@ -1,0 +1,98 @@
+@primary-color: rgb(42, 42, 92);
+@border-color: #dfe1e5;
+@shadow-color: rgba(0, 0, 0, 0.2);
+@white: #fff;
+@input-radius: 24px;
+@spacing-sm: 0.5rem;
+@spacing-md: 1rem;
+@spacing-lg: 2rem;
+@tablet-width: 48rem;
+@desktop-width: 64rem;
+
+.transition(@property: all, @duration: 0.4s, @timing: ease) {
+  transition: @property @duration @timing;
+}
+
+.box-shadow(@shadow) {
+  box-shadow: @shadow;
+}
+
+.search-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: @spacing-lg;
+}
+
+.hero-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    margin-bottom: @spacing-sm;
+    font-size: 2rem;
+    color: @primary-color;
+  }
+
+  p {
+    margin: 0;
+    color: #4a5568;
+  }
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: @spacing-md;
+  padding: @spacing-md;
+
+  >div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: @spacing-md;
+
+    h3 {
+      margin-bottom: @spacing-md;
+      font-size: 1.25rem;
+      color: @primary-color;
+    }
+  }
+
+  .button {
+    margin: @spacing-sm;
+    width: calc(100% - @spacing-sm * 2);
+  }
+
+  @media (max-width: @desktop-width) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: @tablet-width) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.button {
+  background-color: @primary-color;
+  border: none;
+  color: @white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: @spacing-sm;
+  cursor: pointer;
+  .transition();
+  width: 100%;
+  max-width: 300px;
+
+  &.button2:hover {
+    .box-shadow(0 8px 12px 0 rgba(0, 0, 0, 0.24));
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: @tablet-width) {
+    width: auto;
+  }
+}

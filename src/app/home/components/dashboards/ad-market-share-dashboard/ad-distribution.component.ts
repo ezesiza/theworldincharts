@@ -271,7 +271,7 @@ export class AdDistributionComponent implements AfterViewInit {
                     case '#treemap-chart':
                         this.drawTreemap();
                         break;
-                    case '#treemap-chart':
+                    case '#circle-pack':
                         this.drawCirclePackChart();
                         break;
                 }
