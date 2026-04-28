@@ -24,6 +24,7 @@ export class Landing3dComponent implements OnInit {
     { name: 'Data Breach Impact', route: '/breach', category: '3D Views' },
     { name: 'Back to Home', route: '/', category: 'Navigation' },
     { name: 'World Globe', route: '/globe', category: 'Navigation' },
+    { name: 'Panorama', route: '/panolense', category: '3D Views' },
   ];
 
   searchControl = new FormControl('');
